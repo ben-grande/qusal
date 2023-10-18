@@ -1,8 +1,9 @@
+---
 repos:
 - repo: local
   hooks:
     - id: salt-lint
       name: salt-lint
-      entry: salt-lint.sh
+      entry: scripts/salt-lint.sh
       language: script
       pass_filenames: false

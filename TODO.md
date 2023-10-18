@@ -3,7 +3,6 @@
 ## Priority
 
 - best-practices: use map.jinja to target different OSes - https://docs.saltproject.io/en/latest/topics/best_practices.html
-- sys-ssh-agent: test
 - sys-pgp: split-gpg2 support: Working in R4.1?
 - sys-git: support Dom0 as a client, useful for fetching
 - sys-cacher: test

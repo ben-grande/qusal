@@ -15,7 +15,8 @@
 
 Qusal - Salt Formulas for Qubes OS R4.1.
 
-Qusal' goal:
+Qusal's goal:
+
 - All global preferences customized to use qubes based on minimal templates;
 - All service templates with only the necessary programs installed;
 - Focus on tasks and usability
@@ -38,29 +39,30 @@ updatevm          : sys-pihole or sys-firewall or disp-sys-firewall
 ## Installation
 
 Clone this repository:
-```sh
+```shell
 git clone https://github.com/ben-grande/qusal.git ~/qusal
 git clone ssh://git@github.com/ben-grande/qusal.git ~/qusal
 ```
 
 Copy this repository from some qube to Dom0 from Dom0:
-```sh
+```shell
 mkdir -p ~/QubesIncoming/QUBE
 qvm-run -p <QUBE> tar -cC </PATH/TO> qusal | tar -xvC ~/QubesIncoming/QUBE qusal
 ```
 Example copying repository from the `dev` qube to Dom0 by running in Dom0:
-```sh
+```shell
 mkdir -p ~/QubesIncoming/dev
-qvm-run -p <QUBE> tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/QUBE qusal
+qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
 ```
 
 Copy the files to the Salt directories:
-```sh
+```shell
 cd qusal
 ./setup.sh
 ```
 
-The RPM packaging is not ready, help wanted for automatic generation.
+Qusal is now installed. Please read the README.md of each project for further
+information on how to install the desired package.
 
 ## Format
 
@@ -83,13 +85,16 @@ The RPM packaging is not ready, help wanted for automatic generation.
 ### Qube naming
 
 1. Qube name format:
+
   - TemplateVM: `tpl-NAME`
   - StandaloneVM: `NAME`
   - AppVM: `NAME`
   - DispVM: `disp-NAME`
   - DispVM Template (AppVM): `dvm-NAME`
   - Service qubes (not a class): `sys-NAME`
+
 2. Label:
+
   - Black (Ultimately trusted): You must trust Dom0, Templates, Vaults,
     Management qubes, these qubes control your system and hold valuable
     information. Examples: dom0, tpl-ssh, vault, default-mgmt-dvm.
