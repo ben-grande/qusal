@@ -1,0 +1,6 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-syncthing.create
+  'tpl-sys-syncthing':
+    - sys-syncthing.install

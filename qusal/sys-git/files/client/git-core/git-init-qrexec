@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+usage(){
+  echo "usage: ${helper} [<QUBE>]"
+  echo "example: ${helper} @default"
+  exit 1
+}
+
+helper="${0##*/git-}"
+case "${1-}" in
+  -h|--?help) usage;;
+  *) qube="${1:-"@default"}";;
+esac
+
+if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
+  echo "This command must be run from inside a git repository." >&2
+  usage
+fi
+
+repo="$(basename "$(git rev-parse --show-toplevel)")"
+rpc=GitInit
+
+## TODO: Support Dom0 client
+exec qrexec-client-vm -- "${qube}" "qusal.${rpc}+${repo}"

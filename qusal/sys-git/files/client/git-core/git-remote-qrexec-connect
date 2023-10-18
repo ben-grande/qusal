@@ -1,0 +1,32 @@
+#!/bin/sh
+## Should be called by git-remote-qrexec.
+set -eu
+
+die(){
+  echo "error: ${1}" >&2
+  exit 1
+}
+
+arg="${1?}"
+url="${2?}"
+
+case "${arg}" in
+  git-upload-pack) rpc=GitFetch;;
+  git-receive-pack) rpc=GitPush;;
+  "") die "Argument can't be empty";;
+  *) die "Unsupported argument: '${arg}'";;
+esac
+
+qube="$(echo "${url}" | cut -d "/" -f1)"
+repo="$(echo "${url}" | cut -d "/" -f2-)"
+
+if ! command -v -- qrexec-client-vm >/dev/null; then
+  die "Command not found: 'qrexec-client-vm'"
+fi
+
+if test -z "${repo}"; then
+  die "Repository definition can't be empty"
+fi
+
+## TODO: Support Dom0 client
+exec qrexec-client-vm -- "${qube}" "qusal.${rpc}+${repo}"

@@ -1,0 +1,7 @@
+## Lists
+lists .*@googlegroups\\.com
+subscribe qubes-(announce|devel)@googlegroups\\.com
+fcc-save-hook qubes-annount@googlegroups\\.com =list/qubes-announce/
+fcc-save-hook qubes-devel@googlegroups\\.com =list/qubes-devel/
+
+## vim: ft=muttrc

@@ -1,0 +1,31 @@
+# Local
+*.local
+!.local/
+!rc.local
+
+# Code
+*.patch
+*.diff
+
+# Editor
+.*.sw?
+.*.tmp
+*~
+.#*
+[#]*#
+Session.vim
+/tags
+/doc/tags
+
+## Debian build artifacts
+**/debhelper-build-stamp
+**/debian/files
+**/debian/*.debhelper*
+debian/*.postinst.debhelper
+debian/*.postrm.debhelper
+debian/*.preinst.debhelper
+debian/*.prerm.debhelper
+debian/*.substvars
+*-build-deps_*.deb
+*-build-deps_*.buildinfo
+*-build-deps_*.changes

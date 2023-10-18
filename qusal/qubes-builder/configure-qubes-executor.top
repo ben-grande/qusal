@@ -1,0 +1,3 @@
+base:
+  'dvm-qubes-builder':
+    - qubes-builder.configure-qubes-executor

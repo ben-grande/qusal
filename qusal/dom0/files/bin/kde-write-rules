@@ -1,0 +1,48 @@
+#!/bin/sh
+# shellcheck disable=SC1090,SC2317
+## Wrapper around kwriteconfig to write key=values to specific groups.
+## TODO: finish
+set -eu
+echo "Unfinished work" >&2
+exit 2
+
+# shellcheck disable=SC1091
+test -r "$HOME/.profile" && . "$HOME/.profile"
+: "${XDG_CONFIG_HOME:=$HOME/.config}"
+file="$XDG_CONFIG_HOME/kwinrulesrc"
+
+writeconf(){
+  group="$1"
+  key="$2"
+  value="$3"
+
+  kwriteconfig \
+    --file "$file" \
+    --group "rules-$group" \
+    --key "$key" "$value"
+}
+
+writeconf_group(){
+  chosen_group="$1"
+  chosen_activity="$2"
+  writeconf "$chosen_group" Description "$chosen_group"
+  if test -n "$chosen_activity"; then
+    chosen_activity_id="$(kactivities-cli --list-activities |
+      cut -d " " -f 2,3 | grep -F " $chosen_activity" | cut -d " " -f 1)"
+    if test -z "$chosen_activity_id"; then
+      printf '%s\n' "Invalid activity name: $chosen_activity"
+      exit 1
+    fi
+    writeconf "$chosen_group" activity "$chosen_activity_id"
+    writeconf "$chosen_group" activityrule 2
+  fi
+  writeconf "$chosen_group" title "^\\[$chosen_group\\] .*"
+  writeconf "$chosen_group" titlematch 3
+  writeconf "$chosen_group" wmclass "$chosen_group"
+  writeconf "$chosen_group" wmclasscomplete false
+  writeconf "$chosen_group" wmclassmatch 2
+}
+
+#writeconf_group dev
+#writeconf_group disp
+#writeconf disp title "^\\[disp[0-9]{4}\\] .*"

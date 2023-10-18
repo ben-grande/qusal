@@ -1,0 +1,6 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-usb.create
+  'tpl-sys-usb':
+    - sys-usb.install

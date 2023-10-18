@@ -1,0 +1,3 @@
+base:
+  'tpl-signal':
+    - signal.install

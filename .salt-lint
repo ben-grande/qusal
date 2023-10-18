@@ -1,0 +1,4 @@
+---
+skip_list:
+  - 205  # use '.sls' as a Salt State file extension
+severity: true

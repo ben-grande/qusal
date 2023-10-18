@@ -1,0 +1,4 @@
+base:
+  'mutt':
+    - match: nodegroup
+    - mutt.configure

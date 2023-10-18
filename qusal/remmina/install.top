@@ -1,0 +1,3 @@
+base:
+  'tpl-remmina':
+    - remmina.install

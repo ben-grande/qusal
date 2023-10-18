@@ -1,0 +1,32 @@
+## IMAP
+set folder            = "imaps://imap.$my_server"
+set spoolfile         = "+INBOX"
+set imap_user         = "$my_user"
+set imap_pass         = "$my_pass"
+set imap_check_subscribed
+set mail_check        = 120
+
+## POP3
+set pop_host          = "pops://pop.$my_server"
+set pop_user          = "$my_user"
+set pop_pass          = "$my_pass"
+set pop_checkinterval = 120
+set pop_delete        = ask-no
+set pop_last          = yes
+
+## SMTP
+set smtp_url          = "smtps://$my_user@smtp.$my_server"
+## GMail duplicates sent mails if the 'record' option is set.
+#set record            = "+Sent"
+unset record
+set smtp_pass         = "$my_pass"
+set realname          = "$my_name"
+set from              = "$my_user@$my_server"
+set use_from          = yes
+set ssl_starttls      = yes
+set ssl_force_tls     = yes
+
+## Alias
+alias me $realname <$from>
+
+## vim: ft=muttrc

@@ -1,0 +1,3 @@
+base:
+  'tpl-sys-usb':
+    - sys-usb.install

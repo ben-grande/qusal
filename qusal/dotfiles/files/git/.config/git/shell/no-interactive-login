@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+command -v git >/dev/null || exit 1
+printf '%s\n' "Hi $USER! You've successfully authenticated, but I do not"
+printf '%s\n' "provide interactive shell access."
+printf '%s\n' "You have access to these repositories:"
+
+for dir in ~/src/*.git; do
+  test -d "$dir" || continue
+  test git -C "$dir" rev-parse --is-bare-repository = "true" || continue
+  printf '%s\t\t' "${dir##*/}"
+  if grep -q "^Unnamed repository" "$dir"/description; then
+    printf '\n'; continue
+  fi
+  cat "$dir"/description
+done
+exit 128

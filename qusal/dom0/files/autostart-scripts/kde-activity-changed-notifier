@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+if ! command -v notify-send >/dev/null &&
+  ! command -v kdialog >/dev/null; then
+  exit 1
+fi
+command -v qdbus >/dev/null || exit 1
+
+case "${XDG_SESSION_DESKTOP:-}" in
+  KDE|plasma) ;;
+  *) exit 1;;
+esac
+
+## https://geek.co.il/2018/07/30/script-day-different-default-browser-per-kde-activity
+service="org.kde.ActivityManager"
+interface="$service.Activities"
+path="/ActivityManager/Activities"
+signal="CurrentActivityChanged"
+
+dbus-monitor --profile \
+  "type=signal,path=$path,interface=$interface,member=$signal" | \
+while read -r _ _ _ _ _ path interface member; do
+  test "$member" = "$signal" || continue
+  id="$(qdbus "$service" "$path" "$interface.CurrentActivity")"
+  name="$(qdbus "$service" "$path" "$interface.ActivityName" "$id")"
+  if command -v kdialog; then
+    kdialog --title "Activity: $name" --passivepopup "Switched Activities" 3
+  elif command -v notify-send; then
+    notify-send -u normal -t 3000 "Activity: $name" "Switched activities"
+  fi
+done

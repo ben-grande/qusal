@@ -1,0 +1,5 @@
+; vim: ft=gitconfig
+[format]
+	to = qubes-devel@googlegroups.com
+[sendemail]
+	to = qubes-devel@googlegroups.com

@@ -1,0 +1,24 @@
+## guarantee commands are run from $HOME
+cd
+
+base="src"
+
+fail_invalid_name(){
+  printf '%s\n' "error: invalid $1 name"
+  exit 1
+}
+
+test_name(){
+  name="$1"
+  if ! (echo "$name" | grep -q "^[A-Za-z0-9][A-Za-z0-9_.-]\+[A-Za-z0-9]$")
+  then
+    fail_invalid_name repository
+  fi
+}
+
+clean_repo_name(){
+  case "${repo-}" in
+    *.git) repo="";;
+    *) repo="$repo.git";;
+  esac
+}

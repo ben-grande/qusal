@@ -1,0 +1,3 @@
+base:
+  'sys-pihole':
+    - sys-pihole.install

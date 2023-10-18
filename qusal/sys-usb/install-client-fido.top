@@ -1,0 +1,3 @@
+base:
+  '*':
+    - sys-usb.install-client-fido

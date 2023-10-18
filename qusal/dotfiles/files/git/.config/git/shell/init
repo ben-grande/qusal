@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+# shellcheck disable=SC1090
+. ~/git-shell-commands/.git-shell-lib
+
+usage(){
+  printf '%s\n' "usage: ${0##*/} SECTION REPOSITORY [BRANCH]"
+  printf '%s\n' "regex: ^[A-Za-z0-9][A-Za-z0-9_.-]\+[A-Za-z0-9]$"
+  exit 1
+}
+
+test -n "${1-}" || usage
+section="$1"
+test_name "$section"
+repo="$2"
+test_name "$repo"
+clean_repo_name
+branch=""
+test -n "${3-}" && branch="$3"
+
+if test -n "${branch}"; then
+  test_name "$branch"
+fi
+
+# shellcheck disable=SC2154
+git init \
+  --bare \
+  ${branch:+--initial-branch $branch} \
+  -- "$base/$section/$repo"

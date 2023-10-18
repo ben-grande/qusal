@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+## {{{ Requirements
+## If not running interactively, return.
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+## Source default files.
+# shellcheck disable=SC1090,SC1091
+source "$HOME/.profile"
+# shellcheck disable=SC1090
+source "$ENV"
+## }}}
+## {{{ Options
+HISTCONTROL=ignoredups
+shopt -s autocd
+shopt -s direxpand
+shopt -s cdspell
+shopt -s dirspell
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s extglob
+shopt -s globstar
+## }}}
+## {{{ Alias
+alias reload="exec bash"
+## }}}
+## {{{ Prompt
+if test -z "${debian_chroot:-}" && test -r /etc/debian_chroot; then
+  debian_chroot="$(cat /etc/debian_chroot)"
+fi
+
+_reset_line() {
+  ## Credit: Can't find the source, posted on StackExchange or alike.
+  ## Does not work well on Bash 5.0 and older.
+  test "$(echo "${BASH_VERSION%.*}" | tr -d ".")" -lt 51 && return
+
+  local termios cur_y
+  ## Ask the terminal for any pending (line buffered) input.
+  termios=$(stty --save) && stty -icanon && stty "$termios"
+  ## On pending input, assume it's been echoed and we're not in first column.
+  ## Otherwise ask the terminal for current column and read it from input.
+  if read -t 0 || {
+    IFS='[;' read -s -r -d'R' -p$'\033[6n' _ _ cur_y && [[ $cur_y != 1 ]]
+  }
+  then
+    ## Print line ending char with reversed video and end with newline.
+    printf '%b' "\033[41m\033[0m\033[7m%\033[m\n\r"
+  fi
+}
+
+_print_ec(){
+  test "${_ec_ps1}" = "0" && return
+  if test "${color_prompt:-}" = "yes"; then
+    printf %s"(\001\033[31m\002${_ec_ps1}\001\033[0m\002)"
+  else
+    printf '%s' "(${_ec_ps1})"
+  fi
+}
+
+_save_ec() { _ec_ps1=$?; }
+PROMPT_COMMAND=(_save_ec)
+newline=$'\n'
+
+if test "${color_prompt:-}" = "yes"; then
+  # shellcheck disable=SC2154
+  PS1="\$(_reset_line)\[\033[35m\][\[${reset_color}\]${debian_chroot:+($debian_chroot)}\[${usercolor}\]\u@\h \[${dircolor}\]\w\[${reset_color}\]\$(_git_prompt_info)\[\033[35m\]]\[${reset_color}\]${newline-}\$(_print_ec)${ps1_symbol} "
+else
+  PS1="\$(_reset_line)[${debian_chroot:+($debian_chroot)}\u@\h:\w\$(_git_prompt_info)]${newline-}\$(_print_ec)${ps1_symbol} "
+fi
+
+## If this is an xterm set the title to user@host:dir
+case "$TERM" in
+  xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+esac
+
+## Reset cursor to steady block after command input and before execution.
+# shellcheck disable=SC2034
+PS0="\e[2 q\2"
+
+if ! shopt -oq posix; then
+  source_readable /usr/share/bash-completion/bash_completion
+fi
+
+unset newline ps1_symbol
+## }}}
+## {{{ Plugins
+if has zoxide; then
+  eval "$(zoxide init bash)"
+fi
+
+source_readable /usr/share/doc/fzf/examples/key-bindings.bash
+source_readable /usr/share/doc/fzf/examples/completion.bash
+## }}}
+## {{{ End
+## Source local bash configuration.
+source_readable "$HOME/.bashrc.local"
+## }}}

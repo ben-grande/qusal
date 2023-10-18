@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-cacher.untag
+    - sys-cacher.remove-policy
+  'qubes:type:template':
+    - match: pillar
+    - sys-cacher.uninstall-client

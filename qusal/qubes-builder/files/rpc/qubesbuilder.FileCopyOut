@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+path="${1//__/\//}"
+
+exec /usr/lib/qubes/qfile-agent "$path"

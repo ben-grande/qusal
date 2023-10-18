@@ -1,0 +1,3 @@
+base:
+  '*':
+    - utils.tools.zsh.install

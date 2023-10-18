@@ -1,0 +1,13 @@
+[Unit]
+Description=Qrexec Client targetting SSH Agent %i
+ConditionUser=!root
+ConditionGroup=qubes
+Requires=qubes-ssh-agent-client-sock@%i.service
+After=qubes-ssh-agent-client-sock@%i.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/socat UNIX-LISTEN:"%T/%p/%i.sock,unlink-early,reuseaddr,fork" EXEC:"qrexec-client-vm -- @default qusal.SshAgent+%i"
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+test "0${SHLVL-}" -le 1 && test -z "${SSH_TTY-}" &&
+  test "${TERM-}" = linux && clear

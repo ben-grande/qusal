@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-git.create
+  'tpl-sys-git':
+    - sys-git.install
+  'sys-git':
+    - sys-git.configure

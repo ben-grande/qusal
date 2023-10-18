@@ -1,0 +1,3 @@
+base:
+  'tpl-mgmt':
+    - mgmt.install

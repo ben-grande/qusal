@@ -1,0 +1,3 @@
+base:
+  '*':
+    - dotfiles.copy-gtk

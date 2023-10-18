@@ -1,0 +1,9 @@
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qusal.GitFetch * @anyvm @default ask target={{ sls_path }} default_target={{ sls_path }}
+qusal.GitPush  * @anyvm @default ask target={{ sls_path }} default_target={{ sls_path }}
+qusal.GitInit  * @anyvm @default ask target={{ sls_path }} default_target={{ sls_path }}
+qusal.GitFetch * @anyvm @anyvm deny
+qusal.GitPush  * @anyvm @anyvm deny
+qusal.GitInit  * @anyvm @anyvm deny
+## vim:ft=qrexecpolicy

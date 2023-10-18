@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - media.create
+  'tpl-media':
+    - media.install
+  'media':
+    - media.configure

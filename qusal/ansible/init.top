@@ -1,0 +1,11 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - ansible.create
+  'tpl-ansible':
+    - ansible.install
+  'ansible':
+    - zsh.touch-zshrc
+    - ansible.configure
+  'ansible-minion':
+    - ansible.configure-minion

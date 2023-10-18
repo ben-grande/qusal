@@ -1,0 +1,11 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-cacher.create
+  'tpl-sys-cacher':
+    - sys-cacher.install
+  'sys-cacher':
+    - sys-cacher.configure
+  'I@qubes:type:template and not P@nodename:host and not P@nodename:whonix.*':
+    - match: compound
+    - sys-cacher.install-client

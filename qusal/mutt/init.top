@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - mutt.create
+  'tpl-mutt':
+    - mutt.install
+  'mutt':
+    - mutt.configure

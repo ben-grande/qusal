@@ -1,0 +1,3 @@
+base:
+  'tpl-sys-firewall':
+    - sys-firewall.install

@@ -1,0 +1,13 @@
+#!/bin/sh
+## Credits: https://github.com/tpope/dotfiles/blob/master/.lessfilter
+set -eu
+
+if test -d "$1"; then
+  exec ls -lF "$1"
+else
+  case $1 in
+    *.json) has jq && exec jq -C . "$1";;
+  esac
+fi
+
+exit 1

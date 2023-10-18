@@ -1,0 +1,4 @@
+#!/usr/sbin/nft -f
+flush chain nat PR-QBS
+insert rule nat PR-QBS iifname "vif*" tcp dport 53 dnat to 127.0.0.1
+insert rule nat PR-QBS iifname "vif*" udp dport 53 dnat to 127.0.0.1

@@ -1,0 +1,102 @@
+#!/bin/sh
+## Portable git-remote-helper.
+## Rename this helper to git-remote-<scheme>.
+## Valid URL format: <scheme>://<authority>/<path>.
+## Supported commands: capabilities, connect.
+## Capabilities commands are sent to git-remote-<scheme>-<capability>.
+set -eu
+
+usage(){
+  echo "usage: ${helper} <remote> [${scheme}://<authority>/<path>]" >&2
+}
+
+die(){
+  usage
+  echo "error: ${1}" >&2
+  exit 1
+}
+
+## Validate URL and return it without the scheme.
+validate_url(){
+  url_valid=""
+  url_check="${1?}"
+  scheme_user_url="$(echo "${url_check}" | sed "s|://.*||")"
+
+  ## Scheme must be the same as the one in the name of this script.
+  ## Checks if Authority and Path exist, but not if they are valid, this is
+  ## implementation specific and should be checked by the connect helper.
+  case "${url_check}" in
+    "${scheme}"://*?/*?) url_valid="$(echo "${url_check}" | sed "s|.*://||")";;
+    "${scheme}"://*?) die "URL has no path to resource: '${url_check}'";;
+    "${scheme}"://) die "URL has no authority: '${url_check}'";;
+    *?://*) die "URL has unsupported scheme: '${scheme_user_url}'";;
+    *) die "URL has no scheme: '${url_check}'";;
+  esac
+
+  echo "${url_valid}"
+}
+
+## Send capabilities to remote helper specific for that capability.
+send_cap(){
+  exec_path="$(git --exec-path)"
+  test -n "${exec_path}" || die "Couldn't locate Git's executables path"
+
+  cap="${1}"
+  shift
+  cap_file="${script}-${cap}"
+  cap_path="${exec_path}/${cap_file}"
+
+  test -e "${cap_path}" ||  die "Git's exec path missing: '${cap_file}'"
+  test -x "${cap_path}" || die "Git script is not executable: '${cap_file}'"
+
+  "${cap_path}" "${@}"
+}
+
+## Basic requirements.
+command -v git >/dev/null || die "Command not found: 'git'"
+script="${0##*/}"
+helper="${script##git-}"
+scheme="${helper##remote-}"
+if test "${script}" != "git-remote-${scheme}" || test -z "${scheme}"; then
+  die "Script must be named with the format: git-remote-<scheme>"
+fi
+
+## Get remote name or show usage.
+case "${1-}" in
+  -h|--?help|"") usage; exit 1;;
+  *) remote="${1}";;
+esac
+
+## Get URL and Push URL (fallback to URL)
+case "${2-}" in
+  "")
+    ## Happens when 'remote-qrexec' is called directly from the command-line.
+    url="$(git remote get-url "${remote}" || true)"
+    pushurl="$(git remote get-url --push "${remote}" || true)"
+    ;;
+  *) url="${2}"; pushurl="${2}";;
+esac
+
+test -n "${url}" || die "Remote URL is unset"
+test -n "${pushurl}" || die "Remote Push URL is unset"
+
+url="$(validate_url "${url}")"
+pushurl="$(validate_url "${pushurl}")"
+
+## Communicate with the git-remote-helpers protocol.
+while read -r cmd arg; do
+  case "${cmd}" in
+    "") exit 0;;
+    "capabilities") printf "connect\n\n";;
+    "connect")
+      printf "\n";
+      case "${arg}" in
+        git-upload-pack) send_cap "${cmd}" "${arg}" "${url}";;
+        git-receive-pack) send_cap "${cmd}" "${arg}" "${pushurl}";;
+        "") die "Argument can't be empty";;
+        *) die "Unsupported argument: '${arg}'";;
+      esac
+      ;;
+    *) die "Unsupported command: '${cmd}'";;
+  esac
+done

@@ -1,0 +1,4 @@
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qubes.OpenInVM  *  {{ sls_path }} @dispvm  allow target=disp-{{ sls_path }}
+## vim:ft=qrexecpolicy

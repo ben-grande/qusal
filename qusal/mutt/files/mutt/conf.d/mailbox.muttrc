@@ -1,0 +1,47 @@
+## Misc
+set mbox_type         = Maildir
+set quit              = ask-yes
+set sleep_time        = 0
+set wait_key          = no
+set nobeep
+set sort_alias        = alias
+set followup_to       = yes
+set honor_followup_to = yes
+
+## Reading
+set mark_old          = no
+set date_format       = "%y-%m-%d %T"
+set index_format      = "%4C %Z %D %-8.8n %-12.12L (%4l) %s"
+set sort              = "reverse-threads"
+set sort_aux          = "last-date-received"
+set content_type      = "text/plain"
+set charset           = "utf-8"
+set pager_index_lines = 10
+set my_editor         = "vim -c 'setf mail' "
+set editor            = "$my_editor "
+
+## Composing
+set fast_reply        = yes
+set edit_headers      = yes
+set copy              = yes
+set send_charset      = "us-ascii:utf-8"
+set abort_nosubject   = ask-yes
+set sig_dashes        = yes
+set signature         = "~/.signature"
+set alias_file        = "~/.muttrc-aliases.local"
+set fcc_attach
+set reverse_name
+set include
+set mime_forward      = no
+set forward_format    = "Fwd: %s"
+set forward_quote
+
+## Cache
+set mbox              = "~/.cache/mutt/archived"
+set record            = "~/.cache/mutt/sent"
+set postponed         = "~/.cache/mutt/postponed"
+set header_cache      = "~/.cache/mutt/headers"
+set message_cachedir  = "~/.cache/mutt/messages"
+set certificate_file  = "~/.cache/mutt/certificates"
+
+## vim: ft=muttrc

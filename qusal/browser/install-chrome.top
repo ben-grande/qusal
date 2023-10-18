@@ -1,0 +1,3 @@
+base:
+  'tpl-browser':
+    - browser.install-chrome

@@ -1,0 +1,4 @@
+base:
+  'tpl-dev':
+    - match: list
+    - dev.install

@@ -1,0 +1,4 @@
+base:
+  'qubes:type:template':
+    - match: pillar
+    - sys-cacher.uninstall-client

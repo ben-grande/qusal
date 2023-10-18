@@ -1,0 +1,3 @@
+base:
+  'sys-ssh-agent':
+    - sys-ssh-agent.configure

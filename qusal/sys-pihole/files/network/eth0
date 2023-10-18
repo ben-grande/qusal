@@ -1,0 +1,5 @@
+auto eth0
+iface eth0 inet static
+address
+netmask 255.0.0.0
+gateway

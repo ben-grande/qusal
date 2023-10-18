@@ -1,0 +1,6 @@
+; ~/.gitconfig.local
+; vim: ft=gitconfig
+[user]
+	email = your-mail@your-provider.domain
+	name = Your Name
+	signingKey = 0x012345678ABC

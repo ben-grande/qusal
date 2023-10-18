@@ -1,0 +1,3 @@
+base:
+  'tpl-dev':
+    - dev.install-python-tools

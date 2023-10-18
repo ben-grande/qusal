@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-pgp.create
+  'tpl-sys-pgp':
+    - sys-pgp.install
+  'sys-pgp':
+    - sys-pgp.configure

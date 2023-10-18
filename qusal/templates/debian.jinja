@@ -1,0 +1,4 @@
+{% set version = salt['pillar.get']('qvm:debian:version', '12') -%}
+{% set repo = salt['pillar.get']('qvm:debian:repo', 'qubes-templates-itl') -%}
+{% set template = 'debian-' ~ version -%}
+{% set template_clean = 'debian' -%}

@@ -1,0 +1,4 @@
+base:
+  'sys-pgp':
+    - match: nodegroup
+    - sys-pgp.configure

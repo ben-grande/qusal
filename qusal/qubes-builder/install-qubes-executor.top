@@ -1,0 +1,3 @@
+base:
+  'tpl-qubes-builder':
+    - qubes-builder.install-qubes-executor

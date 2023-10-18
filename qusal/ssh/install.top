@@ -1,0 +1,3 @@
+base:
+  'tpl-ssh':
+    - ssh.install

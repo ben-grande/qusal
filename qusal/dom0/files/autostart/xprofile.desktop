@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Xprofile sourcer
+Comment=Source User's Xprofile
+Type=Application
+Exec=/home/user/.config/x11/xprofile
+Terminal=false
+StartupNotify=false
+Categories=System;X;

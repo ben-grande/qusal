@@ -1,0 +1,2 @@
+#!/bin/sh
+exec socat STDIO TCP:localhost:22000

@@ -1,0 +1,12 @@
+firmware-ath9k-htc
+firmware-atheros
+firmware-b43-installer
+firmware-brcm80211
+firmware-intelwimax
+firmware-iwlwifi
+firmware-ralink
+firmware-realtek
+atmel-firmware
+firmware-ipw2x00
+firmware-misc-nonfree
+firmware-zd1211

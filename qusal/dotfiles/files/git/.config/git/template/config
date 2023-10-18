@@ -1,0 +1,12 @@
+; vim: ft=gitconfig
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	rebase = true
+[core]
+	repositoryFormatVersion = 0
+	fileMode = true
+	bare = false
+	logAllRefUpdates = true
+[init]
+	defaultBranch = main

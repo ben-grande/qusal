@@ -1,0 +1,5 @@
+base:
+  'tpl-qubes-builder':
+    - docker.install
+  'qubes-builder':
+    - docker.configure

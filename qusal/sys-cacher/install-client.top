@@ -1,0 +1,4 @@
+base:
+  'I@qubes:type:template and not P@nodename:host and not P@nodename:whonix.*':
+    - match: compound
+    - sys-cacher.install-client

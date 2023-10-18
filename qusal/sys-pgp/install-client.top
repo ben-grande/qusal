@@ -1,0 +1,4 @@
+base:
+  '*':
+    - match: list
+    - sys-pgp.install-client

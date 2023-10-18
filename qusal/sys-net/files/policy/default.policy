@@ -1,0 +1,7 @@
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qubes.UpdatesProxy  *  @tag:whonix-updatevm  @default  allow target=sys-whonix
+qubes.UpdatesProxy  *  @tag:whonix-updatevm  @anyvm    deny
+qubes.UpdatesProxy  *  @type:TemplateVM      @default  allow target=disp-{{ sls_path }}
+qubes.UpdatesProxy  *  @type:TemplateVM      @anyvm    deny
+## vim:ft=qrexecpolicy

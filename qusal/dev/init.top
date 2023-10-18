@@ -1,0 +1,10 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - dev.create
+  'tpl-dev':
+    - dev.install
+  'disp-dev':
+    - utils.tools.zsh.touch-zshrc
+  'dev':
+    - dev.configure

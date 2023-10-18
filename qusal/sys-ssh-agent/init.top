@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-ssh-agent.create
+  'tpl-sys-ssh-agent':
+    - sys-ssh-agent.install
+  'sys-ssh-agent':
+    - sys-ssh-agent.configure

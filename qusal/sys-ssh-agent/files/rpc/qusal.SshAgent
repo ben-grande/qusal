@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+die(){
+  echo "error: $1" >&2
+  exit 1
+}
+
+#origin="$QREXEC_REMOTE_DOMAIN"
+agent="$QREXEC_SERVICE_ARGUMENT"
+socket="/tmp/qubes-ssh-agent/${agent}.sock"
+
+test -S "$socket" || die "Not a socket: $socket"
+
+exec socat STDIO UNIX-CLIENT:"$socket"

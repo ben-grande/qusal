@@ -1,0 +1,46 @@
+#!/bin/sh
+## TODO: unfinished
+# shellcheck disable=SC2317
+exit 0
+
+set -eu
+
+command -v git >/dev/null || exit 1
+
+exit_code=0
+zero_commit="0000000000000000000000000000000000000000"
+
+while read -r oldrev newrev ref; do
+#read -r oldrev newrev ref
+  echo "$oldrev $newrev $ref"
+  test "$newrev" = "$zero_commit" && continue
+
+  if test "$oldrev" = "$zero_commit"; then
+    objects="$(git rev-list "$newrev")"
+  else
+    objects="$(git rev-list "$oldrev..$newrev")"
+  fi
+
+  for commit in $objects; do
+    git verify-commit "$commit" >/dev/null 2>&1 && return
+
+    ## WARNING: tag verification is not working as expected.
+    commit_tag="$(git tag --points-at="$commit")"
+    if test -z "$commit_tag"; then
+      echo "Commit couldn't be verified and no tag points to it: $commit"
+      exit_code=1
+      continue
+    fi
+
+    if git verify-tag "$commit_tag" >/dev/null 2>&1; then
+      echo "Tag verification succeeded for commit: $commit"
+      continue
+    fi
+
+    echo "Commit verification failed: $commit"
+    exit_code=1
+  done
+  if test "$exit_code" != "0"; then
+    exit "$exit_code"
+  fi
+done

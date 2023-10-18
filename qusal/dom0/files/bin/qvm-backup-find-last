@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+usage(){
+  printf '%s\n' "usage: ${0##*/} QUBE DIR [CMD]"
+  printf '%s\n' "example: ${0##*/} usb-qube /local/dir/backups"
+  printf '%s\n' "example: ${0##*/} ssh-qube /remote/dir/backups 'ssh user@server'"
+  printf '%s\n' "note: when using a remote login command (ssh), the DIR is the remote directory"
+  printf '%s\n' "note: the directory specified must be the parent of where the backups are saved"
+  exit 1
+}
+
+if test -z "${2-}"; then
+  usage
+fi
+
+qube="$1"
+path="$2"
+cmd="${3-}"
+
+# shellcheck disable=SC2086
+qvm-run -p "$qube" $cmd find "$path" -maxdepth 1 -type f -name "qubes-backup-*" 2>/dev/null | tail -1

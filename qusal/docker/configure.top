@@ -1,0 +1,3 @@
+base:
+  'qubes-builder':
+    - docker.configure

@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+set -e
+
+sudo bash -c "mkdir -p /builder/incoming && chown -R user:user /builder"
+
+exec /usr/lib/qubes/qfile-unpacker "$(id -u user)" "/builder/incoming"

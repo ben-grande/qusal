@@ -1,0 +1,7 @@
+## NOTE: Syncthing maintainers inverted the Suites with the Components field.
+Types: deb
+URIs: http://apt.syncthing.net/
+Suites: syncthing
+Components: stable
+Signed-by: /usr/share/keyrings/syncthing.asc
+# vim:ft=debsources

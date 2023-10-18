@@ -1,0 +1,6 @@
+Types: deb
+URIs: http://updates.signal.org/desktop/apt
+Suites: xenial
+Components: main
+Signed-by: /usr/share/keyrings/signal.asc
+# vim: ft=debsources

@@ -1,0 +1,72 @@
+# browser
+
+## Table of Contents
+
+* [Description](#description)
+* [Installation](#installation)
+  * [Choose you browser](#choose-you-browser)
+* [Copyright](#copyright)
+
+## Description
+
+Browser environment on Qubes OS
+
+Create environment for browsing. By default it creates a disposable template
+called "dvm-browser", so when clicking the icon/launcher, it opens a
+disposable qube. If you want to save your session, you can also clone the
+template and create app qubes.
+
+Default browser to install is Chromium, but you can choose to install Chrome,
+Firefox-ESR, W3M or Lynx.
+
+## Installation
+
+- Top
+```sh
+qubesctl top.enable browser
+qubesctl --targets=tpl-browser state.apply
+qubesctl top.disable browser
+qubesctl state.apply browser.appmenus
+```
+
+- State
+```sh
+qubesctl state.apply browser.create
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
+qubesctl state.apply browser.appmenus
+```
+
+### Choose you browser
+
+Instead of running the state `browser.install`, you can select which browser
+to install:
+
+- Chromium:
+```sh
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chromium
+```
+- Chrome:
+```sh
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chrome
+```
+- Firefox-ESR:
+```sh
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox
+```
+- W3M:
+```sh
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-w3m
+```
+- Lynx:
+```sh
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-lynx
+```
+
+Do not forget to sync the `appmenus`:
+```sh
+qubesctl state.apply browser.appmenus
+```
+
+## Copyright
+
+License: GPLv2+

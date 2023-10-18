@@ -1,0 +1,286 @@
+#!/bin/sh
+## Credits: https://github.com/tpope/dotfiles/blob/master/.shrc
+
+## {{{ Requirements
+## If not running interactively, return.
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+## Source profile.
+# shellcheck disable=SC1091
+. "$HOME/.profile"
+## }}}
+## {{{ Options
+stty -ixon
+set -o noclobber
+set -o notify
+## Vi-mode does not work on Debian Bullseye with Dash 5.11 (2020).
+## Debian Boowkworm has Dash >5.11 (2021) with adds libedit to the shell.
+## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=561663
+#set -o vi
+#stty quit undef
+stty werase undef
+## }}}
+## {{{ Alias
+## Standard commands.
+test -n "$VISUAL" && alias vi='$VISUAL'
+alias du="du -h"
+alias df="df -h"
+alias cp="cp -i"
+alias mv="mv -i"
+alias ls="ls -hF --group-directories-first --color=auto"
+if has lsblk; then
+  _lsblk_options="NAME,FSTYPE,LABEL,SIZE,FSAVAIL,FSUSE%,MOUNTPOINT"
+  alias lsblk='lsblk -o $_lsblk_options'
+  alias lsblku='lsblk -o $_lsblk_options,UUID,PARTUUID'
+fi
+if ! grep --color 2>&1 | grep -q "unrecognized option"; then
+  alias grep="grep --exclude='.*.swp' --exclude='*~' --color=auto"
+fi
+alias fgrep="grep -F"
+alias egrep="grep -E"
+alias diff="diff --color=auto"
+has dir && alias dir="dir --color=auto"
+has vdir && alias vdir="vdir --color=auto"
+alias ip="ip -color=auto"
+has highlight && alias highlight="highlight --out-format=ansi"
+has pygmentize && alias pygmentize="pygmentize -f terminal"
+
+## Helpers.
+alias reload='. $ENV' r="reload"
+alias reload-xprofile='. $XDG_CONFIG_HOME/x11/xprofile' rx="reload-xprofile"
+## POSIX cd does not allow '--' and other shells breaks when not using it.
+alias -- -="cd -" 2>/dev/null || true
+up(){
+  ## Credits: https://stackoverflow.com/a/26134858
+  case "${1-}" in
+    [1-9]) cd "$(printf "%0.0s../" $(seq 1 "$1"))" || return;;
+    "") cd .. || return;;
+    *) cd "$(pwd | sed -r "s|(.*/$1[^/]*/).*|\1|")" || return
+  esac
+}
+test -n "$EDITOR" && alias e='$EDITOR'
+test -n "$VISUAL" && alias v='$VISUAL'
+alias j="jobs"
+alias h="history"
+alias l="ls -CF"
+alias ll="ls -Fl"
+alias la="ls -Fa"
+alias lla="ls -Fla"
+alias laa='ls -Fd .* 2>/dev/null'
+alias llaa='ls -Fdl .* 2>/dev/null'
+alias lr='ls -R'
+alias lx='ll -BX'
+alias lz='ll -rS'
+alias lt='ll -rt'
+alias lm='la | more'
+alias now="date +%a\ %Y-%m-%d\ %T"
+alias mkd="mkdir -pv"
+mkcd(){ mkd "$1" && cd "$1" || return; }
+
+## Non-standard programs.
+has info && alias info="info --vi-keys"
+has htop && alias top="htop"
+has yt-dlp && alias yt="yt-dlp --add-metadata -ic"
+has fdfind && alias fd="fdfind"
+has lynx && alias lynx="lynx -vikeys"
+has qubesctl && alias qubesctl="sudo qubesctl --show-output" qctl="qubesctl"
+has gpg && alias gpgs="gpg --show-keys"
+has gpg2 && alias gpg="gpg2"
+if has qubes-gpg-client-wrapper; then
+  alias qubes-gpg="qubes-gpg-client-wrapper"
+  alias qgpg="qubes-gpg"
+fi
+## {{{ Tmux
+has tmux && {
+  alias t="tmux"
+  alias td="t detach"
+  alias tls="t list-sessions" tl="tls"
+  alias tlw="t list-windows"
+  alias tlp="t list-panes"
+  alias tcl="clear && t clear-history" # clear buffer cus memory
+  tcla(){
+    ## Clear all the panes of the current session.
+    for _t_pane in $(tmux list-panes -s -F '#{pane_id}'); do
+      tmux clear-history -t "$_t_pane"
+    done
+  }
+}
+## }}}
+## {{{ Mutt
+if has mutt; then
+  alias m="mutt"
+  alias mp="mutt -e 'unset signature' -e 'set pgp_autoinline=yes crypt_autosign=yes' -H"
+fi
+## }}}
+## {{{ Git
+if has git; then
+  alias g="git"
+  alias gcd='cd "$(git rev-parse --show-toplevel)"'
+  ## Use git aliases with 'g' prefix.
+  g_alias="$(git config --get-regexp 'alias.*' | sed 's/^alias\.//;s/ .*//')"
+  for key in $(printf '%s\n' "${g_alias}"); do
+    # shellcheck disable=SC2139,SC2140
+    alias "g$key"="git $key"
+  done
+  unset g_alias
+fi
+## }}}
+## }}}
+## {{{ Colors
+## Colorise "ls" output.
+if has dircolors; then
+  ## Use dircolors if available.
+  if test -r "$XDG_CONFIG_HOME/dircolors/dircolors"; then
+    eval "$(dircolors -b "$XDG_CONFIG_HOME/dircolors/dircolors")"
+  else
+    eval "$(dircolors -b)"
+  fi
+  ## Fix bold on some terminals.
+  case "$TERM" in
+    xterm*|screen*)
+      LS_COLORS="$(echo "$LS_COLORS" | sed -e 's/01;3/00;9/g')"
+      ;;
+  esac
+  export LS_COLORS
+else
+  ## BSD
+  CLICOLOR=1 CLICOLOR_FORCE=1 LSCOLORS=ExGxFxdxCxfxDxxbadacad ls -hF
+  export CLICOLOR CLICOLOR_FORCE LSCOLORS
+fi
+
+## Set gcc colors.
+GCC_COLORS="error=00;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
+export GCC_COLORS
+
+## Colors for programs that uses less such as 'man'.
+GROFF_NO_SGR=1
+LESS_TERMCAP_mb="$(tput bold; tput setaf 2)"     # begin blink
+LESS_TERMCAP_md="$(tput bold; tput setaf 6)"     # begin bold
+LESS_TERMCAP_me="$(tput sgr0)"                   # reset bold/blink
+LESS_TERMCAP_so="$(tput bold; tput setaf 7; tput setab 4)" # begin reverse video
+LESS_TERMCAP_se="$(tput rmso; tput sgr0)"        # reset reverse video
+LESS_TERMCAP_us="$(tput smul; tput bold; tput setaf 2)"    # begin underline
+LESS_TERMCAP_ue="$(tput rmul; tput sgr0)"        # reset underline
+LESS_TERMCAP_mr="$(tput rev)"                    # revert
+LESS_TERMCAP_mh="$(tput dim)"                    # dimerize
+export GROFF_NO_SGR
+export LESS_TERMCAP_mb LESS_TERMCAP_md LESS_TERMCAP_me
+export LESS_TERMCAP_so LESS_TERMCAP_se LESS_TERMCAP_us
+export LESS_TERMCAP_ue LESS_TERMCAP_mr LESS_TERMCAP_mh
+
+## }}}
+## {{{ Prompt
+## Set ability to color terminal.
+color_prompt=""
+# shellcheck disable=2034
+case "$TERM" in
+  iterm|*-truecolor)
+    export COLORTERM=truecolor; color_prompt=yes
+    ;;
+  *-color|*-256color)
+    color_prompt=yes
+    ;;
+  vte*) ;;
+esac
+
+# shellcheck disable=SC3028
+_get_prompt_time(){
+  test -n "${SECONDS:-}" || return
+  # shellcheck disable=SC2154
+  _ptime="$((SECONDS-_saved_prompt_time))"
+  printf "%02d:%02d:%02d" \
+    "$((_ptime/3600))" "$(((_ptime%3600)/60))" "$((_ptime%60))"
+}
+
+_git_prompt_info(){
+  has git || return
+  ref="$(git symbolic-ref HEAD 2>/dev/null | cut -d '/' -f3)"
+  test "${ref-}" || ref="$(git describe --tags --exact-match HEAD 2>/dev/null)"
+  test "${ref-}" || ref="$(git rev-parse HEAD 2>/dev/null | head -c 7)"
+  test "${ref-}" || return
+  # shellcheck disable=2039,3003
+  case "$TERM" in
+    *-256color|xterm-kitty) branchcolor=$'\e[38;5;31m' ;;
+    *-88color|rxvt-unicode) branchcolor=$'\e[38;5;22m' ;;
+    *)                      branchcolor=$'\e[00;94m'   ;;
+  esac
+  if test -n "${ZSH_VERSION-}"; then
+    # shellcheck disable=2016
+    print -Pn '(%%{$branchcolor%%}%20>...>$ref%<<%%{\e[00m%%})'
+  else
+    printf '%s' "($branchcolor$ref$reset_color)"
+  fi
+}
+
+# shellcheck disable=SC2034
+usercolor="$(printf '%b' "\e[00;93m")"
+dircolor="$(printf '%b' "\e[01;34m")"
+# shellcheck disable=SC2034
+## Use echotc Co? Only available by default for zsh, not bash.
+case "$TERM" in
+  *-256color|xterm-kitty)
+    usercolor="$(printf '%b' "\e[38;5;184m")"
+    dircolor="$(printf '%b' "\e[38;5;27m")"
+    ;;
+  *-88color|rxvt-unicode)
+    usercolor="$(printf '%b' "\e[38;5;56m")"
+    dircolor="$(printf '%b' "\e[38;5;23m")"
+    ;;
+esac
+# shellcheck disable=SC2034
+test "$(id -u)" -eq 0 && usercolor="$(printf '%b' "\e[00;97m")"
+# shellcheck disable=SC2034
+reset_color="$(printf '%b' '\e[00m')"
+
+case "${ZSH_VERSION-}" in
+  "") ps1_symbol="$";;
+  *) ps1_symbol="%%";;
+esac
+test "$(id -u)" = "0" && ps1_symbol="#"
+
+## Do not colorize this prompt, Sh fails to count the correct number of
+## characters on the prompt leading to problems.
+PS1="$(id -un)@$(hostname -s)${ps1_symbol} "
+## }}}
+## {{{ External Functions
+
+## Source file if it is readable.
+## Usage: source_readable FILE
+source_readable(){
+  for _file in "$@"; do
+    # shellcheck disable=SC1090
+    ! test -r "${_file}" || . "${_file}"
+  done
+}
+
+_fzf_comprun() {
+  _fzf_command="$1"
+  shift
+
+  case "$_fzf_command" in
+    cd) if has tree; then
+          fzf --preview 'tree -C {} | head -200' "$@"
+        else
+          fzf "$@"
+        fi
+        ;;
+    export|unset)
+      fzf --preview "eval 'echo \$'{}" "$@"
+      ;;
+    ssh)
+      fzf --preview 'dig {}' "$@"
+      ;;
+    *)
+      fzf --preview 'test -d {} || cat {}' "$@"
+      ;;
+  esac
+}
+
+## }}}
+## {{{ End
+## Source local shell configuration file.
+source_readable "$HOME/.shrc.local"
+## }}}

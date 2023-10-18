@@ -1,0 +1,4 @@
+#!/bin/sh
+# shellcheck disable=SC1090,SC1091
+test -r "$HOME/.profile" && . "$HOME/.profile"
+. "${XDG_CONFIG_HOME:=$HOME/.config}/x11/xprofile"

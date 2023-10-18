@@ -1,0 +1,2 @@
+deb [signed-by=/usr/share/keyrings/terraform.asc] http://apt.releases.hashicorp.com bookworm main
+# vim:ft=debsources

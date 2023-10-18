@@ -1,0 +1,8 @@
+base:
+  'dom0':
+    - match: nodegroup
+    - ssh.create
+  'tpl-ssh':
+    - ssh.install
+  'dvm-ssh,ssh':
+    - ssh.configure

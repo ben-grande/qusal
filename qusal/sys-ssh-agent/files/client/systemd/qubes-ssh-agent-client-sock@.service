@@ -1,0 +1,14 @@
+[Unit]
+Description=SSH Agent on the Client targetting Qrexec SSH Agent %i
+ConditionUser=!root
+ConditionGroup=qubes
+Before=qubes-ssh-agent-client@%i.service
+
+[Service]
+Type=forking
+UMask=0177
+ExecStartPre=mkdir -m 0700 -p %T/qubes-ssh-agent-client
+ExecStart=/usr/bin/ssh-agent -a %T/qubes-ssh-agent-client/%i.sock
+
+[Install]
+WantedBy=default.target

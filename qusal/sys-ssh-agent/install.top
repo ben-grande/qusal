@@ -1,0 +1,3 @@
+base:
+  'tpl-sys-ssh-agent':
+    - sys-ssh-agent.install

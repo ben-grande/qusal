@@ -1,0 +1,3 @@
+base:
+  'sys-cacher':
+    - sys-cacher.configure

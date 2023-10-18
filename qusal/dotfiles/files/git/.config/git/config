@@ -1,0 +1,144 @@
+; Global Git Config
+; vim: ft=gitconfig
+[alias]
+	; https://git.wiki.kernel.org/index.php/Aliases
+	; Abbreviations
+	co = checkout
+	br = branch
+	ci = commit
+	cm = commit
+	st = status
+	df = diff
+	dc = diff --cached
+	gi = init
+	gib = init --bare
+	cu = rev-parse --abbrev-ref --symbolic-full-name @{upstream}
+	lg = !sh -c 'git log --color \"$@\"|fmt -s -w 79|less -FRSX' _
+	lgg = log --graph --pretty='format:%C(yellow)%h%C(reset) %C(magenta)%G?%C(reset) -%C(red)%d%C(reset) %C(reset)%s %C(green)(%cs)%C(reset) %C(blue)%aN%C(reset)'
+	r = remote
+	rl = remote -v
+	cf = config --file "$HOME/.gitconfig.local"
+	; Helpers
+	aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
+	aliases-get = "!f() { git config --get alias.$1;}; f"
+	; Patch with subject prefix containing repository name and output
+	; directory has the child directories the repository and branch name.
+	fp = "!sh -c '\
+		git rev-parse --show-toplevel 2>&1 >/dev/null || return; \
+		repo=\"$(basename $(git rev-parse --show-toplevel) | \
+			sed s/^qubes-//)\"; \
+		outdir=\"$(git config format.outputDirectory)\"; \
+		ref=\"$(git symbolic-ref --short HEAD)\"; \
+		git format-patch \
+			--output-directory \"${outdir%*/}/${repo}/${ref}\" \
+			--subject-prefix=\"PATCH ${repo}\" \"${@}\" \
+			--diff-algorithm=histogram \
+		'" -
+	last = log -1 HEAD
+	unstage = reset HEAD --
+	undo = reset --soft HEAD^
+	changes = diff --name-status -r
+	diffstat = diff --stat -r
+	who = shortlog -s --
+	; whois <author name/e-mail>
+	whois = log -i -1 --pretty='format:%an <%ae>' --author
+	; whatis <commit name>
+	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	; See what commits have been created by the last command, eg: git pull
+	new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+	; List commits with the same the abbreviated hash.
+	abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+	; Solve merge conflicts
+	edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim $(f)"
+	add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add $(f)"
+	; List tips of branches that are not in the first arg.
+	; git tips origin/master ^origin/alternate | git oneline
+	oneline ="!_() { $(test $# -eq 0 && echo xargs -L1) git log --no-walk --decorate --oneline \"$@\"; }; _"
+	tips = "!_() { t=$(git rev-list --no-merges --max-count=1 \"$@\"); if test -n \"$t\"; then echo $t; _ \"$@\" ^$t; fi; }; _"
+	; Submodules.
+	sub-update-recurse = !sh -c 'git checkout $1 && git submodule update --recursive'
+	; Signed tags and commits
+	stag = "!sh -c '\
+		commit_id=\"$(git rev-parse --verify HEAD)\"; \
+		tag_name=\"signed_tag_for_$(echo $commit_id | head -c 8)\"; \
+		git tag -s \"$tag_name\" -m \"Tag for commit $commit_id\"; \
+		echo \"$tag_name\"'"
+	ptag = !git push $(git config branch.$(git branch --show-current).remote) $(git describe)
+	vtag = !git verify-tag -v $(git describe)
+	vhead = !git verify-commit -v $(git rev-parse HEAD)
+[blame]
+	coloring = repeatedLines
+[branch]
+	autoSetupMerge = always
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	grep = auto
+[commit]
+	gpgSign = true
+	verbose = true
+	template = ~/.config/git/message
+[core]
+	excludesFile = ~/.config/git/ignore
+	pager = git-pager
+[delta]
+	navigate = true
+	light = false
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[diff "image"]
+	textConv = identify
+[format]
+	coverLetter = auto
+	coverFromDescription = auto
+	thread = shallow
+	signOff = true
+	signatureFile = ~/.signature
+	outputDirectory = /tmp/patch
+[gpg]
+	program = gpgw
+	minTrustLevel = fully
+[grep]
+	extendedRegexp = true
+	lineNumber = true
+[init]
+	defaultbranch = main
+	templatedir = ~/.config/git/template
+[interactive]
+	diffFilter = delta --color-only
+[mailinfo]
+	scissors = true
+[merge]
+	verifySignatures = true
+	tool = vimdiff
+	conflictStyle = diff3
+	summary = true
+[pull]
+	; Rebase does not verify signatures. Does not prevent manual rebase.
+	rebase = false
+[push]
+	autoSetupRemote = true
+	default = nothing
+	followTags = true
+[rebase]
+	autoSquash = true
+[sendemail]
+	annotate = true
+	multiEdit = true
+	confirm = always
+	thread = shallow
+	chainReplyTo = true
+	xmailer = false
+[tag]
+	forceSignAnnotated = true
+	gpgSign = true
+[user]
+	hideTimezone = true
+[includeIf "gitdir:~/**/qubes-*/**"]
+	path = ~/.config/git/config.d/qubes-devel
+[include]
+	path = ~/.gitconfig.local

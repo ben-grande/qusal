@@ -1,0 +1,5 @@
+base:
+  '*':
+    - utils.tools.zsh.touch-zshrc
+    - utils.tools.zsh.install
+    - utils.tools.zsh.change-shell

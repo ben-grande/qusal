@@ -1,0 +1,3 @@
+base:
+  'tpl-terraform':
+    - terraform.install

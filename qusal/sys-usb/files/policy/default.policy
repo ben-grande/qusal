@@ -1,0 +1,4 @@
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qubes.InputKeyboard * {{ sls_path }} dom0 allow user=root
+# vim:ft=qrexecpolicy
