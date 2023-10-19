@@ -41,7 +41,9 @@ Or target specific ones by specifying the directory name:
 ```
 Note that some files might depend on other directories, specially `sh` which
 is a base for `bash` and `zsh` but might also have environment variables for
-`net` and `vim`.
+`net` and `vim`. It also adds `$HOME/.local/bin` and
+`$HOME/.local/bin/$HOSTNAME` to the `$PATH` variable, so if the project has
+scripts, install the `sh` directory.
 
 Reload your shell:
 ```sh
