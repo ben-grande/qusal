@@ -1,9 +1,10 @@
-# Debian Minimal Template
+# debian-minimal
 
 ## Table of Contents
 
 * [Description](#description)
 * [Installation](#installation)
+* [Copyright](#copyright)
 
 ## Description
 
@@ -22,3 +23,7 @@ qubesctl top.disable templates.debian-minimal
 qubesctl state.apply templates.debian-minimal.create
 qubesctl --skip-dom0 --targets=debian-12-minimal state.apply templates.debian-minimal.install
 ```
+
+## Copyright
+
+License: GPLv2+

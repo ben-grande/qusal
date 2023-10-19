@@ -22,12 +22,12 @@ Configuration and scripts targeting:
   - Drop-in configuration files
   - Tested on Qubes OS Dom0, Debian, Fedora
 - Tasks:
- - GUI: x11, gtk
- - SCM: git, tig, git-shell
- - Keys: gpg, ssh
- - Networking: curl, urlview, wget, w3m
- - Productivity: tmux, vim
- - Shell: sh, bash, zsh, less, dircolors
+  - GUI: x11, gtk
+  - SCM: git, tig, git-shell
+  - Keys: gpg, ssh
+  - Networking: curl, urlview, wget, w3m
+  - Productivity: tmux, vim
+  - Shell: sh, bash, zsh, less, dircolors
 
 ## Installation
 
@@ -63,14 +63,14 @@ configuration is implemented by including a local file per application.
 
 Supported programs and the expected file names in `$HOME`:
 
-- bash: `.bashrc.local`
-- git:  `.gitconfig.local`
-- sh:   `.profile.local`, `.shrc.local`
-- ssh:  `.ssh/config.d/*.conf`, `.ssh/known_hosts.d/*.host`
-- tmux: `.tmux.conf.local`
-- vim:  `.vimrc.local`
-- x11:  `.xprofile.local`
-- zsh:  `.zshrc.local`
+- **bash**: .bashrc.local
+- **git**:  .gitconfig.local
+- **sh**:   .profile.local, .shrc.local
+- **ssh**:  .ssh/config.d/*.conf, .ssh/known_hosts.d/*.host
+- **tmux**: .tmux.conf.local
+- **vim**:  .vimrc.local
+- **x11**:  .xprofile.local
+- **zsh**:  .zshrc.local
 
 ## Copyright
 

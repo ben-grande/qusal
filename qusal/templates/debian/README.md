@@ -1,9 +1,10 @@
-# Debian Template
+# debian
 
 ## Table of Contents
 
 * [Description](#description)
 * [Installation](#installation)
+* [Copyright](#copyright)
 
 ## Description
 
@@ -22,3 +23,7 @@ qubesctl top.disable templates.debian
 qubesctl state.apply templates.debian.create
 qubesctl --skip-dom0 --targets=debian-12 state.apply templates.debian.install
 ```
+
+## Copyright
+
+License: GPLv2+

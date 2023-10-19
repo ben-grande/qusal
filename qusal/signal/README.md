@@ -10,6 +10,8 @@
 
 Signal messaging app on Qubes OS.
 
+Install Signal Desktop and creates an app qube named "signal".
+
 ## Installation
 
 - Top:

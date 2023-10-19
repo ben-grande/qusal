@@ -246,4 +246,8 @@ Host work
 
 ## Copyright
 
-License: GPLv2+
+License: GPLv3+
+
+Credits:
+
+- [Unman](https://github.com/unman/qubes-ssh-agent)

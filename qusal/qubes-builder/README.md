@@ -59,17 +59,10 @@ Extra services added are `qubes.Gpg`, `qubes.Gpg2`, `qusal.GitInit`,
 Out of these services, if an argument `+qubes-builder` can be specified to
 limit the scope, the action is `allowed`, else the action is to `ask`.
 
-Consult documentation for each service separately on their appropriate
-project:
-
-- `qusal.Git*`: sys-git
-- `qusal.SshAgent`: sys-ssh-agent
-- `qubes.*`: upstream documentation
-
 ## Usage
 
-When using the `qubes` executor, set the `dispvm` option to either `dom0` or
-`dvm-qubes-builder` in `builder.yml`:
+When using the Qubes Executor, configure the builder.yml `dispvm` option to
+either `dom0` or `dvm-qubes-builder`:
 ```yaml
 executor:
   type: qubes
@@ -77,8 +70,8 @@ executor:
     dispvm: "dom0"
     #dispvm: "dvm-qubes-builder"
 ```
-Setting the `dispvm` to `dom0` works because it will use the `default_dispvm`
-preference of `qubes-builder`, which is `dvm-qubes-builder`.
+Setting the Disposable VM  to Dom0 works because it will use the
+`default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
 
 There are no further modifications needed to comply with this package. Consult
 upstream documentation on how to use the Qubes OS Builder.

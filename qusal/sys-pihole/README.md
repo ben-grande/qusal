@@ -57,9 +57,14 @@ Pi-hole will be installed with these default settings:
 - Steven Black's Unified Hosts List is included
 - Query logging is enabled to show everything.
 
-You can change these settings via the admin interface: http://localhost/admin.
-The default Admin Webpage login password is: `UpSNQsy4`
-You should change this on first use, by running: `pihole -a -p`
+You can change these settings via the admin interface:
+- URL: http://localhost/admin
+- default password: `UpSNQsy4`
+
+You should change this password on first use by running:
+```sh
+pihole -a -p
+```
 
 ## Copyright
 

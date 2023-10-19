@@ -19,8 +19,7 @@
 	rl = remote -v
 	cf = config --file "$HOME/.gitconfig.local"
 	; Helpers
-	aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
-	aliases-get = "!f() { git config --get alias.$1;}; f"
+	aliases = "!sh -c 'if test -n \"$1\"; then git config --get alias.$1; else git config --get-regexp \"alias.*\" | colrm 1 6 | sed \"s/[ ]/ = /\"; fi'" -
 	; Patch with subject prefix containing repository name and output
 	; directory has the child directories the repository and branch name.
 	fp = "!sh -c '\

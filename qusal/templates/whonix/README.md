@@ -1,9 +1,10 @@
-# Whonix
+# whonix
 
 ## Table of Contents
 
 * [Description](#description)
 * [Installation](#installation)
+* [Copyright](#copyright)
 
 ## Description
 
@@ -25,3 +26,6 @@ qubesctl state.apply templates.whonix.create
 qubesctl state.apply qvm.anon-whonix
 qubesctl state.apply qvm.whonix-ws-dvm
 ```
+## Copyright
+
+License: GPLv2+

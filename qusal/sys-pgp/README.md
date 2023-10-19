@@ -48,12 +48,15 @@ qvm-features dev service.split-gpg2-client
 _Default policy_: `any qube` can `ask` via the `@default` target if you allow
 it to use split-gpg in `sys-pgp`.
 
-Allow the `work` qubes to access `sys-pgp`, but no other qubes from using the
-Gpg RPC service:
+Allow the `work` qubes to access `sys-pgp`, but not other qubes:
 ```qrexecpolicy
 qubes.Gpg2 * work   sys-pgp  ask default_target=sys-pgp
 qubes.Gpg2 * work   @default ask target=sys-pgp default_target=sys-pgp
 qubes.Gpg2 * @anyvm @anyvm   deny
+
+qubes.Gpg * work   sys-pgp  ask default_target=sys-pgp
+qubes.Gpg * work   @default ask target=sys-pgp default_target=sys-pgp
+qubes.Gpg * @anyvm @anyvm   deny
 ```
 
 ## Usage

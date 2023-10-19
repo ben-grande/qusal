@@ -10,6 +10,8 @@
 
 Terraform installation in Qubes OS.
 
+Install Terraform and use it on the "terraform" app qube.
+
 ## Installation
 
 - Top:

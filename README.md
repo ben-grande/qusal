@@ -27,42 +27,42 @@ projects.
 User policies should always be set on /etc/qubes/policy.d/30-user.policy as
 this file will take precedence over the packaged policy.
 
-Qubes global settings (qubes-prefs) that will be managed:
-
-clockvm           : disp-sys-net or sys-net
-default_audiovm   : dom0  # TODO
-default_dispvm    : reader
-default_netvm     : sys-pihole or sys-firewall or disp-sys-firewall
-management_dispvm : dvm-mgmt
-updatevm          : sys-pihole or sys-firewall or disp-sys-firewall
-
 ## Installation
 
 Clone this repository:
-```shell
+```sh
 git clone https://github.com/ben-grande/qusal.git ~/qusal
 git clone ssh://git@github.com/ben-grande/qusal.git ~/qusal
 ```
 
 Copy this repository from some qube to Dom0 from Dom0:
-```shell
+```sh
 mkdir -p ~/QubesIncoming/QUBE
 qvm-run -p <QUBE> tar -cC </PATH/TO> qusal | tar -xvC ~/QubesIncoming/QUBE qusal
 ```
 Example copying repository from the `dev` qube to Dom0 by running in Dom0:
-```shell
+```sh
 mkdir -p ~/QubesIncoming/dev
 qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
 ```
 
 Copy the files to the Salt directories:
-```shell
+```sh
 cd qusal
 ./setup.sh
 ```
 
 Qusal is now installed. Please read the README.md of each project for further
 information on how to install the desired package.
+
+Qubes global settings (qubes-prefs) that will be managed:
+
+- **clockvm**: disp-sys-net, sys-net
+- **default_audiovmm**: dom0  # TODO
+- **default_dispvm**: reader
+- **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
+- **management_dispvm**: dvm-mgmt
+- **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
 
 ## Format
 

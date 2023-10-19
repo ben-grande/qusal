@@ -64,7 +64,7 @@ of sys-cacher.
 
 ### Non-TemplateVMs integration
 
-Attention: this method will allow for a client qube to bypass the qubes
+**Attention**: this method will allow for a client qube to bypass the qubes
 firewall and connect to a remote via the updates proxy.
 
 By default, only templates will use the proxy to update, if you want to cache

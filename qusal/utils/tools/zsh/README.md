@@ -1,25 +1,33 @@
-# Dev
+# zsh
 
 ## Table of Contents
 
 * [Description](#description)
 * [Installation](#installation)
+* [Copyright](#copyright)
 
 ## Description
 
-Install and configure Zsh.
+Zsh installation for Qubes OS.
+
+Install Zsh, setup it to be the user shell and touch ~/.zshrc to avoid
+warnings.
 
 ## Installation
 
 - Top
 ```sh
-qubesctl top.enable zsh
+qubesctl top.enable utils.tools.zsh
 qubesctl --targets=TARGET state.apply
-qubesctl top.disable zsh
+qubesctl top.disable utils.tools.zsh
 ```
 
 - State
 ```sh
-qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply zsh.install,zsh.change-shell,zsh.touch-zshrc
-qubesctl --skip-dom0 --targets=APPVMS state.apply zsh.touch-zshrc
+qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.zsh.change-shell
+qubesctl --skip-dom0 --targets=APPVMS state.apply utils.tools.zsh.touch-zshrc
 ```
+
+## Copyright
+
+License: GPLv2+

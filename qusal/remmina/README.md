@@ -11,7 +11,8 @@
 Remmina Remote Desktop Client in Qubes OS.
 
 Creates a disposable template named "dvm-remmina". From it, you can create
-disposables for Remmina usage for SSH, VNC, SPICE, HTTP(S), X2Go and more.
+disposables for Remmina usage for SSH, VNC, SPICE, HTTP(S), X2Go and more. If
+you prefer to use an app qube, a qube named "remmina" will also be created.
 
 ## Installation
 

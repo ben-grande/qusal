@@ -40,7 +40,7 @@ implementation:
 | Push  | True | True  | False | True |
 | Init  | True | False | False | False |
 | Validates Git communication | False | False | True | False |
-| Verify tag signature | False | False | True | False |
+| Verifies tag signature | False | False | True | False |
 
 ## Installation
 
@@ -154,7 +154,7 @@ You can then use that repository as usual, making commits.
 
 Push to the server and set it as the default upstream:
 ```sh
-git push -u sg master
+git push -u sg main
 ```
 
 Following pushes will be simpler:

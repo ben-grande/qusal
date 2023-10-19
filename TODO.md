@@ -12,6 +12,7 @@
 
 ## Medium Priority
 
+- repos: migrate debian .list to .sources
 - sys-usb:
   - multiple PCI assignment to different qubes fails due to ext_module_qvm.py
     bug
