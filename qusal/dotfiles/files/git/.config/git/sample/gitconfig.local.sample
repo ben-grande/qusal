@@ -1,6 +1,12 @@
 ; ~/.gitconfig.local
-; vim: ft=gitconfig
+
+; SPDX-FileCopyrightText: 2023 Qusal contributors
+;
+; SPDX-License-Identifier: GPL-3.0-or-later
+
 [user]
 	email = your-mail@your-provider.domain
 	name = Your Name
 	signingKey = 0x012345678ABC
+
+; vim: ft=gitconfig

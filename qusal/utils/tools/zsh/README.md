@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -27,7 +26,3 @@ qubesctl top.disable utils.tools.zsh
 qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.zsh.change-shell
 qubesctl --skip-dom0 --targets=APPVMS state.apply utils.tools.zsh.touch-zshrc
 ```
-
-## Copyright
-
-License: GPLv2+

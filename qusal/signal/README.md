@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -27,7 +26,3 @@ qubesctl state.apply signal.create
 qubesctl --skip-dom0 --targets=tpl-signal state.apply signal.install
 qubesctl --skip-dom0 --targets=signal state.apply signal.configure
 ```
-
-## Copyright
-
-License: GPLv2+

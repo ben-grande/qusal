@@ -1,5 +1,11 @@
 ! ~/.Xresources
-! Credits: Tpope: https://github.com/tpope/dotfiles/blob/master/.Xresources
+
+! SPDX-FileCopyrightText: 2004 - 2016 Tim Pope <https://tpo.pe>
+! SPDX-FileCopyrightText: 2023 Qusal contributors
+!
+! SPDX-License-Identifier: GPL-3.0-or-later
+
+! Credits: https://github.com/tpope/dotfiles/blob/master/.Xresources
 ! vim:set foldmethod=expr foldexpr=getline(v\:lnum)=~'^!##'?'>1'\:'=':
 
 *international: true

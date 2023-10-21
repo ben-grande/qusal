@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -23,7 +22,3 @@ Install documentation tools on templates:
 ```sh
 qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.builder.doc
 ```
-
-## Copyright
-
-License: GPLv2+

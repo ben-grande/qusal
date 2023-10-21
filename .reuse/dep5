@@ -1,0 +1,57 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: qusal
+Upstream-Contact: Benjamin Grande Miranda de Sousa <ben.grande.b@gmail.com>
+Source: https://github.com/ben-grande/qusal
+
+Files: *
+Copyright: 2023 Qusal contributors
+License: GPL-3.0-or-later
+
+Files: .gitignore .pre-commit-config.yaml .salt-lint README.md minion.d/qusal.conf
+Copyright: 2023 Qusal contributors
+License: GPL-3.0-or-later
+
+Files: */README.md
+Copyright: 2023 Qusal contributors
+License: GPL-3.0-or-later
+
+Files: qusal/ansible/files/repo/*
+Copyright: 2014 Launchpad PPA for Ansible, Inc. <https://ansible.com>
+License: CC0-1.0
+
+Files: qusal/browser/files/repo/*
+Copyright: 2007 Google Inc. <linux-packages-keymaster@google.com>
+License: CC0-1.0
+
+Files: qusal/docker/files/repo/*
+Copyright: 2017 Docker Inc. <docker@docker.com>
+License: CC0-1.0
+
+Files: qusal/signal/files/repo/*
+Copyright: 2017 Open Whisper Systems <support@whispersystems.org>
+License: CC0-1.0
+
+Files: qusal/sys-syncthing/files/repo/*
+Copyright: 2014 The Syncthing Project <release@syncthing.net>
+License: CC0-1.0
+
+Files: qusal/terraform/files/repo/*
+Copyright: 2023 HashiCorp Inc. <security+packaging@hashicorp.com>
+License: CC0-1.0
+
+Files: qusal/dotfiles/files/git/.config/git/message
+Copyright: 2023 Qusal contributors
+License: CC0-1.0
+
+Files: qusal/qubes-builder/files/keys/*
+Copyright: The Qubes OS Project <https://www.qubes-os.org>
+           Frédéric Pierret <frederic.pierret@qubes-os.org>
+           Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+           Simon Gaiser <simon@invisiblethingslab.com>
+License: CC0-1.0
+
+Files: qusal/dotfiles/files/sh/.config/less/lesskey-old
+Copyright: 2023 Qusal contributors
+License: GPL-3.0-or-later
+
+# vim: ft=debcopyright

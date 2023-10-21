@@ -1,8 +1,10 @@
 " Vim syntax file
 " Language:     Salt States template
 " Maintainer:   Seth House <seth@eseth.com>
-" Last Change:  2023 Apr 17
-" Source: https://github.com/vmware-archive/salt-vim/blob/master/syntax/sls.vim
+" Last Change:  2023 Oct 21
+" Credits:      https://github.com/vmware-archive/salt-vim/blob/master/syntax/sls.vim
+" SPDX-FileCopyrightText: 2020 Seth House <seth@eseth.com>
+" SPDX-License-Identifier: Vim
 
 if exists("b:current_syntax")
   finish

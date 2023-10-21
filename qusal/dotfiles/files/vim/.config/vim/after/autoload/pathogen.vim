@@ -1,6 +1,8 @@
 " pathogen.vim - path option manipulation
 " Maintainer:   Tim Pope <http://tpo.pe/>
 " Version:      2.4
+" SPDX-FileCopyrightText: 2022 Tim Pope <https://tpo.pe>
+" SPDX-License-Identifier: Vim
 
 " Install in ~/.vim/autoload (or ~\vimfiles\autoload).
 "

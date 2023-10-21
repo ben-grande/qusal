@@ -1,9 +1,11 @@
 " Vim syntax file
 " Language:    Jinja template
 " Maintainer:  Armin Ronacher <armin.ronacher@active-4.com>
-" Last Change:  2023 May 16
+" Last Change:  2023 Oct 21
 " Version:     1.1
-" Source:      https://github.com/Glench/Vim-Jinja2-Syntax/blob/master/syntax/jinja.vim
+" Credits:      https://github.com/Glench/Vim-Jinja2-Syntax/blob/master/syntax/jinja.vim
+" SPDX-FileCopyrightText: 2020 Armin Ronacher <armin.ronacher@active-4.com>
+" SPDX-License-Identifier: Vim
 
 if exists("b:current_syntax")
   finish

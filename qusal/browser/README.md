@@ -5,7 +5,7 @@
 * [Description](#description)
 * [Installation](#installation)
   * [Choose you browser](#choose-you-browser)
-* [Copyright](#copyright)
+* [Usage](#usage)
 
 ## Description
 
@@ -67,6 +67,10 @@ Do not forget to sync the `appmenus`:
 qubesctl state.apply browser.appmenus
 ```
 
-## Copyright
+## Usage
 
-License: GPLv2+
+Open a disposable qube simply by clicking on the desktop application
+`dvm-browser (dvm): Browser`.
+
+If you want to use a permanent browser session, create an app qube based on
+`tpl-browser`.

@@ -5,11 +5,11 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-    * [Connect to the cacher via IP instead of Qrexec](#connect-to-the-cacher-via-ip-instead-of-qrexec)
-    * [Non-TemplateVMs integration](#non-templatevms-integration)
+  * [Connect to the cacher via IP instead of Qrexec](#connect-to-the-cacher-via-ip-instead-of-qrexec)
+  * [Non-TemplateVMs integration](#non-templatevms-integration)
 * [Upgrade](#upgrade)
 * [Uninstallation](#uninstallation)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -17,8 +17,8 @@ Caching proxy server for software repositories on Qubes OS.
 
 The caching proxy is "sys-cacher" based on apt-cacher-ng, it stores downloaded
 packages, so that you need only download a package once for it to be used when
-updating many templates. The proxy is preconfigured to work out of the box
-for Debian, Ubuntu, Arch, and Fedora templates.
+updating many  The proxy is preconfigured to work out of the box
+for Debian, Ubuntu, Arch, and Fedora
 
 When you install this package, qubes will be tagged with "sys-cacher-updatevm"
 and they will be altered to use the proxy by default. When there is "https://"
@@ -115,9 +115,6 @@ qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-cacher.uninstall-client
 qvm-tags del TEMPLATE sys-cacher-updatevm
 ```
 
-## Copyright
+## Credits
 
-License: GPLv3+
-
-Credits:
 - [Unman](https://github.com/unman/shaker/tree/master/cacher)

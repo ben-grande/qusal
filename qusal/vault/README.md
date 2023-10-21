@@ -5,7 +5,6 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -39,7 +38,3 @@ server for SSH, PGP, Pass.
 You should use a separate qube for split-ssh, split-gpg2 or any other
 split-action operations that allows access to the vault qube, as it increases
 the attack surface.
-
-## Copyright
-
-License: GPLv2+

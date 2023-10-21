@@ -6,7 +6,6 @@
 * [Installation](#installation)
 * [Access Control](#access-control)
 * [Usage](#usage)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -75,7 +74,3 @@ Setting the Disposable VM  to Dom0 works because it will use the
 
 There are no further modifications needed to comply with this package. Consult
 upstream documentation on how to use the Qubes OS Builder.
-
-## Copyright
-
-License: GPLv2+

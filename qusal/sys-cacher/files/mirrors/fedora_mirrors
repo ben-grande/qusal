@@ -1,6 +1,10 @@
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 http://archive.linux.duke.edu/pub/fedora/linux/
 http://distrib-coffee.ipsl.jussieu.fr/pub/linux/fedora/linux/
-http://dl.fedoraproject.org  
+http://dl.fedoraproject.org
 http://download-cc-rdu01.fedoraproject.org/pub/fedora/linux/
 http://download-ib01.fedoraproject.org/pub/fedora/linux
 http://download.fedoraproject.org/pub/fedora/linux/

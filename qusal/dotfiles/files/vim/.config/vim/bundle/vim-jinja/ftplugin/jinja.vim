@@ -1,4 +1,6 @@
-" Source: https://github.com/Glench/Vim-Jinja2-Syntax/blob/master/ftplugin/jinja.vim
+" Credits:    https://github.com/Glench/Vim-Jinja2-Syntax/blob/master/ftplugin/jinja.vim
+" SPDX-FileCopyrightText: 2020 Glench <https://github.com/Glench>
+" SPDX-License-Identifier: Vim
 
 if exists('b:did_ftplugin')
   finish

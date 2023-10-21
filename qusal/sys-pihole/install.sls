@@ -1,10 +1,14 @@
+{#
+SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.com>
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
 {% if grains['nodename'] != 'dom0' %}
 
 include:
   - dotfiles.copy-x11
-{% if salt['qvm.exists']('sys-cacher') -%}
-  - sys-cacher.install-client
-{% endif -%}
 
 {% set qubes_ip = salt['cmd.shell']('qubesdb-read /qubes-ip') %}
 {% set qubes_gateway = salt['cmd.shell']('qubesdb-read /qubes-gateway') %}

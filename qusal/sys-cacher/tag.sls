@@ -1,3 +1,9 @@
+{#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
 {% set avoid = salt['cmd.shell']('qvm-ls --no-spinner --raw-list --tags whonix-updatevm') -%}
 
 {% set exclude = salt['cmd.shell']('for qube in ' ~ avoid ~ '; do exclude="$exclude --exclude $qube"; done; echo "$exclude"') -%}

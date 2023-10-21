@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://github.com/unman/shaker/blob/main/i2p/in.sh
 ## Recursively open ports through the firewall to allow remote access to a qube.
-## Source: https://github.com/unman/shaker/blob/main/i2p/in.sh
 
 me="${0##*/}"
 

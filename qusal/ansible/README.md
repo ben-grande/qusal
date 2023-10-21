@@ -5,11 +5,13 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Copyright](#copyright)
 
 ## Description
 
 Ansible installation in Qubes OS.
+
+Install Ansible and use it on the "ansible" app qube.
+
 
 ## Installation
 
@@ -48,6 +50,3 @@ From the control node `ansible`, test connection to the minion
 ```sh
 ssh minion
 ```
-## Copyright
-
-License: GPLv2+

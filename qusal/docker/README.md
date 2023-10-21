@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -26,7 +25,3 @@ qubesctl top.disable docker
 qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply docker.install
 qubesctl --skip-dom0 --targets=qubes-builder state.apply docker.configure
 ```
-
-## Copyright
-
-License: GPLv2+

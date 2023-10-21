@@ -1,0 +1,11 @@
+{#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{%- import "debian/template.jinja" as template_base -%}
+{% set version = template_base.version -%}
+{% set repo = template_base.repo -%}
+{% set template = template_base.template ~ '-minimal' -%}
+{% set template_clean = template_base.template_clean ~ '-minimal' -%}

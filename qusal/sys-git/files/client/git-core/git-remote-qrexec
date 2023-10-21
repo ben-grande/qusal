@@ -1,4 +1,9 @@
 #!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 ## Portable git-remote-helper.
 ## Rename this helper to git-remote-<scheme>.
 ## Valid URL format: <scheme>://<authority>/<path>.

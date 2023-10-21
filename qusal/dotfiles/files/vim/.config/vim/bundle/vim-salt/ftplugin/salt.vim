@@ -1,7 +1,9 @@
 " Vim filetype plugin file
 " Language:             YAML (YAML Ain't Markup Language)
 " Previous Maintainer:  Nikolai Weibull <now@bitwi.se> (inactive)
-" Last Change:  2023 May 03
+" Last Change:  2023 Oct 21
+" SPDX-FileCopyrightText: 2020 Nikolai Weibull <now@bitwi.se>
+" SPDX-License-Identifier: Vim
 
 if exists("b:did_ftplugin")
   finish

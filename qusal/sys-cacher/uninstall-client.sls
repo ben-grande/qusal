@@ -1,3 +1,9 @@
+{#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
 {% if grains['os_family']|lower == 'debian' -%}
 {% for repo in salt['file.find']('/etc/apt/sources.list.d/', name='*(list|sources)') -%}
   {{ repo }}_baseurl:

@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -30,6 +29,3 @@ qubesctl state.apply remmina.create
 qubesctl --skip-dom0 --targets=tpl-remmina state.apply remmina.install
 qubesctl state.apply remmina.appmenus
 ```
-## Copyright
-
-License: GPLv2+

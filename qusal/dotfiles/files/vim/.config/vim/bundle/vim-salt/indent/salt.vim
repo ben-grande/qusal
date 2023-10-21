@@ -3,6 +3,8 @@
 " Maintainer:	Nikolai Pavlov <zyx.vim@gmail.com>
 " Last Update:	Lukas Reineke
 " Last Change:	2021 Jan 19
+" SPDX-FileCopyrightText: 2021 Nikolai Pavlov <zyx.vim@gmail.com>
+" SPDX-License-Identifier: Vim
 
 " Only load this indent file when no other was loaded.
 if exists('b:did_indent')
@@ -125,7 +127,7 @@ function GetYAMLIndent(lnum)
         let qidx = match(prevline, '\v\"%([^"\\]|\\.)*\\')
         return virtcol([prevlnum, qidx+1])
     elseif line =~# s:liststartregex
-        " List line should have indent equal to previous list line unless it was 
+        " List line should have indent equal to previous list line unless it was
         " caught by one of the previous rules
         return indent(s:FindPrevLEIndentedLineMatchingRegex(a:lnum,
                     \                                       s:liststartregex))

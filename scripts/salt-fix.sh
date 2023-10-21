@@ -1,6 +1,15 @@
 #!/bin/sh
+
+## SPDX-FileCopyrightText: 2013-2018 Will Thames will@thames.id.au
+## SPDX-FileCopyrightText: 2018 Ansible by Red Hat
+## SPDX-FileCopyrightText: 2020 - 2023 Warpnet B.V.
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://salt-lint.readthedocs.io/en/latest/#fix-common-issues
+
 # shellcheck disable=SC2086
-## Based on https://salt-lint.readthedocs.io/en/latest/#fix-common-issues
 set -eu
 
 command -v git >/dev/null ||

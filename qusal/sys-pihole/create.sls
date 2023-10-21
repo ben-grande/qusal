@@ -1,4 +1,11 @@
-{%- import "templates/debian.jinja" as template -%}
+{#
+SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.com>
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{%- import "debian/template.jinja" as template -%}
 
 ## TODO: Loop as currently it doesn't check recursively
 ## Use the netvm of the default_netvm.
@@ -10,13 +17,13 @@
 {% endif %}
 
 include:
-  - templates.{{ template.template_clean }}.clone
+  - .clone
 
 "{{ slsdotpath }}":
   qvm.vm:
     - name: {{ slsdotpath }}
     - require:
-      - sls: templates.{{ template.template_clean }}.clone
+      - sls: {{ slsdotpath }}.clone
     - present:
       - template: {{ template.template }}
       - label: orange
@@ -35,10 +42,6 @@ include:
       - disable:
         - service.cups
         - service.cups-browsed
-    {% if salt['qvm.exists']('sys-cacher') -%}
-    - tags:
-      - sys-cacher-updatevm
-    {% endif -%}
 
 "{{ slsdotpath }}-resize-private-volume":
   cmd.run:

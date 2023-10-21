@@ -1,4 +1,10 @@
-## Source: https://github.com/LukeSmithxyz/mutt-wizard/blob/master/share/mutt-wizard.muttrc
+# SPDX-FileCopyrightText: 2019-2023 Luke Smith <luke@lukesmith.xyz>
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://github.com/LukeSmithxyz/mutt-wizard/blob/master/share/mutt-wizard.muttrc
+
 bind index,pager i noop
 bind index,pager g noop
 bind index \Cf noop

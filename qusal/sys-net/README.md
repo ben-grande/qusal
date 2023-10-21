@@ -6,7 +6,6 @@
 * [Installation](#installation)
 * [Usage](#usage)
   * [Persistent WiFi password in disposable qube](#persistent-wifi-password-in-disposable-qube)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -69,7 +68,3 @@ case "$(qubesdb-read /type)" in
     ;;
 esac
 ```
-
-## Copyright
-
-License: GPLv2+

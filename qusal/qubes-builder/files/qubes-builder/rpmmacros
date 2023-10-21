@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2019 - 2023 The Qubes OS Project <https://www.qubes-os.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 %__gpg /usr/bin/qubes-gpg-client-wrapper
 
 %__gpg_check_password_cmd %{__gpg} \

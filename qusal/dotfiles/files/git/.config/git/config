@@ -1,10 +1,19 @@
 ; Global Git Config
-; vim: ft=gitconfig
+
+; SPDX-FileCopyrightText: 2010 - 2017 Tim Pope <https://tpo.pe>
+; SPDX-FileCopyrightText: 2016 The Qubes OS Project <https://www.qubes-os.org>
+; SPDX-FileCopyrightText: 2023 Qusal contributors
+;
+; SPDX-License-Identifier: GPL-2.0-only
+;
+
 [alias]
 	; https://git.wiki.kernel.org/index.php/Aliases
+        ; https://github.com/schacon/gitscm/tree/master
 	; Abbreviations
 	co = checkout
 	br = branch
+	sw = switch
 	ci = commit
 	cm = commit
 	st = status
@@ -141,3 +150,5 @@
 	path = ~/.config/git/config.d/qubes-devel
 [include]
 	path = ~/.gitconfig.local
+
+; vim: ft=gitconfig

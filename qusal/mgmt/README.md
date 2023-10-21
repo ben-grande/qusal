@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -23,6 +22,4 @@ qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
 qubesctl state.apply mgmt.confirm
 ```
 
-## Copyright
-
-License: GPLv2+
+SPD-License-Identifier: GPL-3.0-or-later

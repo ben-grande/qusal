@@ -1,4 +1,7 @@
-" Source: https://github.com/lepture/vim-jinja/blob/master/ftdetect/jinja.vim
+" Credits:    https://github.com/lepture/vim-jinja/blob/master/ftdetect/jinja.vim
+" SPDX-FileCopyrightText: 2020 Lepture <https://github.com/lepture>
+" SPDX-License-Identifier: Vim
+
 " Figure out which type of hilighting to use for html.
 function! s:SelectHTML()
   let n = 1

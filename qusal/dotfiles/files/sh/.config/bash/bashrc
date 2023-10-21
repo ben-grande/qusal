@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
 ## {{{ Requirements
 ## If not running interactively, return.
 case $- in

@@ -1,8 +1,10 @@
 " File: update-time.vim
 " Author: QianChenglong <qianchenglong2012@gmail.com>
 " Create Time: 2013-12-04 19:36:21 CST
-" Last Change:  2023 May 04
+" Last Change:  2023 Oct 21
 " Description: Automatic update Last Change time
+" SPDX-FileCopyrightText: 2013 QianChenglong <qianchenglong2012@gmail.com>
+" SPDX-License-Identifier: Vim
 
 if exists("g:loaded_update_time")
   finish

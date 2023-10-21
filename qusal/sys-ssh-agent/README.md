@@ -16,7 +16,7 @@
     * [Enable and Start the service](#enable-and-start-the-service-1)
     * [Single agent per client](#single-agent-per-client)
     * [Multiple agents per client](#multiple-agents-per-client)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -244,10 +244,6 @@ Host work
         ...
 ```
 
-## Copyright
-
-License: GPLv3+
-
-Credits:
+## Credits
 
 - [Unman](https://github.com/unman/qubes-ssh-agent)

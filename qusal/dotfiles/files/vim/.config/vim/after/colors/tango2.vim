@@ -3,6 +3,8 @@
 " Purpose: Another colour scheme using the Tango colour palette
 " Maintainer: Pranesh Srinivasan
 " Last Modified: Saturday 04 October 2008 02:06:26 AM IST
+" SPDX-FileCopyrightText: 2008 Pranesh Srinivasan
+" SPDX-License-Identifier: Vim
 " =============================================================================
 
 " Inspired from some Gnome renditions of the Tango colour scheme.
@@ -38,24 +40,24 @@ endif
 " General colours
 " =============================================================================
 
-hi Normal guibg=#2E3436 guifg=#eeeeec 
+hi Normal guibg=#2E3436 guifg=#eeeeec
 hi Cursor gui=none guibg=White guifg=Black
 
 hi Folded guibg=#4D585B guibg=#d2d2d2
-" No fold column support yet 
+" No fold column support yet
 " hi FoldColumn guifg=Orange guibg=DarkBlue
 " =============================================================================
 " Syntax highlighting
 " =============================================================================
 
 hi Comment gui=italic guifg=#6d7e8a ctermfg=Grey
-hi Todo term=bold guifg=#EBC450 
+hi Todo term=bold guifg=#EBC450
 hi Constant guifg=#8ae234
 hi Type guifg=#8AE234
 hi Function gui=bold guifg=#9BCF8D
 hi Statement guifg=#729FCF
 hi Identifier guifg=#AD7FA8
-hi PreProc guifg=#e9ba6e 
+hi PreProc guifg=#e9ba6e
 hi Special term=underline guifg=#5EAFE5
 
 hi Search guibg=#81ABBD

@@ -1,4 +1,10 @@
 #!/bin/sh
+
+## SPDX-FileCopyrightText: 2004 - 2022 Tim Pope <https://tpo.pe>
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
 ## Credits: https://github.com/tpope/dotfiles/blob/master/.shrc
 
 ## {{{ Requirements
@@ -53,14 +59,6 @@ alias reload='. $ENV' r="reload"
 alias reload-xprofile='. $XDG_CONFIG_HOME/x11/xprofile' rx="reload-xprofile"
 ## POSIX cd does not allow '--' and other shells breaks when not using it.
 alias -- -="cd -" 2>/dev/null || true
-up(){
-  ## Credits: https://stackoverflow.com/a/26134858
-  case "${1-}" in
-    [1-9]) cd "$(printf "%0.0s../" $(seq 1 "$1"))" || return;;
-    "") cd .. || return;;
-    *) cd "$(pwd | sed -r "s|(.*/$1[^/]*/).*|\1|")" || return
-  esac
-}
 test -n "$EDITOR" && alias e='$EDITOR'
 test -n "$VISUAL" && alias v='$VISUAL'
 alias j="jobs"

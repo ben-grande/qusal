@@ -1,4 +1,10 @@
 {#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{#
 Switch Template to Default Template
 
 Usage:

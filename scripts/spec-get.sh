@@ -1,4 +1,9 @@
 #!/bin/sh
+
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
 # shellcheck disable=SC2034
 set -eu
 
@@ -54,7 +59,8 @@ if ! test -f "${readme}"; then
   echo "Project ${name} does not have README.md" >&2
   exit 1
 fi
-license="$(awk '/^License: / {print $2}' "${readme}" | head -1)"
+## TODO: no longer working because there might be multiple licenses
+license="$(awk '/SPDX-License-Identifier:/ {print $2}' "${readme}" | head -1)"
 block_max_chars license 70
 description="$(sed -n '/^## Description/,/^## /p' "${readme}" |
                sed '1d;$d' | sed "1{/^$/d}")"

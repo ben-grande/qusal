@@ -1,5 +1,10 @@
-; vim: ft=gitconfig
+; SPDX-FileCopyrightText: 2023 Qusal contributors
+;
+; SPDX-License-Identifier: GPL-3.0-or-later
+
 [format]
 	to = qubes-devel@googlegroups.com
 [sendemail]
 	to = qubes-devel@googlegroups.com
+
+; vim: ft=gitconfig

@@ -1,4 +1,0 @@
-base:
-  'dom0':
-    - match: nodegroup
-    - templates.whonix.clone

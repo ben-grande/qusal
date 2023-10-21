@@ -1,4 +1,10 @@
 {#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{#
 Usage:
 1: Import this template:
 {% from 'utils/macros/clone-template.sls' import clone_template -%}
@@ -9,15 +15,15 @@ Usage:
 
 {% macro clone_template(source, name) -%}
 
-{%- import "templates/" ~ source ~ ".jinja" as template -%}
+{%- import source ~ "/template.jinja" as template -%}
 
 include:
-  - templates.{{ source }}.create
+  - {{ source }}.create
 
 "tpl-{{ name }}-clone":
   qvm.clone:
     - require:
-      - sls: templates.{{ source }}.clone
+      - sls: {{ source }}.create
     - source: {{ template.template }}
     - name: tpl-{{ name }}
 

@@ -1,5 +1,12 @@
 #!/usr/bin/env zsh
 
+## SPDX-FileCopyrightText: 2004 - 2022 Tim Pope <https://tpo.pe>
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://github.com/tpope/dotfiles/blob/master/.zshrc
+
 ## {{{ Requirements
 ## If not running interactively, return.
 case $- in
@@ -39,7 +46,6 @@ zle -N bracketed-paste bracketed-paste-magic
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-# https://github.com/zsh-users/zsh-autosuggestions/issues/511#issuecomment-962671126
 pasteinit() {
   OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
   zle -N self-insert url-quote-magic
@@ -54,7 +60,6 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 alias reload="exec zsh"
 ## }}}
 ## {{{ Prompt
-## https://github.com/zsh-users/zsh/blob/master/Functions/Misc/colors
 autoload -U colors && colors
 [[ "${COLORTERM-}" == (24bit|truecolor) || "${terminfo[colors]}" -eq '16777216' ]] || zmodload zsh/nearcolor
 
@@ -68,7 +73,6 @@ else
 fi
 
 ## Set window title
-## Credits: https://github.com/tpope/dotfiles/blob/master/.zshrc
 _set_title() {
   case "${1:-}" in
     *install*)

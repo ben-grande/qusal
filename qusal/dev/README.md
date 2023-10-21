@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -29,7 +28,3 @@ qubesctl state.apply dev.create
 qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install
 qubesctl --skip-dom0 --targets=dev state.apply dev.configure
 ```
-
-## Copyright
-
-License: GPLv3+

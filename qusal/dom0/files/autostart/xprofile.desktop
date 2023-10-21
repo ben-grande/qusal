@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [Desktop Entry]
 Name=Xprofile sourcer
 Comment=Source User's Xprofile
@@ -5,4 +9,4 @@ Type=Application
 Exec=/home/user/.config/x11/xprofile
 Terminal=false
 StartupNotify=false
-Categories=System;X;
+Categories=System;

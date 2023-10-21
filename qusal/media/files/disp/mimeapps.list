@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 unman <unman@thirdeyesecurity.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [Default Applications]
 application/pdf=xpdf.desktop
 application/epub+zip=calibre-ebook-viewer.desktop

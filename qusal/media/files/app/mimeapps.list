@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 unman <unman@thirdeyesecurity.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [Default Applications]
 application/clarisworks=qvm-open-in-dvm.desktop
 application/csv=qvm-open-in-dvm.desktop
@@ -799,4 +803,3 @@ x-scheme-handler/rtmp=qvm-open-in-dvm.desktop
 x-scheme-handler/rtp=qvm-open-in-dvm.desktop
 x-scheme-handler/rtsp=qvm-open-in-dvm.desktop
 x-scheme-handler/vnd.libreoffice.cmis=qvm-open-in-dvm.desktop
-

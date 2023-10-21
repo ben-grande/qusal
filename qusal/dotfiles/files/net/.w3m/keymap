@@ -1,5 +1,9 @@
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-only
+
 ## w3m vim-like keymap file
-## https://github.com/sansna/keymap.w3m/blob/master/keymap.w3m
+## Credits: https://github.com/sansna/keymap.w3m/blob/master/keymap.w3m
 
 ########## invalidate defaults ##########
 keymap K NULL

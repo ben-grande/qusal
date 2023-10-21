@@ -1,5 +1,8 @@
-" Author: Maxim Kim
-" Source: https://vi.stackexchange.com/a/21689
+" Author:     Maxim Kim
+" Credits:    https://vi.stackexchange.com/a/21689
+" SPDX-FileCopyrightText: 2021 Maxim Kim
+" SPDX-License-Identifier: Vim
+
 function! MarkdownFold()
   let line = getline(v:lnum)
 

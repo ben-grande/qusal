@@ -1,0 +1,13 @@
+{#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+base:
+  'dom0':
+    - match: nodegroup
+    - fedora-minimal.create
+  'I@qubes:type:template and E@^fedora-[0-9][0-9]-minimal$':
+    - match: compound
+    - fedora-minimal.install

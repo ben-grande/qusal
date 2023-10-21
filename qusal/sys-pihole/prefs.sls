@@ -1,3 +1,9 @@
+{#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
 "{{ slsdotpath }}-change-prefs":
   cmd.script:
     - name: prefs.sh

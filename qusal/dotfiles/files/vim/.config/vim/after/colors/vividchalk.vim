@@ -3,6 +3,8 @@
 " Author:       Tim Pope <vimNOSPAM@tpope.info>
 " Version:      2.0
 " GetLatestVimScripts: 1891 1 :AutoInstall: vividchalk.vim
+" SPDX-FileCopyrightText: 2023 Tim Pope <https://tpo.pe>
+" SPDX-License-Identifier: Vim
 
 " Based on the Vibrank Ink theme for TextMate
 " Distributable under the same terms as Vim itself (see :help license)

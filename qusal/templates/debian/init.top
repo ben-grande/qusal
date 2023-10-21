@@ -1,7 +1,0 @@
-base:
-  'dom0':
-    - match: nodegroup
-    - templates.debian.create
-  'I@qubes:type:template and E@^debian-[0-9][0-9]$':
-    - match: compound
-    - templates.debian.install

@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -39,7 +38,3 @@ Alternatively, if you prefer to have a disposable firewall:
 ```sh
 qubesctl state.apply sys-firewall.prefs-disp
 ```
-
-## Copyright
-
-License: GPLv2+

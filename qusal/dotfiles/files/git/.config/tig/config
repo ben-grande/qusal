@@ -1,4 +1,8 @@
-# Key binding source: https://github.com/jonas/tig/blob/master/contrib/vim.tigrc
+# SPDX-FileCopyrightText: 2020 Jona Fonseca <jonas.fonseca@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Credits: https://github.com/jonas/tig/blob/master/contrib/vim.tigrc
 
 bind generic h scroll-left
 bind generic j move-down

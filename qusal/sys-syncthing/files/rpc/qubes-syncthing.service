@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [Unit]
 Description=Syncthing over Qrexec
 After=qubes-qrexec-agent.service

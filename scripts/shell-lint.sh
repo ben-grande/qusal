@@ -1,4 +1,11 @@
 #!/bin/sh
+
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://unix.stackexchange.com/a/483876
+
 # shellcheck disable=SC2086
 set -eu
 
@@ -28,7 +35,6 @@ case "${find_tool}" in
     files="${files} $(${find_tool} . --max-depth=1 --type=f --extension=sh)"
     ;;
   find)
-    ## https://unix.stackexchange.com/a/483876
     files="$(find "${group}"/ -not \( -path "*/zsh" -prune \) -type f -exec sh -c '
               case $( file -bi "$1" ) in (*/x-shellscript*) exit 0;; esac
               exit 1' sh {} \; -print)"

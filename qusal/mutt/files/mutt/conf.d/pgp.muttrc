@@ -1,4 +1,10 @@
-## Source: https://github.com/Qubes-Community/Contents/blob/master/docs/configuration/mutt.md
+# SPDX-FileCopyrightText: 2020 The Qubes OS Project <https://www.qubes-os.org>
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://github.com/Qubes-Community/Contents/blob/master/docs/configuration/mutt.md
+
 ## Hooks
 send-hook "~A" "set pgp_autoinline=no"
 send-hook "~t @invisiblethingslab\\.com" "set pgp_autoinline=yes crypt_autoencrypt=yes"

@@ -5,7 +5,6 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -49,7 +48,3 @@ You can define aliases in `~/.muttrc-aliases.local`.
 
 If you want to override any option, put the settings in `~/.muttrc.local`,
 as this is the last file to be sourced.
-
-## Copyright
-
-License: GPLv2+

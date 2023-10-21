@@ -1,4 +1,10 @@
 # dircolors
+
+## SPDX-FileCopyrightText: 2004 - 2022 Tim Pope <https://tpo.pe>
+## SPDX-FileCopyrightText: 2023 Qusal contributors
+##
+## SPDX-License-Identifier: GPL-3.0-or-later
+
 # Credits: https://github.com/tpope/dotfiles/blob/master/.dir_colors
 # vim: set ft=dircolors
 

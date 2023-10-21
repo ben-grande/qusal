@@ -4,7 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -30,9 +30,6 @@ qubesctl state.apply reader.create
 qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
 ```
 
-## Copyright
+## Credits
 
-License: GPLv3+
-
-Credits:
 - [Unman](https://github.com/unman/shaker/tree/master/reader)

@@ -9,7 +9,6 @@
 * [Usage](#usage)
   * [Initialize the server repository](#initialize-the-server-repository)
   * [Prepare the client](#prepare-the-client)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -161,7 +160,3 @@ Following pushes will be simpler:
 ```sh
 git push
 ```
-
-## Copyright
-
-License: GPLv2+

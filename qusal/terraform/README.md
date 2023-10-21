@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -26,7 +25,3 @@ qubesctl top.disable terraform
 qubesctl state.apply terraform.create
 qubesctl --skip-dom0 --targets=tpl-terraform state.apply terraform.install
 ```
-
-## Copyright
-
-License: GPLv2+

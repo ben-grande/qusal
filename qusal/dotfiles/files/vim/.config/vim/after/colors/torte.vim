@@ -4,6 +4,8 @@
 " grey on black
 " optimized for TFT panels
 " $Revision: 1.1 $
+" SPDX-FileCopyrightText: 2001 Thorsten Maerz <info@netztorte.de>
+" SPDX-License-Identifier: Vim
 
 set background=dark
 hi clear
@@ -48,4 +50,3 @@ if has("unix")
     highlight Comment ctermfg=Cyan			cterm=NONE	guifg=LightBlue			gui=NONE
   endif
 endif
-

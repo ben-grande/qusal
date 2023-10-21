@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -25,7 +24,3 @@ qubesctl top.disable dom0
 ```sh
 qubesctl state.apply dom0
 ```
-
-## Copyright
-
-License: GPLv2+

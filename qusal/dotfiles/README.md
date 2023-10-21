@@ -5,7 +5,6 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -73,7 +72,3 @@ Supported programs and the expected file names in `$HOME`:
 - **vim**:  .vimrc.local
 - **x11**:  .xprofile.local
 - **zsh**:  .zshrc.local
-
-## Copyright
-
-License: GPLv3+

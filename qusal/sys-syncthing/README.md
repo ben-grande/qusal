@@ -7,7 +7,7 @@
 * [Access Control](#access-control)
 * [Debugging](#debugging)
 * [Uninstallation](#uninstallation)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -102,9 +102,6 @@ qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
 qubesctl state.apply sys-syncthing.clean
 ```
 
-## Copyright
+## Credits
 
-License: GPLv3+
-
-Credits:
 - [Unman](https://github.com/unman/shaker/tree/master/syncthing)

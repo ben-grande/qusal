@@ -4,36 +4,53 @@
 
 * [Description](#description)
 * [Installation](#installation)
+  * [DomU](#domu)
+  * [Dom0](#dom0)
+* [Usage](#usage)
 * [Format](#format)
   * [File naming](#file-naming)
   * [Readme](#readme)
   * [Qube naming](#qube-naming)
   * [Qrexec](#qrexec)
-* [Copyright](#copyright)
+* [Legal](#legal)
+  * [Copyright](#copyright)
+  * [License](#license)
 
 ## Description
 
-Qusal - Salt Formulas for Qubes OS R4.1.
+Qusal - Salt Formulas for Qubes OS.
 
-Qusal's goal:
-
-- All global preferences customized to use qubes based on minimal templates;
-- All service templates with only the necessary programs installed;
-- Focus on tasks and usability
+Qusal providers a Free and Open Source solution to customizing various tasks
+in Qubes OS, from switching PCI handlers to be disposables or app qubes to
+installing different pieces of software on dedicated minimal templates.
 
 Each project is in a separate directory, but they may interact with other
 projects.
 
-User policies should always be set on /etc/qubes/policy.d/30-user.policy as
-this file will take precedence over the packaged policy.
+If you want to edit the access control for any service, such as resolution to
+allow, ask, deny or the intended target, you should always use the Qrexec
+policy at /etc/qubes/policy.d/30-user.policy, as this file will take
+precedence over the packaged policy.
 
 ## Installation
 
-Clone this repository:
+### Requirements
+
+- Qubes OS R4.1.
+- git
+
+### DomU
+
+Clone this repository in an app qube:
 ```sh
 git clone https://github.com/ben-grande/qusal.git ~/qusal
 git clone ssh://git@github.com/ben-grande/qusal.git ~/qusal
 ```
+
+### Dom0
+
+Before copying anything to Dom0, read [Qubes OS warning about
+this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
 
 Copy this repository from some qube to Dom0 from Dom0:
 ```sh
@@ -52,14 +69,19 @@ cd qusal
 ./setup.sh
 ```
 
+The RPM Spec is not ready, don't try it unless for development.
+
+## Usage
+
 Qusal is now installed. Please read the README.md of each project for further
 information on how to install the desired package.
 
 Qubes global settings (qubes-prefs) that will be managed:
 
 - **clockvm**: disp-sys-net, sys-net
-- **default_audiovmm**: dom0  # TODO
+- **default_audiovm**: dom0  # TODO
 - **default_dispvm**: reader
+- **default_guivm**: dom0  # TODO
 - **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
@@ -120,7 +142,9 @@ Qubes global settings (qubes-prefs) that will be managed:
 3. Target qube for client script must default to `@default`, but other targets
    must be allowed via parameters.
 
-## Copyright
+## License
 
-Each project has a README.md containing the license name and credits to the
-copyright owners.
+All original source code is licensed under GPL-3.0-or-later.
+
+For more accurate information, check the individual files for license and
+copyright ownership.

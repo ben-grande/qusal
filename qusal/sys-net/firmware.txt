@@ -1,12 +1,16 @@
+# SPDX-FileCopyrightText: 2022 The Qubes OS Project <https://www.qubes-os.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+atmel-firmware
 firmware-ath9k-htc
 firmware-atheros
 firmware-b43-installer
 firmware-brcm80211
 firmware-intelwimax
+firmware-ipw2x00
 firmware-iwlwifi
+firmware-misc-nonfree
 firmware-ralink
 firmware-realtek
-atmel-firmware
-firmware-ipw2x00
-firmware-misc-nonfree
 firmware-zd1211

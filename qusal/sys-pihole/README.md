@@ -5,7 +5,7 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -66,10 +66,7 @@ You should change this password on first use by running:
 pihole -a -p
 ```
 
-## Copyright
+## Credits
 
-License: GPLv3+
-
-Credits:
 - [Patrizio Tufarolo](https://blog.tufarolo.eu/how-to-configure-pihole-in-qubesos-proxyvm/)
 - [Unman](https://github.com/unman/shaker/tree/master/pihole)

@@ -4,7 +4,6 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -36,7 +35,3 @@ qubesctl state.apply ssh.create
 qubesctl --skip-dom0 --targets=tpl-ssh state.apply ssh.install
 qubesctl --skip-dom0 --targets=dvm-ssh,ssh state.apply ssh.configure
 ```
-
-## Copyright
-
-License: GPLv2+

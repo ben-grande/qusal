@@ -1,5 +1,9 @@
 #!/usr/bin/sh
 
+# SPDX-FileCopyrightText: 2022 - 2023 The Qubes OS Project <https://www.qubes-os.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e
 
 sudo bash -c "mkdir -p /builder/incoming && chown -R user:user /builder"

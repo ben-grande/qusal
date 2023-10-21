@@ -5,6 +5,8 @@
 " Licence:     MIT
 " Website:     http://www.gregd.org/
 " Version:     3.0.0
+" SPDX-FileCopyrightText: 2023 Greg Dietsche <vim@gregd.org>
+" SPDX-License-Identifier: Vim
 " ============================================================================
 
 if exists("b:loaded_lastplace_plugin") || &cp

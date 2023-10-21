@@ -4,7 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -29,9 +29,6 @@ qubesctl --skip-dom0 --targets=tpl-media state.apply media.install
 qubesctl --skip-dom0 --targets=media state.apply media.configure
 ```
 
-## Copyright
+## Credits
 
-License: GPLv3+
-
-Credits:
 - [Unman](https://github.com/unman/shaker/tree/master/multimedia)

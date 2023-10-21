@@ -1,3 +1,9 @@
+{#
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: Vim
+#}
+
 {%- import "path/to/file.jinja" as tpl -%}
 
 include:

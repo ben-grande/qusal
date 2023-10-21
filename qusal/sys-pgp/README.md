@@ -6,7 +6,6 @@
 * [Installation](#installation)
 * [Access Control](#access-control)
 * [Usage](#usage)
-* [Copyright](#copyright)
 
 ## Description
 
@@ -62,7 +61,3 @@ qubes.Gpg * @anyvm @anyvm   deny
 ## Usage
 
 Full details are at [www.qubes-os.org/doc/split-gpg](https://www.qubes-os.org/doc/split-gpg/).
-
-## Copyright
-
-License: GPLv2+

@@ -4,7 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
-* [Copyright](#copyright)
+* [Credits](#credits)
 
 ## Description
 
@@ -46,6 +46,6 @@ If the client requires a FIDO device, install on the client template:
 qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
 ```
 
-## Copyright
+## Credits
 
-License: GPLv2+
+- [Unman](https://github.com/unman/shaker/blob/main/sys-usb)
