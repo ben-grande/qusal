@@ -23,6 +23,8 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+  - service.tracker
+  - service.evolution-data-server
 - set:
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
   - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
@@ -51,6 +53,8 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+  - service.tracker
+  - service.evolution-data-server
 - set:
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
 {%- endload %}

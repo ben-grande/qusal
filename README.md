@@ -47,7 +47,7 @@ Clone this repository in an app qube:
 git clone --recurse-submodules https://github.com/ben-grande/qusal.git
 ```
 
-If you made a fork, before cloning it, do fork the submodule(s) first:
+If you made a fork, before cloning it, fork the submodule(s) first:
 [dotfiles](https://github.com/ben-grande/dotfiles.git).
 ```sh
 git clone --recurse-submodules https://github.com/USERNAME/qusal.git
@@ -55,23 +55,20 @@ git clone --recurse-submodules https://github.com/USERNAME/qusal.git
 
 ### Dom0
 
-Before copying anything to Dom0, read [Qubes OS warning about
+1. Before copying anything to Dom0, read [Qubes OS warning about
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
 
-Copy this repository from some qube to Dom0 from Dom0:
+2. Copy this repository from some qube to Dom0 from Dom0:
 ```sh
+## Example: mkdir -p ~/QubesIncoming/dev
 mkdir -p ~/QubesIncoming/QUBE
+## Example: qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
 qvm-run -p <QUBE> tar -cC </PATH/TO> qusal | tar -xvC ~/QubesIncoming/QUBE qusal
 ```
-Example copying repository from the `dev` qube to Dom0 by running in Dom0:
-```sh
-mkdir -p ~/QubesIncoming/dev
-qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
-```
 
-Copy the files to the Salt directories:
+3. Copy the files to the Salt directories:
 ```sh
-cd qusal
+cd ~/QubesIncoming/QUBE/qusal
 ./scripts/setup.sh
 ```
 
@@ -93,6 +90,12 @@ Qubes global settings (qubes-prefs) that will be managed:
 To be implemented:
 - **default_audiovm**: sys-audio
 - **default_guivm**: sys-gui
+
+## Credits
+
+I stand on the shoulders of giants. This would not be possible without people
+contributing to Qubes OS SaltStack formulas. Honorable mention(s):
+[unman](https://github.com/unman).
 
 ## Legal
 

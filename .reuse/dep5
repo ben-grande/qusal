@@ -31,15 +31,15 @@ Files: qusal/terraform/files/repo/*
 Copyright: 2023 HashiCorp Inc. <security+packaging@hashicorp.com>
 License: CC0-1.0
 
-Files: qusal/dotfiles/files/git/.config/git/message
-Copyright: 2023 Qusal contributors
-License: CC0-1.0
-
 Files: qusal/qubes-builder/files/keys/*
 Copyright: The Qubes OS Project <https://www.qubes-os.org>
            Frédéric Pierret <frederic.pierret@qubes-os.org>
            Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
            Simon Gaiser <simon@invisiblethingslab.com>
+License: CC0-1.0
+
+Files: qusal/dotfiles/files/git/.config/git/message
+Copyright: 2023 Qusal contributors
 License: CC0-1.0
 
 Files: qusal/dotfiles/files/sh/.config/less/lesskey-old

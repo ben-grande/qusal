@@ -32,7 +32,7 @@ present:
 prefs:
 - label: orange
 - memory: 300
-- maxmem: 800
+- maxmem: 400
 - vcpus: 1
 - netvm: {{ netvm }}
 - provides-network: true
@@ -43,6 +43,8 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+  - service.tracker
+  - service.evolution-data-server
 {%- endload %}
 {{ load(defaults) }}
 
@@ -57,12 +59,15 @@ present:
 prefs:
 - label: orange
 - memory: 300
-- maxmem: 800
+- maxmem: 600
 - vcpus: 1
 - netvm: ""
 - template_for_dispvms: True
 - include_in_backups: False
 features:
+- disable:
+  - service.tracker
+  - service.evolution-data-server
 - enable:
   - appmenus-dispvm
 - set:
@@ -83,13 +88,15 @@ present:
 prefs:
 - label: orange
 - memory: 300
-- maxmem: 800
+- maxmem: 600
 - vcpus: 1
 - netvm: ""
 features:
 - disable:
   - service.cups
   - service.cups-browsed
+  - service.tracker
+  - service.evolution-data-server
 - set:
   - menu-items: "firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop"
 {%- endload %}

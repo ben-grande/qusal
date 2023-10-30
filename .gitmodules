@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: CC0-1.0
+
 [submodule "qusal/dotfiles"]
 	path = qusal/dotfiles
 	url = ../dotfiles/

@@ -14,6 +14,9 @@ force: True
 require:
 - sls: {{ slsdotpath }}.clone
 features:
+- disable:
+  - service.tracker
+  - service.evolution-data-server
 - set:
   - menu-items: "signal-desktop.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
   - default-menu-items: "signal-desktop.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
@@ -40,6 +43,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+  - service.tracker
+  - service.evolution-data-server
 - set:
   - menu-items: "signal-desktop.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
