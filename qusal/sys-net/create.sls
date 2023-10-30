@@ -1,13 +1,15 @@
 {#
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-include:
-  - .clone
+{%- from "qvm/template.jinja" import load -%}
 
 {% set net_pcidevs = salt['grains.get']('pci_net_devs', []) -%}
+
+include:
+  - .clone
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}

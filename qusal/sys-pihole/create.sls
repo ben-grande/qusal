@@ -1,30 +1,34 @@
 {#
 SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.com>
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-{%- import "debian/template.jinja" as template -%}
+{%- from "qvm/template.jinja" import load -%}
 
-## Use the netvm of the default_netvm.
+{%- import "debian-minimal/template.jinja" as template -%}
+
+{# Use the netvm of the default_netvm. #}
 {% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
 {% set netvm = salt['cmd.shell']('qvm-prefs ' + default_netvm + ' netvm') -%}
-## If netvm of default_netvm is empty, user's default_netvm is the first in
-## the chain (sys-net).
+{#
+If netvm of default_netvm is empty, user's default_netvm is the first in
+the chain (sys-net).
+#}
 {% if netvm == '' %}
   {% set netvm = default_netvm %}
 {% endif %}
 
 include:
-  - .clone
+  - debian-minimal.create
   - browser.create
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}
 force: True
 require:
-- sls: {{ slsdotpath }}.clone
+- sls: {{ template.template_clean }}.create
 present:
 - template: {{ template.template }}
 - label: orange
@@ -40,6 +44,7 @@ features:
 - enable:
   - servicevm
   - service.updates-proxy-setup
+  - service.qubes-firewall
 - disable:
   - service.cups
   - service.cups-browsed
@@ -109,4 +114,4 @@ features:
       - qvm: {{ slsdotpath }}
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
-{{ policy_unset(sls_path, '80') }}
+{{ policy_set(sls_path, '80') }}

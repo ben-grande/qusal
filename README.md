@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
@@ -79,6 +79,12 @@ The RPM Spec is not ready, don't try it unless for development.
 Qusal is now installed. Please read the README.md of each project for further
 information on how to install the desired package.
 
+The intended behaviour is to enforce the state of qubes and their services. If
+you modify the qubes and their services and apply the state again, there is a
+good chance your choices will be overwritten. To enforce your state,
+declaratively specify the desired state, do not do it manually, we are past
+that.
+
 Qubes global settings (qubes-prefs) that will be managed:
 
 - **clockvm**: disp-sys-net, sys-net
@@ -113,8 +119,6 @@ a companion `.license` or in `.reuse/dep5`.
 
 Here is a brief summary as of October 2023:
 
-- All original source code is licensed under GPL-3.0-or-later.
-- All documentation is licensed under CC-BY-SA-4.0.
-- Some configuration and data files are licensed under CC0-1.0.
-- Some borrowed code (`qusal/dotfiles/`) is licenses under BSD-2-Clause,
-  CC-BY-SA-4.0, GPL-2.0-only, GPL-3.0-only, MIT, Vim.
+- Source code is licensed under GPL-3.0-or-later;
+- Documentation is licensed under CC-BY-SA-4.0; and
+- Configuration and data files are licensed under CC0-1.0.

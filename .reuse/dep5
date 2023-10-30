@@ -1,10 +1,10 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: qusal
-Upstream-Contact: Benjamin Grande Miranda de Sousa <ben.grande.b@gmail.com>
+Upstream-Contact: Benjamin Grande M. S. <ben.grande.b@gmail.com>
 Source: https://github.com/ben-grande/qusal
 
 Files: */README.md
-Copyright: 2023 Qusal contributors
+Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
 
 Files: qusal/ansible/files/repo/*
@@ -37,13 +37,5 @@ Copyright: The Qubes OS Project <https://www.qubes-os.org>
            Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
            Simon Gaiser <simon@invisiblethingslab.com>
 License: CC0-1.0
-
-Files: qusal/dotfiles/files/git/.config/git/message
-Copyright: 2023 Qusal contributors
-License: CC0-1.0
-
-Files: qusal/dotfiles/files/sh/.config/less/lesskey-old
-Copyright: 2023 Qusal contributors
-License: GPL-3.0-or-later
 
 # vim: ft=debcopyright

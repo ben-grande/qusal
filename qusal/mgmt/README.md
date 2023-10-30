@@ -19,7 +19,5 @@ of a qube or for Salt Management on DomUs.
 ```sh
 qubesctl state.apply mgmt.create
 qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
-qubesctl state.apply mgmt.confirm
+qubesctl state.apply mgmt.prefs
 ```
-
-SPD-License-Identifier: GPL-3.0-or-later

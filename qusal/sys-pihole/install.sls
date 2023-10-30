@@ -1,6 +1,6 @@
 {#
 SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.com>
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
@@ -77,6 +77,7 @@ include:
     - name: https://github.com/pi-hole/pi-hole.git
     - user: root
     - target: /root/pi-hole
+    - force_fetch: True
 
 "{{ slsdotpath }}-setupVars.conf":
   file.managed:
@@ -88,7 +89,7 @@ include:
 
 "{{ slsdotpath }}-setup":
   cmd.run:
-    - name: ./basic-install.sh --unattended'
+    - name: ./basic-install.sh --unattended
     - cwd: '/root/pi-hole/automated install'
     - runas: root
 

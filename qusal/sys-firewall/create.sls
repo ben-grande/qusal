@@ -1,11 +1,10 @@
 {#
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-include:
-  - .clone
+{%- from "qvm/template.jinja" import load -%}
 
 # Use the netvm of the default_netvm.
 {% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
@@ -14,6 +13,9 @@ include:
 {% if netvm == '' %}
   {% set netvm = default_netvm %}
 {% endif -%}
+
+include:
+  - .clone
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}
@@ -35,6 +37,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.qubes-firewall
 - disable:
   - service.cups
   - service.cups-browsed
@@ -90,6 +93,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.qubes-firewall
 - disable:
   - service.cups
   - service.cups-browsed

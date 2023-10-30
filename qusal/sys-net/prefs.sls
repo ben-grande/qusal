@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
@@ -23,4 +23,4 @@ include:
     - name: qubes-prefs clockvm {{ slsdotpath }}
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
-{{ policy_unset(sls_path, '80') }}
+{{ policy_set(sls_path, '80') }}

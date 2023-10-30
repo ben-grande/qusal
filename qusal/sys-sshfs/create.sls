@@ -1,9 +1,11 @@
 {#
 SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
+
+{%- from "qvm/template.jinja" import load -%}
 
 include:
   - .clone
@@ -22,7 +24,7 @@ prefs:
 - netvm: ""
 - vcpus: 1
 - memory: 300
-- maxmem: 700
+- maxmem: 600
 - autostart: False
 - include_in_backups: True
 features:

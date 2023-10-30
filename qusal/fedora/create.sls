@@ -1,8 +1,10 @@
 {#
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
+
+{%- from "qvm/template.jinja" import load -%}
 
 {%- import slsdotpath ~ "/template.jinja" as template -%}
 
@@ -12,8 +14,8 @@ include:
 "dvm-{{ template.template }}-absent":
   qvm.absent:
     - names:
-      - dvm-fedora
-      - fedora-dvm
+      - dvm-{{ template.template_clean }}
+      - {{ template.template_clean }}-dvm
       - {{ template.template }}-dvm
 
 {% load_yaml as defaults -%}
@@ -22,10 +24,10 @@ force: True
 require:
 - sls: {{ template.template_clean }}.clone
 present:
-- template: {{ fedora.fedora_template }}
+- template: {{ template.template }}
 - label: red
 prefs:
-- template: {{ fedora.fedora_template }}
+- template: {{ template.template }}
 - label: red
 - memory: 300
 - maxmem: 400

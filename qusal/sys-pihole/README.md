@@ -35,7 +35,7 @@ qubesctl state.apply browser.appmenus
 qubesctl state.apply sys-pihole.create
 qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
 qubesctl --skip-dom0 --targets=sys-pihole state.apply sys-pihole.install
-qubesctl --skip-dom0 --targets=dvm-browser-sys-pihole state.apply sys-pihole.install
+qubesctl --skip-dom0 --targets=dvm-browser-sys-pihole state.apply sys-pihole.configure-dvm
 qubesctl state.apply browser.appmenus
 ```
 
@@ -47,11 +47,6 @@ qubesctl state.apply sys-pihole.prefs
 ```
 
 ## Usage
-
-Two qubes will be created for usage. You should run the `pihole` program in
-`sys-pihole`. If you want to view statistics or manage Pi-Hole through the
-browser, open the browser in `disp-browser-sys-pihole`. The URL will be given
-below.
 
 Pi-hole will be installed with these default settings:
 
@@ -67,6 +62,13 @@ You should change this password on first use by running in `sys-pihole`:
 ```sh
 pihole -a -p
 ```
+
+If you want to view statistics or manage Pi-Hole through the browser, open the
+browser in `disp-browser-sys-pihole`. This disposable qube has no netvm and
+has connection to the Pi-Hole server. The browser separation is to prevent the
+use of a browser in the same machine the server is running, which you could
+mistakenly browse the internet in the proxy qube if the separation was not
+done.
 
 You can clone `sys-pihole`. If you do, you must manually change the IP address
 of the clone.

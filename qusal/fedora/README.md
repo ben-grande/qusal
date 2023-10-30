@@ -22,6 +22,3 @@ qubesctl top.disable fedora
 qubesctl state.apply fedora.create
 qubesctl --skip-dom0 --targets=fedora-38 state.apply fedora.install
 ```
-
-
-SPD-License-Identifier: GPL-3.0-or-later

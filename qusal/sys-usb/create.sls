@@ -1,9 +1,11 @@
 {#
 SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
+
+{%- from "qvm/template.jinja" import load -%}
 
 include:
   - .clone
@@ -20,7 +22,6 @@ include:
       - qubes-ctap-dom0
 #}
 
-{#
 "{{ slsdotpath }}-absent":
   qvm.absent:
     - names:
@@ -28,7 +29,6 @@ include:
       - sys-usb-dock
       - sys-usb-left
       - dvm-{{ slsdotpath }}
-#}
 
 {% load_yaml as defaults -%}
 name: dvm-{{ slsdotpath }}

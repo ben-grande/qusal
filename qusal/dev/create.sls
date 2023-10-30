@@ -1,13 +1,13 @@
 {#
-SPDX-FileCopyrightText: 2023 Qusal contributors
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{%- from "qvm/template.jinja" import load -%}
+
 include:
   - .clone
-
-{%- from "qvm/template.jinja" import load -%}
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}
@@ -20,7 +20,6 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: purple
-- netvm: ""
 - vpus: 1
 - memory: 400
 - maxmem: 600
@@ -47,7 +46,6 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: red
-- netvm: ""
 - vpus: 1
 - memory: 400
 - maxmem: 600
