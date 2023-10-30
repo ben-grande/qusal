@@ -1,0 +1,3 @@
+[submodule "qusal/dotfiles"]
+	path = qusal/dotfiles
+	url = ../dotfiles/

@@ -44,8 +44,13 @@ precedence over the packaged policy.
 
 Clone this repository in an app qube:
 ```sh
-git clone https://github.com/ben-grande/qusal.git ~/qusal
-git clone ssh://git@github.com/ben-grande/qusal.git ~/qusal
+git clone --recurse-submodules https://github.com/ben-grande/qusal.git
+```
+
+If you made a fork, before cloning it, do fork the submodule(s) first:
+[dotfiles](https://github.com/ben-grande/dotfiles.git).
+```sh
+git clone --recurse-submodules https://github.com/USERNAME/qusal.git
 ```
 
 ### Dom0
