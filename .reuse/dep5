@@ -3,20 +3,12 @@ Upstream-Name: qusal
 Upstream-Contact: Benjamin Grande Miranda de Sousa <ben.grande.b@gmail.com>
 Source: https://github.com/ben-grande/qusal
 
-Files: *
-Copyright: 2023 Qusal contributors
-License: GPL-3.0-or-later
-
-Files: .gitignore .pre-commit-config.yaml .salt-lint README.md minion.d/qusal.conf
-Copyright: 2023 Qusal contributors
-License: GPL-3.0-or-later
-
 Files: */README.md
 Copyright: 2023 Qusal contributors
-License: GPL-3.0-or-later
+License: CC-BY-SA-4.0
 
 Files: qusal/ansible/files/repo/*
-Copyright: 2014 Launchpad PPA for Ansible, Inc. <https://ansible.com>
+Copyright: 2014 Ansible, Inc. <https://ansible.com>
 License: CC0-1.0
 
 Files: qusal/browser/files/repo/*

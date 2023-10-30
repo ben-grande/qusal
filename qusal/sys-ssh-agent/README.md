@@ -111,20 +111,21 @@ qusal.SshAgent *         @anyvm        @anyvm   deny
 #### Generate keys
 
 Keys can be selectively allocated to different ssh-agents by adding them to
-different directories under `~/keys/<AGENT>`, where the `<AGENT>` directory
-should  have the same name as the agent itself. Example: `~/keys/work`.
+different directories under `~/.ssh/identities.d/<AGENT>`, where the `<AGENT>`
+directory should  have the same name as the agent itself. Example:
+`~/.ssh/identities.d/work`.
 
 Import preexisting keys to the agent directory or generate keys for a specific
 agent:
 ```sh
-mkdir -m 0700 -p ~/keys/<AGENT>
-ssh-keygen -t ed25519 -f ~/keys/<AGENT>/id_example
+mkdir -m 0700 -p ~/.ssh/identities.d/<AGENT>
+ssh-keygen -t ed25519 -f ~/.ssh/identities.d/<AGENT>/id_example
 ```
 
 You would do the following for the `work` agent:
 ```sh
-mkdir -m 0700 -p ~/keys/work
-ssh-keygen -t ed25519 -f ~/keys/work/id_example
+mkdir -m 0700 -p ~/.ssh/identities.d/work
+ssh-keygen -t ed25519 -f ~/.ssh/identities.d/work/id_example
 ```
 
 #### Limit key usage
@@ -144,8 +145,8 @@ The `.ssh-add-option` file has the following format:
 ```
 
 Or you can manually add the key to the agent which are not located under the
-~/keys directory so they aren't automatically added (substitute AGENT, SECS,
-and LIFE for their appropriate values):
+`~/.ssh/identities.d` directory so they aren't automatically added (substitute
+AGENT, SECS, and LIFE for their appropriate values):
 ```sh
 SSH_AUTH_SOCK="/run/user/1000/qubes-ssh-agent/<AGENT>.sock" ssh-add -t <SECS> -f <FILE>
 ```

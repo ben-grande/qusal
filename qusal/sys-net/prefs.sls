@@ -8,7 +8,7 @@ include:
   - .create
 
 {% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
-"{{ slsdotpath }}-set-{{ default_netvm }}-netvm":
+"default_netvm-netvm-{{ slsdotpath }}":
   qvm.vm:
     - require:
       - qvm: {{ slsdotpath }}
@@ -16,7 +16,7 @@ include:
     - prefs:
       - netvm: {{ slsdotpath }}
 
-"{{ slsdotpath }}-clockvm":
+"clockvm-{{ slsdotpath }}":
   cmd.run:
     - require:
       - qvm: {{ slsdotpath }}

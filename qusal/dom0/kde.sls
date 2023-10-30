@@ -54,4 +54,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - mode: '0755'
     - makedirs: True
 
+"{{ slsdotpath }}-qubes-kde-win-rules":
+  file.managed:
+    - name: /home/user/.local/bin/qubes-kde-win-rules
+    - source: salt://{{ slsdotpath }}/files/bin/qubes-kde-win-rules
+    - user: user
+    - group: user
+    - mode: '0755'
+    - makedirs: True
+
 {% endif -%}

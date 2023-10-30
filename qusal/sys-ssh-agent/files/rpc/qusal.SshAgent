@@ -14,7 +14,23 @@ die(){
 #origin="$QREXEC_REMOTE_DOMAIN"
 agent="$QREXEC_SERVICE_ARGUMENT"
 socket="/tmp/qubes-ssh-agent/${agent}.sock"
+service="qubes-ssh-agent-sock@${agent}.service"
 
+## Trust the service is activating and sleep a bit more before failing later.
+systemctl --user is-active "${service}" >/dev/null 2>&1 \
+  || sleep 10
+systemctl --user is-active "${service}" >/dev/null 2>&1 \
+  || die "Agent is not enabled: ${agent}"
+active_timestamp="$(systemctl --user show "${service}" --property ActiveEnterTimestamp | cut -d "=" -f2)"
+test -n "${active_timestamp:-}" \
+  || die "Failed to get agent active timestamp: ${agent}"
+
+active_epoch="$(date -d"${active_timestamp}" "+%s")"
+now_epoch="$(date --utc "+%s")"
+difference="$((now_epoch-active_epoch))"
+test "${difference}" -gt 15 || sleep 5
+
+test -e "$socket" || die "Socket doesn't exist: $socket"
 test -S "$socket" || die "Not a socket: $socket"
 
 exec socat STDIO UNIX-CLIENT:"$socket"

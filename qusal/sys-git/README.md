@@ -68,8 +68,9 @@ _Default policy_: `any qube` can `ask` via the `@default` target if you allow
 it to `Fetch` from, `Push` to and `Init` on `sys-git`.
 
 __Recommended usage__:
-- __Init__: Simply usability, if you don't like this action,
-  use the deny rule instead and create the directory manually.
+
+- __Init__: Argument useful when allowing a qube to always create a
+  repository on the server.
 - __Fetch__: Fetch can be allowed by less trusted qubes.
 - __Push__: Push should only be made by trusted qubes.
 

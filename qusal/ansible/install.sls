@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 include:
   - utils.tools.zsh
+  - ssh.install
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -20,24 +21,28 @@ include:
     - skip_suggestions: True
     - pkgs:
       - ansible
-      {% if grains['os_family']|lower == 'debian' -%}
-      - openssh-client
-      - vim-nox
-      - python3-selinux
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - openssh-clients
-      - vim-enhanced
-      - vim-ansible
-      {% else -%}
-      - openssh-client
-      - vim
-      {% endif -%}
       - python3-argcomplete
       - python3-jmespath
       - openssh-server
       - qubes-core-agent-passwordless-root
       - bash-completion
       - man-db
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['vim-nox', 'python3-selinux'],
+    },
+    'RedHat': {
+      'pkg': ['vim-enhanced', 'vim-ansible'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-ssh-config":
   file.managed:

@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qubes.ConnectTCP +80 disp-browser-{{ slsdotpath }}  @default  allow target={{ sls_path }}
+qubes.ConnectTCP *   disp-browser-{{ slsdotpath }}  @anyvm    deny
+## vim:ft=qrexecpolicy

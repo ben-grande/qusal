@@ -24,15 +24,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
       - qubes-core-agent-networking
       - socat
       - syncthing
-      {% if grains['os_family']|lower == 'debian' -%}
-      - libpam-systemd
-      {% elif grains['os_family']|lower == 'debian' -%}
-      - systemd-pam
-      {% endif -%}
       ## UI
       - firefox-esr
       - qubes-core-agent-nautilus
       - nautilus
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['libpam-systemd'],
+    },
+    'RedHat': {
+      'pkg': ['systemd-pam'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-rpc-service":
   file.managed:

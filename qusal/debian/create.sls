@@ -9,24 +9,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 include:
   - .clone
 
-"{{ template.template_clean }}":
-  qvm.vm:
-    - name: {{ template.template_clean }}
-    - require:
-      - sls: {{ slsdotpath }}.clone
-    - present:
-      - label: black
-    - prefs:
-      - label: black
-      - memory: 300
-      - maxmem: 600
-      - vcpus: 1
-      - include_in_backups: False
-    - features:
-      - set:
-        - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
-        - default-menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
-
 "dvm-{{ template.template }}-absent":
   qvm.absent:
     - names:
@@ -34,24 +16,46 @@ include:
       - {{ template.template_clean }}-dvm
       - {{ template.template }}-dvm
 
-"dvm-{{ template.template_clean }}":
-  qvm.vm:
-    - name: dvm-{{ template.template_clean }}
-    - require:
-      - sls: {{ slsdotpath }}.clone
-    - present:
-      - template: {{ template.template }}
-      - label: red
-    - prefs:
-      - template: {{ template.template }}
-      - label: red
-      - memory: 300
-      - maxmem: 800
-      - vcpus: 1
-      - template_for_dispvms: True
-      - include_in_backups: False
-    - features:
-      - enable:
-        - appmenus-dispvm
-      - set:
-        - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+{% load_yaml as defaults -%}
+name: dvm-{{ template.template_clean }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- template: {{ template.template }}
+- label: red
+prefs:
+- template: {{ template.template }}
+- label: red
+- memory: 300
+- maxmem: 800
+- vcpus: 1
+- template_for_dispvms: True
+- include_in_backups: False
+features:
+- enable:
+  - appmenus-dispvm
+- set:
+  - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: {{ template.template_clean }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- label: black
+prefs:
+- label: black
+- memory: 300
+- maxmem: 600
+- vcpus: 1
+- include_in_backups: False
+features:
+- set:
+  - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+  - default-menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+{%- endload %}
+{{ load(defaults) }}

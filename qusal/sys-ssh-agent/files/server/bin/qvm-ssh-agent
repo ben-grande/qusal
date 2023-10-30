@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -eu
+
+sock_dir="qubes-ssh-agent"
+service="${sock_dir}-sock"
+
+usage(){
+  echo "Usage: ${0##*/} [ls|key] [<AGENT>]
+  ls: list agent(s)
+  key: add keys to agent(s)
+If agent is not specified, action is taken on all agents.
+Example:
+  ${0##*/} ls           # list all agents
+  ${0##*/} ls work      # list the work agent and its keys
+  ${0##*/} key          # add keys for each agent
+  ${0##*/} key work     # add keys for the work agent"
+  exit 1
+}
+
+ls_agent(){
+  echo "Systemd user units:"
+  # shellcheck disable=SC2086
+  systemctl --user --no-pager list-units ${service}@$agent.service \
+    | grep "${service}@.*\.service" | sed "s/^[[:space:]]*//"
+  echo
+  for socket in /tmp/${sock_dir}/$agent.sock; do
+    test -S "$socket" || continue
+    agent="$(echo "$socket" | sed "s|.*${sock_dir}/||;s/\.sock//")"
+    echo "Agent: ($agent) $socket"
+    SSH_AUTH_SOCK="$socket" ssh-add -l || true
+    echo
+  done
+}
+
+add_key(){
+  for dir in $HOME/.ssh/identities.d/$agent; do
+    test -d "$dir" || continue
+    dir="${dir##*/}"
+    socket="/tmp/${sock_dir}/${dir}.sock"
+    test -S "$socket" || continue
+    keys="$(grep -sl -- "-----BEGIN OPENSSH PRIVATE KEY-----" \
+            "$HOME/.ssh/identities.d/$dir"/* || true)"
+    test -n "$keys" || continue
+    echo "Agent: ($dir) $socket"
+    SSH_AUTH_SOCK="$socket" ssh-add -D 2>/dev/null || true
+    for k in $(printf '%s\n' "$keys"); do
+      test -f "$k" || continue
+      ssh_add_option=""
+      if test -f "$k.ssh-add-option"; then
+        ssh_add_option="$(cat "$k.ssh-add-option")"
+      fi
+      # shellcheck disable=SC2086
+      SSH_AUTH_SOCK="$socket" ssh-add $ssh_add_option "$k"
+    done
+    echo
+  done
+}
+
+test -z "${1-}" && usage
+action="${1-}"
+agent="${2-}"
+
+case "$action" in
+  ls|key) agent="${agent:-*}";;
+  *) usage;;
+esac
+
+case "$action" in
+  ls) ls_agent;;
+  key) add_key;;
+esac

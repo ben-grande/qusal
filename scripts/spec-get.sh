@@ -47,6 +47,8 @@ group="qusal"
 block_max_chars group 70
 file_roots="/srv/salt/${group}"
 vendor="Benjamin Grande"
+license="GPL-3.0-or-later"
+
 
 url="https://github.com/ben-grande/qusal"
 version="1.0"
@@ -59,8 +61,7 @@ if ! test -f "${readme}"; then
   echo "Project ${name} does not have README.md" >&2
   exit 1
 fi
-## TODO: no longer working because there might be multiple licenses
-license="$(awk '/SPDX-License-Identifier:/ {print $2}' "${readme}" | head -1)"
+
 block_max_chars license 70
 description="$(sed -n '/^## Description/,/^## /p' "${readme}" |
                sed '1d;$d' | sed "1{/^$/d}")"

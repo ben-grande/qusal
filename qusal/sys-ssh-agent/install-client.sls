@@ -24,15 +24,22 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - socat
-      {% if grains['os_family']|lower == 'debian' -%}
-      - libpam-systemd
-      - procps
-      - openssh-client
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - systemd-pam
-      - procps-ng
-      - openssh-clients
-      {% endif -%}
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['libpam-systemd', 'procps', 'openssh-client'],
+    },
+    'RedHat': {
+      'pkg': ['systemd-pam', 'procps-ng', 'openssh-clients'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-client-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-client-user-systemd-dir":
   file.recurse:

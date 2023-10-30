@@ -24,20 +24,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
       - rpm
       - licensecheck
       - devscripts
-      {% if grains['os_family']|lower == 'debian' -%}
-      - equivs
-      - dctrl-tools
-      - build-essential
-      - debhelper
-      - quilt
-      - lintian
-      - mmdebstrap
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - rpmdevtools
-      - rpm-sign
-      - rpm-build
-      - fedora-packager
-      - fedora-review
-      {% endif -%}
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['equivs', 'dctrl-tools', 'build-essential' 'debhelper', 'quilt',
+              'lintian', 'mmdebstrap'],
+    },
+    'RedHat': {
+      'pkg': ['rpmdevtools', 'rpm-sign', 'rpm-build', 'fedora-packager',
+              'fedora-review'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-core-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}

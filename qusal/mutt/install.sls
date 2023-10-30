@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 include:
   - dotfiles.copy-x11
   - dotfiles.copy-sh
+  - dotfiles.copy-mutt
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -49,15 +50,5 @@ include:
       - libmailtools-perl
       - libauthen-sasl-perl
       - libio-socket-ssl-perl
-
-"{{ slsdotpath }}-skel-muttrc":
-  file.recurse:
-    - name: /etc/skel/.config/mutt
-    - source: salt://{{ slsdotpath }}/files/mutt
-    - file_mode: '0644'
-    - dir_mode: '0755'
-    - user: root
-    - group: root
-    - makedirs: True
 
 {% endif -%}

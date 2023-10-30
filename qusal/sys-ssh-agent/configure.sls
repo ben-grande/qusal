@@ -10,11 +10,20 @@ include:
   - dev.home-cleanup
   - dotfiles.copy-x11
 
-"{{ slsdotpath }}-create-keys-directory":
+"{{ slsdotpath }}-create-ssh-directory":
   file.directory:
-    - name: /home/user/keys
+    - name: /home/user/.ssh
     - mode: '0700'
     - user: user
     - group: user
+    - makedirs: True
+
+"{{ slsdotpath }}-create-keys-directory":
+  file.directory:
+    - name: /home/user/.ssh/identities.d
+    - mode: '0700'
+    - user: user
+    - group: user
+    - makedirs: True
 
 {% endif %}

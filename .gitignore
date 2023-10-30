@@ -1,3 +1,10 @@
+# SPDX-FileCopyrightText: 2023 Qusal contributors
+#
+# SPDX-License-Identifier: CC0-1.0
+
 qusal/qubesos-github-io
 qusal/sys-audio
 qusal/sys-wireguard
+qusal/sys-syncthing
+qusal/sys-rsync
+qusal/sys-ssh

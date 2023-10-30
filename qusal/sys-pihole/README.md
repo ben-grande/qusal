@@ -24,32 +24,34 @@ to it.
 
 - Top:
 ```sh
-qubesctl top.enable sys-pihole
-qubesctl --targets=sys-pihole state.apply
-qubesctl top.disable sys-pihole
+qubesctl top.enable sys-pihole browser
+qubesctl --targets=tpl-browser,sys-pihole,dvm-sys-pihole state.apply
+qubesctl top.disable sys-pihole browser
+qubesctl state.apply browser.appmenus
 ```
 
 - State:
 ```sh
 qubesctl state.apply sys-pihole.create
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
 qubesctl --skip-dom0 --targets=sys-pihole state.apply sys-pihole.install
+qubesctl --skip-dom0 --targets=dvm-browser-sys-pihole state.apply sys-pihole.install
+qubesctl state.apply browser.appmenus
 ```
 
-If you want to change the `updatevm` and `default_netvm` and the `netvm` of
-all qubes from `sys-firewall` to `sys-pihole`, run:
+If you want to change the global preferences `updatevm` and `default_netvm`
+and the per-qube preference `netvm` of all qubes from `sys-firewall` to
+`sys-pihole`, run:
 ```sh
 qubesctl state.apply sys-pihole.prefs
 ```
 
 ## Usage
 
-You can clone sys-pihole. If you do, you must manually change the IP address
-of the clone.
-
-If you want to use Tor, then you should reconfigure your netvm chaining (will
-break tor's client stream isolation):
-
-- qube -> sys-pihole -> Tor-gateway -> sys-firewall -> sys-net
+Two qubes will be created for usage. You should run the `pihole` program in
+`sys-pihole`. If you want to view statistics or manage Pi-Hole through the
+browser, open the browser in `disp-browser-sys-pihole`. The URL will be given
+below.
 
 Pi-hole will be installed with these default settings:
 
@@ -61,10 +63,18 @@ You can change these settings via the admin interface:
 - URL: http://localhost/admin
 - default password: `UpSNQsy4`
 
-You should change this password on first use by running:
+You should change this password on first use by running in `sys-pihole`:
 ```sh
 pihole -a -p
 ```
+
+You can clone `sys-pihole`. If you do, you must manually change the IP address
+of the clone.
+
+If you want to combine Pi-Hole with Tor, then you should reconfigure your
+netvm chaining (will break tor's client stream isolation) as such:
+
+- qube -> sys-pihole -> Tor-gateway -> sys-firewall -> sys-net
 
 ## Credits
 

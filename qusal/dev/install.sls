@@ -38,23 +38,26 @@ include:
       - texinfo
       - file
       - tree
+      - reuse
       - pre-commit
       - gitlint
       - ripgrep
       - fzf
-      {% if grains['os_family']|lower == 'debian' -%}
-      - shellcheck
-      - vim-nox
-      - fd-find
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - passwd
-      - fd-find
-      - ShellCheck
-      - vim-enhanced
-      {% else -%}
-      - fd
-      - shellcheck
-      - vim
-      {% endif -%}
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['shellcheck', 'vim-nox', 'fd-find'],
+    },
+    'RedHat': {
+      'pkg': ['passwd', 'fd-find', 'ShellCheck', 'vim-enhanced'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}

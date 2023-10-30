@@ -8,7 +8,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 include:
   - dotfiles.copy-git
+  - dotfiles.copy-sh
   - dotfiles.copy-x11
+  - sys-pgp.install-client
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:

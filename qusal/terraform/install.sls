@@ -6,6 +6,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
+include:
+  - sys-ssh-agent.install-client
+
 {% from 'utils/macros/install-repo.sls' import install_repo -%}
 {{ install_repo(sls_path, 'terraform') }}
 
@@ -20,8 +23,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - skip_suggestions: True
     - pkgs:
       - qubes-core-agent-networking
+      - ca-certificates
       - terraform
-      - openssh-client
+      - terraform-ls
       - vim
       - man-db
 

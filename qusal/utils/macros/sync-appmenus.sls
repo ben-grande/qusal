@@ -13,7 +13,7 @@ Usage:
 
 2: Set qube to sync the appmenus:
 {{ sync_appmenus('tpl-' ~ sls_path) }}
-{{ sync_appmenus('tpl-debian') }}
+{{ sync_appmenus('tpl-ssh') }}
 #}
 
 {% macro sync_appmenus(qube) -%}

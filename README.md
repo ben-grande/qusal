@@ -1,28 +1,29 @@
+<!--
+SPDX-FileCopyrightText: 2023 Qusal contributors
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 # qusal
 
 ## Table of Contents
 
 * [Description](#description)
 * [Installation](#installation)
+  * [Requirements](#requirements)
   * [DomU](#domu)
   * [Dom0](#dom0)
 * [Usage](#usage)
-* [Format](#format)
-  * [File naming](#file-naming)
-  * [Readme](#readme)
-  * [Qube naming](#qube-naming)
-  * [Qrexec](#qrexec)
 * [Legal](#legal)
-  * [Copyright](#copyright)
-  * [License](#license)
 
 ## Description
 
 Qusal - Salt Formulas for Qubes OS.
 
 Qusal providers a Free and Open Source solution to customizing various tasks
-in Qubes OS, from switching PCI handlers to be disposables or app qubes to
-installing different pieces of software on dedicated minimal templates.
+in Qubes OS, from switching PCI handlers to be disposables or app qubes,
+installing different pieces of software on dedicated minimal templates for
+split agent operations for separating the key store from the client.
 
 Each project is in a separate directory, but they may interact with other
 projects.
@@ -66,7 +67,7 @@ qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
 Copy the files to the Salt directories:
 ```sh
 cd qusal
-./setup.sh
+./scripts/setup.sh
 ```
 
 The RPM Spec is not ready, don't try it unless for development.
@@ -79,72 +80,33 @@ information on how to install the desired package.
 Qubes global settings (qubes-prefs) that will be managed:
 
 - **clockvm**: disp-sys-net, sys-net
-- **default_audiovm**: dom0  # TODO
 - **default_dispvm**: reader
-- **default_guivm**: dom0  # TODO
 - **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
 
-## Format
+To be implemented:
+- **default_audiovm**: sys-audio
+- **default_guivm**: sys-gui
 
-### File naming
+## Legal
 
-1. Every State file `.sls` must have a Top file `.top`. This ensures that
-   every state can be applied with top.
-2. Every project must have a `init.top`, it facilitates applying every state
-   by enabling a single top file.
-3. State file naming should be common between the projects, it helps
-   understand the project as if it was any other.
-5. Files names and state IDs should use `-` as separator, not `_`.
+This project is [REUSE-compliant](https://reuse.software). It is difficult to
+list all licenses and copyrights and keep them up-to-date here.
 
-### Readme
+The easiest way to get the copyright and license of the project with the reuse
+tool:
+```sh
+reuse spdx
+```
 
-1. Every project should have a README.md with at least the following sections:
-   Table of Contents, Description, Installation, Access Control (if changed
-   Qrexec policy), Usage.
+You can also check these information manually by checking in the file header,
+a companion `.license` or in `.reuse/dep5`.
 
-### Qube naming
+Here is a brief summary as of October 2023:
 
-1. Qube name format:
-
-  - TemplateVM: `tpl-NAME`
-  - StandaloneVM: `NAME`
-  - AppVM: `NAME`
-  - DispVM: `disp-NAME`
-  - DispVM Template (AppVM): `dvm-NAME`
-  - Service qubes (not a class): `sys-NAME`
-
-2. Label:
-
-  - Black (Ultimately trusted): You must trust Dom0, Templates, Vaults,
-    Management qubes, these qubes control your system and hold valuable
-    information. Examples: dom0, tpl-ssh, vault, default-mgmt-dvm.
-  - Gray (Fully trusted): Trusted storage with extra RPC services that allow
-    certain operations to be made by the client and executed on the server.
-    Examples: sys-cacher, sys-git, sys-pgp, sys-ssh-agent.
-  - Purple, Blue, Green, Yellow (Relatively trusted per domain): Can be set
-    per user discretion, normally separated per domain (work, clients,
-    personal).
-  - Orange (Slightly trusted) Controls the flow of data to the client,
-    normally a firewall. Examples: sys-firewall, sys-vpn, sys-pihole.
-  - Red (Untrusted): Holds untrusted data (PCI devices, untrusted programs,
-    disposables for opening untrusted files or web pages). Examples: sys-net,
-    sys-usb, disp-sys-usb, disp-browser.
-
-### Qrexec
-
-1. Don't use `*` for source and destination, use `@anyvm` instead
-2. Target qube for policies must be `@default`. It allows for the real target
-   to be set by Dom0 via the `target=` redirection parameter, instead of
-   having to modify the client to target a different server via
-   `qrexec-client-vm`.
-3. Target qube for client script must default to `@default`, but other targets
-   must be allowed via parameters.
-
-## License
-
-All original source code is licensed under GPL-3.0-or-later.
-
-For more accurate information, check the individual files for license and
-copyright ownership.
+- All original source code is licensed under GPL-3.0-or-later.
+- All documentation is licensed under CC-BY-SA-4.0.
+- Some configuration and data files are licensed under CC0-1.0.
+- Some borrowed code (`qusal/dotfiles/`) is licenses under BSD-2-Clause,
+  CC-BY-SA-4.0, GPL-2.0-only, GPL-3.0-only, MIT, Vim.

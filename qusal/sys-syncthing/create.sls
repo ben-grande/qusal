@@ -8,49 +8,53 @@ SPDX-License-Identifier: GPL-3.0-or-later
 include:
   - .clone
 
-"tpl-{{ slsdotpath }}":
-  qvm.vm:
-    - name: tpl-{{ slsdotpath }}
-    - require:
-      - sls: {{ slsdotpath }}.clone
-    - prefs:
-      - vcpus: 1
-      - memory: 300
-      - maxmem: 700
-      - autostart: False
-      - include_in_backups: False
-    - features:
-      - disable:
-        - service.cups
-        - service.cups-browsed
-      - set:
-        - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
-        - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+{% load_yaml as defaults -%}
+name: tpl-{{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+prefs:
+- vcpus: 1
+- memory: 300
+- maxmem: 700
+- autostart: False
+- include_in_backups: False
+features:
+- disable:
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+  - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+{%- endload %}
+{{ load(defaults) }}
 
-"{{ slsdotpath }}":
-  qvm.vm:
-    - name: {{ slsdotpath }}
-    - require:
-      - sls: {{ slsdotpath }}.clone
-    - present:
-      - template: tpl-{{ slsdotpath }}
-      - label: gray
-    - prefs:
-      - template: tpl-{{ slsdotpath }}
-      - label: gray
-      - vcpus: 1
-      - memory: 300
-      - maxmem: 700
-      - autostart: False
-      - include_in_backups: True
-    - features:
-      - enable:
-        - servicevm
-      - disable:
-        - service.cups
-        - service.cups-browsed
-      - set:
-        - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- template: tpl-{{ slsdotpath }}
+- label: gray
+prefs:
+- template: tpl-{{ slsdotpath }}
+- label: gray
+- vcpus: 1
+- memory: 300
+- maxmem: 700
+- autostart: False
+- include_in_backups: True
+features:
+- enable:
+  - servicevm
+- disable:
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+{%- endload %}
+{{ load(defaults) }}
 
 "{{ slsdotpath }}-resize-private-volume":
   cmd.run:

@@ -10,3 +10,5 @@ base:
     - sys-syncthing.create
   'tpl-sys-syncthing':
     - sys-syncthing.install
+  'sys-syncthing':
+    - sys-syncthing.configure

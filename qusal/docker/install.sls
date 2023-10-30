@@ -13,29 +13,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
   pkg.uptodate:
     - refresh: True
 
+{% set pkg = {
+    'Debian': {
+      'pkg_removed': ['docker.io', 'docker-doc', 'docker-compose',
+                      'podman-docker', 'containerd', 'runc'],
+    },
+    'RedHat': {
+      'pkg_removed': ['docker', 'docker-client', 'docker-client-latest',
+                      'docker-common', 'docker-latest',
+                      'docker-latest-logrotate', 'docker-logrotate',
+                      'docker-selinux', 'docker-engine-selinux',
+                      'docker-engine'],
+    },
+}.get(grains.os_family) -%}
+
 {#
-"{{ slsdotpath }}-removed":
+"{{ slsdotpath }}-removed-os-specific":
   pkg.removed:
-    - pkgs:
-      {% if grains['os_family']|lower == 'debian' -%}
-      - docker.io
-      - docker-doc
-      - docker-compose
-      - podman-docker
-      - containerd
-      - runc
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - docker
-      - docker-client
-      - docker-client-latest
-      - docker-common
-      - docker-latest
-      - docker-latest-logrotate
-      - docker-logrotate
-      - docker-selinux
-      - docker-engine-selinux
-      - docker-engine
-      {% endif -%}
+    - pkgs: {{ pkg.pkg_removed|sequence|yaml }}
 #}
 
 "{{ slsdotpath }}-installed":

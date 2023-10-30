@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-## SPDX-FileCopyrightText: 2004 - 2022 Tim Pope <https://tpo.pe>
-## SPDX-FileCopyrightText: 2023 Qusal contributors
-##
-## SPDX-License-Identifier: GPL-3.0-or-later
-
-test "0${SHLVL-}" -le 1 && test -z "${SSH_TTY-}" &&
-  test "${TERM-}" = linux && clear

@@ -12,12 +12,12 @@
 set -eu
 
 usage(){
-  echo "usage: ${helper} <remote> [${scheme}://<authority>/<path>]" >&2
+  echo "Usage: ${helper} <remote> [${scheme}://<authority>/<path>]" >&2
 }
 
 die(){
   usage
-  echo "error: ${1}" >&2
+  echo "Error: ${1}" >&2
   exit 1
 }
 

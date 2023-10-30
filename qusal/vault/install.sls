@@ -21,11 +21,21 @@ include:
     - pkgs:
       - keepassxc
       - gnupg2
-      {% if grains['os_family']|lower == 'debian' -%}
-      - sq
-      {% elif grains['os_family']|lower == 'debian' -%}
-      - sequoia-sq
-      {% endif -%}
-      - openssh-client
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['sq', 'openssh-client'],
+    },
+    'RedHat': {
+      'pkg': ['sequoia-sq', 'openssh-clients'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}

@@ -7,24 +7,47 @@
 set -eu
 
 usage(){
-  echo "usage: ${helper} [<QUBE>]"
-  echo "example: ${helper} @default"
+  echo "Usage: ${helper} [<qube>] [<repository>]"
+  echo "Note: qube defaults to '@default' and repository to the current repository"
   exit 1
+}
+
+is_git_repo(){
+  if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
+    echo "Error: Either run from inside a git repository or provide it as an argument" >&2
+    usage
+  fi
 }
 
 helper="${0##*/git-}"
 case "${1-}" in
   -h|--?help) usage;;
-  *) qube="${1:-"@default"}";;
+  "") qube="@default";;
+  *) qube="${1}";;
+esac
+case "${2-}" in
+  "") is_git_repo; repo="$(basename "$(git rev-parse --show-toplevel)")";;
+  *) repo="${2}";;
 esac
 
-if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
-  echo "This command must be run from inside a git repository." >&2
-  usage
+rpc="GitInit"
+vendor="qusal"
+default_qube="sys-git"
+rpc_cmd="${vendor}.${rpc}+${repo}"
+
+if command -v qrexec-client-vm >/dev/null; then
+  exec qrexec-client-vm -- "${qube}" "${rpc_cmd}"
+elif command -v qrexec-client >/dev/null; then
+  qubes_version="$(awk -F '=' '/^VERSION_ID=/{print $2}' /etc/os-release)"
+  if test "$(echo "${qubes_version}" | tr -d ".")" -le 41; then
+    if test "${qube}" = "@default"; then
+      qube="${default_qube}"
+    fi
+  else
+    policy="$(qrexec-policy --assume-yes-for-ask dom0 "${qube}" "${rpc_cmd}")"
+    qube="$(echo "${policy}" | awk -F '=' '/^target=/{print $2}')"
+  fi
+  exec qrexec-client -d "${qube}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+else
+  die "Qrexec programs not found: qrexec-client-vm, qrexec-client"
 fi
-
-repo="$(basename "$(git rev-parse --show-toplevel)")"
-rpc=GitInit
-
-## TODO: Support Dom0 client
-exec qrexec-client-vm -- "${qube}" "qusal.${rpc}+${repo}"

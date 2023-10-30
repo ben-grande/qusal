@@ -29,9 +29,6 @@ qvm-features QUBE service.qubes-syncthing 1
 ```
 The client requires `socat` to be installed.
 
-By default the service will connect to the `sys-syncthing` qube, but you can
-change the default via policy.
-
 To use the service, add a Remote Device, and copy the `DeviceID` from the
 target qube. On the Advanced tab, under Addresses, change `dynamic` to
 `tcp://127.0.0.1:22001`

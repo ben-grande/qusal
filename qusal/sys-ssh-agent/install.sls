@@ -21,15 +21,26 @@ include:
     - skip_suggestions: True
     - pkgs:
       - socat
-      {% if grains['os_family']|lower == 'debian' -%}
-      - libpam-systemd
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - systemd-pam
-      {% endif -%}
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['libpam-systemd', 'procps', 'openssh-client'],
+    },
+    'RedHat': {
+      'pkg': ['systemd-pam', 'procps-ng', 'openssh-clients'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-agent-bin-dir":
   file.recurse:
-    - source: salt://{{ slsdotpath }}/files/agent/bin
+    - source: salt://{{ slsdotpath }}/files/server/bin
     - name: /usr/bin
     - file_mode: '0755'
     - user: root
@@ -37,7 +48,7 @@ include:
 
 "{{ slsdotpath }}-agent-user-systemd-dir":
   file.recurse:
-    - source: salt://{{ slsdotpath }}/files/agent/systemd/
+    - source: salt://{{ slsdotpath }}/files/server/systemd/
     - name: /usr/lib/systemd/user/
     - dir_mode: '0755'
     - file_mode: '0644'
@@ -63,11 +74,20 @@ include:
     - group: root
     - makedirs: True
 
+"{{ slsdotpath }}-skel-create-ssh-directory":
+  file.directory:
+    - name: /etc/skel/.ssh
+    - mode: '0700'
+    - user: user
+    - group: user
+    - makedirs: True
+
 "{{ slsdotpath }}-skel-create-keys-directory":
   file.directory:
-    - name: /etc/skel/keys
+    - name: /etc/skel/.ssh/identities.d
     - mode: '0700'
     - user: root
     - group: root
+    - makedirs: True
 
 {% endif -%}

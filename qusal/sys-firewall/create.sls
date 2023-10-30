@@ -15,77 +15,83 @@ include:
   {% set netvm = default_netvm %}
 {% endif -%}
 
-"{{ slsdotpath }}":
-  qvm.vm:
-    - require:
-      - sls: {{ slsdotpath }}.clone
-    - name: {{ slsdotpath }}
-    - present:
-      - template: tpl-{{ slsdotpath }}
-      - label: orange
-    - prefs:
-      - template: tpl-{{ slsdotpath }}
-      - label: orange
-      - memory: 300
-      - maxmem: 400
-      - netvm: {{ netvm }}
-      - vcpus: 1
-      - provides-network: True
-      - include_in_backups: False
-    - features:
-      - enable:
-        - servicevm
-      - disable:
-        - service.cups
-        - service.cups-browsed
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- template: tpl-{{ slsdotpath }}
+- label: orange
+prefs:
+- template: tpl-{{ slsdotpath }}
+- label: orange
+- memory: 300
+- maxmem: 400
+- netvm: {{ netvm }}
+- vcpus: 1
+- provides-network: True
+- include_in_backups: False
+features:
+- enable:
+  - servicevm
+- disable:
+  - service.cups
+  - service.cups-browsed
+{%- endload %}
+{{ load(defaults) }}
 
-"dvm-{{ slsdotpath }}":
-  qvm.vm:
-    - name: dvm-{{ slsdotpath }}
-    - require:
-      - sls: {{ slsdotpath }}.clone
-    - present:
-      - template: tpl-{{ slsdotpath }}
-      - label: orange
-    - prefs:
-      - template: tpl-{{ slsdotpath }}
-      - label: orange
-      - netvm: {{ netvm }}
-      - memory: 300
-      - maxmem: 400
-      - vcpus: 1
-      - template_for_dispvms: True
-      - include_in_backups: False
-    - features:
-      - enable:
-        - servicevm
-      - disable:
-        - appmenus-dispvm
-        - service.cups
-        - service.cups-browsed
+{% load_yaml as defaults -%}
+name: dvm-{{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- template: tpl-{{ slsdotpath }}
+- label: orange
+prefs:
+- template: tpl-{{ slsdotpath }}
+- label: orange
+- netvm: {{ netvm }}
+- memory: 300
+- maxmem: 400
+- vcpus: 1
+- template_for_dispvms: True
+- include_in_backups: False
+features:
+- enable:
+  - servicevm
+- disable:
+  - appmenus-dispvm
+  - service.cups
+  - service.cups-browsed
+{%- endload %}
+{{ load(defaults) }}
 
-"disp-{{ slsdotpath }}":
-  qvm.vm:
-    - require:
-      - qvm: dvm-{{ slsdotpath }}
-    - name: disp-{{ slsdotpath }}
-    - present:
-      - template: dvm-{{ slsdotpath }}
-      - label: orange
-      - class: DispVM
-    - prefs:
-      - template: dvm-{{ slsdotpath }}
-      - label: orange
-      - netvm: {{ netvm }}
-      - memory: 300
-      - maxmem: 400
-      - vcpus: 1
-      - provides-network: True
-      - autostart: False
-      - include_in_backups: False
-    - features:
-      - enable:
-        - servicevm
-      - disable:
-        - service.cups
-        - service.cups-browsed
+{% load_yaml as defaults -%}
+name: disp-{{ slsdotpath }}
+force: True
+require:
+- qvm: dvm-{{ slsdotpath }}
+present:
+- template: dvm-{{ slsdotpath }}
+- label: orange
+- class: DispVM
+prefs:
+- template: dvm-{{ slsdotpath }}
+- label: orange
+- netvm: {{ netvm }}
+- memory: 300
+- maxmem: 400
+- vcpus: 1
+- provides-network: True
+- autostart: False
+- include_in_backups: False
+features:
+- enable:
+  - servicevm
+- disable:
+  - service.cups
+  - service.cups-browsed
+{%- endload %}
+{{ load(defaults) }}

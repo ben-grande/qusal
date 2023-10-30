@@ -48,6 +48,10 @@ If sls_path is 'browser', then this would install the repo from:
     - group: root
     - makedirs: True
 
+"{{ name }}-remove-{{ repo }}-old-format":
+  file.absent:
+    - name: /etc/apt/sources.list.d/{{ repo }}.list
+
 {% elif grains['os_family']|lower == 'redhat' -%}
 
 "{{ name }}-install-{{ repo }}-keyring":

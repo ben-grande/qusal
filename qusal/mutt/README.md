@@ -48,3 +48,6 @@ You can define aliases in `~/.muttrc-aliases.local`.
 
 If you want to override any option, put the settings in `~/.muttrc.local`,
 as this is the last file to be sourced.
+
+If you want to have your e-mail signature (not PGP) at the end of every mail
+you send, place it in `~/.signature`.

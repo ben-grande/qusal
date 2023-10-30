@@ -56,7 +56,6 @@ include:
       - ca-certificates
       - curl
       - dnsutils
-      - firefox-esr
       - git
       - idn2
       - lighttpd

@@ -22,10 +22,21 @@ include:
       - split-gpg2
       - qubes-gpg-split
       - gnupg2
-      {% if grains['os_family']|lower == 'debian' -%}
-      - sq
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      - sequoia-sq
-      {% endif -%}
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['sq'],
+    },
+    'RedHat': {
+      'pkg': ['sequoia-sq'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}

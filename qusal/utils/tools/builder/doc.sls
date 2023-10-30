@@ -21,10 +21,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
       - groff
       - man-db
       - less
-      {#
-      {% if grains['os_family']|lower == 'debian' -%}
-      {% elif grains['os_family']|lower == 'redhat' -%}
-      {% endif -%}
-      #}
 
 {% endif -%}

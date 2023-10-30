@@ -7,13 +7,28 @@
 ## Should be called by git-remote-qrexec.
 set -eu
 
-die(){
-  echo "error: ${1}" >&2
+usage(){
+  echo "Usage: ${helper} git-upload-pack|git-receive-pack <qube>/<path>"
+  echo "Note: ${helper} is supposed to be called by ${parent_helper}"
   exit 1
 }
 
-arg="${1?}"
-url="${2?}"
+die(){
+  echo "Error: ${1}" >&2
+  exit 1
+}
+
+helper="${0##*/git-}"
+parent_helper="${helper%-*}"
+
+case "${1-}" in
+  -h|--?help|"") usage;;
+  *) arg="${1}";;
+esac
+case "${2-}" in
+  "") usage;;
+  *) url="${2}";;
+esac
 
 case "${arg}" in
   git-upload-pack) rpc=GitFetch;;
@@ -24,14 +39,24 @@ esac
 
 qube="$(echo "${url}" | cut -d "/" -f1)"
 repo="$(echo "${url}" | cut -d "/" -f2-)"
+test -n "${repo}" || die "Repository name can't be empty"
+vendor="qusal"
+default_qube="sys-git"
+rpc_cmd="${vendor}.${rpc}+${repo}"
 
-if ! command -v -- qrexec-client-vm >/dev/null; then
-  die "Command not found: 'qrexec-client-vm'"
+if command -v qrexec-client-vm >/dev/null; then
+  exec qrexec-client-vm -- "${qube}" "${rpc_cmd}"
+elif command -v qrexec-client >/dev/null; then
+  qubes_version="$(awk -F '=' '/^VERSION_ID=/{print $2}' /etc/os-release)"
+  if test "$(echo "${qubes_version}" | tr -d ".")" -le 41; then
+    if test "${qube}" = "@default"; then
+      qube="${default_qube}"
+    fi
+  else
+    policy="$(qrexec-policy --assume-yes-for-ask dom0 "${qube}" "${rpc_cmd}")"
+    qube="$(echo "${policy}" | awk -F '=' '/^target=/{print $2}')"
+  fi
+  exec qrexec-client -d "${qube}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+else
+  die "Qrexec programs not found: qrexec-client-vm, qrexec-client"
 fi
-
-if test -z "${repo}"; then
-  die "Repository definition can't be empty"
-fi
-
-## TODO: Support Dom0 client
-exec qrexec-client-vm -- "${qube}" "qusal.${rpc}+${repo}"

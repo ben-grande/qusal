@@ -1,8 +1,11 @@
 #!/bin/sh
 
+# SPDX-FileCopyrightText: 2018 Oded Arbel <https://geek.co.li>
 # SPDX-FileCopyrightText: 2023 Qusal contributors
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://geek.co.il/2018/07/30/script-day-different-default-browser-per-kde-activity
 
 set -eu
 
@@ -17,7 +20,6 @@ case "${XDG_SESSION_DESKTOP:-}" in
   *) exit 1;;
 esac
 
-## https://geek.co.il/2018/07/30/script-day-different-default-browser-per-kde-activity
 service="org.kde.ActivityManager"
 interface="$service.Activities"
 path="/ActivityManager/Activities"
