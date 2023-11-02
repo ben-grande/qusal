@@ -122,4 +122,4 @@ qubesctl state.apply sys-syncthing.clean
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/master/syncthing)
+- [Unman](https://github.com/unman/shaker/tree/main/syncthing)

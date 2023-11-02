@@ -85,4 +85,4 @@ netvm chaining (will break tor's client stream isolation) as such:
 ## Credits
 
 - [Patrizio Tufarolo](https://blog.tufarolo.eu/how-to-configure-pihole-in-qubesos-proxyvm/)
-- [Unman](https://github.com/unman/shaker/tree/master/pihole)
+- [Unman](https://github.com/unman/shaker/tree/main/pihole)

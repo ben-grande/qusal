@@ -32,4 +32,4 @@ qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/master/reader)
+- [Unman](https://github.com/unman/shaker/tree/main/reader)

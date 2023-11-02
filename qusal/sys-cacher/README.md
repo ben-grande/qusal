@@ -41,7 +41,6 @@ qubesctl top.enable sys-cacher
 qubesctl --targets=tpl-sys-cacher,sys-cacher state.apply
 qubesctl top.disable sys-cacher
 qubesctl state.apply sys-cacher.tag
-qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
 ```
 
 - State
@@ -117,4 +116,4 @@ qvm-tags del TEMPLATE sys-cacher-updatevm
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/master/cacher)
+- [Unman](https://github.com/unman/shaker/tree/main/cacher)

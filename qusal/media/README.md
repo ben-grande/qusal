@@ -31,4 +31,4 @@ qubesctl --skip-dom0 --targets=media state.apply media.configure
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/master/multimedia)
+- [Unman](https://github.com/unman/shaker/tree/main/multimedia)
