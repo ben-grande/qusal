@@ -14,6 +14,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
   * [DomU](#domu)
   * [Dom0](#dom0)
 * [Usage](#usage)
+* [Credits](#credits)
 * [Legal](#legal)
 
 ## Description
@@ -60,10 +61,10 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 
 2. Copy this repository from some qube to Dom0 from Dom0:
 ```sh
-## Example: mkdir -p ~/QubesIncoming/dev
 mkdir -p ~/QubesIncoming/QUBE
-## Example: qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
 qvm-run -p <QUBE> tar -cC </PATH/TO> qusal | tar -xvC ~/QubesIncoming/QUBE qusal
+## Example: mkdir -p ~/QubesIncoming/dev
+## Example: qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
 ```
 
 3. Copy the files to the Salt directories:

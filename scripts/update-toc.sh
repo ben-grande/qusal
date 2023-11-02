@@ -13,19 +13,23 @@ usage(){
 }
 
 case "${1-}" in
-  ""|-h|--?help) usage;;
+  ""|-h|--help) usage;;
 esac
 
 ## vim-markdown-toc deletes lines if they are folded, can't rely on its native
 ## update on save.
 if ! vim -e -c 'setf markdown' -c 'if !exists(":GenTocGFM") | cq | endif' -c q
 then
-  echo "Error: Vim Plugin mzlogin/vim-markdown-toc is not installed."
+  echo "Error: Vim Plugin mzlogin/vim-markdown-toc is not installed." >&2
   exit 1
 fi
 
 
 for f in "$@"; do
+  if ! test -f "$f"; then
+    echo "Error: Not a regular file: $f" >&2
+    exit 1
+  fi
   if ! grep -q "^## Table of Contents$" "$f"; then
     echo "Could not find table of contents on file: $f" >&2; exit 1
   fi

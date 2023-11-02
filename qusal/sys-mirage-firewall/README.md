@@ -4,6 +4,8 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
+* [Credits](#credits)
 
 ## Description
 
@@ -48,4 +50,4 @@ Exit the console with `Ctrl-]`.
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/master/mirage)
+- [Unman](https://github.com/unman/shaker/tree/main/mirage)
