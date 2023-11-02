@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 "{{ slsdotpath }}-home-config-mimeapps.list":
   file.managed:
     - name: /home/user/.config/mimeapps.list
-    - source: salt://{{ slsdotpath }}/files/app/mimeapps.list
+    - source: salt://{{ slsdotpath }}/files/client/mimeapps.list
     - mode: '0644'
     - user: user
     - group: user

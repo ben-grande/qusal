@@ -79,10 +79,21 @@ The RPM Spec is not ready, don't try it unless for development.
 Qusal is now installed. Please read the README.md of each project for further
 information on how to install the desired package.
 
-The intended behaviour is to enforce the state of qubes and their services. If
+Every project creates its own template, client and server (when necessary)
+with only the required packages and configuration. You don't need to use a
+separate template for everything, but if you want to do that, you will have
+adjust the target of the qubesctl call or write Salt Top files.
+
+When allowing more Qrexec calls than the default shipped by Qubes OS, you are
+increasing the attack surface of the target, normally valuable qube that can
+hold secrets or pristine data. A compromise of the client qube can extend to
+the server, therefore configure the installation according to your threat
+model.
+
+The intended behavior is to enforce the state of qubes and their services. If
 you modify the qubes and their services and apply the state again, there is a
-good chance your choices will be overwritten. To enforce your state,
-declaratively specify the desired state, do not do it manually, we are past
+good chance your choices will be overwritten. To enforce your state, write a
+SaltFile to specify the desired state, do not do it manually, we are past
 that.
 
 Qubes global settings (qubes-prefs) that will be managed:

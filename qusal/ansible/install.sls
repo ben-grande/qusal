@@ -55,7 +55,7 @@ include:
 "{{ slsdotpath }}-sshd-config":
   file.managed:
     - name: /etc/ssh/sshd_config.d/99-sshd-ansible.conf
-    - source: salt://{{ slsdotpath }}/files/minion/99-sshd-ansible.conf
+    - source: salt://{{ slsdotpath }}/files/client/99-sshd-ansible.conf
     - mode: '0644'
     - user: root
     - group: root

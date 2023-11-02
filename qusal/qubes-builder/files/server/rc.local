@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2023 The Qubes OS Project <https://www.qubes-os.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+mount /builder -o dev,suid,remount

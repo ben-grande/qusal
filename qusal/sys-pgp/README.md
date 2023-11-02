@@ -36,10 +36,9 @@ Install on the client template:
 qubesctl --skip-dom0 --targets=tpl-qubes-builder,tpl-dev state.apply sys-pgp.install-client
 ```
 
-The client qube also requires the service to be enabled:
+The client qube requires the split GPG client service to be enabled:
 ```sh
-qvm-features qubes-builder service.split-gpg2-client
-qvm-features dev service.split-gpg2-client
+qvm-features QUBE service.split-gpg2-client
 ```
 
 ## Access Control

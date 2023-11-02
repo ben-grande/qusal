@@ -20,44 +20,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      ## minimum
       - qubes-core-agent-networking
-      - socat
       - syncthing
-      ## UI
-      - firefox-esr
-      - qubes-core-agent-nautilus
-      - nautilus
-
-{% set pkg = {
-    'Debian': {
-      'pkg': ['libpam-systemd'],
-    },
-    'RedHat': {
-      'pkg': ['systemd-pam'],
-    },
-}.get(grains.os_family) -%}
-
-"{{ slsdotpath }}-installed-os-specific":
-  pkg.installed:
-    - refresh: True
-    - install_recommends: False
-    - skip_suggestions: True
-    - pkgs: {{ pkg.pkg|sequence|yaml }}
+      - jq
+      - socat
+      - qubes-core-agent-thunar
+      - thunar
 
 "{{ slsdotpath }}-rpc-service":
   file.managed:
     - name: /etc/qubes-rpc/qusal.Syncthing
-    - source: salt://{{ slsdotpath }}/files/rpc/qusal.Syncthing
-    - user: root
-    - group: root
-    - mode: '0755'
-    - makedirs: True
-
-"{{ slsdotpath }}-qubes-service":
-  file.managed:
-    - name: /lib/systemd/system/qubes-syncthing.service
-    - source: salt://{{ slsdotpath }}/files/rpc/qubes-syncthing.service
+    - source: salt://{{ slsdotpath }}/files/server/rpc/qusal.Syncthing
     - user: root
     - group: root
     - mode: '0755'
@@ -68,8 +41,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - name: syncthing@user.service
     - runtime: False
 
-"{{ slsdotpath }}-enable-qubes-syncthing":
-  service.enabled:
-    - name: qubes-syncthing.service
+"{{ slsdotpath }}-desktop-application-browser":
+  file.managed:
+    - name: /usr/share/applications/syncthing-browser.desktop
+    - source: salt://{{ slsdotpath }}/files/server/syncthing-browser.desktop
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-desktop-application-open-general":
+  file.managed:
+    - name: /usr/share/applications/syncthing-browser-general.desktop
+    - source: salt://{{ slsdotpath }}/files/server/syncthing-browser-general.desktop
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-etc-mimeapps.list":
+  file.managed:
+    - name: /etc/xdg/mimeapps.list
+    - source: salt://{{ slsdotpath }}/files/server/mimeapps.list
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
 
 {% endif -%}

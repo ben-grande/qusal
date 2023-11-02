@@ -10,4 +10,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - name: /rw/config/rc.local
     - text: |
         systemctl unmask syncthing@user.service
-        systemctl start  syncthing@user.service
+        systemctl --no-block restart  syncthing@user.service

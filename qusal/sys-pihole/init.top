@@ -10,5 +10,5 @@ base:
     - sys-pihole.create
   'sys-pihole':
     - sys-pihole.install
-  'dvm-browser-sys-pihole':
-    - sys-pihole.configure-dvm
+  'sys-pihole-browser':
+    - sys-pihole.configure-browser

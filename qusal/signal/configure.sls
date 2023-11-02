@@ -6,6 +6,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
+include:
+  - dotfiles.copy-x11
+
 "{{ slsdotpath }}-create-autostart-dir":
   cmd.run:
     - name: mkdir -p ~/.config/autostart

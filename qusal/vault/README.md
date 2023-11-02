@@ -32,9 +32,7 @@ qubesctl --skip-dom0 --targets=tpl-vault state.apply vault.install
 ## Usage
 
 The intended usage is to hold passwords and keys. You should copy the keys
-generated from the vault to the target qube, which can be a split agent
-server for SSH, PGP, Pass.
-
-You should use a separate qube for split-ssh, split-gpg2 or any other
-split-action operations that allows access to the vault qube, as it increases
-the attack surface.
+generated from the vault to another qube, which can be a split agent
+server for SSH, PGP, Pass. A compromise of the client qube can escalate into a
+compromise of the qubes it can run RPC services, therefore a separate vault is
+appropriate according to your threat model.

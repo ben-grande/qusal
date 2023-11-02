@@ -7,6 +7,17 @@ Files: */README.md
 Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
 
+Files: qusal/sys-mirage-firewall/files/admin/mirage-firewall.tar.bz2
+Copyright: 2019 Thomas Leonard
+License: BSD-2-Clause
+
+Files: qusal/qubes-builder/files/client/keys/*
+Copyright: The Qubes OS Project <https://www.qubes-os.org>
+           Frédéric Pierret <frederic.pierret@qubes-os.org>
+           Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+           Simon Gaiser <simon@invisiblethingslab.com>
+License: CC0-1.0
+
 Files: qusal/ansible/files/repo/*
 Copyright: 2014 Ansible, Inc. <https://ansible.com>
 License: CC0-1.0
@@ -29,13 +40,6 @@ License: CC0-1.0
 
 Files: qusal/terraform/files/repo/*
 Copyright: 2023 HashiCorp Inc. <security+packaging@hashicorp.com>
-License: CC0-1.0
-
-Files: qusal/qubes-builder/files/keys/*
-Copyright: The Qubes OS Project <https://www.qubes-os.org>
-           Frédéric Pierret <frederic.pierret@qubes-os.org>
-           Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
-           Simon Gaiser <simon@invisiblethingslab.com>
 License: CC0-1.0
 
 # vim: ft=debcopyright

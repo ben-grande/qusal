@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Pi-Hole Browser URL Forwarder
+Exec=qvm-open-in-vm -- @default %u
+Icon=web-browser
+Terminal=false
+X-MultipleArgs=False
+Type=Application
+Keywords=synchronization;interface;
+Categories=Network;WebBrowser;FileTransfer;P2P;

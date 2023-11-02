@@ -25,9 +25,9 @@ to it.
 - Top:
 ```sh
 qubesctl top.enable sys-pihole browser
-qubesctl --targets=tpl-browser,sys-pihole,dvm-sys-pihole state.apply
+qubesctl --targets=tpl-browser,sys-pihole,sys-pihole-browser state.apply
 qubesctl top.disable sys-pihole browser
-qubesctl state.apply browser.appmenus
+qubesctl state.apply sys-pihole.appmenus
 ```
 
 - State:
@@ -35,8 +35,8 @@ qubesctl state.apply browser.appmenus
 qubesctl state.apply sys-pihole.create
 qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
 qubesctl --skip-dom0 --targets=sys-pihole state.apply sys-pihole.install
-qubesctl --skip-dom0 --targets=dvm-browser-sys-pihole state.apply sys-pihole.configure-dvm
-qubesctl state.apply browser.appmenus
+qubesctl --skip-dom0 --targets=sys-pihole-browser state.apply sys-pihole.configure-browser
+qubesctl state.apply sys-pihole.appmenus
 ```
 
 If you want to change the global preferences `updatevm` and `default_netvm`
@@ -63,12 +63,16 @@ You should change this password on first use by running in `sys-pihole`:
 pihole -a -p
 ```
 
-If you want to view statistics or manage Pi-Hole through the browser, open the
-browser in `disp-browser-sys-pihole`. This disposable qube has no netvm and
-has connection to the Pi-Hole server. The browser separation is to prevent the
-use of a browser in the same machine the server is running, which you could
-mistakenly browse the internet in the proxy qube if the separation was not
-done.
+If you want to view statistics or manage the server through a GUI, open
+`sys-pihole` or `sys-pihole-browser` desktop file `pihole-browser.desktop`
+from Dom0. Addresses starting with `http` or `https` will be redirected
+to `sys-pihole-browser`.
+
+The browser separation from the server is to avoid browsing malicious sites
+and exposing the browser to direct network on the same machine the server is
+running. The browser qube is offline and only has access to the admin
+interface. In other words, it has control over the server functions, if the
+browser is compromised, it can compromise the server.
 
 You can clone `sys-pihole`. If you do, you must manually change the IP address
 of the clone.

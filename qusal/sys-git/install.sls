@@ -27,7 +27,7 @@ include:
 "{{ slsdotpath }}-rpc":
   file.recurse:
     - name: /etc/qubes-rpc/
-    - source: salt://{{ slsdotpath }}/files/rpc/
+    - source: salt://{{ slsdotpath }}/files/server/rpc
     - user: root
     - group: root
     - file_mode: '0755'

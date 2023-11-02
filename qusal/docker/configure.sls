@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - name: /rw/config/rc.local
     - text: |
         usermod -aG docker user
-        systemctl start docker
+        systemctl unmask docker
+        systemctl --no-block restart docker
 
 {% endif -%}

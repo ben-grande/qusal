@@ -18,9 +18,6 @@ prefs:
 - memory: 300
 - maxmem: 2000
 features:
-- disable:
-  - service.tracker
-  - service.evolution-data-server
 - set:
   - default-menu-items: "firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-start.desktop"
   - menu-items: "firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-start.desktop"

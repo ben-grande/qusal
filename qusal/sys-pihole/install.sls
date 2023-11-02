@@ -16,7 +16,7 @@ include:
 "{{ slsdotpath }}-set-eth0-interface":
   file.managed:
     - name: /etc/network/interfaces.d/eth0
-    - source: salt://{{ slsdotpath }}/files/network/eth0
+    - source: salt://{{ slsdotpath }}/files/server/network/eth0
     - user: root
     - group: root
     - makedirs: True
@@ -82,7 +82,7 @@ include:
 "{{ slsdotpath }}-setupVars.conf":
   file.managed:
     - name: /etc/pihole/setupVars.conf
-    - source: salt://{{ slsdotpath }}/files/network/setupVars.conf
+    - source: salt://{{ slsdotpath }}/files/server/network/setupVars.conf
     - user: root
     - group: root
     - makedirs: True
@@ -104,7 +104,7 @@ include:
 "{{ slsdotpath }}-firewall-update-nft-rules":
   file.managed:
     - name: /rw/config/qubes-firewall.d/update_nft.sh
-    - source: salt://{{ slsdotpath }}/files/firewall/update_nft.sh
+    - source: salt://{{ slsdotpath }}/files/server/firewall/update_nft.sh
     - user: root
     - group: root
     - makedirs: True
@@ -113,7 +113,7 @@ include:
 "{{ slsdotpath }}-firewall-route-localnet":
   file.managed:
     - name: /rw/config/network-hooks.d/internalise.sh
-    - source: salt://{{ slsdotpath }}/files/firewall/internalise.sh
+    - source: salt://{{ slsdotpath }}/files/server/firewall/internalise.sh
     - user: root
     - group: root
     - makedirs: True
@@ -122,7 +122,7 @@ include:
 "{{ slsdotpath }}-firewall-flush":
   file.managed:
     - name: /rw/config/network-hooks.d/flush.sh
-    - source: salt://{{ slsdotpath }}/files/firewall/flush.sh
+    - source: salt://{{ slsdotpath }}/files/server/firewall/flush.sh
     - user: root
     - group: root
     - makedirs: True
@@ -131,7 +131,7 @@ include:
 "{{ slsdotpath }}-firewall-flush-rules":
   file.managed:
     - name: /rw/config/network-hooks.d/flush
-    - source: salt://{{ slsdotpath }}/files/firewall/flush
+    - source: salt://{{ slsdotpath }}/files/server/firewall/flush
     - user: root
     - group: root
     - makedirs: True
@@ -143,5 +143,32 @@ include:
     - text:
       - interface=lo
       - bind-interfaces
+
+"{{ slsdotpath }}-desktop-application-browser":
+  file.managed:
+    - name: /usr/share/applications/pihole-browser.desktop
+    - source: salt://{{ slsdotpath }}/files/server/pihole-browser.desktop
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-desktop-application-open-general":
+  file.managed:
+    - name: /usr/share/applications/pihole-browser-general.desktop
+    - source: salt://{{ slsdotpath }}/files/server/pihole-browser-general.desktop
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-etc-mimeapps.list":
+  file.managed:
+    - name: /etc/xdg/mimeapps.list
+    - source: salt://{{ slsdotpath }}/files/server/mimeapps.list
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
 
 {% endif -%}

@@ -20,7 +20,7 @@ SET POLICY:
 {{ policy_set(sls_path, '80') }}
 
 {% from 'utils/macros/policy.sls' import policy_set_full with context -%}
-{{ policy_set_full('project', '/etc/qubes/policy.d/80-project.policy', 'salt://project/files/policy/default.policy') }}
+{{ policy_set_full('project', '/etc/qubes/policy.d/80-project.policy', 'salt://project/files/admin/policy/default.policy') }}
 
 If you prefer to use 'contents' instead of 'source':
 {% from 'utils/macros/policy.sls' import load_policy -%}
@@ -49,7 +49,7 @@ contents:
 "{{ project }}-set-rpc-policy":
   file.managed:
     - name: /etc/qubes/policy.d/{{ number ~ '-' ~ project }}.policy
-    - source: salt://{{ project }}/files/policy/default.policy
+    - source: salt://{{ project }}/files/admin/policy/default.policy
     - template: jinja
     - context:
         sls_path: {{ project }}

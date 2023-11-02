@@ -81,7 +81,7 @@ prefs:
 - autostart: False
 - include_in_backups: False
 features:
-- appemenus-dispvm: True
+- appmenus-dispvm: True
 - disable:
   - service.cups
   - service.cups-browsed

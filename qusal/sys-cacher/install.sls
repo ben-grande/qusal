@@ -44,20 +44,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 "{{ slsdotpath }}-update-debian-mirrors":
   cmd.run:
-    - name: cp /lib/apt-cacher-ng/deb_mirrors.gz /etc/apt-cacher-ng/deb_mirrors.gz
+    - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/apt-cacher-ng/deb_mirrors.gz
     - runas: root
 
 "{{ slsdotpath }}-update-fedora-mirrors":
   file.managed:
     - name: /etc/apt-cacher-ng/fedora_mirrors
-    - source: salt://{{ slsdotpath }}/files/mirrors/fedora_mirrors
+    - source: salt://{{ slsdotpath }}/files/server/mirrors/fedora_mirrors
     - user: root
     - group: root
 
 "{{ slsdotpath }}-update-arch-mirrors":
   file.managed:
     - name: /etc/apt-cacher-ng/archlx_mirrors
-    - source: salt://{{ slsdotpath }}/files/mirrors/archlx_mirrors
+    - source: salt://{{ slsdotpath }}/files/server/mirrors/archlx_mirrors
     - user: root
     - group: root
 
@@ -69,7 +69,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 "{{ slsdotpath }}-acng.conf":
   file.managed:
     - name: /etc/apt-cacher-ng/acng.conf
-    - source: salt://{{ slsdotpath }}/files/conf/acng.conf
+    - source: salt://{{ slsdotpath }}/files/server/conf/acng.conf
     - user: root
     - group: root
     - makedirs: True

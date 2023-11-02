@@ -12,16 +12,14 @@ include:
   - dotfiles.copy-x11
 
 "{{ slsdotpath }}-executor-rpc":
-  file.managed:
+  file.recurse:
+    - name: /usr/local/etc/qubes-rpc/
+    - source: salt://{{ slsdotpath }}/files/server/rpc/
     - user: root
     - group: root
-    - mode: '0755'
+    - dir_mode: '0755'
+    - file_mode: '0755'
     - makedirs: True
-    - names:
-      - /usr/local/etc/qubes-rpc/qubesbuilder.FileCopyIn:
-        - source: salt://{{ slsdotpath }}/files/rpc/qubesbuilder.FileCopyIn
-      - /usr/local/etc/qubes-rpc/qubesbuilder.FileCopyOut:
-        - source: salt://{{ slsdotpath }}/files/rpc/qubesbuilder.FileCopyOut
 
 "{{ slsdotpath }}-executor-makedir-binded-builder":
   file.directory:
@@ -34,7 +32,7 @@ include:
 "{{ slsdotpath }}-executor-bind-dirs":
   file.managed:
     - name: /rw/config/qubes-bind-dirs.d/builder.conf
-    - source: salt://{{ slsdotpath }}/files/qubes-executor/builder.conf
+    - source: salt://{{ slsdotpath }}/files/server/builder.conf
     - user: root
     - group: root
     - mode: '0644'

@@ -18,6 +18,11 @@ Usage:
 
 {% macro sync_appmenus(qube) -%}
 
+{% set running = 0 -%}
+{% if salt['cmd.shell']('qvm-ls --no-spinner --raw-list --running ' ~ qube) == qube -%}
+  {% set running = 1 -%}
+{% endif -%}
+
 "{{ qube }}-start":
   qvm.start:
     - name: {{ qube }}
@@ -30,10 +35,12 @@ Usage:
     - name: qvm-sync-appmenus {{ qube }}
     - runas: {{ gui_user }}
 
+{% if running == 0 -%}
 "{{ qube }}-shutdown":
   qvm.shutdown:
     - require:
       - cmd: {{ qube }}-sync-appmenus
     - name: {{ qube }}
+{% endif -%}
 
 {% endmacro -%}

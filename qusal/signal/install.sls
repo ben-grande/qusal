@@ -9,6 +9,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 {% from 'utils/macros/install-repo.sls' import install_repo -%}
 {{ install_repo(sls_path, 'signal') }}
 
+include:
+  - dotfiles.copy-x11
+
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
     - refresh: True
@@ -21,8 +24,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - pkgs:
       - qubes-core-agent-networking
       - ca-certificates
-      - qubes-core-agent-nautilus
-      - nautilus
+      - qubes-core-agent-thunar
+      - thunar
       - pulseaudio-qubes
       - signal-desktop
       - zenity

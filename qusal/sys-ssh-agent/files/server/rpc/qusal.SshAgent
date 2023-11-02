@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -eu
+
+#origin="$QREXEC_REMOTE_DOMAIN"
+agent="$QREXEC_SERVICE_ARGUMENT"
+socket="/tmp/qubes-ssh-agent/${agent}.sock"
+
+qvm-ssh-agent add "${agent}" >/dev/null
+exec socat STDIO UNIX-CLIENT:"$socket"

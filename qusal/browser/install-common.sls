@@ -22,8 +22,8 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - curl
-      - qubes-core-agent-nautilus
-      - nautilus
+      - qubes-core-agent-thunar
+      - thunar
       - zenity
       - libgdk-pixbuf2.0-bin
       - pulseaudio-qubes

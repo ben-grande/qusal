@@ -50,11 +50,13 @@ features:
   - service.cups-browsed
   - service.tracker
   - service.evolution-data-server
+- set:
+  - menu-items: "pihole-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
-name: dvm-browser-{{ slsdotpath }}
+name: {{ slsdotpath }}-browser
 force: True
 require:
 - sls: browser.create
@@ -67,35 +69,7 @@ prefs:
 - maxmem: 600
 - vcpus: 1
 - netvm: ""
-- template_for_dispvms: True
 - include_in_backups: False
-features:
-- disable:
-  - service.tracker
-  - service.evolution-data-server
-- enable:
-  - appmenus-dispvm
-- set:
-  - menu-items: "firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop"
-{%- endload %}
-{{ load(defaults) }}
-
-
-{% load_yaml as defaults -%}
-name: disp-browser-{{ slsdotpath }}
-force: True
-require:
-- sls: browser.create
-present:
-- template: dvm-browser-{{ slsdotpath }}
-- label: orange
-- class: DispVM
-prefs:
-- label: orange
-- memory: 300
-- maxmem: 600
-- vcpus: 1
-- netvm: ""
 features:
 - disable:
   - service.cups
@@ -103,7 +77,7 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop"
+  - menu-items: "pihole-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 

@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 include:
   - .clone
+  - browser.create
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
@@ -28,8 +29,8 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
-  - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+  - menu-items: "syncthing-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
+  - default-menu-items: "syncthing-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -40,10 +41,10 @@ require:
 - sls: {{ slsdotpath }}.clone
 present:
 - template: tpl-{{ slsdotpath }}
-- label: gray
+- label: yellow
 prefs:
 - template: tpl-{{ slsdotpath }}
-- label: gray
+- label: yellow
 - vcpus: 1
 - memory: 300
 - maxmem: 700
@@ -55,10 +56,36 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+- set:
+  - menu-items: "syncthing-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}-browser
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- template: tpl-browser
+- label: yellow
+prefs:
+- template: tpl-browser
+- label: yellow
+- vcpus: 1
+- netvm: ""
+- memory: 300
+- maxmem: 600
+- autostart: False
+- include_in_backups: False
+features:
+- disable:
+  - service.cups
+  - service.cups-browsed
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop firefox-esr.desktop syncthing-ui.desktop"
+  - menu-items: "syncthing-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 

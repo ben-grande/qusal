@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[Unit]
+Description=Forward connection to Rsync over Qrexec
+ConditionPathExists=/var/run/qubes-service/rsync-setup
+
+[Socket]
+ListenStream=127.0.0.1:839
+BindToDevice=lo
+Accept=true
+
+[Install]
+WantedBy=multi-user.target

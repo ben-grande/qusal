@@ -5,6 +5,7 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Access Control](#access-control)
+* [Usage](#usage)
 * [Debugging](#debugging)
 * [Uninstallation](#uninstallation)
 * [Credits](#credits)
@@ -22,39 +23,36 @@ accessible externally.
 
 ## Installation
 
-The Syncthing service is only started if the service is enabled for that qube
-in Dom0:
-```
-qvm-features QUBE service.qubes-syncthing 1
-```
-The client requires `socat` to be installed.
-
-To use the service, add a Remote Device, and copy the `DeviceID` from the
-target qube. On the Advanced tab, under Addresses, change `dynamic` to
-`tcp://127.0.0.1:22001`
-
-If the sender qube has no netvm set, under `Settings`, disable
-`Enable NAT traversal`, `Local Discovery`, `Global Discovery`, and
-`Enable Relaying`
-
 - Top:
 ```sh
-qubesctl top.enable sys-syncthing
-qubesctl --targets=tpl-sys-syncthing,sys-syncthing state.apply
-qubesctl top.disable sys-syncthing
+qubesctl top.enable sys-syncthing browser
+qubesctl --targets=tpl-browser,tpl-sys-syncthing,sys-syncthing,sys-syncthing-browser state.apply
+qubesctl top.disable sys-syncthing browser
 qubesctl state.apply sys-syncthing.appmenus
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh -a -p add sys-syncthing tcp 22000
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh -a -p add sys-syncthing udp 22000
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing tcp 22000
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing udp 22000
 ```
 
 - State:
 ```sh
 qubesctl state.apply sys-syncthing.create
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
 qubesctl --skip-dom0 --targets=tpl-sys-syncthing state.apply sys-syncthing.install
 qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.configure
+qubesctl --skip-dom0 --targets=sys-syncthing-browser state.apply sys-syncthing.configure-browser
 qubesctl state.apply sys-syncthing.appmenus
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh -a -p add sys-syncthing tcp 22000
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh -a -p add sys-syncthing udp 22000
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing tcp 22000
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing udp 22000
+```
+
+Install Syncthing on the client template:
+```sh
+qubesctl --skip-dom0 --targets=QUBE state.apply sys-syncthing.install-client
+```
+
+The client qube requires the split Syncthing service to be enabled:
+```sh
+qvm-features QUBE service.syncthing-setup 1
 ```
 
 ## Access Control
@@ -70,16 +68,39 @@ format:
 qusal.Syncthing  *  SOURCE  @default allow target=DESTINATION default_target=DEFAULT_DESTINATION
 ```
 
+## Usage
+
+The Syncthing address is `http://127.0.0.1:8384`.
+
+If you want to view statistics or manage the server through a GUI, open
+`sys-syncthing` or `sys-syncthing-browser` desktop file
+`syncthing-browser.desktop` from Dom0 or run `syncthing -browser-only` from
+`sys-syncthing`. Addresses starting with `http` or `https` will be redirected
+to `sys-syncthing-browser`.
+
+The browser separation from the server is to avoid browsing malicious sites
+and exposing the browser to direct network on the same machine the server is
+running. The browser qube is offline and only has access to the admin
+interface. In other words, it has control over the server functions, if the
+browser is compromised, it can compromise the server.
+
+To use the service, from the client, add a Remote Device, and copy the
+`DeviceID` from the server qube. On the Advanced tab, under Addresses, change
+`dynamic` to `tcp://127.0.0.1:22001`
+
+If the sender qube has no netvm set, under `Settings`, disable `Enable NAT
+traversal`, `Local Discovery`, `Global Discovery`, and `Enable Relaying`
+
 ## Debugging
 
 If sys-net has more than one network card the first external interface will
 be used by default.
 If this is incorrect, you must change it manually. In Dom0 run:
 ```sh
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh delete sys-syncthing tcp 22000 -a -p
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh delete sys-syncthing udp 22000 -a -p
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh add sys-syncthing tcp 22000 -p
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh add sys-syncthing udp 22000 -p
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh delete sys-syncthing tcp 22000 -a -p
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh delete sys-syncthing udp 22000 -a -p
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh add sys-syncthing tcp 22000 -p
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh add sys-syncthing udp 22000 -p
 ```
 This will let you choose the NIC.
 
@@ -93,8 +114,8 @@ Syncthing between qubes.
 
 Uninstallation procedure:
 ```sh
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh -a -p delete sys-syncthing tcp 22000
-/srv/salt/qusal/sys-syncthing/files/firewall/in.sh -a -p delete sys-syncthing udp 22000
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p delete sys-syncthing tcp 22000
+/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p delete sys-syncthing udp 22000
 qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
 qubesctl state.apply sys-syncthing.clean
 ```

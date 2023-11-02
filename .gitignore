@@ -1,13 +1,10 @@
+# vim: nospell
 # SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: CC0-1.0
-# vim: nospell
 
 qusal/qubesos-github-io
 qusal/sys-audio
 qusal/sys-gui
 qusal/sys-wireguard
 qusal/sys-syncthing
-qusal/sys-rsync
-qusal/sys-sshfs
-qusal/sys-mirage-firewall

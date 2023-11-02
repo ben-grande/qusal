@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Pi-Hole Browser
+Exec=xdg-open http://127.0.0.1:80
+Icon=web-browser
+Terminal=false
+X-MultipleArgs=False
+Type=Application
+Keywords=synchronization;interface;
+Categories=Network;WebBrowser;FileTransfer;P2P;

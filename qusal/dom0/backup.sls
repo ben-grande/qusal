@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 "{{ slsdotpath }}-backup-find-script":
   file.managed:
-    - name: /usr/bin/qvm-backup-find-last
+    - name: /usr/local/bin/qvm-backup-find-last
     - source: salt://{{ slsdotpath }}/files/bin/qvm-backup-find-last
     - mode: '0755'
     - user: root

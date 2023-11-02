@@ -7,9 +7,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - ssh.install
   - dev.home-cleanup
-  - dotfiles.copy-x11
+  - dotfiles.copy-sh
   - dotfiles.copy-ssh
+  - dotfiles.copy-x11
 
 "{{ slsdotpath }}-client-updated":
   pkg.uptodate:
@@ -21,16 +23,14 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - qubes-core-agent-networking
-      - ca-certificates
       - socat
 
 {% set pkg = {
     'Debian': {
-      'pkg': ['libpam-systemd', 'procps', 'openssh-client'],
+      'pkg': ['procps'],
     },
     'RedHat': {
-      'pkg': ['systemd-pam', 'procps-ng', 'openssh-clients'],
+      'pkg': ['procps-ng'],
     },
 }.get(grains.os_family) -%}
 
@@ -41,23 +41,13 @@ include:
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
-"{{ slsdotpath }}-client-user-systemd-dir":
+"{{ slsdotpath }}-client-system-systemd-dir":
   file.recurse:
     - source: salt://{{ slsdotpath }}/files/client/systemd/
-    - name: /usr/lib/systemd/user/
+    - name: /usr/lib/systemd/system/
     - dir_mode: '0755'
     - file_mode: '0644'
     - user: root
     - group: root
-
-"{{ slsdotpath }}-client-start-systemd-dbus-login-service":
-  service.running:
-    - name: dbus-org.freedesktop.login1.service
-
-"{{ slsdotpath }}-client-start-systemd-user-services-on-boot":
-  cmd.run:
-    - require:
-      - service: "{{ slsdotpath }}-client-start-systemd-dbus-login-service"
-    - name: loginctl enable-linger user
 
 {% endif %}

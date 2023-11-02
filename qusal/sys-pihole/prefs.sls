@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 "{{ slsdotpath }}-change-prefs":
   cmd.script:
     - name: prefs.sh
-    - source: salt://{{ slsdotpath }}/files/prefs.sh
+    - source: salt://{{ slsdotpath }}/files/admin/prefs.sh
 
 {#
 "{{ slsdotpath }}-start":

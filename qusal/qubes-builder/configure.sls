@@ -18,7 +18,7 @@ include:
 "{{ slsdotpath }}-gpg-split-domain":
   file.managed:
     - name: /rw/config/gpg-split-domain
-    - source: salt://{{ slsdotpath }}/files/qubes-builder/gpg-split-domain
+    - source: salt://{{ slsdotpath }}/files/client/gpg-split-domain
     - mode: '0644'
     - user: root
     - group: root
@@ -26,7 +26,7 @@ include:
 "{{ slsdotpath }}-rpmmacros":
   file.managed:
     - name: /home/user/.rpmmacros
-    - source: salt://{{ slsdotpath }}/files/qubes-builder/rpmmacros
+    - source: salt://{{ slsdotpath }}/files/client/rpmmacros
     - mode: '0644'
     - user: user
     - group: user
@@ -65,9 +65,9 @@ include:
     - mode: '0600'
     - names:
       - /home/user/.gnupg/qubes-builder/pubring.kbx:
-        - source: salt://{{ slsdotpath }}/files/keys/pubring.kbx
+        - source: salt://{{ slsdotpath }}/files/client/keys/pubring.kbx
       - /home/user/.gnupg/qubes-builder/trustdb.gpg:
-        - source: salt://{{ slsdotpath }}/files/keys/trustdb.gpg
+        - source: salt://{{ slsdotpath }}/files/client/keys/trustdb.gpg
 
 "{{ slsdotpath }}-git-verify-HEAD-builderv2":
   cmd.run:

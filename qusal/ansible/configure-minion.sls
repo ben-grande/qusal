@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 "{{ slsdotpath }}-minion-start-sshd":
   file.managed:
     - name: /rw/config/rc.local
-    - source: salt://{{ slsdotpath }}/files/minion/rc.local
+    - source: salt://{{ slsdotpath }}/files/client/rc.local
     - mode: '0755'
     - user: root
     - group: root

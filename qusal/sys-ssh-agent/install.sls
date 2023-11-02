@@ -7,8 +7,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - dotfiles.copy-x11
   - ssh.install
+  - dev.home-cleanup
+  - dotfiles.copy-sh
+  - dotfiles.copy-ssh
+  - dotfiles.copy-x11
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -22,22 +25,6 @@ include:
     - pkgs:
       - socat
 
-{% set pkg = {
-    'Debian': {
-      'pkg': ['libpam-systemd', 'procps', 'openssh-client'],
-    },
-    'RedHat': {
-      'pkg': ['systemd-pam', 'procps-ng', 'openssh-clients'],
-    },
-}.get(grains.os_family) -%}
-
-"{{ slsdotpath }}-installed-os-specific":
-  pkg.installed:
-    - refresh: True
-    - install_recommends: False
-    - skip_suggestions: True
-    - pkgs: {{ pkg.pkg|sequence|yaml }}
-
 "{{ slsdotpath }}-agent-bin-dir":
   file.recurse:
     - source: salt://{{ slsdotpath }}/files/server/bin
@@ -46,29 +33,10 @@ include:
     - user: root
     - group: root
 
-"{{ slsdotpath }}-agent-user-systemd-dir":
-  file.recurse:
-    - source: salt://{{ slsdotpath }}/files/server/systemd/
-    - name: /usr/lib/systemd/user/
-    - dir_mode: '0755'
-    - file_mode: '0644'
-    - user: root
-    - group: root
-
-"{{ slsdotpath }}-agent-start-systemd-dbus-login-service":
-  service.running:
-    - name: dbus-org.freedesktop.login1.service
-
-"{{ slsdotpath }}-agent-start-systemd-user-services-on-boot":
-  cmd.run:
-    - require:
-      - service: "{{ slsdotpath }}-agent-start-systemd-dbus-login-service"
-    - name: loginctl enable-linger user
-
 "{{ slsdotpath }}-install-rpc-service":
   file.managed:
     - name: /etc/qubes-rpc/qusal.SshAgent
-    - source: salt://{{ slsdotpath }}/files/rpc/qusal.SshAgent
+    - source: salt://{{ slsdotpath }}/files/server/rpc/qusal.SshAgent
     - mode: '0755'
     - user: root
     - group: root

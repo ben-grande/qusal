@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 "{{ slsdotpath }}-etc-mimeapps.list":
   file.managed:
     - name: /etc/xdg/mimeapps.list
-    - source: salt://{{ slsdotpath }}/files/disp/mimeapps.list
+    - source: salt://{{ slsdotpath }}/files/server/mimeapps.list
     - mode: '0644'
     - user: root
     - group: root
@@ -38,7 +38,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 "{{ slsdotpath }}-idle-trimleness":
   file.replace:
-    - name: /lib/python3/dist-packages/qubesidle/idleness_monitor.py
+    - name: /usr/lib/python3/dist-packages/qubesidle/idleness_monitor.py
     - pattern: '15 \* 60'
     - repl: '3 * 60'
 

@@ -12,3 +12,5 @@ base:
     - sys-syncthing.install
   'sys-syncthing':
     - sys-syncthing.configure
+  'sys-syncthing-browser':
+    - sys-syncthing.configure-browser
