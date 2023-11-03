@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -26,3 +27,11 @@ qubesctl state.apply signal.create
 qubesctl --skip-dom0 --targets=tpl-signal state.apply signal.install
 qubesctl --skip-dom0 --targets=signal state.apply signal.configure
 ```
+
+## Usage
+
+You may use different Signal accounts for different identities, such as
+personal, work or pseudonym. Maintain the `signal` qube pristine and clone it
+to the assigned domain, `personal-signal`, `work-signal`, `anon-signal`. If
+you don't maintain the qube pristine, you will have to apply the firewall
+rules manually.

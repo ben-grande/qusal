@@ -22,6 +22,11 @@ to it.
 
 ## Installation
 
+Pi-Hole commits and tags are not signed by individuals, but as they are done
+through the web interface, they have GitHub Web-Flow signature. This is the
+best verification we can get for Pi-Hole. If you don't trust the hosting
+provider however, don't install this package.
+
 - Top:
 ```sh
 qubesctl top.enable sys-pihole browser
@@ -81,6 +86,12 @@ If you want to combine Pi-Hole with Tor, then you should reconfigure your
 netvm chaining (will break tor's client stream isolation) as such:
 
 - qube -> sys-pihole -> Tor-gateway -> sys-firewall -> sys-net
+
+If you encounter problems with DNS after having upstream netvm route changes,
+restart Pi-Hole DNS from `sys-pihole`:
+```sh
+pihole restartdns
+```
 
 ## Credits
 

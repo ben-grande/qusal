@@ -7,6 +7,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' %}
 
+{% set pihole_tag = 'v5.17.2' -%}
+
 include:
   - dotfiles.copy-x11
 
@@ -17,6 +19,7 @@ include:
   file.managed:
     - name: /etc/network/interfaces.d/eth0
     - source: salt://{{ slsdotpath }}/files/server/network/eth0
+    - mode: '0644'
     - user: root
     - group: root
     - makedirs: True
@@ -68,16 +71,24 @@ include:
       - php-xml
       - unzip
 
+"{{ slsdotpath }}-disable-external-admin-interface":
+  file.managed:
+    - name: /etc/lighttpd/conf-available/50-pihole.conf
+    - source: salt://{{ slsdotpath }}/files/server/network/50-pihole.conf
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-disable-external-admin-interface-symlink":
+  file.symlink:
+    - name: /etc/lighttpd/conf-available/50-pihole.conf
+    - target: /etc/lighttpd/conf-enabled/50-pihole.conf
+    - force: True
+
 "{{ slsdotpath }}-disable-systemd-resolved":
   service.disabled:
     - name: systemd-resolved
-
-"{{ slsdotpath }}-git-clone":
-  git.latest:
-    - name: https://github.com/pi-hole/pi-hole.git
-    - user: root
-    - target: /root/pi-hole
-    - force_fetch: True
 
 "{{ slsdotpath }}-setupVars.conf":
   file.managed:
@@ -87,9 +98,54 @@ include:
     - group: root
     - makedirs: True
 
+"{{ slsdotpath }}-git-clone":
+  git.latest:
+    - name: https://github.com/pi-hole/pi-hole.git
+    - user: root
+    - target: /root/pi-hole
+    - force_fetch: True
+
+"{{ slsdotpath }}-gnupg-home-for-pihole":
+  file.directory:
+    - name: /root/.gnupg/pihole
+    - user: root
+    - group: root
+    - mode: '0700'
+    - makedirs: True
+
+"{{ slsdotpath }}-keyring-and-trustdb":
+  file.managed:
+    - user: root
+    - group: root
+    - mode: '0600'
+    - names:
+      - /root/.gnupg/pihole/pubring.kbx:
+        - source: salt://{{ slsdotpath }}/files/server/keys/pubring.kbx
+      - /root/.gnupg/pihole/trustdb.gpg:
+        - source: salt://{{ slsdotpath }}/files/server/keys/trustdb.gpg
+
+## The tag is annotated, using verify-commit instead.
+"{{ slsdotpath }}-git-verify-tag-pihole":
+  cmd.run:
+    - require:
+      - git: "{{ slsdotpath }}-git-clone"
+    - name: GNUPGHOME="$HOME/.gnupg/pihole" git verify-commit {{ pihole_tag }}
+    - cwd: /root/pi-hole
+    - runas: root
+
+"{{ slsdotpath }}-git-checkout-tag-{{ pihole_tag }}":
+  cmd.run:
+    - name: git checkout {{ pihole_tag }}
+    - require:
+      - cmd: "{{ slsdotpath }}-git-verify-tag-pihole"
+    - cwd: /root/pi-hole
+    - runas: root
+
 "{{ slsdotpath }}-setup":
   cmd.run:
     - name: ./basic-install.sh --unattended
+    - require:
+      - cmd: "{{ slsdotpath }}-git-checkout-tag-{{ pihole_tag }}"
     - cwd: '/root/pi-hole/automated install'
     - runas: root
 

@@ -47,7 +47,7 @@ qubesctl state.apply sys-syncthing.appmenus
 
 Install Syncthing on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=QUBE state.apply sys-syncthing.install-client
+qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-syncthing.install-client
 ```
 
 The client qube requires the split Syncthing service to be enabled:

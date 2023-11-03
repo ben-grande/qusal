@@ -1,13 +1,17 @@
 {#
+SPDX-FileCopyrightText: 2018 - 2023 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
 SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-# Based on 'qvm.usb-keyboard'.
+# Based on 'qvm.usb-keyboard', but can't use it because it requires
+# 'qvm.sys-usb', which is different from the one we create at create.sls.
+# Last known update of 'qvm.usb-keyboard': 2023-08-31
 
 include:
   - .create
+  - qvm.hide-usb-from-dom0
 
 "{{ slsdotpath }}-updated-dom0":
   pkg.uptodate:

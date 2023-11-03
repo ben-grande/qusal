@@ -42,7 +42,7 @@ qubesctl --skip-dom0 --targets=sys-rsync state.apply sys-rsync.configure
 
 Install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=QUBE state.apply sys-rsync.install-client
+qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-rsync.install-client
 ```
 
 The client qube requires the Rsync forwarder service to be enabled:

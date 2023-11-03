@@ -9,6 +9,7 @@
 * [Usage](#usage)
   * [Initialize the server repository](#initialize-the-server-repository)
   * [Prepare the client](#prepare-the-client)
+* [Credits](#credits)
 
 ## Description
 
@@ -108,7 +109,7 @@ There are a few constraints regarding repositories:
 
 - Must be created under `/home/user/src` in `sys-git`;
 - Names  must have only letters, numbers, hyphen, underscore and dot. Must not
-  begin with dot, hyphen and underscore.
+  begin or end with dot, hyphen and underscore.
 
 In `sys-git`, create bare repositories under `/home/user/src`.
 
@@ -126,9 +127,10 @@ git init-qrexec
 
 ### Prepare the client
 
-Qrexec protocol is supported with the following URL: `qrexec://<QUBE>/<REPO>`,
-where the `<QUBE>` field can be a literal name or token and the `<REPO>` field
-is the name of the repository that exists on `sys-git` under `/home/user/src`.
+Qrexec protocol is supported with the following URL format:
+`qrexec://<QUBE>/<REPO>`, where the `<QUBE>` field can be a literal name or
+token and the `<REPO>` field is the name of the repository that exists on
+`sys-git` under `/home/user/src`.
 
 Clone an existing repository:
 ```sh
@@ -140,17 +142,18 @@ Or Initialize a new repository:
 git init qubes-doc
 cd qubes-doc
 ```
+
 Add a remote using the Qrexec protocol:
 ```sh
 git remote add sg qrexec://@default/qubes-doc
 ```
 
-Test fetching:
+Test fetching from the newly added remote:
 ```sh
 git fetch sg
 ```
 
-You can then use that repository as usual, making commits.
+Make changes to the git repository as you normally would on any system.
 
 Push to the server and set it as the default upstream:
 ```sh
@@ -161,3 +164,7 @@ Following pushes will be simpler:
 ```sh
 git push
 ```
+
+## Credits
+
+- [Unman](https://github.com/unman/shaker/tree/main/git)

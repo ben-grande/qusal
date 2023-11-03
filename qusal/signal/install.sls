@@ -32,7 +32,6 @@ include:
       - dunst
       - libatk1.0-0
       - libatk-bridge2.0-0
-      - libgtk-3-0
-      - libcups2
+      - libgtk-4-1
 
 {% endif -%}

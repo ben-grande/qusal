@@ -5,9 +5,9 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [Report Page and Maintenance Tasks](#report-page-and-maintenance-tasks)
   * [Connect to the cacher via IP instead of Qrexec](#connect-to-the-cacher-via-ip-instead-of-qrexec)
   * [Non-TemplateVMs integration](#non-templatevms-integration)
-* [Upgrade](#upgrade)
 * [Uninstallation](#uninstallation)
 * [Credits](#credits)
 
@@ -37,29 +37,54 @@ specify otherwise.
 
 - Top
 ```sh
-qubesctl top.enable sys-cacher
-qubesctl --targets=tpl-sys-cacher,sys-cacher state.apply
-qubesctl top.disable sys-cacher
-qubesctl state.apply sys-cacher.tag
+qubesctl top.enable sys-cacher browser
+qubesctl --targets=tpl-browser,tpl-sys-cacher,sys-cacher,sys-cacher-browser state.apply
+qubesctl top.disable sys-cacher browser
+qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
 ```
 
 - State
 ```sh
 qubesctl state.apply sys-cacher.create
+qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
 qubesctl --skip-dom0 --targets=tpl-sys-cacher state.apply sys-cacher.install
 qubesctl --skip-dom0 --targets=sys-cacher state.apply sys-cacher.configure
-qubesctl state.apply sys-cacher.tag
+qubesctl --skip-dom0 --targets=sys-cacher-browser state.apply sys-cacher.configure-browser
+qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
 qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
 ```
 
 ## Usage
 
+### Report Page and Maintenance Tasks
+
+The report page is available from `sys-cacher` and `sys-cacher-browser` at
+`http://127.0.0.1:8082/acng-report.html` and any other client qube that has
+`sys-cacher` as it's update qube. This is apt-cacher-ng limitation and is bad
+security wise, every client has administrative access to the cacher qube.  You
+should add the following to the end of `sys-cacher` rc.local:
+```sh
+echo "AdminAuth: username:password" | tee /etc/apt-cacher-ng/zzz_security.conf
+```
+Where username and password are HTTP Auth strings.
+
+If you want to view statistics or manage the server through a GUI, open
+`sys-cacher` or `sys-cacher-browser` desktop file `cacher-browser.desktop`
+from Dom0. Addresses starting with `http` or `https` will be redirected
+to `sys-cacher-browser`.
+
+The browser separation from the server is to avoid browsing malicious sites
+and exposing the browser to direct network on the same machine the server is
+running. The browser qube is offline and only has access to the admin
+interface. In other words, it has control over the server functions, if the
+browser is compromised, it can compromise the server.
+
 ### Connect to the cacher via IP instead of Qrexec
 
-Because the sys-cacher qube is listening on port 8082, you can use it from
-non-template qubes and qubes that do not have a working Qrexec. Use
-the native configuration to set the update proxy using the IP address
-of sys-cacher.
+Because the `sys-cacher` qube is listening on port `8082`, you can use it from
+non-template qubes and qubes that do not have a working Qrexec. Use the native
+configuration to set the update proxy using the IP address of `sys-cacher` by
+setting the cacher as the netvm of the client qube.
 
 ### Non-TemplateVMs integration
 
@@ -83,13 +108,6 @@ qube:
 sudo touch /var/run/qubes-service/updates-proxy-setup
 sudo /usr/lib/qubes/update-proxy-configs
 sudo systemctl restart qubes-updates-proxy-forwarder.socket
-```
-
-## Upgrade
-
-- State
-```sh
-qubesctl --skip-dom0 --targets=sys-cacher state.apply sys-cacher.configure
 ```
 
 ## Uninstallation

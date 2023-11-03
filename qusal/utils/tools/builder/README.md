@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -22,3 +23,7 @@ Install documentation tools on templates:
 ```sh
 qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.builder.doc
 ```
+
+## Usage
+
+Standard builder usage, no extra configuration required.

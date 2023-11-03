@@ -74,3 +74,10 @@ Open a disposable qube simply by clicking on the desktop application
 
 If you want to use a permanent browser session, create an app qube based on
 `tpl-browser`.
+
+If you are forwarding URLs from other qubes via `qvm-open-in-(d)vm`, you might
+want to set your preferred browser as the default browser in `tpl-browser`
+targeting the desired desktop file:
+```sh
+xdg-settings set default-web-browser firefox-esr.desktop
+```

@@ -3,13 +3,19 @@ Upstream-Name: qusal
 Upstream-Contact: Benjamin Grande M. S. <ben.grande.b@gmail.com>
 Source: https://github.com/ben-grande/qusal
 
-Files: */README.md
+Files: README.md CONTRIBUTING.md */README.md
 Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
 
 Files: qusal/sys-mirage-firewall/files/admin/mirage-firewall.tar.bz2
+       qusal/sys-mirage-firewall/files/admin/mirage-firewall.sha256
+       qusal/sys-mirage-firewall/files/admin/version.txt
 Copyright: 2019 Thomas Leonard
 License: BSD-2-Clause
+
+Files: qusal/sys-pihole/files/server/keys/*
+Copyright: 2017 Github, Inc. <https://github.com>
+License: CC0-1.0
 
 Files: qusal/qubes-builder/files/client/keys/*
 Copyright: The Qubes OS Project <https://www.qubes-os.org>

@@ -74,7 +74,6 @@ def main(args=None):  # pylint: disable=missing-docstring
     if args.dom0:
         args.command.append('update.qubes-dom0')
         try:
-            # TODO: handle args.show_output - if false, log to some file
             subprocess.check_call(['qubesctl', '--dom0-only'] + args.command)
         except subprocess.CalledProcessError:
             print("DOM0 configuration failed, not continuing", file=sys.stderr)
@@ -118,7 +117,6 @@ def main(args=None):  # pylint: disable=missing-docstring
         args.command.remove('update.qubes-vm')
         args.command.append('update.qubes-dom0')
         try:
-            # TODO: handle args.show_output - if false, log to some file
             subprocess.check_call(['qubesctl', '--dom0-only'] + args.command)
         except subprocess.CalledProcessError:
             print("DOM0 configuration failed, not continuing", file=sys.stderr)

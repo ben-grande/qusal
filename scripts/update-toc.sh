@@ -34,4 +34,5 @@ for f in "$@"; do
     echo "Could not find table of contents on file: $f" >&2; exit 1
   fi
   vim -c 'norm zRgg' -c '/^## Table of Contents$' -c 'norm jd}k' -c ':GenTocGFM' -c 'norm ddgg' -c wq -- "${f}"
+  echo "Updated TOC in file: $f"
 done

@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 include:
   - dotfiles.copy-x11
   - dotfiles.copy-sh
+  - dotfiles.copy-net
   - dotfiles.copy-mutt
 
 {% endif -%}

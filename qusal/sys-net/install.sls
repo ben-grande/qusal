@@ -23,5 +23,6 @@ include:
       - qubes-core-agent-network-manager
       - wpasupplicant
       - gnome-keyring
+      - notification-daemon
 
 {% endif -%}

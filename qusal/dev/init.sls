@@ -4,7 +4,8 @@ SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-## TODO: should we allow minions to decide which states they should run?
+## TODO: Should we allow minions to decide which states they should run?
+##       This is a hack substitute for top files, but it looks bad.
 {#
 include:
 {% if grains['id'] == 'dom0' -%}

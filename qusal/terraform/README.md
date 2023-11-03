@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -25,3 +26,10 @@ qubesctl top.disable terraform
 qubesctl state.apply terraform.create
 qubesctl --skip-dom0 --targets=tpl-terraform state.apply terraform.install
 ```
+
+## Usage
+
+You will be able to run terraform from the "terraform" qube. As simple as
+that.
+
+When using SSH keys, being a split-ssh-agent will facilitate key management.

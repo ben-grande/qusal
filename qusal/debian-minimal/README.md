@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -22,3 +23,7 @@ qubesctl top.disable debian-minimal
 qubesctl state.apply debian-minimal.create
 qubesctl --skip-dom0 --targets=debian-12-minimal state.apply debian-minimal.install
 ```
+
+## Usage
+
+AppVMs and StandaloneVMs can be based on this minimal template.

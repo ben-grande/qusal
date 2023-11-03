@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -29,3 +30,11 @@ qubesctl state.apply remmina.create
 qubesctl --skip-dom0 --targets=tpl-remmina state.apply remmina.install
 qubesctl state.apply remmina.appmenus
 ```
+
+## Usage
+
+You will use Remmina to access remote computers, be it though a login shell
+(SSH) or through a desktop connection (VNC, SPICE, HTTP, X2Go).
+
+You can base your qubes of `dvm-remmina` for disposables or `remmina` for
+persistence of data.

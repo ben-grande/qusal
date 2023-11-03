@@ -6,6 +6,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 "{{ slsdotpath }}-firewall":
   cmd.run:
+    - require:
+      - qvm: {{ slsdotpath }}
     - name: |
         qvm-check -q --running {{ slsdotpath }} && qvm-pause {{ slsdotpath }}
         qvm-firewall {{ slsdotpath }} reset

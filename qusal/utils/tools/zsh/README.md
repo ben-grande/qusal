@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -26,3 +27,7 @@ qubesctl top.disable utils.tools.zsh
 qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.zsh.change-shell
 qubesctl --skip-dom0 --targets=APPVMS state.apply utils.tools.zsh.touch-zshrc
 ```
+
+## Usage
+
+Standard Zsh usage. No extra configuration required.

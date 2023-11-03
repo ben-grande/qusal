@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -28,3 +29,13 @@ qubesctl state.apply dev.create
 qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install
 qubesctl --skip-dom0 --targets=dev state.apply dev.configure
 ```
+
+## Usage
+
+The development qube `dev` can be used for:
+
+- code development;
+- building programs;
+- signing commits, tags, pushes and verifying with split-gpg;
+- fetching and pushing to and from local qube repository with split-git; and
+- fetching and pushing to and from remote repository with split-ssh-agent.

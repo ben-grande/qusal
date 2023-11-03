@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -25,3 +26,7 @@ qubesctl state.apply whonix.create
 qubesctl state.apply qvm.anon-whonix
 qubesctl state.apply qvm.whonix-ws-dvm
 ```
+
+## Usage
+
+AppVMs and StandaloneVMs can be based on this template.

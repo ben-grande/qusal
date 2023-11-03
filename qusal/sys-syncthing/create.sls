@@ -63,7 +63,7 @@ features:
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}-browser
-force: True
+force: true
 require:
 - sls: {{ slsdotpath }}.clone
 present:

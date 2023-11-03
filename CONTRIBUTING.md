@@ -1,15 +1,10 @@
-<!--
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
-
-SPDX-License-Identifier: CC-BY-SA-4.0
--->
-
 # Contributing to Qusal
 
 ## Table of Contents
 
 * [Format](#format)
   * [File naming](#file-naming)
+  * [State ID](#state-id)
   * [Readme](#readme)
   * [Qube naming](#qube-naming)
   * [Qrexec](#qrexec)
@@ -22,9 +17,17 @@ SPDX-License-Identifier: CC-BY-SA-4.0
    every state can be applied with top.
 2. Every project must have a `init.top`, it facilitates applying every state
    by enabling a single top file.
-3. State file naming should be common between the projects, it helps
+3. State file naming must be common between the projects, it helps
    understand the project as if it was any other.
-5. Files names and state IDs should use `-` as separator, not `_`.
+4. File name must use `-` as separator, not `_`.
+
+### State ID
+
+1. State IDs must use `-` as separator, not `_`. The underline is allowed in
+   case the features it is changing has underline, such as `default_netvm`.
+2. State IDs must always have the project ID, thus allowing to target multiple
+   states to the same minion from different projects without having
+   conflicting IDs.
 
 ### Readme
 

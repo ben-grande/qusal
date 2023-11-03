@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -22,3 +23,7 @@ qubesctl top.disable fedora
 qubesctl state.apply fedora.create
 qubesctl --skip-dom0 --targets=fedora-38 state.apply fedora.install
 ```
+
+## Usage
+
+AppVMs and StandaloneVMs can be based on this template.

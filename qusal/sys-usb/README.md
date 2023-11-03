@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 * [Credits](#credits)
 
 ## Description
@@ -45,6 +46,12 @@ If the client requires a FIDO device, install on the client template:
 ```sh
 qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
 ```
+
+## Usage
+
+Start a USB qube an connect a device to it.  USB PCI devices will appear on
+the system tray icon `qui-devices`. From there, assign it to the intended
+qube.
 
 ## Credits
 

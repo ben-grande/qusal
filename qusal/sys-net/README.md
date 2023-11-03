@@ -5,7 +5,6 @@
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-  * [Persistent WiFi password in disposable qube](#persistent-wifi-password-in-disposable-qube)
 
 ## Description
 
@@ -17,11 +16,17 @@ be a disposable or not. This package takes a different approach, it will
 create an AppVM "sys-net" and a DispVM "disp-sys-net".
 
 By default, the chosen one is "sys-net", but you can choose which qube type
-becomes the upstream net qube, the "clockvm" and the fallback target for the
-"qubes.UpdatesProxy" service in case no rule matched before, described in the
-installation section below.
+becomes the upstream net qube "default_netvm", the "clockvm" and the fallback
+target for the "qubes.UpdatesProxy" service in case no rule matched before.
 
 ## Installation
+
+Before installation, rename your current `sys-net` to another name such as
+`sys-net-old`, the old qube will be used to install packages require for the
+template. After successful installation and testing the new net qube
+capabilities, you can remove the old one. If you want the default net qube
+back, just set `sys-net` template to the full template you are using, such as
+Debian or Fedora.
 
 - Top:
 ```sh
@@ -44,27 +49,11 @@ qubesctl state.apply sys-net.prefs-disp
 ```
 
 You might need to install some firmware on the template for your network
-drivers. Check firmware.txt.
+drivers. Check files/admin/firmware.txt.
 
 ## Usage
 
-### Persistent WiFi password in disposable qube
-
-The following change must be done on the AppVM that is a template for
-disposables, the `dvm-sys-net`, in the `/rw/config/rc.local` (change the SSID
-and PASSWORD for the adequate values):
-```sh
-conn_net(){
-  if nm-online -s -x; then
-    nmcli dev wifi connect SSID password "PASSWORD"
-  fi
-}
-while ! systemctl is-active networking.service; do sleep 5; done
-case "$(qubesdb-read /type)" in
-  DispVM|AppVM)
-    if test -e /run/qubes-service/network-manager; then
-      conn_net
-    fi
-    ;;
-esac
-```
+A network manager is provided in `sys-net`, from there you can manager Wi-Fi
+or Ethernet cable connections. You can also use it for network monitoring. It
+should be relied on to hold firewall rules for other qubes, use
+`sys-firewall`, `sys-pihole` or `sys-mirage-firewall` for that purpose.

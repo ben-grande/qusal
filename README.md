@@ -1,9 +1,3 @@
-<!--
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
-
-SPDX-License-Identifier: CC-BY-SA-4.0
--->
-
 # qusal
 
 ## Table of Contents
@@ -20,6 +14,9 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 ## Description
 
 Qusal - Salt Formulas for Qubes OS.
+
+**Warning**: This project is in Alpha stage, no ready for production. Try in
+development only.
 
 Qusal providers a Free and Open Source solution to customizing various tasks
 in Qubes OS, from switching PCI handlers to be disposables or app qubes,
@@ -126,11 +123,7 @@ tool:
 reuse spdx
 ```
 
-You can also check these information manually by checking in the file header,
-a companion `.license` or in `.reuse/dep5`.
+You can also check these information manually by looking in the file header,
+a companion `.license` file or in `.reuse/dep5`.
 
-Here is a brief summary as of October 2023:
-
-- Source code is licensed under GPL-3.0-or-later;
-- Documentation is licensed under CC-BY-SA-4.0; and
-- Configuration and data files are licensed under CC0-1.0.
+All licenses are present in the LICENSES directory.

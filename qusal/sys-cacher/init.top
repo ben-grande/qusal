@@ -12,6 +12,8 @@ base:
     - sys-cacher.install
   'sys-cacher':
     - sys-cacher.configure
+  'sys-cacher-browser':
+    - sys-cacher.configure-browser
   'I@qubes:type:template and not P@nodename:host and not P@nodename:whonix.*':
     - match: compound
     - sys-cacher.install-client

@@ -60,6 +60,8 @@ limit the scope, the action is `allowed`, else the action is to `ask`.
 
 ## Usage
 
+The builder qube is named `qubes-builder.`
+
 When using the Qubes Executor, configure the builder.yml `dispvm` option to
 either `dom0` or `dvm-qubes-builder`:
 ```yaml

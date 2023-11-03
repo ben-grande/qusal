@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -22,3 +23,7 @@ qubesctl top.disable debian
 qubesctl state.apply debian.create
 qubesctl --skip-dom0 --targets=debian-12 state.apply debian.install
 ```
+
+## Usage
+
+AppVMs and StandaloneVMs can be based on this template.

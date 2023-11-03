@@ -31,7 +31,7 @@ qubesctl --skip-dom0 --targets=mutt state.apply mutt.configure
 ## Usage
 
 You will use local files to override the ones provided by this package. Few
-options need to be set.
+options must be set.
 
 The file `~/.muttrc-credentials.local` will set some variables that will be
 used by other configuration files sourced later:
@@ -47,7 +47,14 @@ set my_pass         = "mypassword"
 You can define aliases in `~/.muttrc-aliases.local`.
 
 If you want to override any option, put the settings in `~/.muttrc.local`,
-as this is the last file to be sourced.
+as this is the last file to be sourced. You might want to put for example,
+subscribed lists in this file:
+```muttrc
+lists .*@googlegroups\\.com
+subscribe qubes-(announce|devel)@googlegroups\\.com
+fcc-save-hook qubes-annount@googlegroups\\.com =list/qubes-announce/
+fcc-save-hook qubes-devel@googlegroups\\.com =list/qubes-devel/
+```
 
 If you want to have your e-mail signature (not PGP) at the end of every mail
 you send, place it in `~/.signature`.

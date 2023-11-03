@@ -7,6 +7,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
+include:
+  - browser.install
+
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
     - refresh: True
@@ -26,11 +29,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
       - xpdf
       - ffmpeg
       - ffmpegthumbnailer
+      - mousepad
 
 "{{ slsdotpath }}-etc-mimeapps.list":
   file.managed:
     - name: /etc/xdg/mimeapps.list
-    - source: salt://{{ slsdotpath }}/files/server/mimeapps.list
+    - source: salt://{{ slsdotpath }}/files/browser/mimeapps.list
     - mode: '0644'
     - user: root
     - group: root

@@ -8,8 +8,8 @@
 * [Usage](#usage)
   * [Server](#server)
   * [Client](#client)
-      * [Passwordless login](#passwordless-login)
-      * [Mount the file system](#mount-the-file-system)
+    * [Enable Passwordless login](#enable-passwordless-login)
+    * [Mount the server file system](#mount-the-server-file-system)
 * [Credits](#credits)
 
 ## Description
@@ -45,7 +45,7 @@ qubesctl --skip-dom0 --targets=sys-ssh state.apply sys-ssh.configure
 
 Install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=QUBE state.apply sys-ssh.install-client
+qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh.install-client
 ```
 
 The client qube requires the SSH forwarder service to be enabled:
@@ -78,7 +78,7 @@ chroots and access control mechanisms. This is left for the user to configure.
 
 ### Client
 
-##### Passwordless login
+#### Enable Passwordless login
 
 The client can be the sys-ssh-agent's client and not hold the private keys at
 all. Consult sys-ssh-agent documentation for more information.
@@ -96,7 +96,7 @@ mkdir -m 0700 ~/.ssh
 cat ~/QubesIncoming/<client>/id_ed25519.pub | tee -a ~/.ssh/authorized_keys
 ```
 
-##### Mount the file system
+#### Mount the server file system
 
 The SSH connection is available with the socket `localhost:1840`.
 

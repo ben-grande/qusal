@@ -23,13 +23,12 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: red
 - netvm: ""
-- memory: 0
-- maxmem: 400
+- memory: 400
+- maxmem: 0
 - vcpus: 1
 - virt_mode: hvm
 - autostart: False
 - provides-network: True
-# - pcidevs: [ '03:00.0', '00:19.0' ]
 - pcidevs: {{ net_pcidevs|yaml }}
 - pci_strictreset: False
 - include_in_backups: False
@@ -57,8 +56,8 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: red
 - netvm: ""
-- memory: 0
-- maxmem: 400
+- memory: 400
+- maxmem: 0
 - vcpus: 1
 - virt_mode: hvm
 - template_for_dispvms: True
@@ -91,7 +90,6 @@ prefs:
 - netvm: ""
 - autostart: False
 - provides-network: True
-# - pcidevs: [ '03:00.0', '00:19.0' ]
 - pcidevs: {{ net_pcidevs|yaml }}
 - pci_strictreset: False
 - include_in_backups: False

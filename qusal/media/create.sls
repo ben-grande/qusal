@@ -34,6 +34,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+  - service.tracker
+  - service.evolution-data-server
 {%- endload %}
 {{ load(defaults) }}
 
@@ -59,6 +61,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+  - service.tracker
+  - service.evolution-data-server
 {%- endload %}
 {{ load(defaults) }}
 
@@ -86,6 +90,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+  - service.tracker
+  - service.evolution-data-server
 - enable:
   - service.shutdownle
 {%- endload %}

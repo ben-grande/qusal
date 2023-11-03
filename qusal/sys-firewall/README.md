@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -38,3 +39,10 @@ Alternatively, if you prefer to have a disposable firewall:
 ```sh
 qubesctl state.apply sys-firewall.prefs-disp
 ```
+
+## Usage
+
+You should use this qube for handling updates and firewall downstream/client
+qubes, in other words, enforce network policy to qubes that have
+`sys-firewall` as its `netvm`. Read [upstream firewall
+documentation](https://www.qubes-os.org/doc/firewall/).

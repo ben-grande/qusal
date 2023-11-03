@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 * [Credits](#credits)
 
 ## Description
@@ -29,6 +30,14 @@ qubesctl top.disable reader
 qubesctl state.apply reader.create
 qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
 ```
+
+## Usage
+
+The intended usage of this qube is a receiver of incoming files that the call
+originator/client did no trust to open in its environment. When you run
+`qvm-open-in-dvm` from a qube and it is using the global preferences default
+`default_dispvm`, it will open the file to be read in a disposable based on
+`dvm-reader`.
 
 ## Credits
 

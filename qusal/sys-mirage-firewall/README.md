@@ -19,6 +19,9 @@ pulls in just the code it needs as libraries.
 Contrary to a standard Linux Firewall, Mirage Firewall doesn't need a full
 system to run an excessive resources.
 
+The qube sys-firewall is also the default updatevm. You can't use Mirage
+Firewall to be the updatevm, use another qube instead.
+
 ## Installation
 
 - Top

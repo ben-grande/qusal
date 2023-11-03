@@ -59,4 +59,5 @@ qubes.Gpg * @anyvm @anyvm   deny
 
 ## Usage
 
-Full details are at [www.qubes-os.org/doc/split-gpg](https://www.qubes-os.org/doc/split-gpg/).
+Consult [upstream documentation](https://www.qubes-os.org/doc/split-gpg/) on
+how to use split-gpg.

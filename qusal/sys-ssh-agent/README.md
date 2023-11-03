@@ -7,7 +7,7 @@
 * [Installation](#installation)
 * [Access Control](#access-control)
 * [Usage](#usage)
-  * [Agent](#agent)
+  * [Server](#server)
     * [Generate keys](#generate-keys)
     * [Limit key usage](#limit-key-usage)
     * [Reload agent](#reload-agent)
@@ -68,7 +68,7 @@ qubesctl --skip-dom0 --targets=sys-ssh-agent state.apply sys-ssh-agent.configure
 
 Installation on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=QUBE state.apply sys-ssh-agent.install-client
+qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh-agent.install-client
 ```
 
 ## Access Control
@@ -106,7 +106,7 @@ qusal.SshAgent *         @anyvm        @anyvm   deny
 
 ## Usage
 
-### Agent
+### Server
 
 #### Generate keys
 

@@ -28,11 +28,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
       - anacron
       - apt-cacher-ng
 
-"{{ slsdotpath }}-disable-systemd-service":
+"{{ slsdotpath }}-disable-apt-cacher-ng":
   cmd.run:
     - name: systemctl disable apt-cacher-ng
 
-"{{ slsdotpath }}-mask-systemd-service-apt-cacher-ng"
+"{{ slsdotpath }}-mask-apt-cacher-ng":
   service.masked:
     - name: apt-cacher-ng
     - runtime: False
@@ -70,6 +70,33 @@ SPDX-License-Identifier: GPL-3.0-or-later
   file.managed:
     - name: /etc/apt-cacher-ng/acng.conf
     - source: salt://{{ slsdotpath }}/files/server/conf/acng.conf
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-desktop-application-browser":
+  file.managed:
+    - name: /usr/share/applications/cacher-browser.desktop
+    - source: salt://{{ slsdotpath }}/files/server/cacher-browser.desktop
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-desktop-application-open-general":
+  file.managed:
+    - name: /usr/share/applications/cacher-browser-general.desktop
+    - source: salt://{{ slsdotpath }}/files/server/cacher-browser-general.desktop
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-etc-mimeapps.list":
+  file.managed:
+    - name: /etc/xdg/mimeapps.list
+    - source: salt://{{ slsdotpath }}/files/server/mimeapps.list
+    - mode: '0644'
     - user: root
     - group: root
     - makedirs: True

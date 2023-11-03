@@ -27,6 +27,7 @@ name: {{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+- qvm: tpl-{{ slsdotpath }}
 present:
 - template: tpl-{{ slsdotpath }}
 - label: yellow

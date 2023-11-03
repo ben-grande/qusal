@@ -9,7 +9,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 include:
   - .clone
-  - qvm.hide-usb-from-dom0
 
 {#
 "{{ slsdotpath }}-updated-dom0":
@@ -42,8 +41,8 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: red
 - netvm: ""
-- memory: 0
-- maxmem: 400
+- memory: 400
+- maxmem: 0
 - vcpus: 1
 - virt_mode: hvm
 - template_for_dispvms: True
@@ -53,6 +52,7 @@ features:
   - servicevm
   - appmenus-dispvm
 - disable:
+  - service.network-manager
   - service.cups
   - service.cups-browsed
   - service.meminfo-writer
@@ -60,15 +60,44 @@ features:
 {%- endload %}
 {{ load(defaults) }}
 
-## TODO: fix _modules/ext_module_qvm.py
 {% set usb_pcidevs = salt['grains.get']('pci_usb_devs', []) -%}
 {% if usb_pcidevs == ['00:14.0', '00:1a.0', '00:1d.0'] -%}
-  {% set usb_host_model = 'T430' -%}
+  {% set usb_host_model = 'ThinkPad T430' -%}
   {% set usbs = ['sys-usb', 'sys-usb-dock', 'sys-usb-left'] -%}
 {% else -%}
   {% set usb_host_model = 'unknown' -%}
   {% set usbs = ['sys-usb'] -%}
 {% endif -%}
+
+## TODO: salt jinja best practice
+## Map different usb controlles to different usb qubes.
+## Problems:
+## - Random name generator for qubes would be troublesome for the user
+##   to guess to which qube his usb controller is. Only mapped brands and
+##   models will work.
+## - No grain prints the product_family: $ dmidecode -s system-version
+## Questions:
+## - How to use jinja array to assign a qube per controller?
+## - How to assign UNCATEGORIZED to unregistered products?
+{#
+{% set usb_pcidevs = {
+    'ThinkPad T430': {
+      'qubes': ['sys-usb', 'sys-usb-dock', 'sys-usb-left'],
+      'pcidevs': ['00:14.0', '00:1a.0', '00:1d.0'],
+      'autostart': False,
+    },
+    'UNCATEGORIZED': {
+      'qubes': ['sys-usb'],
+      'pcidevs': {{ usb_pcidevs }},
+      'autostart': True,
+    },
+}.get(salt['smbios.get']('system-version') -%}
+
+{% for usb in usb_pcidevs.qubes -%}
+pcidevs: {{ usb_pcidevs.pcidevs|sequence|yaml }}
+autostart: {{ usb_pcidevs.autostart|sequence|yaml }}
+{% endfor -%}
+#}
 
 {% for usb in usbs -%}
 {% load_yaml as defaults -%}
@@ -84,19 +113,18 @@ prefs:
 - template: dvm-{{ slsdotpath }}
 - label: red
 - netvm: ""
-- memory: 0
-- maxmem: 400
+- memory: 400
+- maxmem: 0
 - include_in_backups: False
 - pci_strictreset: False
-## TODO: remove this "complex" jinja from yaml and use a best practice
-{% if usb_host_model == 'T430' -%}
+{% if usb_host_model == 'ThinkPad T430' -%}
 - autostart: False
 {% if usb == 'sys-usb-left' -%}
-- pcidevs: {{ usb_pcidevs[0]|yaml }}
+- pcidevs: {{ [usb_pcidevs[0]]|yaml }}
 {% elif usb == 'sys-usb' -%}
-- pcidevs: {{ usb_pcidevs[1]|yaml }}
+- pcidevs: {{ [usb_pcidevs[1]]|yaml }}
 {% elif usb == 'sys-usb-dock' -%}
-- pcidevs: {{ usb_pcidevs[2]|yaml }}
+- pcidevs: {{ [usb_pcidevs[2]]|yaml }}
 {% endif -%}
 {% else -%}
 - autostart: True
@@ -106,6 +134,7 @@ features:
 - enable:
   - servicevm
 - disable:
+  - service.network-manager
   - service.cups
   - service.cups-browsed
   - service.meminfo-writer

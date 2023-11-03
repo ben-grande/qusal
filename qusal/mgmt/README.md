@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -21,3 +22,8 @@ qubesctl state.apply mgmt.create
 qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
 qubesctl state.apply mgmt.prefs
 ```
+
+## Usage
+
+You will use the Template for DispVMs "dvm-mgmt" indirectly when running salt
+states on minions/DomUs or when opening a disposable console of a qube.

@@ -18,11 +18,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 "{{ slsdotpath }}-home-local-share-mimeapps.list":
   file.symlink:
-    - name: /home/user/.config/mimeapps.list
-    - target: /home/user/.local/share/applications/mimeapps.list
+    - name: /home/user/.local/share/applications/mimeapps.list
+    - target: /home/user/.config/mimeapps.list
     - user: user
     - group: user
-    - makedirs: True
     - force: True
+    - makedirs: True
 
 {% endif -%}

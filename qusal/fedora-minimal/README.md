@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Installation](#installation)
+* [Usage](#usage)
 
 ## Description
 
@@ -22,3 +23,7 @@ qubesctl top.disable fedora-minimal
 qubesctl state.apply fedora-minimal.create
 qubesctl --skip-dom0 --targets=fedora-38-minimal state.apply fedora-minimal.install
 ```
+
+## Usage
+
+AppVMs and StandaloneVMs can be based on this minimal template.
