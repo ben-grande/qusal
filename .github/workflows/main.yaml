@@ -34,7 +34,9 @@ jobs:
       - name: Gitlint on range
         # yamllint disable-line rule:line-length
         run: |
-          if test ${{ github.after }} == ${{ github.sha }}; then
+          if test "${{ github.after }}" = "${{ github.sha }}" ||
+            test -z "${{ github.after }}"
+          then
             gitlint --debug --commits "${{ github.sha }}"
           else
             gitlint --debug --commits "${{ github.after }}..${{ github.sha }}"
