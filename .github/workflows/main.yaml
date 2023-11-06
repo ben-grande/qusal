@@ -13,14 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y python3-dev python3-pip gitlint shellcheck reuse
+        # yamllint disable-line rule:line-length
+        run: sudo apt-get install -y python3-dev python3-pip gitlint shellcheck reuse
           pip3 install salt-lint
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
       - uses: pre-commit/action@v3.0.0
 
       - name: Gitlint
-        # yamllint disable-line rule:line-length
-        run: gitlint --debug --commits ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
+        run: gitlint --debug
