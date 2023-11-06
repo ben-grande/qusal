@@ -30,22 +30,12 @@ jobs:
       - uses: actions/setup-python@v3
       - uses: pre-commit/action@v3.0.0
 
-      # TODO: lint range of commits, not only the latest pushed
-      - name: info
-        run: |
-          echo ${{ github.sha }}
-          echo ${{ github.event.after }}
-          echo ${{ github.event.base_ref }}
-          echo ${{ github.event.before }}
-          echo ${{ github.event.compare }}
       - name: Gitlint
         # yamllint disable-line rule:line-length
         run: |
-          if test "${{ github.event.before }}" = "${{ github.event.after }}" ||
-            test -z "${{ github.event.after }}"
+          if test "${{ github.event.before }}" = "${{ github.event.after }}" || test -z "${{ github.event.before }}"
           then
             gitlint --debug --commit "${{ github.event.after }}"
           else
-            base="$(git log --reverse --pretty=format:%H --ancestry-path ${{ github.event.before }}..HEAD | head -1)"
-            gitlint --debug --commits "$base..${{ github.sha }}"
+            gitlint --debug --commits "${{ github.event.before }}..${{ github.event.after }}"
           fi
