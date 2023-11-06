@@ -6,6 +6,13 @@
 repos:
   - repo: local
     hooks:
+      - id: reuse
+        name: reuse
+        entry: reuse
+        args: [lint]
+        language: python
+        pass_filenames: false
+        description: Lint files to comply with the REUSE Specification
       - id: salt-lint
         name: salt-lint
         entry: scripts/salt-lint.sh
@@ -18,13 +25,6 @@ repos:
         language: script
         pass_filenames: true
         description: Lint Shellscripts
-      - id: reuse
-        name: reuse
-        entry: reuse
-        args: [lint]
-        language: python
-        pass_filenames: false
-        description: Lint files to comply with the REUSE Specification
       - id: gitlint
         name: gitlint
         language: python
