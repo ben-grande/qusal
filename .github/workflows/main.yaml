@@ -31,7 +31,17 @@ jobs:
       - uses: pre-commit/action@v3.0.0
 
       # TODO: lint range of commits, not only the latest pushed
-      - name: Gitlint on range
+      - name: info
+        run: |
+          echo ${{ github.sha }}
+          echo ${{ github.event.after }}
+          echo ${{ github.event.base_ref }}
+          echo ${{ github.event.before }}
+          echo ${{ github.event.commits }}
+          echo ${{ github.event.compare }}
+          echo ${{ github.event.ref }}
+          echo ${{ github.event.sender }}
+      - name: Gitlint
         # yamllint disable-line rule:line-length
         run: |
           if test "${{ github.after }}" = "${{ github.sha }}" ||
