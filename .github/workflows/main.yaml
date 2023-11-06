@@ -33,4 +33,4 @@ jobs:
       # TODO: lint range of commits, not only the latest pushed
       - name: Gitlint
         # yamllint disable-line rule:line-length
-        run: gitlint --debug --commits "${{ github.event.before }}..${{ github.sha }}"
+        run: gitlint --debug --commits "${{ github.event.after }}..${{ github.sha }}"
