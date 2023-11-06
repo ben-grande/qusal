@@ -14,7 +14,7 @@ ignore-squash-commits=false
 fail-without-commits=true
 regex-style-search=true
 debug=false
-contrib=contrib-title-conventional-commits,contrib-body-requires-signed-off-by
+contrib=contrib-title-conventional-commits
 
 [title-max-length]
 line-length=50

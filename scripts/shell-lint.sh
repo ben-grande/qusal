@@ -26,6 +26,27 @@ elif command -v fdfind >/dev/null; then
   find_tool="fdfind"
 fi
 
+if test -n "${1-}"; then
+  files=""
+  sh_files=""
+  for f in "$@"; do
+    test -f "$f" || continue
+    if test "${f##*/}" = "rc.local"; then
+      sh_files="$sh_files $f"
+      continue
+    fi
+    case $( file -bi "$f" ) in
+      (*/x-shellscript*) files="$files $f";;
+    esac
+  done
+  if test -n "$files" || test -n "$sh_files"; then
+    exit 0
+  fi
+  test -z "$files" || shellcheck ${files}
+  test -z "$sh_files" || shellcheck -s sh ${sh_files}
+  exit
+fi
+
 case "${find_tool}" in
   fd|fdfind)
     # shellcheck disable=2016,2215

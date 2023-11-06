@@ -10,21 +10,14 @@ repos:
         name: salt-lint
         entry: scripts/salt-lint.sh
         language: script
-        pass_filenames: false
+        pass_filenames: true
         description: Lint Salt files
       - id: shellcheck
         name: shellcheck
         entry: scripts/shell-lint.sh
         language: script
-        pass_filenames: false
+        pass_filenames: true
         description: Lint Shellscripts
-      - id: gitlint
-        name: gitlint
-        language: python
-        entry: gitlint
-        args: [--staged, --msg-filename]
-        stages: [commit-msg]
-        description: Lint Git commits
       - id: reuse
         name: reuse
         entry: reuse
@@ -32,3 +25,10 @@ repos:
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
+      - id: gitlint
+        name: gitlint
+        language: python
+        entry: gitlint
+        args: [--staged, --msg-filename]
+        stages: [commit-msg]
+        description: Lint Git commits

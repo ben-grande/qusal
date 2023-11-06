@@ -24,9 +24,23 @@ elif command -v fdfind >/dev/null; then
   find_tool="fdfind"
 fi
 
+if test -n "${1-}"; then
+  files=""
+  for f in "$@"; do
+    test -f "$f" || continue
+    extension="$(echo "$f" | awk -F '.' '{print $NF}')"
+    case "$extension" in
+      top|sls) files="$files $f";;
+      *) continue;;
+    esac
+  done
+  test -n "$files" || exit 0
+  exec salt-lint ${conf} ${files}
+fi
+
 case "${find_tool}" in
   fd|fdfind) files="minion.d/qusal.conf $(${find_tool} . qusal/ --max-depth=2 --type=f --extension=sls --extension=top)";;
   find) files="minion.d/qusal.conf $(find qusal/* -maxdepth 2 -type f \( -name '*.sls' -o -name '*.top' \))";;
 esac
 
-salt-lint ${conf} ${files}
+exec salt-lint ${conf} ${files}
