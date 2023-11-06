@@ -21,7 +21,7 @@ repos:
       - id: gitlint
         name: gitlint
         language: python
-        additional_dependencies: ["./gitlint-core[trusted-deps]"]
+          #additional_dependencies: ["./gitlint-core[trusted-deps]"]
         entry: gitlint
         args: [--staged, --msg-filename]
         stages: [commit-msg]
@@ -29,7 +29,7 @@ repos:
       - id: reuse
         name: reuse
         entry: reuse
-        args: ["lint"]
+        args: [lint]
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
