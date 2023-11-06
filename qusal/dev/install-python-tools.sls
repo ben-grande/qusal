@@ -6,11 +6,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-"{{ slsdotpath }}-updated-network":
+"{{ slsdotpath }}-updated-python-tools":
   pkg.uptodate:
     - refresh: True
 
-"{{ slsdotpath }}-installed-network":
+"{{ slsdotpath }}-installed-python-tools":
   pkg.installed:
     - refresh: True
     - install_recommends: False

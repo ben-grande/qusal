@@ -1,13 +1,18 @@
-# Contributing to Qusal
+# Contributing
 
 ## Table of Contents
 
+* [Respect](#respect)
 * [Format](#format)
   * [File naming](#file-naming)
   * [State ID](#state-id)
   * [Readme](#readme)
   * [Qube naming](#qube-naming)
   * [Qrexec](#qrexec)
+
+## Respect
+
+Be respectful towards peers.
 
 ## Format
 
@@ -35,7 +40,7 @@
    Table of Contents, Description, Installation, Access Control (if changed
    Qrexec policy), Usage.
 
-### Qube naming
+### Qube preferences
 
 1. Qube name format:
 
@@ -46,24 +51,25 @@
   - DispVM Template (AppVM): `dvm-NAME`
   - Service qubes (not a class): `sys-NAME`
 
-2. Label/Color:
+2. **Label/Color**:
 
-  - *Black* (Ultimately trusted): You must trust Dom0, Templates, Vaults,
+  - **Black** (Ultimately trusted): You must trust Dom0, Templates, Vaults,
     Management qubes, these qubes control your system and hold valuable
     information. Examples: dom0, tpl-ssh, vault, default-mgmt-dvm.
-  - *Gray* (Fully trusted): Trusted storage with extra RPC services that allow
+  - **Gray** (Fully trusted): Trusted storage with extra RPC services that allow
     certain operations to be made by the client and executed on the server or
     may build components for other qubes. Examples: sys-cacher, sys-git,
     sys-pgp, sys-ssh-agent, qubes-builder.
-  - *Purple* (Much trust): Has the ability to manager remote servers via
-    encrypted connections and depend on authorization provided by another qube.
+  - **Purple** (Much trust): Has the ability to manager remote servers via
+    encrypted connections and depend on authorization provided by another
+    qube.
     Examples: ansible, dev, ssh, terraform.
-  - *Blue* (Very trusted): TODO
-  - *Green* (Trusted): TODO
-  - *Yellow* (Relatively trusted): TODO
-  - *Orange* (Slightly trusted): Controls the network flow of data to the
+  - **Blue** (Very trusted): TODO
+  - **Green** (Trusted): TODO
+  - **Yellow** (Relatively trusted): TODO
+  - **Orange** (Slightly trusted): Controls the network flow of data to the
     client, normally a firewall. Examples: sys-firewall, sys-vpn, sys-pihole.
-  - *Red* (Untrusted): Holds untrusted data (PCI devices, untrusted programs,
+  - **Red** (Untrusted): Holds untrusted data (PCI devices, untrusted programs,
     disposables for opening untrusted files or web pages). Examples: sys-net,
     sys-usb, dvm-browser.
 

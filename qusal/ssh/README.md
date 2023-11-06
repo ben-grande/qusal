@@ -42,3 +42,5 @@ The client qube can enhanced by being:
 
 - sys-ssh-agent's client and not storing the SSH keys on the client; or
 - sys-git's client and fetching from qubes and push to remote servers.
+
+The server requires the OpenSSH server to be installed.

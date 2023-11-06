@@ -3,9 +3,13 @@ Upstream-Name: qusal
 Upstream-Contact: Benjamin Grande M. S. <ben.grande.b@gmail.com>
 Source: https://github.com/ben-grande/qusal
 
-Files: README.md CONTRIBUTING.md */README.md
+Files: AUTHORS.md CONTRIBUTING.md README.md */README.md
 Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
+
+Files: */rc.local
+Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+License: GPL-3.0-or-later
 
 Files: qusal/sys-mirage-firewall/files/admin/mirage-firewall.tar.bz2
        qusal/sys-mirage-firewall/files/admin/mirage-firewall.sha256

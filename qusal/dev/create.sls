@@ -32,6 +32,12 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+{% if salt['qvm.exists']('sys-cacher') %}
+tags:
+- add:
+  - sys-cacher-updatevm
+{% endif %}
+{% endif -%}
 {%- endload %}
 {{ load(defaults) }}
 

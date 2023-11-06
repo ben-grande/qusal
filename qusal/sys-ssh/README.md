@@ -86,7 +86,7 @@ all. Consult sys-ssh-agent documentation for more information.
 In the client, create SSH keys and copy them to the server:
 ```sh
 ssh-keygen -t ed25519
-qvm-copy .ssh/id_ed25519.pub
+qvm-copy ~/.ssh/id_ed25519.pub
 ```
 
 On the server, create the SSH directory and copy the client key to the

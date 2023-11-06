@@ -17,7 +17,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     - skip_suggestions: True
     - pkgs:
       - python3-pip
-      - yamllint
       - ansible-lint
 
 {% set pkg = {

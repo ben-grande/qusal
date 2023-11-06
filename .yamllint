@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+---
+
+extends: 'default'
+
+ignore: |
+  .git/
+
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - .salt-lint
+  - .yamllint
+
+rules:
+  empty-values:
+    forbid-in-block-mappings: true
+    forbid-in-flow-mappings: true
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+
+# vim: ft=yaml

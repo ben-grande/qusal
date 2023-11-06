@@ -7,6 +7,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  {%- if salt['qvm.exists']('sys-cacher') %}
+  - sys-cacher.install-client
+  {% endif %}
   - .home-cleanup
   - .install-python-tools
   - .install-salt-tools
@@ -26,11 +29,13 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      ## Necessary
       - qubes-core-agent-passwordless-root
       - qubes-core-agent-networking
       - ca-certificates
       - git
       - gnupg2
+      ## Usability
       - tmux
       - xclip
       - bash-completion
@@ -38,11 +43,15 @@ include:
       - texinfo
       - file
       - tree
-      - reuse
-      - pre-commit
-      - gitlint
       - ripgrep
       - fzf
+      ## Lint
+      - pre-commit
+      - precious
+      - reuse
+      - gitlint
+      - pylint
+      - yamllint
 
 {% set pkg = {
     'Debian': {

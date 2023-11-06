@@ -29,14 +29,14 @@ fi
 case "${find_tool}" in
   fd|fdfind)
     # shellcheck disable=2016,2215
-    files="$(${find_tool} . "${group}"/ --hidden --exclude=zsh --type=f \
+    files="$(${find_tool} . scripts/ "${group}"/ --hidden --exclude=zsh --type=f \
               --exec sh -c '
               case $( file -bi "$1" ) in (*/x-shellscript*)
                 printf "%s\n" "$1";; esac' sh)"
     files="${files} $(${find_tool} . --max-depth=1 --type=f --extension=sh)"
     ;;
   find)
-    files="$(find "${group}"/ -not \( -path "*/zsh" -prune \) -type f -exec sh -c '
+    files="$(find scripts/ "${group}"/ -not \( -path "*/zsh" -prune \) -type f -exec sh -c '
               case $( file -bi "$1" ) in (*/x-shellscript*) exit 0;; esac
               exit 1' sh {} \; -print)"
     files="${files} $(find . -maxdepth 1 -type f -name "*.sh")"

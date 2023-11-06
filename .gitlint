@@ -1,0 +1,41 @@
+# vim: ft=toml
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[general]
+verbosity=3
+ignore=body-is-missing
+ignore-merge-commits=true
+ignore-revert-commits=true
+ignore-fixup-commits=false
+ignore-fixup-amend-commits=false
+ignore-squash-commits=false
+fail-without-commits=true
+regex-style-search=true
+debug=false
+contrib=contrib-title-conventional-commits,contrib-body-requires-signed-off-by,contrib-allowed-authors
+
+[title-max-length]
+line-length=50
+
+[title-min-length]
+min-length=10
+
+[title-must-not-contain-word]
+words=wip
+
+[body-max-line-length]
+line-length=72
+
+[body-min-length]
+min-length=20
+
+[body-is-missing]
+ignore-merge-commits=false
+
+[ignore-body-lines]
+regex=(^Co-Authored-By)|(^Reported-by)|(^Signed-off-by)
+
+[contrib-title-conventional-commits]
+types = fix,feat,build,chore,ci,doc,style,refactor,perf,test
