@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+---
+name: pre-commit
+
+# yamllint disable-line rule:truthy
+on: [pull_request, push]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - uses: pre-commit/action@v3.0.0
+
+      - name: Install dependencies
+        run: apt update -y && apt install -y gitlint
+      - name: Gitlint
+        # yamllint disable-line rule:line-length
+        run: gitlint --debug --commits ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}

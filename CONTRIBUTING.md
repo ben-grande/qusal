@@ -1,19 +1,64 @@
 # Contributing
 
-
 ## Table of Contents
 
 * [Respect](#respect)
+* [Environment](#environment)
+  * [Requirements](#requirements)
+  * [Lint](#lint)
 * [Format](#format)
   * [File naming](#file-naming)
   * [State ID](#state-id)
   * [Readme](#readme)
-  * [Qube naming](#qube-naming)
+  * [Qube preferences](#qube-preferences)
   * [Qrexec](#qrexec)
 
 ## Respect
 
 Be respectful towards peers.
+
+## Environment
+
+You will need to setup you development environment before you start
+contributing. You will need Qubes OS R4 or higher.
+
+### Requirements
+
+The following are the packages you need to install:
+
+General:
+- git
+
+For writing:
+- editorconfig
+- editorconfig plugin for your editor
+
+For linting:
+- pre-commit
+- gitlint
+- salt-lint
+- shellcheck
+- reuse
+
+For building RPMs:
+- dnf
+- rpm
+- rpmlint
+
+### Lint
+
+Lint before you commit, please... else you will have to fix after the PR has
+already been sent.
+
+Install the local hooks:
+```sh
+pre-commit install -t pre-commit -t commit-msg
+```
+
+To run pre-commit linters:
+```sh
+pre-commit run
+```
 
 ## Format
 

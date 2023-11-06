@@ -26,7 +26,8 @@ spec_gen="./scripts/spec-gen.sh"
 "${spec_gen}" "${project}"
 sudo dnf build-dep "${spec}"
 rpmlint "${spec}"
-rpmdev-setuptree
+mkdir -p ~/rpmbuild/BUILD ~/rpmbuild/BUILDROOT ~/rpmbuild/RPMS \
+         ~/rpmbuild/SOURCES ~/rpmbuild/SPECS ~/rpmbuild/SRPMS
 cp -r "${group}/${project}" ~/rpmbuild/BUILD/"${group}-${project}"
 cp -r "${group}/${project}" ~/rpmbuild/SOURCES/"${group}-${project}"
 rpmbuild -ba "${spec}"
