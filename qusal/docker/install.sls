@@ -6,8 +6,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-{% from 'utils/macros/install-repo.sls' import install_repo -%}
-{{ install_repo(sls_path, 'docker') }}
+include:
+  - docker.install-repo
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:

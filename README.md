@@ -127,3 +127,7 @@ You can also check these information manually by looking in the file header,
 a companion `.license` file or in `.reuse/dep5`.
 
 All licenses are present in the LICENSES directory.
+
+Note that submodules have their own licenses and copyrights statements, please
+check each one individually using the same methods described above for a full
+statement.

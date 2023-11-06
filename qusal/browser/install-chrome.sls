@@ -12,16 +12,6 @@ include:
 {% from 'utils/macros/install-repo.sls' import install_repo -%}
 {{ install_repo(sls_path, 'chrome') }}
 
-{#
-"{{ slsdotpath }}-google-chrome-repo":
-  pkgrepo.managed:
-    - name: deb [signed-by=/usr/share/keyrings/chrome.asc] http://dl.google.com/linux/chrome/deb/
-    - dist: {{ grains.get['oscodename'] }}
-    - comps: main
-    - key_url: salt://{{ slsdotpath }}/files/repo/chrome.asc
-    - file: /etc/apt/sources.list.d/chrome.list
-#}
-
 "{{ slsdotpath }}-avoid-chrome-installing-own-repo":
   file.touch:
     - name: /etc/default/google-chrome

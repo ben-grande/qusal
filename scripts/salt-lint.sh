@@ -25,8 +25,8 @@ elif command -v fdfind >/dev/null; then
 fi
 
 case "${find_tool}" in
-  fd|fdfind) files="minion.d/qusal.conf $(${find_tool} . qusal/ --max-depth=1 --type=f --extension=sls --extension=top)";;
-  find) files="minion.d/qusal.conf $(find qusal/* -maxdepth 1 -type f \( -name '*.sls' -o -name '*.top' \))";;
+  fd|fdfind) files="minion.d/qusal.conf $(${find_tool} . qusal/ --max-depth=2 --type=f --extension=sls --extension=top)";;
+  find) files="minion.d/qusal.conf $(find qusal/* -maxdepth 2 -type f \( -name '*.sls' -o -name '*.top' \))";;
 esac
 
 salt-lint ${conf} ${files}

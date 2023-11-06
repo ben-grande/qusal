@@ -33,14 +33,19 @@ case "${find_tool}" in
               --exec sh -c '
               case $( file -bi "$1" ) in (*/x-shellscript*)
                 printf "%s\n" "$1";; esac' sh)"
-    files="${files} $(${find_tool} . --max-depth=1 --type=f --extension=sh)"
+    ## No Shebang
+    sh_files="$(${find_tool} rc.local qusal/ --type=f)"
     ;;
   find)
     files="$(find scripts/ "${group}"/ -not \( -path "*/zsh" -prune \) -type f -exec sh -c '
               case $( file -bi "$1" ) in (*/x-shellscript*) exit 0;; esac
               exit 1' sh {} \; -print)"
-    files="${files} $(find . -maxdepth 1 -type f -name "*.sh")"
+    ## No Shebang
+    sh_files="$(find "${group}"/ -type f -name "rc.local")"
     ;;
 esac
 
+files="$(echo "$files" | sort -u)"
+sh_files="$(echo "$sh_files" | sort -u)"
 shellcheck ${files}
+shellcheck -s sh ${sh_files}
