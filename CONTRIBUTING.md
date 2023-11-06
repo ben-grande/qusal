@@ -1,6 +1,5 @@
 # Contributing
 
-
 ## Table of Contents
 
 * [Respect](#respect)
@@ -53,7 +52,8 @@ already been sent.
 
 Install the local hooks:
 ```sh
-pre-commit install -t pre-commit -t commit-msg
+pre-commit install
+gitlint install-hook
 ```
 
 To run pre-commit linters:
