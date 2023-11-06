@@ -31,9 +31,11 @@ jobs:
       - uses: pre-commit/action@v3.0.0
 
       # TODO: lint range of commits, not only the latest pushed
-      - name: Gitlint
+      - name: Gitlint on range
         # yamllint disable-line rule:line-length
-        if: ${{ github.after != github.sha }}
-        run: gitlint --debug --commits "${{ github.after }}..${{ github.sha }}"
-        if: ${{ github.after == github.sha }}
-        run: gitlint --debug --commits "${{ github.sha }}"
+        run: |
+          if test ${{ github.after }} == ${{ github.sha }}; then
+            gitlint --debug --commits "${{ github.sha }}"
+          else
+            gitlint --debug --commits "${{ github.after }}..${{ github.sha }}"
+          fi
