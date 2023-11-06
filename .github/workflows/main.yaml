@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 ---
-name: pre-commit
+name: Lint
 
 # yamllint disable-line rule:truthy
 on: [pull_request, push]
 
 jobs:
-  pre-commit:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Update package list
@@ -24,4 +24,4 @@ jobs:
       - uses: pre-commit/action@v3.0.0
 
       - name: Gitlint
-        run: gitlint --debug
+        run: pwd; gitlint --debug
