@@ -37,17 +37,15 @@ jobs:
           echo ${{ github.event.after }}
           echo ${{ github.event.base_ref }}
           echo ${{ github.event.before }}
-          echo ${{ github.event.commits }}
+          echo ${{ github.event.commits.id }}
           echo ${{ github.event.compare }}
-          echo ${{ github.event.ref }}
-          echo ${{ github.event.sender }}
       - name: Gitlint
         # yamllint disable-line rule:line-length
         run: |
           if test "${{ github.after }}" = "${{ github.sha }}" ||
             test -z "${{ github.after }}"
           then
-            gitlint --debug --commits "${{ github.sha }}"
+            gitlint --debug --commit "${{ github.sha }}"
           else
             gitlint --debug --commits "${{ github.after }}..${{ github.sha }}"
           fi
