@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 ---
 name: Question
 about: 'Ask a question or request support'
@@ -30,3 +36,7 @@ good chance your text will not be well written and therefore considered
 invalid.
 
 ### Question
+
+
+
+.

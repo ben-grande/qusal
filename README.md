@@ -132,3 +132,12 @@ All licenses are present in the LICENSES directory.
 Note that submodules have their own licenses and copyrights statements, please
 check each one individually using the same methods described above for a full
 statement.
+
+## Donate
+
+This project can only survive through donations.
+Please contribute the way you can, helping on support questions, opening merge
+requests as well as reviewing another developer's code, or donating monetarily
+if possible.
+
+TODO: donation methods

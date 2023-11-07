@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 ---
 name: Enhancement request
 about: 'Suggest a new feature or an improvement of existing functionality'

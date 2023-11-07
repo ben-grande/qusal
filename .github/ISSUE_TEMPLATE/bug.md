@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 ---
 name: Bug report
 about: 'Report a problem in existing functionality'
