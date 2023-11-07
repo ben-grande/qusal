@@ -9,10 +9,13 @@ name: Lint
 on:
   # yamllint disable-line rule:empty-values
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
     types:
       - opened
-      - edited
       - reopened
       - synchronize
 
