@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 
-# SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.com>
+# SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.org>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
