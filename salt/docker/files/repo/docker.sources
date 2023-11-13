@@ -1,0 +1,6 @@
+Types: deb
+URIs: http://download.docker.com/linux/debian
+Suites: bookworm
+Components: stable
+Signed-by: /usr/share/keyrings/docker.asc
+# vim: ft=debsources

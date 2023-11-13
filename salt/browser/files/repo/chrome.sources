@@ -1,0 +1,6 @@
+Types: deb
+URIs: http://dl.google.com/linux/chrome/deb/
+Suites: stable
+Components: main
+Signed-by: /usr/share/keyrings/chrome.asc
+# vim:ft=debsources

@@ -1,0 +1,6 @@
+Types: deb
+URIs: http://apt.releases.hashicorp.com
+Suites: bookworm
+Components: main
+Signed-by: /usr/share/keyrings/terraform.asc
+# vim:ft=debsources

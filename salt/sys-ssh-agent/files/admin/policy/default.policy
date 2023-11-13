@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qusal.SshAgent * @anyvm  @default ask target={{ sls_path }} default_target={{ sls_path }}
+qusal.SshAgent * @anyvm  @anyvm   deny
+## vim:ft=qrexecpolicy

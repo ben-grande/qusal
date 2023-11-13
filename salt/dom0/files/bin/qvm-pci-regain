@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+## Credits: https://www.qubes-os.org/doc/how-to-use-pci-devices/#bringing-pci-devices-back-to-dom0
+##
+## After attaching a PCI device and detaching it, the device is not available
+## in Dom0 anymore. This is an intended feature. A device which was previously
+## assigned to a less trusted qube could attack dom0 if it were automatically
+## reassigned there. In order to re-enable the device in dom0, either reboot
+## physical machine or run the following script.
+##
+## This is useful for testing purposes when testing PCI devices, not
+## recommended for users to attach a device to Dom0.
+
+set -eu
+
+usage(){
+  echo "Usage: ${0##*/} --i-like-danger <DEVICE>"
+  echo "Example: ${0##*/} --i-like-danger 0000:00:1b.0"
+  echo "Warning: It is strongly discouraged to reattach PCI devices to dom0, especially if they don’t support resetting!"
+  exit 1
+}
+
+case "${1-}" in
+  --i-like-danger) ;;
+  *) usage;;
+esac
+case "${2-}" in
+  "") usage;;
+  *) device="$2"
+esac
+
+test "$(id -u)" = "0" || exec sudo "${0}"
+
+echo "$device" | tee /sys/bus/pci/drivers/pciback/unbind
+modalias="$(cat "/sys/bus/pci/devices/$device/modalias")"
+mod="$(modprobe -R "$modalias | head -n 1)"
+echo "$device" | tee "/sys/bus/pci/drivers/$mod/bind")"

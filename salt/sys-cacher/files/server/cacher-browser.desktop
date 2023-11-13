@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Desktop Entry]
+Name=Apt-Cacher-NG Browser
+Exec=qvm-open-in-vm -- @default http://127.0.0.1:8082/acng-report.html
+Icon=web-browser
+Terminal=false
+X-MultipleArgs=False
+Type=Application
+Keywords=synchronization;interface;
+Categories=Network;WebBrowser;FileTransfer;P2P;

@@ -1,0 +1,12 @@
+{#
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+{% set whonix_version = salt['pillar.get']('qvm:whonix:version', '17') -%}
+{% set whonix_repo = salt['pillar.get']('qvm:whonix:repo', 'qubes-templates-community') -%}
+{% set whonix_ws_template = 'whonix-ws-' ~ whonix_version -%}
+{% set whonix_gw_template = 'whonix-gw-' ~ whonix_version -%}
+{% set whonix_ws_clean_template = 'whonix-ws' -%}
+{% set whonix_gw_clean_template = 'whonix-gw' -%}

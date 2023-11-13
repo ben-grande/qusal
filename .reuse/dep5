@@ -1,0 +1,56 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: qusal
+Upstream-Contact: Benjamin Grande M. S. <ben.grande.b@gmail.com>
+Source: https://github.com/ben-grande/qusal
+
+Files: CONTRIBUTING.md README.md */README.md
+Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+License: CC-BY-SA-4.0
+
+Files: */rc.local
+Copyright: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+License: GPL-3.0-or-later
+
+Files: salt/sys-mirage-firewall/files/admin/mirage-firewall.tar.bz2
+       salt/sys-mirage-firewall/files/admin/mirage-firewall.sha256
+       salt/sys-mirage-firewall/files/admin/version.txt
+Copyright: 2019 Thomas Leonard
+License: BSD-2-Clause
+
+Files: salt/sys-pihole/files/server/keys/*
+       salt/mirage-builder/files/client/keys/*
+Copyright: 2017 Github, Inc. <https://github.com>
+License: CC0-1.0
+
+Files: salt/qubes-builder/files/client/keys/*
+Copyright: The Qubes OS Project <https://www.qubes-os.org>
+           Frédéric Pierret <frederic.pierret@qubes-os.org>
+           Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+           Simon Gaiser <simon@invisiblethingslab.com>
+License: CC0-1.0
+
+Files: salt/ansible/files/repo/*
+Copyright: 2014 Ansible, Inc. <https://ansible.com>
+License: CC0-1.0
+
+Files: salt/browser/files/repo/*
+Copyright: 2007 Google Inc. <linux-packages-keymaster@google.com>
+License: CC0-1.0
+
+Files: salt/docker/files/repo/*
+Copyright: 2017 Docker Inc. <docker@docker.com>
+License: CC0-1.0
+
+Files: salt/signal/files/repo/*
+Copyright: 2017 Open Whisper Systems <support@whispersystems.org>
+License: CC0-1.0
+
+Files: salt/sys-syncthing/files/repo/*
+Copyright: 2014 The Syncthing Project <release@syncthing.net>
+License: CC0-1.0
+
+Files: salt/terraform/files/repo/*
+Copyright: 2023 HashiCorp Inc. <security+packaging@hashicorp.com>
+License: CC0-1.0
+
+# vim: ft=debcopyright
