@@ -8,7 +8,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 name: Enhancement request
 about: 'Suggest a new feature or an improvement of existing functionality'
 title: ''
-labels: 'P: default, T: feat'
+labels: 'P: default, T: enhancement'
 assignees: ''
 ---
 
