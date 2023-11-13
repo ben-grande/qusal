@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+qube="sys-wireguard"
+
+if qvm-check -q "$qube" >/dev/null 2>&1; then
+  echo "Qubes doesn't exist: $qube" >&2
+  exit 1
+fi
+
+qvm-run -p "$qube" '/home/user/set-wg-conf.sh'
+
+if ! qvm-run -p "$qube" 'test -f /home/user/wireguard.conf'; then
+  qvm-run -u root "$qube" /home/user/install-sys-wireguard
+  qvm-run -p "$qube" 'test -f /home/user/wireguard.conf' || exit
+fi
+
+## TOFU
+# shellcheck disable=SC2016
+endpoint="$(qvm-run -p "$qube" -- awk '/Endpoint/{print $3}' /home/user/wireguard.conf)"
+ip="$(echo "$endpoint" | cut -d ":" -f 1)"
+port="$(echo "$endpoint" | cut -d ":" -f 2)"
+if test -z "$ip" || test -z "$port";then
+  echo "Endpoint (server ip:port) not found in /home/user/wireguard.conf" >&2
+  exit 1
+fi
+
+if qvm-check -q --running "$qube" >/dev/null 2>&1; then
+  qvm-pause "$qube"
+fi
+
+qvm-firewall "$qube" reset
+qvm-firewall "$qube" del --rule-no 0
+qvm-firewall "$qube" add accept proto=tcp dstports=53
+qvm-firewall "$qube" add accept proto=udp dstports=53
+qvm-firewall "$qube" add accept dsthost="$ip" proto=udp dstports="$port"
+qvm-firewall "$qube" add drop
+
+if qvm-check -q --paused "$qube" >/dev/null 2>&1; then
+  qvm-unpause "$qube"
+fi

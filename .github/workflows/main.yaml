@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+---
+name: Lint
+
+# yamllint disable-line rule:truthy
+on:
+  # yamllint disable-line rule:empty-values
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+concurrency:
+  group: ci-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update package list
+        run: sudo apt-get -y update
+      - name: Install OS packages
+        # yamllint disable-line rule:line-length
+        run: sudo apt-get install -y python3-dev python3-pip shellcheck reuse
+      # gitlint is available on Debian but Ubuntu has an older version.
+      - name: Install pip packages
+        run: pip3 install salt-lint gitlint
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v3
+      - uses: pre-commit/action@v3.0.0
+
+      - name: Lint commits
+        # yamllint disable-line rule:line-length
+        run: |
+          if test "${{ github.event.before }}" = "${{ github.event.after }}" || test -z "${{ github.event.before }}"
+          then
+            gitlint --debug --commit "${{ github.event.after }}"
+          else
+            gitlint --debug --commits "${{ github.event.before }}..${{ github.event.after }}"
+          fi

@@ -1,0 +1,2 @@
+systemctl unmask ssh
+systemctl --no-block restart ssh

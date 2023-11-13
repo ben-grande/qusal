@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qubes.InputKeyboard * {{ sls_path }} dom0 allow user=root
+qubes.InputKeyboard * {{ sls_path }} @anyvm deny
+
+ctap.ClientPin   * @anyvm {{ sls_path }} ask user=root target={{ sls_path }} default_target={{ sls_path }}
+ctap.GetInfo     * @anyvm {{ sls_path }} ask user=root target={{ sls_path }} default_target={{ sls_path }}
+u2f.Authenticate * @anyvm {{ sls_path }} ask user=root target={{ sls_path }} default_target={{ sls_path }}
+u2f.Register     * @anyvm {{ sls_path }} ask user=root target={{ sls_path }} default_target={{ sls_path }}
+
+ctap.ClientPin   * @anyvm @default ask user=root target={{ sls_path }} default_target={{ sls_path }}
+ctap.GetInfo     * @anyvm @default ask user=root target={{ sls_path }} default_target={{ sls_path }}
+u2f.Authenticate * @anyvm @default ask user=root target={{ sls_path }} default_target={{ sls_path }}
+u2f.Register     * @anyvm @default ask user=root target={{ sls_path }} default_target={{ sls_path }}
+
+ctap.GetInfo     * @anyvm @anyvm deny
+ctap.ClientPin   * @anyvm @anyvm deny
+u2f.Authenticate * @anyvm @anyvm deny
+u2f.Register     * @anyvm @anyvm deny
+# vim:ft=qrexecpolicy

@@ -1,0 +1,17 @@
+# vim: ft=conf
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
+atmel-firmware
+firmware-ath9k-htc
+firmware-atheros
+firmware-b43-installer
+firmware-brcm80211
+firmware-intelwimax
+firmware-ipw2x00
+firmware-iwlwifi
+firmware-misc-nonfree
+firmware-ralink
+firmware-realtek
+firmware-zd1211

@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qubes.OpenURL * {{ sls_path }} @default allow target={{ sls_path }}-browser
+qubes.OpenURL * {{ sls_path }} @anyvm   deny
+qubes.ConnectTCP +80 {{ sls_path }}-browser  @default  allow target={{ sls_path }}
+qubes.ConnectTCP *   {{ sls_path }}-browser  @anyvm    deny
+## vim:ft=qrexecpolicy

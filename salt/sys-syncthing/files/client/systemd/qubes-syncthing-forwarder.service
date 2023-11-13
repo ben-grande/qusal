@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Syncthing over Qrexec
+After=qubes-qrexec-agent.service
+ConditionPathExists=/var/run/qubes-service/syncthing-setup
+
+[Service]
+ExecStart=/usr/bin/socat TCP4-LISTEN:22001,reuseaddr,fork,end-close EXEC:"qrexec-client-vm @default qusal.Syncthing"
+Restart=on-failure
+RestartSec=3
+
+# Hardening
+ProtectSystem=full
+PrivateTmp=true
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

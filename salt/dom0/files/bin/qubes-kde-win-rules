@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Write KWin rules for window of specific domain to be in specific activity.
+# shellcheck disable=SC1090,SC2317
+set -eu
+
+file="${XDG_CONFIG_HOME:=$HOME/.config}/kwinrulesrc"
+
+usage(){
+  echo "Usage: ${0##*/} <group> <activity>
+Example: ${0##*/} personal personal
+Example: ${0##*/} fun personal
+Example: ${0##*/} work work
+If domain is work, dvm-work, disp-work and work-something will all be present
+in the work activity" >&2
+  exit 1
+}
+
+writeconf(){
+  group="$1"
+  key="$2"
+  value="$3"
+
+  group_id="$(grep -B1 -- "^Description=$group$" "$file" | head -1 | tr -d "[" | tr -d "]")"
+  if test -z "${group_id}"; then
+    highest_id="$(grep -- "\[[0-9]\+\]" "$file" | tr -d "[" | tr -d "]" | sort | tail -1)"
+    if test -n "${highest_id}"; then
+      group_id="$((highest_id+1))"
+    else
+      group_id="0"
+    fi
+  fi
+
+  kwriteconfig --file "$file" --group "$group_id" --key "$key" "$value"
+}
+
+writeconf_group(){
+  chosen_group="$1"
+  chosen_activity="$2"
+  writeconf "$chosen_group" Description "$chosen_group"
+  if test -n "$chosen_activity"; then
+    chosen_activity_id="$(kactivities-cli --list-activities |
+      awk -v activity="$chosen_activity" '$3 ~ activity {print $2}')"
+    if test -z "$chosen_activity_id"; then
+      printf '%s\n' "Invalid activity name: $chosen_activity"
+      exit 1
+    fi
+    writeconf "$chosen_group" activity "$chosen_activity_id"
+    writeconf "$chosen_group" activityrule 2
+  fi
+
+  ## Regex: https://doc.qt.io/qt-6/qregularexpression.html
+  writeconf "$chosen_group" title "^\\[(disp-|dvm-)?$chosen_group(-\\S+)?\\] .*"
+  writeconf "$chosen_group" titlematch 3
+  writeconf "$chosen_group" wmclass "$chosen_group"
+  writeconf "$chosen_group" wmclasscomplete false
+  writeconf "$chosen_group" wmclassmatch 2
+}
+
+case "${1-}" in
+  ""|-h|--?help) usage
+esac
+case "${2-}" in
+  "") usage
+esac
+
+writeconf_group "${1}" "${2}"
+dbus-send --type=signal /KWin org.kde.KWin.reloadConfig

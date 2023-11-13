@@ -1,0 +1,2 @@
+deb [signed-by=/usr/share/keyrings/syncthing.asc] http://apt.syncthing.net/ syncthing stable
+# vim:ft=debsources

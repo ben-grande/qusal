@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+exec socat STDIO TCP:localhost:873

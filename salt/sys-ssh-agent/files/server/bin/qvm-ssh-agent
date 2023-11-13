@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+service="qubes-ssh-agent"
+
+usage(){
+  echo "Usage: ${0##*/} [ls|add] <AGENT>
+  ls: list agent(s)
+  add: add keys to agent(s)
+  reload: reload/readd keys from agent(s)
+Example:
+  ${0##*/} ls work      # list the work agent keys
+  ${0##*/} add work     # add keys to the work agent
+  ${0##*/} reload work  # reload/readd keys from the work agent"
+  exit 1
+}
+
+ls_agent(){
+  socket="/tmp/${service}/$agent.sock"
+  test -S "$socket" || return 1
+  agent="$(echo "$socket" | sed "s|.*${service}/||;s/\.sock//")"
+  echo "Agent: ($agent) $socket"
+  SSH_AUTH_SOCK="$socket" ssh-add -l || true
+}
+
+add_agent(){
+  # shellcheck disable=SC2174
+  mkdir -m 0700 -p "/tmp/${service}"
+  dir="$HOME/.ssh/identities.d/${agent}"
+  if ! test -d "$dir"; then
+    echo "Directory not found: $dir" >&2
+    return 1
+  fi
+  dir="${dir##*/}"
+  socket="/tmp/${service}/${dir}.sock"
+  if ! test -S "$socket"; then
+    reload_agent=1
+    ssh-agent -a "/tmp/${service}/${agent}.sock"
+  fi
+  if ! test "${reload_agent}" = "1"; then
+    return
+  fi
+  keys="$(grep -sl -- "-----BEGIN OPENSSH PRIVATE KEY-----" \
+          "$HOME/.ssh/identities.d/$dir"/* || true)"
+  if test -z "$keys"; then
+    echo "Directory has no key: $dir" >&2
+    return 1
+  fi
+  SSH_AUTH_SOCK="$socket" ssh-add -D 2>/dev/null || true
+  for k in $(printf '%s\n' "$keys"); do
+    test -f "$k" || continue
+    ssh_add_option=""
+    if test -f "$k.ssh-add-option"; then
+      ssh_add_option="$(cat "$k.ssh-add-option")"
+    fi
+    # shellcheck disable=SC2086
+    SSH_AUTH_SOCK="$socket" ssh-add $ssh_add_option "$k"
+  done
+}
+
+test -z "${2-}" && usage
+action="${1-}"
+agent="${2-}"
+reload_agent=""
+
+case "$action" in
+  ls) ls_agent;;
+  add) add_agent;;
+  reload) reload_agent="1"; add_agent;;
+  *) usage;;
+esac

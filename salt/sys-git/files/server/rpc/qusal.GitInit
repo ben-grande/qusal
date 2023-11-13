@@ -1,0 +1,58 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+base_path="$HOME/src"
+repo="$QREXEC_SERVICE_ARGUMENT"
+#origin="$QREXEC_REMOTE_DOMAIN"
+
+die(){
+  echo "error: $1" >&2
+  exit 1
+}
+
+fail_invalid_name(){
+  if ! (echo "$repo" | grep -q "^[A-Za-z0-9][A-Za-z0-9_.-]\+$"); then
+    die "Invalid repository. Allowed chars: letters, numbers, hyphen, underscore and dot. It cannot begin with hyphen, underscore or dot."
+  fi
+}
+
+if ! command -v git >/dev/null; then
+  die "Command not found: git"
+fi
+
+fail_invalid_name
+case "$repo" in
+  *".git") ;;
+  *) repo="$repo.git";;
+esac
+
+path="$base_path/$repo"
+action="${0##*.Git}"
+
+case "$action" in
+  Fetch) service=git-upload-pack;;
+  Push)  service=git-receive-pack;;
+  Init)  service="git init --bare";;
+  *) die "Invalid RPC name: ${0##*/}";;
+esac
+
+if test "$action" != "Init"; then
+  test -d "$path" || die "Directory doesn't exist: $repo"
+  git -C "$path" rev-parse >/dev/null 2>&1 || die "Not a git repository: $repo"
+  is_bare="$(git -C "$path" rev-parse --is-bare-repository)"
+  test "${is_bare}" = "true" || die "Not a bare repository: $repo"
+fi
+
+if ! test -d "$base_path"; then
+  # shellcheck disable=SC2174
+  mkdir -m 0700 -p "$base_path" >/dev/null 2>&1 ||
+    die "Cannot create directory: $base_path"
+fi
+
+# shellcheck disable=SC2086
+exec $service -- "$path"
