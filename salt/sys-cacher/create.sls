@@ -53,7 +53,6 @@ prefs:
 features:
 - enable:
   - servicevm
-  - service.shutdown-idle
 - disable:
   - service.cups
   - service.cups-browsed
