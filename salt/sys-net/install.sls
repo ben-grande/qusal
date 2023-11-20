@@ -24,5 +24,6 @@ include:
       - wpasupplicant
       - gnome-keyring
       - notification-daemon
+      - systemd-timesyncd
 
 {% endif -%}
