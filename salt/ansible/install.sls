@@ -21,6 +21,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - ansible
+      - ansible-lint
       - python3-argcomplete
       - python3-jmespath
       - openssh-server

@@ -17,7 +17,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - skip_suggestions: True
     - pkgs:
       - python3-pip
-      - ansible-lint
 
 {% set pkg = {
     'Debian': {
