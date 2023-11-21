@@ -66,7 +66,7 @@ The report page is available from `sys-cacher` and `sys-cacher-browser` at
 security wise, every client has administrative access to the cacher qube.  You
 should add the following to the end of `sys-cacher` rc.local:
 ```sh
-echo "AdminAuth: username:password" | tee /etc/apt-cacher-ng/zzz_security.conf
+echo "AdminAuth: username:password" | tee /etc/qubes-apt-cacher-ng/zzz_security.conf
 ```
 Where username and password are HTTP Auth strings.
 
