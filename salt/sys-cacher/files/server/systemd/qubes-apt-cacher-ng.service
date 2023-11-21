@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Qubes Apt-Cacher NG software download proxy
+After=network.target
+# This can be used to ensure that the service starts only after delayed mount of
+# the storage location.
+# Note: when the CacheDir folder in configuration file(s) like in
+# /etc/apt-cacher-ng/acng.conf is changed, change the next line too!
+RequiresMountsFor=/var/cache/apt-cacher-ng
+
+[Service]
+# the SocketPath option can be removed if the inetd bridge functionality is not>
+ExecStart=/usr/sbin/apt-cacher-ng -c "/etc/qubes-apt-cacher-ng" ForeGround=1
+User=apt-cacher-ng
+Group=apt-cacher-ng
+# This can be changed to notify if the support was enabled at build time
+Type=notify
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

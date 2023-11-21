@@ -15,8 +15,8 @@ include:
     - text: |
         chown -R apt-cacher-ng:apt-cacher-ng /var/log/apt-cacher-ng
         chown -R apt-cacher-ng:apt-cacher-ng /var/cache/apt-cacher-ng
-        systemctl unmask apt-cacher-ng
-        systemctl --no-block restart apt-cacher-ng
+        systemctl unmask qubes-apt-cacher-ng
+        systemctl --no-block restart qubes-apt-cacher-ng
         nft 'insert rule ip filter INPUT tcp dport 8082 counter accept'
 
 "{{ slsdotpath }}-install-qubes-firewall-user-script":

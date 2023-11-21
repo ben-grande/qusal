@@ -28,35 +28,61 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       - anacron
       - apt-cacher-ng
 
-"{{ slsdotpath }}-disable-apt-cacher-ng":
-  cmd.run:
-    - name: systemctl disable apt-cacher-ng
-
 "{{ slsdotpath }}-mask-apt-cacher-ng":
   service.masked:
     - name: apt-cacher-ng
     - runtime: False
 
+"{{ slsdotpath }}-disable-apt-cacher-ng":
+  cmd.run:
+    - name: systemctl disable apt-cacher-ng
+
+"{{ slsdotpath }}-create-qubes-cacher-config-dir":
+  file.directory:
+    - name: /etc/qubes-apt-cacher-ng
+    - mode: '0755'
+
+"{{ slsdotpath }}-copy-package-config-to-qubes-cacher-config":
+  cmd.run:
+    - name: cp -rp /etc/apt-cacher-ng/* /etc/qubes-apt-cacher-ng
+
+"{{ slsdotpath }}-systemd-service":
+  file.managed:
+    - name: /usr/lib/systemd/system/qubes-apt-cacher-ng.service
+    - source: salt://{{ slsdotpath }}/files/server/systemd/qubes-apt-cacher-ng.service
+    - user: root
+    - group: root
+    - mode: '0644'
+
+"{{ slsdotpath }}-mask-qubes-apt-cacher-ng":
+  service.masked:
+    - name: qubes-apt-cacher-ng
+    - runtime: False
+
+"{{ slsdotpath }}-disable-qubes-apt-cacher-ng":
+  cmd.run:
+    - name: systemctl disable qubes-apt-cacher-ng
+
 "{{ slsdotpath }}-install-backends_debian":
   file.prepend:
-    - name: /etc/apt-cacher-ng/backends_debian
+    - name: /etc/qubes-apt-cacher-ng/backends_debian
     - text: https://deb.debian.org/debian
 
 "{{ slsdotpath }}-update-debian-mirrors":
   cmd.run:
-    - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/apt-cacher-ng/deb_mirrors.gz
+    - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/qubes-apt-cacher-ng/deb_mirrors.gz
     - runas: root
 
 "{{ slsdotpath }}-update-fedora-mirrors":
   file.managed:
-    - name: /etc/apt-cacher-ng/fedora_mirrors
+    - name: /etc/qubes-apt-cacher-ng/fedora_mirrors
     - source: salt://{{ slsdotpath }}/files/server/mirrors/fedora_mirrors
     - user: root
     - group: root
 
 "{{ slsdotpath }}-update-arch-mirrors":
   file.managed:
-    - name: /etc/apt-cacher-ng/archlx_mirrors
+    - name: /etc/qubes-apt-cacher-ng/archlx_mirrors
     - source: salt://{{ slsdotpath }}/files/server/mirrors/archlx_mirrors
     - user: root
     - group: root
@@ -68,7 +94,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-acng.conf":
   file.managed:
-    - name: /etc/apt-cacher-ng/acng.conf
+    - name: /etc/qubes-apt-cacher-ng/acng.conf
     - source: salt://{{ slsdotpath }}/files/server/conf/acng.conf
     - user: root
     - group: root
