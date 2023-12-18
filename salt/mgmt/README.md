@@ -19,7 +19,7 @@ of a qube or for Salt Management on DomUs.
 - Top:
 ```sh
 qubesctl top.enable mgmt
-qubesctl --skip-dom0 --targets=tpl-mgmt state.apply
+qubesctl --targets=tpl-mgmt state.apply
 qubesctl top.disable mgmt
 qubesctl state.apply mgmt.prefs
 ```

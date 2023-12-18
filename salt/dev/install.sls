@@ -40,6 +40,7 @@ include:
       - xclip
       - bash-completion
       - man-db
+      - info
       - texinfo
       - file
       - tree
