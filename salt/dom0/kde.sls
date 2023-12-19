@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   pkg.uptodate:
     - refresh: True
 
-"{{ slsdotpath }}-kde-installed"
+"{{ slsdotpath }}-kde-installed":
   pkg.installed:
     - pkgs:
       - kde-settings-qubes
@@ -37,13 +37,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   cmd.run:
     - name: systemctl disable lightdm
     - runas: root
+    - require:
+      - pkg: {{ slsdotpath }}-kde-installed
 
 "{{ slsdotpath }}-enable-sddm":
   cmd.run:
     - name: systemctl enable sddm
     - runas: root
     - require:
-      - cmd: disable-lightdm
+      - cmd: {{ slsdotpath }}-disable-lightdm
 
 "{{ slsdotpath }}-activity-notifier":
   file.managed:

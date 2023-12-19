@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - refresh: True
     - install_recommends: False
     - skip_suggestions: True
-    - pkg:
+    - pkgs:
       - vim
       - xclip
 
