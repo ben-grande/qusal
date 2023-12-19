@@ -74,7 +74,7 @@ include:
 "{{ slsdotpath }}-disable-external-admin-interface":
   file.managed:
     - name: /etc/lighttpd/conf-available/50-pihole.conf
-    - source: salt://{{ slsdotpath }}/files/server/network/50-pihole.conf
+    - source: salt://{{ slsdotpath }}/files/server/lighttpd/50-pihole.conf
     - mode: '0644'
     - user: root
     - group: root
@@ -149,49 +149,50 @@ include:
     - cwd: '/root/pi-hole/automated install'
     - runas: root
 
-"{{ slsdotpath }}-qubes-firewall-user-script":
-  file.append:
-    - name: /rw/config/qubes-firewall-user-script
-    - text:
-      - nft flush chain nat PR-QBS
-      - nft insert rule nat PR-QBS iifname "vif*" tcp dport 53 dnat to 127.0.0.1
-      - nft insert rule nat PR-QBS iifname "vif*" udp dport 53 dnat to 127.0.0.1
-
-"{{ slsdotpath }}-firewall-update-nft-rules":
+"{{ slsdotpath }}-firewall-nat":
   file.managed:
-    - name: /rw/config/qubes-firewall.d/update_nft.sh
-    - source: salt://{{ slsdotpath }}/files/server/firewall/update_nft.sh
+    - name: /rw/config/qubes-firewall.d/70-sys-pihole-nat
+    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/70-sys-pihole-nat
+    - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
-    - mode: '0755'
 
-"{{ slsdotpath }}-firewall-route-localnet":
+"{{ slsdotpath }}-firewall-filter":
   file.managed:
-    - name: /rw/config/network-hooks.d/internalise.sh
-    - source: salt://{{ slsdotpath }}/files/server/firewall/internalise.sh
+    - name: /rw/config/qubes-firewall.d/50-sys-pihole-filter
+    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/50-sys-pihole-filter
+    - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
+
+"{{ slsdotpath }}-firewall-internalise":
+  file.managed:
+    - name: /rw/config/network-hooks.d/60-sys-pihole-internalise
+    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/60-sys-pihole-internalise
     - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-firewall-flush":
   file.managed:
     - name: /rw/config/network-hooks.d/flush.sh
-    - source: salt://{{ slsdotpath }}/files/server/firewall/flush.sh
+    - source: salt://{{ slsdotpath }}/files/server/network-hooks.d/flush.sh
+    - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
-    - mode: '0755'
 
 "{{ slsdotpath }}-firewall-flush-rules":
   file.managed:
     - name: /rw/config/network-hooks.d/flush
-    - source: salt://{{ slsdotpath }}/files/server/firewall/flush
+    - source: salt://{{ slsdotpath }}/files/server/network-hooks.d/flush
+    - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
-    - mode: '0755'
 
 "{{ slsdotpath }}-dnsmasq":
   file.prepend:
