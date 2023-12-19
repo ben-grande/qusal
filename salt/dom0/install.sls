@@ -19,12 +19,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       - vim
       - xclip
 
-"{{ slsdotpath }}-qubes-update-script":
-  file.managed:
-    - name: /usr/local/bin/qubes-update
-    - source: salt://{{ slsdotpath }}/files/bin/qubes-update
-    - mode: '0755'
-    - user: root
-    - group: root
-
 {% endif -%}
