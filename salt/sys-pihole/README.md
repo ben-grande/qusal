@@ -30,7 +30,7 @@ provider however, don't install this package.
 - Top:
 ```sh
 qubesctl top.enable sys-pihole browser
-qubesctl --targets=tpl-browser,sys-pihole,sys-pihole-browser state.apply
+qubesctl --targets=tpl-browser,sys-pihole-browser,sys-pihole state.apply
 qubesctl top.disable sys-pihole browser
 qubesctl state.apply sys-pihole.appmenus
 ```

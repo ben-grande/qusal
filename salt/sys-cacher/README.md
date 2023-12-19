@@ -38,7 +38,7 @@ specify otherwise.
 - Top
 ```sh
 qubesctl top.enable sys-cacher browser
-qubesctl --targets=tpl-browser,tpl-sys-cacher,sys-cacher,sys-cacher-browser state.apply
+qubesctl --targets=tpl-browser,sys-cacher-browser,tpl-sys-cacher,sys-cacher state.apply
 qubesctl top.disable sys-cacher browser
 qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
 qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
