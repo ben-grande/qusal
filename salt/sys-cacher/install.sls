@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   file.uncomment:
     - name: /etc/apt/sources.list.d/qubes-r4.list
     - regex: ^deb\s.*qubes-os.org.*-testing
-    - backup: false
+    - backup: False
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
