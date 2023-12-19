@@ -6,3 +6,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - whonix.clone
+  - qvm.anon-whonix
+  - qvm.whonix-workstation-dvm
