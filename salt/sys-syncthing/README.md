@@ -26,7 +26,7 @@ accessible externally.
 - Top:
 ```sh
 qubesctl top.enable sys-syncthing browser
-qubesctl --targets=tpl-browser,tpl-sys-syncthing,sys-syncthing,sys-syncthing-browser state.apply
+qubesctl --targets=tpl-browser,sys-syncthing-browser,tpl-sys-syncthing,sys-syncthing state.apply
 qubesctl top.disable sys-syncthing browser
 qubesctl state.apply sys-syncthing.appmenus
 /srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing tcp 22000
