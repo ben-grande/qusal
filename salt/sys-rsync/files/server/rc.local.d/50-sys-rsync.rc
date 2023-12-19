@@ -1,0 +1,8 @@
+#!/bin/sh
+# vim: ft=sh
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+systemctl unmask rsync
+systemctl --no-block restart rsync

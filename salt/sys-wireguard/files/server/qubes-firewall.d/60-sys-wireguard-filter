@@ -1,0 +1,10 @@
+#!/usr/bin/nft -f
+
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+insert rule filter FORWARD tcp flags syn tcp option maxseg size set rt mtu
+insert rule filter FORWARD oifname eth0 drop
+insert rule filter FORWARD iifname eth0 drop

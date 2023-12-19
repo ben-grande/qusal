@@ -11,9 +11,13 @@ include:
   - dev.home-cleanup
 
 "{{ slsdotpath }}-start-ssh-on-boot":
-  file.append:
-    - name: /rw/config/rc.local
-    - source: salt://{{ slsdotpath }}/files/server/rc.local
+  file.managed:
+    - name: /rw/config/rc.local.d/50-sys-ssh.rc
+    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-sys-ssh.rc
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-creates-home-ssh-dir":
   file.directory:

@@ -8,11 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-minion-start-sshd":
   file.managed:
-    - name: /rw/config/rc.local
-    - source: salt://{{ slsdotpath }}/files/client/rc.local
+    - name: /rw/config/rc.local.d/50-ansible.rc
+    - source: salt://{{ slsdotpath }}/files/client/rc.local.d/50-ansible.rc
     - mode: '0755'
     - user: root
     - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-minion-ssh-authorized_keys":
   file.touch:

@@ -14,37 +14,42 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - makedirs: True
 
 "{{ slsdotpath }}-rc.local":
-  file.append:
-    - name: /rw/config/rc.local
-    - text: wg-quick up /rw/config/vpn/wireguard.conf
-
-"{{ slsdotpath }}-add-config.sh":
   file.managed:
-    - name: /home/user/add-config.sh
-    - source: salt://{{ slsdotpath }}/files/server/add-config.sh
+    - name: /rw/config/rc.local.d/50-sys-wireguard.rc
+    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-sys-wireguard.rc
+    - user: root
+    - group: root
+    - mode: '0755'
+    - makedirs: True
+
+"{{ slsdotpath }}-wg-conf.sh":
+  file.managed:
+    - name: /home/user/wg-conf.sh
+    - source: salt://{{ slsdotpath }}/files/server/wg-conf.sh
+    - mode: '0755'
     - user: user
     - group: user
-    - mode: '0755'
-    - replace: True
+    - makedirs: True
 
-"{{ slsdotpath }}-qubes-firewall-user-script":
-  file.append:
-    - name: /rw/config/qubes-firewall-user-script
-    - text:
-      - nft insert rule filter FORWARD tcp flags syn tcp option maxseg size set rt mtu
-      - nft insert rule filter FORWARD oifname eth0 drop
-      - nft insert rule filter FORWARD iifname eth0 drop
+"{{ slsdotpath }}-firewall-filter":
+  file.managed:
+    - name: /rw/config/qubes-firewall.d/60-sys-wireguard-filter
+    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/60-sys-wireguard-filter
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-firewall-flush":
   file.managed:
     - name: /rw/config/network-hooks.d/flush.sh
     - source: salt://{{ slsdotpath }}/files/server/flush.sh
+    - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
-    - mode: '0755'
 
-"{{ slsdotpath }}-set-firewall-flush-rules":
+"{{ slsdotpath }}-firewall-flush-rules":
   file.managed:
     - name: /rw/config/network-hooks.d/flush
     - source: salt://{{ slsdotpath }}/files/server/flush

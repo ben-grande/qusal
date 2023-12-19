@@ -7,10 +7,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' %}
 
-"{{ slsdotpath }}-browser-rc.local":
-  file.append:
-    - name: /rw/config/rc.local
-    - text: "qvm-connect-tcp 80:@default:80"
+"{{ slsdotpath }}-browser-auto-tcp-connect":
+  file.managed:
+    - name: /rw/config/rc.local.d/50-sys-pihole.rc
+    - source: salt://{{ slsdotpath }}/files/browser/rc.local.d/50-sys-pihole.rc
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-browser-desktop-application":
   file.managed:

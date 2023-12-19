@@ -87,10 +87,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - user: root
     - group: root
 
-"{{ slsdotpath }}-qubes-bind-dirs":
-  file.append:
-    - name: /usr/lib/qubes-bind-dirs.d/30_cron.conf
-    - text: "binds+=( ' /etc/anacrontab' )"
+"{{ slsdotpath }}-lib-qubes-bind-dirs":
+  file.managed:
+    - name: /usr/lib/qubes-bind-dirs.d/50-sys-cacher.conf
+    - source: salt://{{ slsdotpath }}/files/server/lib-qubes-bind-dirs.d/50-sys-cacher.conf
+    - mode: '0644'
+    - user: root
+    - group: root
 
 "{{ slsdotpath }}-acng.conf":
   file.managed:
