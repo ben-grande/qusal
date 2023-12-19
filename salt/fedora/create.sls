@@ -43,7 +43,7 @@ features:
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
-name: {{ template.template_clean }}
+name: {{ template.template }}
 force: True
 require:
 - sls: {{ template.template_clean }}.clone
