@@ -9,9 +9,13 @@ include:
   - dev.home-cleanup
 
 "{{ slsdotpath }}-start-rsync-on-boot":
-  file.append:
-    - name: /rw/config/rc.local
-    - source: salt://{{ slsdotpath }}/files/server/rc.local
+  file.managed:
+    - name: /rw/config/rc.local.d/50-sys-rsync.rc
+    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-sys-rsync.rc
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-creates-local-rsync-configuration-dir":
   file.directory:

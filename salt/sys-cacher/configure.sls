@@ -10,24 +10,28 @@ include:
   - dotfiles.copy-x11
 
 "{{ slsdotpath }}-install-rc.local":
-  file.append:
-    - name: /rw/config/rc.local
-    - text: |
-        chown -R apt-cacher-ng:apt-cacher-ng /var/log/apt-cacher-ng
-        chown -R apt-cacher-ng:apt-cacher-ng /var/cache/apt-cacher-ng
-        systemctl unmask qubes-apt-cacher-ng
-        systemctl --no-block restart qubes-apt-cacher-ng
-        nft 'insert rule ip filter INPUT tcp dport 8082 counter accept'
+  file.managed:
+    - name: /rw/config/rc.local.d/50-sys-cacher.rc
+    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-sys-cacher.rc
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
-"{{ slsdotpath }}-install-qubes-firewall-user-script":
-  file.append:
-    - name: /rw/config/qubes-firewall-user-script
-    - text: nft 'insert rule ip filter INPUT tcp dport 8082 counter accept'
+"{{ slsdotpath }}-install-qubes-firewall":
+  file.managed:
+    - name: /rw/config/qubes-firewall.d/50-sys-cacher
+    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/50-sys-cacher
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-bind-dirs":
   file.managed:
-    - name: /rw/config/qubes-bind-dirs.d/50_cacher.conf
-    - source: salt://{{ slsdotpath }}/files/server/bind-dirs/50_cacher.conf
+    - name: /rw/config/qubes-bind-dirs.d/50-sys-cacher.conf
+    - source: salt://{{ slsdotpath }}/files/server/qubes-bind-dirs.d/50-sys-cacher.conf
+    - mode: '0644'
     - user: root
     - group: root
     - makedirs: True

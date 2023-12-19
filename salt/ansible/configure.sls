@@ -8,11 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-autostart-ssh-over-qrexec":
   file.managed:
-    - name: /rw/config/rc.local
-    - source: salt://{{ slsdotpath }}/files/server/rc.local
+    - name: /rw/config/rc.local.d/50-ansible.rc
+    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-ansible.rc
     - mode: '0755'
     - user: root
     - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-ssh-config":
   file.managed:

@@ -7,11 +7,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 "{{ slsdotpath }}-rc.local":
-  file.append:
-    - name: /rw/config/rc.local
-    - text: |
-        usermod -aG docker user
-        systemctl unmask docker
-        systemctl --no-block restart docker
+  file.managed:
+    - name: /rw/config/rc.local.d/50-docker.rc
+    - source: salt://{{ slsdotpath }}/files/client/rc.local.d/50-docker.rc
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
 
 {% endif -%}

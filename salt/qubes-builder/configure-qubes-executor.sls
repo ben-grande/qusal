@@ -31,16 +31,20 @@ include:
 
 "{{ slsdotpath }}-executor-bind-dirs":
   file.managed:
-    - name: /rw/config/qubes-bind-dirs.d/builder.conf
-    - source: salt://{{ slsdotpath }}/files/server/builder.conf
+    - name: /rw/config/qubes-bind-dirs.d/50-qubes-builder.conf
+    - source: salt://{{ slsdotpath }}/files/server/qubes-bind-dirs.d/50-qubes-builder.conf
     - user: root
     - group: root
     - mode: '0644'
     - makedirs: True
 
 "{{ slsdotpath }}-executor-rc.local":
-  file.append:
-    - name: /rw/config/rc.local
-    - text: "mount /builder -o dev,suid,remount"
+  file.managed:
+    - name: /rw/config/rc.local.d/50-qubes-builder.rc
+    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-qubes-builder.rc
+    - user: root
+    - group: root
+    - mode: '0755'
+    - makedirs: True
 
 {% endif -%}

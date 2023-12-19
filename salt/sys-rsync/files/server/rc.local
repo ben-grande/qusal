@@ -1,2 +1,0 @@
-systemctl unmask rsync
-systemctl --no-block restart rsync
