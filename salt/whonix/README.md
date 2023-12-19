@@ -18,18 +18,15 @@ Template based on it.
 - Top:
 ```sh
 qubesctl top.enable whonix
-qubesctl state.apply
+qubesctl --targets=whonix-workstation-17,whonix-gateway-17 state.apply
 qubesctl top.disable whonix
-qubesctl state.apply qvm.anon-whonix
-qubesctl state.apply qvm.whonix-ws-dvm
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
 qubesctl state.apply whonix.create
-qubesctl state.apply qvm.anon-whonix
-qubesctl state.apply qvm.whonix-ws-dvm
+qubesctl --skip-dom0 --targets=whonix-workstation-17,whonix-gateway-17 state.apply whonix.install
 ```
 <!-- pkg:end:post-install -->
 
