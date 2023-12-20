@@ -39,9 +39,11 @@ include:
       - tmux
       - xclip
       - bash-completion
+      ## Reading documentation
       - man-db
       - info
       - texinfo
+      ## Searching files
       - file
       - tree
       - ripgrep
