@@ -8,3 +8,6 @@ base:
   'dom0':
     - match: nodegroup
     - whonix.create
+  'whonix-workstation-17,whonix-gateway-17':
+    - match: list
+    - whonix.install
