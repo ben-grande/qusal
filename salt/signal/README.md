@@ -19,6 +19,7 @@ Install Signal Desktop and creates an app qube named "signal".
 qubesctl top.enable signal
 qubesctl --targets=tpl-signal,signal state.appply
 qubesctl top.disable signal
+qubesctl state.apply signal.appmenus
 ```
 
 - State:
@@ -27,6 +28,7 @@ qubesctl top.disable signal
 qubesctl state.apply signal.create
 qubesctl --skip-dom0 --targets=tpl-signal state.apply signal.install
 qubesctl --skip-dom0 --targets=signal state.apply signal.configure
+qubesctl state.apply signal.appmenus
 ```
 <!-- pkg:end:post-install -->
 

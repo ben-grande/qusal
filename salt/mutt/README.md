@@ -19,6 +19,7 @@ Create a mail client qube named "mutt" based on the program Mutt.
 qubesctl top.enable mutt
 qubesctl --targets=tpl-mutt,mutt state.apply
 qubesctl top.disable mutt
+qubesctl state.apply mutt.appmenus
 ```
 
 - State
@@ -27,6 +28,7 @@ qubesctl top.disable mutt
 qubesctl state.apply mutt.create
 qubesctl --skip-dom0 --targets=tpl-mutt state.apply mutt.install
 qubesctl --skip-dom0 --targets=mutt state.apply mutt.configure
+qubesctl state.apply mutt.appmenus
 ```
 <!-- pkg:end:post-install -->
 

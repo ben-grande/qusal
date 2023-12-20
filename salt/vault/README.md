@@ -21,6 +21,7 @@ keys.
 qubesctl top.enable vault
 qubesctl --targets=tpl-vault state.apply
 qubesctl top.disable vault
+qubesctl state.apply vault.appmenus
 ```
 
 - State:
@@ -28,6 +29,7 @@ qubesctl top.disable vault
 ```sh
 qubesctl state.apply vault.create
 qubesctl --skip-dom0 --targets=tpl-vault state.apply vault.install
+qubesctl state.apply vault.appmenus
 ```
 <!-- pkg:end:post-install -->
 
