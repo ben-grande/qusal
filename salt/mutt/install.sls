@@ -11,6 +11,7 @@ include:
   - dotfiles.copy-sh
   - dotfiles.copy-net
   - dotfiles.copy-mutt
+  - sys-pgp.install-client
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -27,7 +28,6 @@ include:
       - qubes-core-agent-networking
       - qubes-pdf-converter
       - qubes-img-converter
-      - qubes-gpg-split
       - w3m
       - man-db
       - less
@@ -51,6 +51,5 @@ include:
       - libemail-valid-perl
       - libmailtools-perl
       - libauthen-sasl-perl
-      - libio-socket-ssl-perl
 
 {% endif -%}
