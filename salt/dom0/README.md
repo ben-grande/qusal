@@ -29,6 +29,11 @@ qubesctl state.apply dom0
 ```
 <!-- pkg:end:post-install -->
 
+If you need to develop in Dom0, install some goodies (bare bones):
+```sh
+qubesctl state.apply dom0.install-dev
+```
+
 ## Usage
 
 You may have noticed the desktop experience in Dom0 has enhanced. You are
