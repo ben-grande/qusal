@@ -11,4 +11,5 @@ base:
   'tpl-ssh':
     - ssh.install
   'dvm-ssh,ssh':
+    - match: list
     - ssh.configure
