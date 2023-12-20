@@ -1,4 +1,4 @@
-#!/usr/bin/nft -f
+#!/usr/sbin/nft -f
 # vim: ft=nftables
 
 # SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
@@ -6,10 +6,10 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-include /rw/config/vpn/qubes-ip.nft
+include /rw/config/vpn/qube-ip.nft
 
-define vpn_dns1 = 10.8.0.1
-define vpn_dns2 = 10.14.0.1
+define vpn_dns_primary = 10.8.0.1
+define vpn_dns_secondary = 10.14.0.1
 
 chain ip qubes forward '{ policy drop; }'
 insert rule ip qubes custom-forward oifgroup 1 drop
@@ -18,7 +18,7 @@ insert rule ip qubes custom-forward iifgroup 1 drop
 flush chain ip qubes dnat-dns
 flush chain ip6 qubes dnat-dns
 
-add rule ip qubes dnat-dns iifgroup 2 ip daddr $qubes_ip tcp dport 53 counter dnat to $vpn_dns1
-add rule ip qubes dnat-dns iifgroup 2 ip daddr $qubes_ip tcp dport 53 counter dnat to $vpn_dns1
-add rule ip qubes dnat-dns iifgroup 2 ip daddr $qubes_ip udp dport 53 counter dnat to $vpn_dns2
-add rule ip qubes dnat-dns iifgroup 2 ip daddr $qubes_ip udp dport 53 counter dnat to $vpn_dns2
+add rule ip qubes dnat-dns iifgroup 2 ip daddr $qube_ip tcp dport 53 counter dnat to $vpn_dns_primary
+add rule ip qubes dnat-dns iifgroup 2 ip daddr $qube_ip tcp dport 53 counter dnat to $vpn_dns_primary
+add rule ip qubes dnat-dns iifgroup 2 ip daddr $qube_ip udp dport 53 counter dnat to $vpn_dns_secondary
+add rule ip qubes dnat-dns iifgroup 2 ip daddr $qube_ip udp dport 53 counter dnat to $vpn_dns_secondary

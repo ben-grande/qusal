@@ -4,8 +4,8 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-echo "define qubes_ip = $(qubesdb-read /qubes-ip)" \
-  | tee /rw/config/vpn/qubes-ip.nft >/dev/null
+echo "define qube_ip = $(qubesdb-read /qubes-ip)" \
+  | tee /rw/config/vpn/qube-ip.nft >/dev/null
 
 nft -f /rw/config/vpn/dns-hijack.nft
 

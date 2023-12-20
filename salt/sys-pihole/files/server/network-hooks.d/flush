@@ -4,6 +4,10 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-flush chain nat PR-QBS
-insert rule nat PR-QBS iifname "vif*" tcp dport 53 dnat to 127.0.0.1
-insert rule nat PR-QBS iifname "vif*" udp dport 53 dnat to 127.0.0.1
+flush chain ip  qubes dnat-dns
+flush chain ip6 qubes dnat-dns
+
+insert rule ip  qubes dnat-dns iifname "vif*" tcp dport 53 dnat to 127.0.0.1
+insert rule ip  qubes dnat-dns iifname "vif*" udp dport 53 dnat to 127.0.0.1
+insert rule ip6 qubes dnat-dns iifname "vif*" tcp dport 53 dnat to 127.0.0.1
+insert rule ip6 qubes dnat-dns iifname "vif*" udp dport 53 dnat to 127.0.0.1
