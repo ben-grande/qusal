@@ -1,4 +1,4 @@
-#!/usr/bin/nft -f
+#!/usr/sbin/nft -f
 # vim: ft=nftables
 
 # SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
