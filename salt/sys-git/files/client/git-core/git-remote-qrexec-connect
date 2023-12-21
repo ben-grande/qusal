@@ -69,14 +69,8 @@ if command -v qrexec-client-vm >/dev/null; then
   log "->" qrexec-client-vm -- "${authority}" "${rpc_cmd}"
   exec qrexec-client-vm -- "${authority}" "${rpc_cmd}"
 elif command -v qrexec-client >/dev/null; then
-  qubes_version="$(awk -F '=' '/^VERSION_ID=/{print $2}' /etc/os-release)"
-  if test "$(echo "${qubes_version}" | tr -d ".")" -le 41; then
-    if test "${authority}" = "@default"; then
-      authority="${default_qube}"
-    fi
-  else
-    policy="$(qrexec-policy --assume-yes-for-ask dom0 "${authority}" "${rpc_cmd}")"
-    authority="$(echo "${policy}" | awk -F '=' '/^target=/{print $2}')"
+  if test "${authority}" = "@default"; then
+    authority="${default_qube}"
   fi
   log "->" qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
   exec qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
