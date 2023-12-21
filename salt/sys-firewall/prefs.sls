@@ -18,3 +18,9 @@ include:
     - require:
       - sls: {{ slsdotpath }}.create
     - name: qubes-prefs default_netvm {{ slsdotpath }}
+
+"{{ slsdotpath }}-qubes-prefs-clockvm":
+  cmd.run:
+    - require:
+      - sls: {{ slsdotpath }}.create
+    - name: qubes-prefs clockvm {{ slsdotpath }}

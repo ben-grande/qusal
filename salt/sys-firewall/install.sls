@@ -23,5 +23,6 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - iproute2
+      - systemd-timesyncd
 
 {% endif -%}

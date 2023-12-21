@@ -38,6 +38,7 @@ features:
 - enable:
   - servicevm
   - service.qubes-firewall
+  - service.clocksync
 - disable:
   - service.cups
   - service.cups-browsed
@@ -64,6 +65,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.clocksync
 - disable:
   - appmenus-dispvm
   - service.cups
@@ -94,6 +96,7 @@ features:
 - enable:
   - servicevm
   - service.qubes-firewall
+  - service.clocksync
 - disable:
   - service.cups
   - service.cups-browsed
