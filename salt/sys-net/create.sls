@@ -36,7 +36,6 @@ features:
 - enable:
   - servicevm
   - service.qubes-updates-proxy
-  - service.clocksync
 - disable:
   - service.cups
   - service.cups-browsed
@@ -66,7 +65,6 @@ features:
 - enable:
   - servicevm
   - service.qubes-updates-proxy
-  - service.clocksync
 - disable:
   - appmenus-dispvm
   - service.cups
@@ -97,7 +95,6 @@ features:
 - enable:
   - servicevm
   - service.qubes-updates-proxy
-  - service.clocksync
 - disable:
   - appmenus-dispvm
   - service.cups
