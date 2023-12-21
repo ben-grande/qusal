@@ -4,11 +4,10 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-## Should be called by git-remote-qrexec.
 set -eu
 
 usage(){
-  echo "Usage: ${helper} git-upload-pack|git-receive-pack <qube>/<path>"
+  echo "Usage: ${helper} (git-upload-pack|git-receive-pack)"
   echo "Note: ${helper} is supposed to be called by ${parent_helper}"
   exit 1
 }
@@ -18,45 +17,69 @@ die(){
   exit 1
 }
 
+log(){
+  case "${GIT_TRACE_REMOTE_HELPER:-}" in
+    true|1) echo "${@}" >&2
+  esac
+}
+
+## Establish capability working.
+log "->"
+printf "\n"
+
 helper="${0##*/git-}"
 parent_helper="${helper%-*}"
+scheme="${helper##*remote-}"; scheme="${scheme%%-*}"
 
 case "${1-}" in
   -h|--?help|"") usage;;
   *) arg="${1}";;
 esac
-case "${2-}" in
-  "") usage;;
-  *) url="${2}";;
-esac
+
+test -n "${remote-}" || die "Remote is unset"
+test -n "${url-}" || die "URL is unset"
+test -n "${authority-}" || die "URL Authority is unset"
+test -n "${path-}" || die "URL Path is unset"
+: "${query-}"
+test -n "${pushurl-}" || die "PushURL is unset"
+test -n "${pushauthority-}" || die "PushURL Authority is unset"
+test -n "${pushpath-}" || die "PushURL Path is unset"
+: "${pushquery-}"
 
 case "${arg}" in
   git-upload-pack) rpc=GitFetch;;
-  git-receive-pack) rpc=GitPush;;
-  "") die "Argument can't be empty";;
-  *) die "Unsupported argument: '${arg}'";;
+  git-receive-pack) rpc=GitPush; url="${pushurl}";
+    authority="${pushauthority}"; path="${pushpath}"; query="${pushquery}";;
+  "") die "${helper} requires an argument";;
+  *) die "${helper} called with unsupported argument: '${arg}'";;
 esac
 
-qube="$(echo "${url}" | cut -d "/" -f1)"
-repo="$(echo "${url}" | cut -d "/" -f2-)"
-test -n "${repo}" || die "Repository name can't be empty"
+test -n "${path}" || die "Repository name can't be empty"
+
 vendor="qusal"
 default_qube="sys-git"
-rpc_cmd="${vendor}.${rpc}+${repo}"
+rpc_cmd="${vendor}.${rpc}+${path}"
+
+if echo "${query}" | grep -qE "(^|&)verify_signatures=(1|[tT]rue|yes|on)($|&)"
+then
+  die "Remote helper does not support signature verification yet"
+fi
 
 if command -v qrexec-client-vm >/dev/null; then
-  exec qrexec-client-vm -- "${qube}" "${rpc_cmd}"
+  log "->" qrexec-client-vm -- "${authority}" "${rpc_cmd}"
+  exec qrexec-client-vm -- "${authority}" "${rpc_cmd}"
 elif command -v qrexec-client >/dev/null; then
   qubes_version="$(awk -F '=' '/^VERSION_ID=/{print $2}' /etc/os-release)"
   if test "$(echo "${qubes_version}" | tr -d ".")" -le 41; then
-    if test "${qube}" = "@default"; then
-      qube="${default_qube}"
+    if test "${authority}" = "@default"; then
+      authority="${default_qube}"
     fi
   else
-    policy="$(qrexec-policy --assume-yes-for-ask dom0 "${qube}" "${rpc_cmd}")"
-    qube="$(echo "${policy}" | awk -F '=' '/^target=/{print $2}')"
+    policy="$(qrexec-policy --assume-yes-for-ask dom0 "${authority}" "${rpc_cmd}")"
+    authority="$(echo "${policy}" | awk -F '=' '/^target=/{print $2}')"
   fi
-  exec qrexec-client -d "${qube}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
-else
-  die "Qrexec programs not found: qrexec-client-vm, qrexec-client"
+  log "->" qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  exec qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
 fi
+
+die "Qrexec programs not found: qrexec-client-vm, qrexec-client"
