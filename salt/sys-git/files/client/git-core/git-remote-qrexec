@@ -6,19 +6,25 @@
 
 ## Portable git-remote-helper.
 ## Rename this helper to git-remote-<scheme>.
-## Valid URL format: <scheme>://<authority>/<path>.
-## Supported commands: capabilities, connect.
+## URL: <scheme>://<authority>/<path>[?query=value][&another_query=value]
 ## Capabilities commands are sent to git-remote-<scheme>-<capability>.
+
 set -eu
 
 usage(){
-  echo "Usage: ${helper} <remote> [${scheme}://<authority>/<path>]" >&2
+  echo "Usage: ${helper} <remote> [${scheme}://<authority>/<path>[?query=value][&other_query=value]]" >&2
 }
 
 die(){
   usage
   echo "Error: ${1}" >&2
   exit 1
+}
+
+log(){
+  case "${GIT_TRACE_REMOTE_HELPER:-}" in
+    true|1) echo "${@}" >&2
+  esac
 }
 
 ## Validate URL and return it without the scheme.
@@ -31,30 +37,79 @@ validate_url(){
   ## Checks if Authority and Path exist, but not if they are valid, this is
   ## implementation specific and should be checked by the connect helper.
   case "${url_check}" in
-    "${scheme}"://*?/*?) url_valid="$(echo "${url_check}" | sed "s|.*://||")";;
+    "${scheme}"://*?/*?) url_valid="${url_check}";;
     "${scheme}"://*?) die "URL has no path to resource: '${url_check}'";;
     "${scheme}"://) die "URL has no authority: '${url_check}'";;
     *?://*) die "URL has unsupported scheme: '${scheme_user_url}'";;
     *) die "URL has no scheme: '${url_check}'";;
   esac
 
+  urn_pattern="[0-9A-Za-z@:_.-]+/[0-9A-Za-z_.-]+(\?[0-9A-Za-z=&_-]*)?"
+  if ! (echo "${url_valid}" | grep -qE "^${scheme}://${urn_pattern}$")
+  then
+    die "URL contains forbidden characters"
+  fi
+
   echo "${url_valid}"
+}
+
+get_urn(){
+  echo "${1#*://}"
+}
+
+get_authority(){
+  echo "${1%%/*}"
+}
+
+get_path(){
+  echo "${1##*/}" | cut -d "?" -f1
+}
+
+get_query(){
+  query=""
+  ## If URL contains '?', set query.
+  if test "${1}" != "${1##*\?}"; then
+    query="${1##*\?}"
+  fi
+  echo "${query}"
+}
+
+## Find remote-<scheme>-<command>.
+find_capabilities(){
+  cap_helpers=""
+  for f in "${exec_path}/${script}"-*; do
+    test -f "${f}" || continue
+    test -x "${f}" || continue
+    if test -z "${cap_helpers}"; then
+      cap_helpers="${f##*"${script}-"}"
+    else
+      cap_helpers="${cap_helpers}\n${f##*"${script}-"}"
+    fi
+  done
+
+  echo "${cap_helpers}"
 }
 
 ## Send capabilities to remote helper specific for that capability.
 send_cap(){
-  exec_path="$(git --exec-path)"
-  test -n "${exec_path}" || die "Couldn't locate Git's executables path"
-
   cap="${1}"
   shift
-  cap_file="${script}-${cap}"
-  cap_path="${exec_path}/${cap_file}"
 
-  test -e "${cap_path}" ||  die "Git's exec path missing: '${cap_file}'"
-  test -x "${cap_path}" || die "Git script is not executable: '${cap_file}'"
+  if ! (echo "${capabilities}" | grep -q "^${cap}$"); then
+    die "Unsupported capability: '${cap}'"
+  fi
 
-  "${cap_path}" "${@}"
+  cap_helper="${helper}-${cap}"
+  #cap_file="${script}-${cap}"
+  #cap_path="${exec_path}/${cap_file}"
+
+  ## Call capability helper.
+  remote="${remote}" pushurl="${pushurl}" url="${url}" \
+    authority="${authority}" path="${path}" query="${query}" \
+    pushauthority="${pushauthority}" pushpath="${pushpath}" \
+    pushquery="${pushquery}" \
+    git "${cap_helper}" "${@}"
+    #"${cap_path}" "${@}"
 }
 
 ## Basic requirements.
@@ -75,7 +130,10 @@ esac
 ## Get URL and Push URL (fallback to URL)
 case "${2-}" in
   "")
-    ## Happens when 'remote-qrexec' is called directly from the command-line.
+    ## Necessary when the remote-helper is called from the command-line.
+    if ! git remote get-url "${remote}" >/dev/null 2>&1; then
+      die "Remote doesn't exist: '${remote}'"
+    fi
     url="$(git remote get-url "${remote}" || true)"
     pushurl="$(git remote get-url --push "${remote}" || true)"
     ;;
@@ -85,23 +143,32 @@ esac
 test -n "${url}" || die "Remote URL is unset"
 test -n "${pushurl}" || die "Remote Push URL is unset"
 
-url="$(validate_url "${url}")"
 pushurl="$(validate_url "${pushurl}")"
+pushurn="$(get_urn "${pushurl}")"
+pushauthority="$(get_authority "${pushurn}")"
+pushpath="$(get_path "${pushurn}")"
+pushquery="$(get_query "${pushurn}")"
+
+url="$(validate_url "${url}")"
+urn="$(get_urn "${url}")"
+authority="$(get_authority "${urn}")"
+path="$(get_path "${urn}")"
+query="$(get_query "${urn}")"
+
+exec_path="$(git --exec-path)"
+test -n "${exec_path}" || die "Git's executables path not found"
+
+capabilities="$(find_capabilities)"
 
 ## Communicate with the git-remote-helpers protocol.
 while read -r cmd arg; do
+  log "<- $cmd $arg"
   case "${cmd}" in
-    "") exit 0;;
-    "capabilities") printf "connect\n\n";;
-    "connect")
-      printf "\n";
-      case "${arg}" in
-        git-upload-pack) send_cap "${cmd}" "${arg}" "${url}";;
-        git-receive-pack) send_cap "${cmd}" "${arg}" "${pushurl}";;
-        "") die "Argument can't be empty";;
-        *) die "Unsupported argument: '${arg}'";;
-      esac
-      ;;
-    *) die "Unsupported command: '${cmd}'";;
+    capabilities)
+      for c in ${capabilities}; do log "-> ${c}"; done; log "->"
+      printf %s"${capabilities}\n\n";;
+    *) send_cap "${cmd}" "${arg}";;
   esac
 done
+
+log "<-"

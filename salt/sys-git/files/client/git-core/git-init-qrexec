@@ -6,6 +6,10 @@
 
 set -eu
 
+case "${GIT_TRACE_HELPER:-}" in
+  true|1) set -x;;
+esac
+
 usage(){
   echo "Usage: ${helper} [<qube>] [<repository>]"
   echo "Note: qube defaults to '@default' and repository to the current repository"
