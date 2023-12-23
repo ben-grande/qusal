@@ -56,6 +56,7 @@ include:
       - qubes-core-agent-passwordless-root
       - qubes-core-agent-dom0-updates
       - qubes-core-agent-networking
+      - systemd-timesyncd
       - ca-certificates
       - curl
       - dnsutils
@@ -93,7 +94,7 @@ include:
 "{{ slsdotpath }}-setupVars.conf":
   file.managed:
     - name: /etc/pihole/setupVars.conf
-    - source: salt://{{ slsdotpath }}/files/server/network/setupVars.conf
+    - source: salt://{{ slsdotpath }}/files/server/pihole/setupVars.conf
     - user: root
     - group: root
     - makedirs: True
