@@ -45,6 +45,7 @@ features:
   - servicevm
   - service.updates-proxy-setup
   - service.qubes-firewall
+  - service.clocksync
 - disable:
   - service.cups
   - service.cups-browsed
