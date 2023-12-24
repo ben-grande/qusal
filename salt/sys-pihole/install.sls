@@ -83,8 +83,10 @@ include:
 
 "{{ slsdotpath }}-disable-external-admin-interface-symlink":
   file.symlink:
-    - name: /etc/lighttpd/conf-available/50-pihole.conf
-    - target: /etc/lighttpd/conf-enabled/50-pihole.conf
+    - require:
+      - file: "{{ slsdotpath }}-disable-external-admin-interface"
+    - name: /etc/lighttpd/conf-enabled/50-pihole.conf
+    - target: /etc/lighttpd/conf-available/50-pihole.conf
     - force: True
 
 "{{ slsdotpath }}-disable-systemd-resolved":
