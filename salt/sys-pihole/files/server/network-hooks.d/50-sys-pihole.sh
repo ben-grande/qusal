@@ -7,9 +7,9 @@
 
 set -eu
 
-for vif in /proc/sys/net/ipv4/conf/vif*; do
-  test -d "${vif}" || continue
-  test -f "${vif}/route_localnet" || continue
-  test -w "${vif}/route_localnet" || continue
-  echo 1 | tee "${vif}/route_localnet"
+nft -f /rw/config/qubes-firewall.d/50-sys-pihole
+
+for vif in /proc/sys/net/ipv4/conf/vif*/route_localnet; do
+  test -w "${vif}" || continue
+  echo 1 | tee "${vif}" >/dev/null
 done
