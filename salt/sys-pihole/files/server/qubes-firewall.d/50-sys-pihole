@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f
+# vim: ft=nftables
+# SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.org>
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+add chain ip6 qubes dnat-dns { type nat hook prerouting priority dstnat; policy accept; }
+
+flush chain ip  qubes dnat-dns
+flush chain ip6 qubes dnat-dns
+insert rule ip  qubes dnat-dns iifname "vif*" tcp dport 53 dnat to 127.0.0.1
+insert rule ip  qubes dnat-dns iifname "vif*" udp dport 53 dnat to 127.0.0.1
+insert rule ip6 qubes dnat-dns iifname "vif*" tcp dport 53 dnat to ::1
+insert rule ip6 qubes dnat-dns iifname "vif*" udp dport 53 dnat to ::1
+
+flush chain ip  qubes custom-forward
+flush chain ip6 qubes custom-forward
+insert rule ip  qubes custom-forward tcp dport 53 drop
+insert rule ip  qubes custom-forward udp dport 53 drop
+insert rule ip6 qubes custom-forward tcp dport 53 drop
+insert rule ip6 qubes custom-forward udp dport 53 drop
+
+flush chain ip  qubes custom-input
+flush chain ip6 qubes custom-input
+insert rule ip  qubes custom-input iifname "vif*" tcp dport 53 accept
+insert rule ip  qubes custom-input iifname "vif*" udp dport 53 accept
+insert rule ip6 qubes custom-input iifname "vif*" tcp dport 53 accept
+insert rule ip6 qubes custom-input iifname "vif*" udp dport 53 accept

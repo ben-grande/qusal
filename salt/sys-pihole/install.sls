@@ -12,37 +12,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - dotfiles.copy-x11
 
-{% set qubes_ip = salt['cmd.shell']('qubesdb-read /qubes-ip') %}
-{% set qubes_gateway = salt['cmd.shell']('qubesdb-read /qubes-gateway') %}
-
-"{{ slsdotpath }}-set-eth0-interface":
-  file.managed:
-    - name: /etc/network/interfaces.d/eth0
-    - source: salt://{{ slsdotpath }}/files/server/network/eth0
-    - mode: '0644'
-    - user: root
-    - group: root
-    - makedirs: True
-
-"{{ slsdotpath }}-set-ip":
-  file.line:
-    - name: /etc/network/interfaces.d/eth0
-    - match: address
-    - mode: replace
-    - content: "address {{ qubes_ip }}"
-
-"{{ slsdotpath }}-set-gateway":
-  file.line:
-    - name: /etc/network/interfaces.d/eth0
-    - match: gateway
-    - mode: replace
-    - content: "gateway {{ qubes_gateway }}"
-
-"{{ slsdotpath }}-restart-networking":
-  cmd.run:
-    - name: systemctl restart networking
-    - runas: root
-
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
     - refresh: True
@@ -71,6 +40,7 @@ include:
       - php-sqlite3
       - php-xml
       - unzip
+      - bash-completion
 
 "{{ slsdotpath }}-disable-external-admin-interface":
   file.managed:
@@ -152,57 +122,32 @@ include:
     - cwd: '/root/pi-hole/automated install'
     - runas: root
 
-"{{ slsdotpath }}-firewall-nat":
+"{{ slsdotpath }}-firewall":
   file.managed:
-    - name: /rw/config/qubes-firewall.d/70-sys-pihole-nat
-    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/70-sys-pihole-nat
+    - name: /rw/config/qubes-firewall.d/50-sys-pihole
+    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/50-sys-pihole
     - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
 
-"{{ slsdotpath }}-firewall-filter":
+"{{ slsdotpath }}-network-hooks":
   file.managed:
-    - name: /rw/config/qubes-firewall.d/50-sys-pihole-filter
-    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/50-sys-pihole-filter
-    - mode: '0755'
-    - user: root
-    - group: root
-    - makedirs: True
-
-"{{ slsdotpath }}-firewall-internalise":
-  file.managed:
-    - name: /rw/config/network-hooks.d/60-sys-pihole-internalise
-    - source: salt://{{ slsdotpath }}/files/server/qubes-firewall.d/60-sys-pihole-internalise
-    - mode: '0755'
-    - user: root
-    - group: root
-    - makedirs: True
-
-"{{ slsdotpath }}-firewall-flush":
-  file.managed:
-    - name: /rw/config/network-hooks.d/flush.sh
-    - source: salt://{{ slsdotpath }}/files/server/network-hooks.d/flush.sh
-    - mode: '0755'
-    - user: root
-    - group: root
-    - makedirs: True
-
-"{{ slsdotpath }}-firewall-flush-rules":
-  file.managed:
-    - name: /rw/config/network-hooks.d/flush
-    - source: salt://{{ slsdotpath }}/files/server/network-hooks.d/flush
+    - name: /rw/config/network-hooks.d/50-sys-pihole.sh
+    - source: salt://{{ slsdotpath }}/files/server/network-hooks.d/50-sys-pihole.sh
     - mode: '0755'
     - user: root
     - group: root
     - makedirs: True
 
 "{{ slsdotpath }}-dnsmasq":
-  file.prepend:
-    - name: /etc/dnsmasq.conf
-    - text:
-      - interface=lo
-      - bind-interfaces
+  file.managed:
+    - name: /etc/dnsmasq.d/00-pihole.conf
+    - source: salt://{{ slsdotpath }}/files/server/dnsmasq.d/00-pihole.conf
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-desktop-application-browser":
   file.managed:
