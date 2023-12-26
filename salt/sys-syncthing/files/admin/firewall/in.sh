@@ -16,6 +16,7 @@
 ## qubes to be exposed.
 
 me="${0##*/}"
+rc="/rw/config/rc.local.d/50-port-forwarder.rc"
 
 usage(){
 cat <<HERE
@@ -111,15 +112,15 @@ tunnel(){
       qvm-run -q -u root "${my_netvms[$i]}" -- "iptables -I QBS-FORWARD -i $iface -p $proto --dport $portnum_target -d ${my_ips[$i-1]} -j ACCEPT"
       qvm-run -q -u root "${my_netvms[$i]}" -- "iptables -t nat -I PR-QBS-SERVICES -i $iface -p $proto --dport $portnum_used -j DNAT --to-destination ${my_ips[$i-1]}:$portnum_target"
       if test "$permanent" = "1"; then
-        qvm-run -q -u root "${my_netvms[$i]}" -- "echo iptables -I QBS-FORWARD -i $iface -p $proto --dport $portnum_target -d ${my_ips[$i-1]} -j ACCEPT >> /rw/config/rc.local"
-        qvm-run -q -u root "${my_netvms[$i]}" -- "echo iptables -t nat -I PR-QBS-SERVICES -i $iface -p $proto --dport $portnum_used -j DNAT --to-destination ${my_ips[$i-1]}:$portnum_target >> /rw/config/rc.local"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "echo iptables -I QBS-FORWARD -i $iface -p $proto --dport $portnum_target -d ${my_ips[$i-1]} -j ACCEPT >> ${rc}"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "echo iptables -t nat -I PR-QBS-SERVICES -i $iface -p $proto --dport $portnum_used -j DNAT --to-destination ${my_ips[$i-1]}:$portnum_target >> ${rc}"
       fi
     else
       qvm-run -q -u root "${my_netvms[$i]}" -- nft insert rule nat PR-QBS-SERVICES meta iifname "$iface" "$proto" dport "$portnum_used" dnat to "${my_ips[$i-1]}:$portnum_target"
       qvm-run -q -u root "${my_netvms[$i]}" -- nft insert rule filter QBS-FORWARD meta iifname "$iface" ip daddr "${my_ips[$i-1]}" "$proto" dport "$portnum_target" ct state new accept
       if test "$permanent" = "1"; then
-        qvm-run -q -u root "${my_netvms[$i]}" -- "echo nft insert rule nat PR-QBS-SERVICES meta iifname $iface $proto dport $portnum_used dnat to ${my_ips[$i-1]}:$portnum_target >> /rw/config/rc.local"
-        qvm-run -q -u root "${my_netvms[$i]}" -- "echo nft insert rule filter QBS-FORWARD meta iifname $iface ip daddr ${my_ips[$i-1]} $proto dport $portnum_target ct state new accept >> /rw/config/rc.local"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "echo nft insert rule nat PR-QBS-SERVICES meta iifname $iface $proto dport $portnum_used dnat to ${my_ips[$i-1]}:$portnum_target >> ${rc}"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "echo nft insert rule filter QBS-FORWARD meta iifname $iface ip daddr ${my_ips[$i-1]} $proto dport $portnum_target ct state new accept >> ${rc}"
       fi
     fi
     ((i++))
@@ -153,8 +154,8 @@ teardown(){
       qvm-run -q -u root "${my_netvms[$i]}" -- "iptables -D QBS-FORWARD -i $iface -p $proto --dport $portnum_target -d ${my_ips[$i-1]} -j ACCEPT"
       qvm-run -q -u root "${my_netvms[$i]}" -- "iptables -t nat -D PR-QBS-SERVICES -i $iface -p $proto --dport $external_portnum -j DNAT --to-destination ${my_ips[$i-1]}:$portnum_target"
       if [ "$permanent" -eq 1 ]; then
-        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/iptables -D QBS-FORWARD -i $iface -p $proto --dport $portnum_target -d ${my_ips[$i-1]} -j ACCEPT/d' /rw/config/rc.local"
-        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/iptables -t nat -D PR-QBS-SERVICES -i $iface -p $proto --dport $external_portnum -j DNAT --to-destination ${my_ips[$i-1]}:$portnum_target/d' /rw/config/rc.local"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/iptables -D QBS-FORWARD -i $iface -p $proto --dport $portnum_target -d ${my_ips[$i-1]} -j ACCEPT/d' ${rc}"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/iptables -t nat -D PR-QBS-SERVICES -i $iface -p $proto --dport $external_portnum -j DNAT --to-destination ${my_ips[$i-1]}:$portnum_target/d' ${rc}"
       fi
     else
       local handle
@@ -164,8 +165,8 @@ teardown(){
       handle="$( get_handle "${my_netvms[$i]}" filter "dport $external_portnum " 1 )"
       qvm-run -q -u root "${my_netvms[$i]}" -- "nft delete rule filter QBS-FORWARD handle $handle"
       if [ "$permanent" -eq 1 ]; then
-        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/nft insert rule nat PR-QBS-SERVICES meta iifname $iface $proto dport $portnum_used dnat to ${my_ips[$i-1]}:$portnum_target/d'  /rw/config/rc.local"
-        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/nft insert rule filter QBS-FORWARD meta iifname $iface ip daddr ${my_ips[$i-1]} $proto dport $portnum_target ct state new accept/d'  /rw/config/rc.local"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/nft insert rule nat PR-QBS-SERVICES meta iifname $iface $proto dport $portnum_used dnat to ${my_ips[$i-1]}:$portnum_target/d' ${rc}"
+        qvm-run -q -u root "${my_netvms[$i]}" -- "sed -i '/nft insert rule filter QBS-FORWARD meta iifname $iface ip daddr ${my_ips[$i-1]} $proto dport $portnum_target ct state new accept/d' ${rc}"
       fi
     fi
     ((i--))
