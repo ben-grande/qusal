@@ -21,7 +21,6 @@ include:
     - pkgs:
       - qubes-core-agent-networking
       - ca-certificates
-      - curl
       - qubes-core-agent-thunar
       - thunar
       - zenity
