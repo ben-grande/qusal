@@ -19,7 +19,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       - pciutils
       - qubes-input-proxy-sender
       - qubes-usb-proxy
-      - qubes-u2f
-      #- qubes-ctap
+      - qubes-ctap
 
 {% endif -%}

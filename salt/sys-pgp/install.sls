@@ -20,7 +20,6 @@ include:
     - skip_suggestions: True
     - pkgs:
       - split-gpg2
-      - qubes-gpg-split
       - gnupg2
 
 {% set pkg = {

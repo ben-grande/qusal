@@ -19,7 +19,6 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - qubes-u2f
-      #- qubes-ctap
+      - qubes-ctap
 
 {% endif -%}
