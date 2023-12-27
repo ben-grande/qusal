@@ -74,7 +74,7 @@ To be implemented:
 
 You current setup needs to fulfill the following requisites:
 
-- Qubes OS R4.1
+- Qubes OS R4.2
 - Internet connection
 
 ## Installation
