@@ -26,7 +26,7 @@ include:
       - ca-certificates
       - qubes-core-agent-thunar
       - thunar
-      - pulseaudio-qubes
+      - pipewire-qubes
       - signal-desktop
       - zenity
       - dunst

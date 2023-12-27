@@ -25,6 +25,6 @@ include:
       - thunar
       - zenity
       - libgdk-pixbuf2.0-bin
-      - pulseaudio-qubes
+      - pipewire-qubes
 
 {% endif -%}

@@ -21,7 +21,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - qubes-app-shutdown-idle
-      - pulseaudio-qubes
+      - pipewire-qubes
       - audacious
       - calibre
       - ffmpeg
