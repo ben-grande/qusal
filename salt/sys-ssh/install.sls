@@ -45,7 +45,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 "{{ slsdotpath }}-sshd-config":
   file.managed:
     - name: /etc/ssh/sshd_config.d/{{ slsdotpath }}.conf
-    - source: salt://{{ slsdotpath }}/files/server/ssh_config.d/{{ slsdotpath }}.conf
+    - source: salt://{{ slsdotpath }}/files/server/sshd_config.d/{{ slsdotpath }}.conf
     - mode: '0755'
     - user: root
     - group: root
