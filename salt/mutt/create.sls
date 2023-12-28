@@ -38,6 +38,7 @@ prefs:
 - autostart: False
 features:
 - enable:
+  - service.split-gpg2-client
   - service.shutdown-idle
 - disable:
   - service.cups

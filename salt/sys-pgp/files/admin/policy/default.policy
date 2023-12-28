@@ -6,6 +6,4 @@
 ## file name instead. For example `30-user.policy`.
 qubes.Gpg2 * @anyvm  @default ask target={{ sls_path }} default_target={{ sls_path }}
 qubes.Gpg2 * @anyvm  @anyvm   deny
-qubes.Gpg  * @anyvm  @default ask target={{ sls_path }} default_target={{ sls_path }}
-qubes.Gpg  * @anyvm  @anyvm   deny
 ## vim:ft=qrexecpolicy
