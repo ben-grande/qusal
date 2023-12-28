@@ -30,9 +30,6 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
-# tags:
-# - add:
-#   - split-gpg2-client
 {%- endload %}
 {{ load(defaults) }}
 

@@ -53,10 +53,6 @@ Allow the `work` qubes to access `sys-pgp`, but not other qubes:
 qubes.Gpg2 * work   sys-pgp  ask default_target=sys-pgp
 qubes.Gpg2 * work   @default ask target=sys-pgp default_target=sys-pgp
 qubes.Gpg2 * @anyvm @anyvm   deny
-
-qubes.Gpg * work   sys-pgp  ask default_target=sys-pgp
-qubes.Gpg * work   @default ask target=sys-pgp default_target=sys-pgp
-qubes.Gpg * @anyvm @anyvm   deny
 ```
 
 ## Usage

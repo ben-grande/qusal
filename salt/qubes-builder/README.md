@@ -54,8 +54,8 @@ qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.configure
 ## Access Control
 
 The policy is based on `qubes-builderv2/rpc/50-qubesbuilder.policy`.
-Extra services added are `qubes.Gpg`, `qubes.Gpg2`, `qusal.GitInit`,
-`qusal.GitFetch`, `qusal.GitPush`, `qusal.SshAgent`.
+Extra services added are `qubes.Gpg2`, `qusal.GitInit`, `qusal.GitFetch`,
+`qusal.GitPush`, `qusal.SshAgent`.
 
 Out of these services, if an argument `+qubes-builder` can be specified to
 limit the scope, the action is `allowed`, else the action is to `ask`.

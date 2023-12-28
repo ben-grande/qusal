@@ -51,8 +51,8 @@ prefs:
 - vcpus: 4
 - default_dispvm: dvm-{{ slsdotpath }}
 features:
-# - enable:
-#   - service.split-gpg2-client
+- enable:
+  - service.split-gpg2-client
 - disable:
   - service.cups
   - service.cups-browsed
