@@ -28,12 +28,6 @@ Qubes Executor lacking some dependencies on Debian such as
 builder qube was Debian based, the executor qube still needs to be a Fedora
 template.
 
-A set of trusted keys is placed into the `qubes-builder` to be used to verify
-the git repositories during this package installation. The split-gpg2 setup is
-not used during installation as it can't restrict access to a certain set of
-keys (GNUPGHOME) yet. Spit-gpg2 will be used for GPG operations transparently
-when verifying and signing software, don't worry.
-
 - Top
 ```sh
 qubesctl top.enable qubes-builder
@@ -62,9 +56,9 @@ limit the scope, the action is `allowed`, else the action is to `ask`.
 
 ## Usage
 
-The builder qube is named `qubes-builder.`
+The builder qube is named `qubes-builder`.
 
-When using the Qubes Executor, configure the builder.yml `dispvm` option to
+When using the Qubes Executor, configure the `builder.yml` `dispvm` option to
 either `dom0` or `dvm-qubes-builder`:
 ```yaml
 executor:
@@ -76,5 +70,11 @@ executor:
 Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
 
+If you need to pull new commits, a set of trusted keys is present in
+`/home/user/.gnupg/qubes-builder` to be used to verify commits or tags:
+```sh
+GNUPGHOME="$HOME/.gnupg/qubes-builder" git verify-commit "HEAD^{commit}"
+```
+
 There are no further modifications needed to comply with this package. Consult
-upstream documentation on how to use the Qubes OS Builder.
+upstream documentation on how to use the Qubes OS Builder V2.
