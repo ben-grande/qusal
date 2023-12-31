@@ -6,36 +6,31 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-include:
-  - sys-usb.install-client-proxy
-  - .install-client
-
-"{{ slsdotpath }}-updated":
+"{{ slsdotpath }}-client-updated":
   pkg.uptodate:
     - refresh: True
 
-"{{ slsdotpath }}-installed":
+"{{ slsdotpath }}-client-installed":
   pkg.installed:
     - refresh: True
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - qubes-core-admin-client
-      - qubes-audio-daemon
-      - alsa-utils
-      - volumeicon-alsa
-      - socat
+      - pipewire-qubes
+      - pipewire-pulse
+      - wireplumber
+      - rtkit
 
 {% set pkg = {
     'Debian': {
-      'pkg': ['pipewire'],
+      'pkg': ['dbus-user-session', 'libpam-systemd'],
     },
     'RedHat': {
-      'pkg': ['pipewire-utils'],
+      'pkg': ['dbus', 'systemd-pam'],
     },
 }.get(grains.os_family) -%}
 
-"{{ slsdotpath }}-installed-os-specific":
+"{{ slsdotpath }}-client-installed-os-specific":
   pkg.installed:
     - refresh: True
     - install_recommends: False
