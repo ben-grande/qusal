@@ -30,12 +30,12 @@ case "${1-}" in
 esac
 case "${2-}" in
   "") usage;;
-  *) device="$2"
+  *) device="${2}"
 esac
 
 test "$(id -u)" = "0" || exec sudo "${0}"
 
-echo "$device" | tee /sys/bus/pci/drivers/pciback/unbind
-modalias="$(cat "/sys/bus/pci/devices/$device/modalias")"
-mod="$(modprobe -R "$modalias | head -n 1)"
-echo "$device" | tee "/sys/bus/pci/drivers/$mod/bind")"
+echo "${device}" | tee /sys/bus/pci/drivers/pciback/unbind
+modalias="$(cat "/sys/bus/pci/devices/${device}/modalias")"
+module="$(modprobe -R "${modalias}" | head -n 1)"
+echo "${device}" | tee "/sys/bus/pci/drivers/${module}/bind"
