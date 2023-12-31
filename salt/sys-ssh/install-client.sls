@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - sys-ssh-agent.install-client
 
-"{{ slsdotpath }}-updated-client":
+"{{ slsdotpath }}-client-updated":
   pkg.uptodate:
     - refresh: True
 
@@ -23,7 +23,7 @@ include:
     },
 }.get(grains.os_family) -%}
 
-"{{ slsdotpath }}-installed-client-os-specific":
+"{{ slsdotpath }}-client-installed-os-specific":
   pkg.installed:
     - refresh: True
     - install_recommends: False
