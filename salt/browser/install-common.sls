@@ -8,6 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - sys-usb.install-client-fido
+  - sys-audio.install-client
 
 "{{ slsdotpath }}-updated-common":
   pkg.uptodate:
@@ -25,6 +26,5 @@ include:
       - thunar
       - zenity
       - libgdk-pixbuf2.0-bin
-      - pipewire-qubes
 
 {% endif -%}

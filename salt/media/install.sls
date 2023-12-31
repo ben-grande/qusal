@@ -9,6 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - browser.install
+  - sys-audio.install-client
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -21,7 +22,6 @@ include:
     - skip_suggestions: True
     - pkgs:
       - qubes-app-shutdown-idle
-      - pipewire-qubes
       - audacious
       - calibre
       - ffmpeg

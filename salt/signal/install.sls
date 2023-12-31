@@ -11,6 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - dotfiles.copy-x11
+  - sys-audio.install-client
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -26,7 +27,6 @@ include:
       - ca-certificates
       - qubes-core-agent-thunar
       - thunar
-      - pipewire-qubes
       - signal-desktop
       - zenity
       - dunst
