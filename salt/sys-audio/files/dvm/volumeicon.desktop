@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Desktop Entry]
+Name=Volueicon
+Exec=volumeicon
+Icon=/usr/share/volumeicons/icons/tango/8.png
+Terminal=false
+X-MultipleArgs=False
+Type=Application
+Keywords=audio;volume;
+Categories=Audio;
