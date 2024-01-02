@@ -59,6 +59,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.audiovm
 - disable:
   - service.cups
   - service.cups-browsed

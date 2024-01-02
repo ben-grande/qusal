@@ -20,7 +20,7 @@ provided state.
 - Top
 ```sh
 qubesctl top.enable sys-audio
-qubesctl --targets=tpl-sys-audio state.apply
+qubesctl --targets=tpl-sys-audio,dvm-sys-audio state.apply
 qubesctl top.disable sys-audio
 ```
 
@@ -29,6 +29,7 @@ qubesctl top.disable sys-audio
 ```sh
 qubesctl state.apply sys-audio.create
 qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install
+qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
 ```
 <!-- pkg:end:post-install -->
 
