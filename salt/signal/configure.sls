@@ -9,14 +9,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - dotfiles.copy-x11
 
-"{{ slsdotpath }}-create-autostart-dir":
-  cmd.run:
-    - name: mkdir -p ~/.config/autostart
-    - runas: user
-
 "{{ slsdotpath }}-desktop-autostart":
-  cmd.run:
-    - name: ln -sf /usr/share/applications/signal-desktop.desktop ~/.config/autostart/
-    - runas: user
+  file.symlink:
+    - name: /home/user/.config/autostart/signal-desktop.desktop
+    - target: /usr/share/applications/signal-desktop.desktop
+    - user: user
+    - group: user
+    - force: True
+    - makedirs: True
 
 {% endif -%}
