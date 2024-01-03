@@ -15,14 +15,6 @@ include:
   - dotfiles.copy-x11
   - docker.configure
 
-"{{ slsdotpath }}-gpg-split-domain":
-  file.managed:
-    - name: /rw/config/gpg-split-domain
-    - source: salt://{{ slsdotpath }}/files/client/gpg-split-domain
-    - mode: '0644'
-    - user: root
-    - group: root
-
 "{{ slsdotpath }}-rpmmacros":
   file.managed:
     - name: /home/user/.rpmmacros
