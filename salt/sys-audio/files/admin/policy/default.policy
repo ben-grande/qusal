@@ -1,24 +1,33 @@
 # SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 Yukikoo neowutran <https://neowutran.ovh>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Credits: https://forum.qubes-os.org/t/audio-qube/20685
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
-admin.Events *                {{ sls_path }} @adminvm allow target=dom0
-admin.Events +domain-stopped  {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.Events +domain-shutdown {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.Events +domain-start    {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.Events +connection-established {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
+admin.Events * sys-audio sys-audio allow target=dom0
+admin.Events * sys-audio @adminvm allow target=dom0
+admin.Events * sys-audio @tag:audiovm-sys-audio allow target=dom0
 
-admin.vm.CurrentState * {{ sls_path }} @adminvm allow target=dom0
-admin.vm.CurrentState * {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.vm.List * {{ sls_path }} @adminvm allow target=dom0
-admin.vm.List * {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
+admin.vm.CurrentState * sys-audio sys-audio allow target=dom0
+admin.vm.CurrentState * sys-audio @adminvm allow target=dom0
+admin.vm.CurrentState * sys-audio @tag:audiovm-sys-audio allow target=dom0
 
-admin.vm.property.Get +audiovm {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.vm.property.Get +xid {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.vm.property.Get +stubdom_xid {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
+admin.vm.List * sys-audio sys-audio allow target=dom0
+admin.vm.List * sys-audio @adminvm allow target=dom0
+admin.vm.List * sys-audio @tag:audiovm-sys-audio allow target=dom0
 
-admin.vm.feature.CheckWithTemplate +audio {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
-admin.vm.feature.CheckWithTemplate +audio-model {{ sls_path }} @tag:audiovm-{{ sls_path }} allow target=dom0
+admin.vm.property.Get +audiovm     sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.property.Get +xid         sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.property.Get +stubdom_xid sys-audio @tag:audiovm-sys-audio allow target=dom0
+
+admin.vm.feature.CheckWithTemplate +audio                      sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio-model                sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.feature.CheckWithTemplate +supported-service.pipewire sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio-low-latency          sys-audio @tag:audiovm-sys-audio allow target=dom0
+
+admin.vm.property.GetAll * sys-audio sys-audio allow target=dom0
+admin.vm.property.GetAll * sys-audio @tag:audiovm-sys-audio allow target=dom0
 ## vim:ft=qrexecpolicy
