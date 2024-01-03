@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 
 # SPDX-FileCopyrightText: 2022 - 2023 The Qubes OS Project <https://www.qubes-os.org>
 #
@@ -7,5 +7,12 @@
 set -e
 
 sudo bash -c "mkdir -p /builder/incoming && chown -R user:user /builder"
-id="$(id -u user)"
-exec /usr/lib/qubes/qfile-unpacker "${id}" "/builder/incoming"
+
+id=$(id -u user)
+
+if test -x /usr/lib/qubes/qfile-unpacker; then
+  # shellcheck disable=SC2123
+  PATH="${PATH+"$PATH:"}/usr/lib/qubes"
+fi
+
+exec qfile-unpacker "$id" "/builder/incoming"
