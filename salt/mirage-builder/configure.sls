@@ -40,16 +40,34 @@ include:
     - mode: '0700'
     - makedirs: True
 
-"{{ slsdotpath }}-keyring-and-trustdb":
-  file.managed:
+"{{ slsdotpath }}-save-keys":
+  file.recurse:
+    - require:
+      - file: "{{ slsdotpath }}-gnupg-home"
+    - name: /home/user/.gnupg/mirage-firewall/download/
+    - source: salt://{{ slsdotpath }}/files/client/keys/
     - user: user
     - group: user
-    - mode: '0600'
-    - names:
-      - /home/user/.gnupg/mirage-firewall/pubring.kbx:
-        - source: salt://{{ slsdotpath }}/files/client/keys/pubring.kbx
-      - /home/user/.gnupg/mirage-firewall/trustdb.gpg:
-        - source: salt://{{ slsdotpath }}/files/client/keys/trustdb.gpg
+    - file_mode: '0600'
+    - dir_mode: '0700'
+    - makedirs: True
+
+"{{ slsdotpath }}-import-keys":
+  cmd.run:
+    - require:
+      - file: "{{ slsdotpath }}-save-keys"
+    - name: gpg --status-fd=2 --homedir . --import download/*.asc
+    - cwd: /home/user/.gnupg/mirage-firewall
+    - runas: user
+    - success_stderr: IMPORT_OK
+
+"{{ slsdotpath }}-import-ownertrust":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+    - name: gpg --homedir . --import-ownertrust download/otrust.txt
+    - cwd: /home/user/.gnupg/mirage-firewall
+    - runas: user
 
 "{{ slsdotpath }}-git-clone":
   git.latest:
@@ -83,7 +101,7 @@ include:
     - mode: '0755'
     - makedirs: True
 
-{% if salt['grains.get']('os_family') = 'RedHat' -%}
+{% if salt['grains.get']('os_family') == 'RedHat' -%}
 "{{ slsdotpath }}-file-security-context":
   cmd.run:
     - name: chcon -Rt container_file_t /home/user/docker

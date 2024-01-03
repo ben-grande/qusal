@@ -43,29 +43,48 @@ include:
     - target: /home/user/src/qubes-infrastructure-mirrors
     - user: user
 
-"{{ slsdotpath }}-gnupg-home-for-builder":
+"{{ slsdotpath }}-gnupg-home":
   file.directory:
     - name: /home/user/.gnupg/qubes-builder
     - user: user
     - group: user
     - mode: '0700'
 
-"{{ slsdotpath }}-keyring-and-trustdb":
-  file.managed:
+"{{ slsdotpath }}-save-keys":
+  file.recurse:
+    - require:
+      - file: "{{ slsdotpath }}-gnupg-home"
+    - name: /home/user/.gnupg/qubes-builder/download/
+    - source: salt://{{ slsdotpath }}/files/client/keys/
     - user: user
     - group: user
-    - mode: '0600'
-    - names:
-      - /home/user/.gnupg/qubes-builder/pubring.kbx:
-        - source: salt://{{ slsdotpath }}/files/client/keys/pubring.kbx
-      - /home/user/.gnupg/qubes-builder/trustdb.gpg:
-        - source: salt://{{ slsdotpath }}/files/client/keys/trustdb.gpg
+    - file_mode: '0600'
+    - dir_mode: '0700'
+    - makedirs: True
+
+"{{ slsdotpath }}-import-keys":
+  cmd.run:
+    - require:
+      - file: "{{ slsdotpath }}-save-keys"
+    - name: gpg --status-fd=2 --homedir . --import download/*.asc
+    - cwd: /home/user/.gnupg/qubes-builder
+    - runas: user
+    - success_stderr: IMPORT_OK
+
+"{{ slsdotpath }}-import-ownertrust":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+    - name: gpg --homedir . --import-ownertrust download/otrust.txt
+    - cwd: /home/user/.gnupg/qubes-builder
+    - runas: user
 
 "{{ slsdotpath }}-git-verify-HEAD-builderv2":
   cmd.run:
     - require:
       - git: "{{ slsdotpath }}-git-clone-builderv2"
-    - name: GNUPGHOME="$HOME/.gnupg/qubes-builder" git -c gpg.program=gpg2 verify-commit "HEAD^{commit}"
+      - cmd: "{{ slsdotpath }}-import-ownertrust"
+    - name: GNUPGHOME="$HOME/.gnupg/qubes-builder" git -c gpg.program=gpg2 verify-tag "$(git describe --tags --abbrev=0)"
     - cwd: /home/user/src/qubes-builderv2
     - runas: user
 
@@ -73,6 +92,7 @@ include:
   cmd.run:
     - require:
       - git: "{{ slsdotpath }}-git-clone-infrastructure-mirrors"
+      - cmd: "{{ slsdotpath }}-import-ownertrust"
     - name: GNUPGHOME="$HOME/.gnupg/qubes-builder" git -c gpg.program=gpg2 verify-commit "HEAD^{commit}"
     - cwd: /home/user/src/qubes-infrastructure-mirrors
     - runas: user
