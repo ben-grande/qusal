@@ -78,7 +78,7 @@ include:
     - target: /root/pi-hole
     - force_fetch: True
 
-"{{ slsdotpath }}-gnupg-home-for-pihole":
+"{{ slsdotpath }}-gnupg-home":
   file.directory:
     - name: /root/.gnupg/pihole
     - user: root
@@ -86,16 +86,34 @@ include:
     - mode: '0700'
     - makedirs: True
 
-"{{ slsdotpath }}-keyring-and-trustdb":
-  file.managed:
-    - user: root
-    - group: root
-    - mode: '0600'
-    - names:
-      - /root/.gnupg/pihole/pubring.kbx:
-        - source: salt://{{ slsdotpath }}/files/server/keys/pubring.kbx
-      - /root/.gnupg/pihole/trustdb.gpg:
-        - source: salt://{{ slsdotpath }}/files/server/keys/trustdb.gpg
+"{{ slsdotpath }}-save-keys":
+  file.recurse:
+    - require:
+      - file: "{{ slsdotpath }}-gnupg-home"
+    - name: /root/.gnupg/pihole/download/
+    - source: salt://{{ slsdotpath }}/files/server/keys/
+    - user: user
+    - group: user
+    - file_mode: '0600'
+    - dir_mode: '0700'
+    - makedirs: True
+
+"{{ slsdotpath }}-import-keys":
+  cmd.run:
+    - require:
+      - file: "{{ slsdotpath }}-save-keys"
+    - name: gpg --status-fd=2 --homedir . --import download/*.asc
+    - cwd: /root/.gnupg/pihole
+    - runas: root
+    - success_stderr: IMPORT_OK
+
+"{{ slsdotpath }}-import-ownertrust":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+    - name: gpg --homedir . --import-ownertrust download/otrust.txt
+    - cwd: /root/.gnupg/pihole
+    - runas: root
 
 ## The tag is annotated, using verify-commit instead.
 "{{ slsdotpath }}-git-verify-tag-pihole":

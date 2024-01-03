@@ -5,11 +5,11 @@
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
-qubes.Gpg2 * {{ sls_path }} @default ask target=sys-pgp
+qubes.Gpg2 * {{ sls_path }} @default ask target=sys-pgp default_target=sys-pgp
 
 qusal.GitInit  +qubes-builder {{ sls_path }} @default allow target=sys-git
 qusal.GitFetch +qubes-builder {{ sls_path }} @default allow target=sys-git
-qusal.GitPush  +qubes-builder {{ sls_path }} @default ask   target=sys-git
+qusal.GitPush  +qubes-builder {{ sls_path }} @default ask   target=sys-git default_target=sys-pgp
 
 qusal.SshAgent +qubes-builder {{ sls_path }} @default allow target=sys-ssh-agent
 qusal.SshAgent +qubes-builder {{ sls_path }} @anyvm deny
