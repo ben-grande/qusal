@@ -26,7 +26,7 @@ prefs:
 - virt_mode: hvm
 - template_for_dispvms: True
 - include_in_backups: False
-featuresq:
+features:
 - enable:
   - servicevm
   - appmenus-dispvm
