@@ -11,7 +11,6 @@ The following projects are incomplete (not a complete list):
 
 - sys-net: can't be provisioned automatically due to the minimal template
 - sys-firewall: can't be provisioned automatically due to the minimal template
-- sys-audio: not working on R4.1, waiting for R4.2
 - sys-wireguard: unfinished firewall port to nft, waiting for R4.2
 - sys-syncthing: broken firewall script functionality with disposable netvm
 
