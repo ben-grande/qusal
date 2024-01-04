@@ -102,3 +102,20 @@ features:
   - service.cups-browsed
 {%- endload %}
 {{ load(defaults) }}
+
+## Anticipate network usage as sys-firewall is turned off at this step.
+## Starting the machine before let's the network be established with enough
+## time for the package installation in the template to work.
+{% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
+{% if default_netvm -%}
+"{{ slsdotpath }}-start-{{ default_netvm }}-anticipate-network-use":
+  qvm.start:
+    - name: {{ default_netvm }}
+{% endif -%}
+
+{% set template_updatevm = salt['cmd.shell']("qrexec-policy tpl-sys-firewall @default qubes.UpdatesProxy 2>/dev/null | awk -F '=' '/^target=/{print $2}'") -%}
+{% if template_updatevm -%}
+"{{ slsdotpath }}-start-{{ template_updatevm }}-anticipate-network-use":
+  qvm.start:
+    - name: {{ template_updatevm }}
+{% endif -%}
