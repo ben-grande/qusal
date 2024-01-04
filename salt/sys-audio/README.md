@@ -7,6 +7,9 @@ Audio operations in Qubes OS.
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [Audio control](#audio-control)
+  * [Client started before sys-audio](#client-started-before-sys-audio)
+  * [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
 
 ## Description
 
@@ -40,6 +43,34 @@ qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluet
 
 ## Usage
 
+### Audio control
+
 The qube `sys-audio` will be used for audio capabilities for speakers and
-microphone, with builtin modules, jack port or Bluetooth. You are be able to
+microphone, with builtin modules, Jack port or Bluetooth. You are be able to
 control the volume via the volume icon that appears on the system tray.
+
+The basics are very simple to use:
+
+- Left click toggles the volume; and
+- Scrolling the mouse from left to right changes the volume;
+
+For more advanced features, right click the icon and click on `Open Mixer` or
+`Prefences`. For greater control, use the command `amixer`.
+
+### Client started before sys-audio
+
+Audio will not automatically connect if sys-audio starts after the client. To
+connect the client to audio server, restart the client's pipewire service:
+```sh
+systemctl --user restart pipewire
+```
+
+### Client turned off with a device attached
+
+If you shutdown a client qube with a device attached, such as a microphone or
+speaker, normal operation to attach the device to the same or any other qube
+will fail. To be able to use the device again:
+
+- Restart the audio server `sys-audio`;
+- Restart the audio client; and
+- Attach the device to the audio client;
