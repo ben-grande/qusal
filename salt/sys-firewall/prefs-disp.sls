@@ -4,23 +4,40 @@ SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-include:
-  - .create
+{% set qube = 'disp-' ~ slsdotpath -%}
 
-"disp-{{ slsdotpath }}-qubes-prefs-updatevm":
+{% set running = 0 -%}
+{% if salt['cmd.shell']('qvm-ls --no-spinner --raw-list --running ' ~ qube) == qube -%}
+  {% set running = 1 -%}
+{% endif -%}
+
+"{{ qube }}-start":
+  qvm.start:
+    - name: {{ qube }}
+
+"{{ qube }}-qubes-prefs-updatevm":
   cmd.run:
     - require:
-      - sls: {{ slsdotpath }}.clone
-    - name: qubes-prefs updatevm disp-{{ slsdotpath }}
+      - qvm: {{ qube }}-start
+    - name: qubes-prefs updatevm {{ qube }}
 
-"disp-{{ slsdotpath }}-qubes-prefs-default_netvm":
+"{{ qube }}-qubes-prefs-default_netvm":
   cmd.run:
     - require:
-      - sls: {{ slsdotpath }}.clone
-    - name: qubes-prefs default_netvm disp-{{ slsdotpath }}
+      - qvm: {{ qube }}-start
+    - name: qubes-prefs default_netvm {{ qube }}
 
-"disp-{{ slsdotpath }}-qubes-prefs-clockvm":
+"{{ qube }}-qubes-prefs-clockvm":
   cmd.run:
     - require:
-      - sls: {{ slsdotpath }}.create
-    - name: qubes-prefs clockvm disp-{{ slsdotpath }}
+      - qvm: {{ qube }}-start
+    - name: qubes-prefs clockvm {{ qube }}
+
+{% if running == 0 -%}
+"{{ qube }}-shutdown":
+  qvm.shutdown:
+    - name: {{ qube }}
+    - flags:
+      - wait
+      - force
+{% endif -%}
