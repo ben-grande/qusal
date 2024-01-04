@@ -7,6 +7,9 @@
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
+
+admin.vm.device.mic.Available * sys-audio @adminvm allow target=dom0
+
 admin.Events * sys-audio sys-audio allow target=dom0
 admin.Events * sys-audio @adminvm allow target=dom0
 admin.Events * sys-audio @tag:audiovm-sys-audio allow target=dom0
