@@ -7,7 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .install-debug
   - dotfiles.copy-x11
 
 "{{ slsdotpath }}-updated":

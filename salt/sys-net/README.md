@@ -1,6 +1,6 @@
 # sys-net
 
-PCI handler of Network devices in Qubes OS.
+PCI handler of network devices in Qubes OS.
 
 ## Table of Contents
 
@@ -45,7 +45,12 @@ qubesctl state.apply sys-net.prefs
 ```
 <!-- pkg:end:post-install -->
 
-Alternatively, if you prefer to have a disposable net qube:
+If you need to debug a net qube, install some helper tools:
+```sh
+qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install-debug
+```
+
+If you prefer to have a disposable net qube:
 ```sh
 qubesctl state.apply sys-net.prefs-disp
 ```
