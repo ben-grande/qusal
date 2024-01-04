@@ -5,7 +5,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {%- import "debian/template.jinja" as template_base -%}
+{% set base = template_base.base -%}
 {% set version = template_base.version -%}
+{% set flavor = 'minimal' -%}
 {% set repo = template_base.repo -%}
-{% set template = template_base.template ~ '-minimal' -%}
-{% set template_clean = template_base.template_clean ~ '-minimal' -%}
+{% if flavor -%}
+  {% set flavor = '-' ~ flavor -%}
+{% endif -%}
+{% set template = base ~ '-' ~ version ~ flavor -%}
+{% set template_clean = base ~ flavor -%}
