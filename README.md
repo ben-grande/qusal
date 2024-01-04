@@ -7,10 +7,8 @@ Salt Formulas for Qubes OS.
 **Warning**: Not ready for production, development only. Breaking changes can
 and will be introduced in the meantime. You've been warned.
 
-The following projects are incomplete (not a complete list):
+The following projects are unfinished (not a complete list):
 
-- sys-net: can't be provisioned automatically due to the minimal template
-- sys-firewall: can't be provisioned automatically due to the minimal template
 - sys-wireguard: unfinished firewall port to nft, waiting for R4.2
 - sys-syncthing: broken firewall script functionality with disposable netvm
 
@@ -64,9 +62,9 @@ Qubes global settings (qubes-prefs) that will be managed:
 - **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
+- **default_audiovm**: sys-audio
 
 To be implemented:
-- **default_audiovm**: sys-audio
 - **default_guivm**: sys-gui
 
 ## Prerequisites
@@ -133,6 +131,9 @@ Qubes OS, you are increasing the attack surface of the target, normally
 valuable qube that can hold secrets or pristine data. A compromise of the
 client qube can extend to the server, therefore configure the installation
 according to your threat model.
+
+If you are unsure how to start, follow the [bootstrap guide](BOOTSTRAP.md) for
+some ideas on how to customize your system.
 
 ## Contribute
 
