@@ -13,3 +13,7 @@ for vif in /proc/sys/net/ipv4/conf/vif*/route_localnet; do
   test -w "${vif}" || continue
   echo 1 | tee "${vif}" >/dev/null
 done
+
+if test -f /var/run/qubes-service/local-dns-server; then
+  echo "nameserver 127.0.0.1" | tee /etc/resolv.conf
+fi
