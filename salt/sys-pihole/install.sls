@@ -67,6 +67,7 @@ include:
   file.managed:
     - name: /etc/pihole/setupVars.conf
     - source: salt://{{ slsdotpath }}/files/server/pihole/setupVars.conf
+    - mode: '0644'
     - user: root
     - group: root
     - makedirs: True

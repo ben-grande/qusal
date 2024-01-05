@@ -23,6 +23,12 @@ insert rule ip6 qubes custom-forward udp dport 53 drop
 
 flush chain ip  qubes custom-input
 flush chain ip6 qubes custom-input
+## Admin Web Interface
+insert rule ip  qubes custom-input iifname != "lo" tcp dport 80 drop
+insert rule ip  qubes custom-input iifname != "lo" udp dport 80 drop
+insert rule ip6 qubes custom-input iifname != "lo" tcp dport 80 drop
+insert rule ip6 qubes custom-input iifname != "lo" udp dport 80 drop
+## DNS
 insert rule ip  qubes custom-input iifname "vif*" tcp dport 53 accept
 insert rule ip  qubes custom-input iifname "vif*" udp dport 53 accept
 insert rule ip6 qubes custom-input iifname "vif*" tcp dport 53 accept
