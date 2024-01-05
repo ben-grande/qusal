@@ -47,12 +47,10 @@ include:
       - docker-buildx-plugin
       - docker-compose-plugin
 
-"{{ slsdotpath }}-user-in-docker-group":
-  user.present:
-    - name: user
-    - groups:
+"{{ slsdotpath }}-add-user-to-docker-group":
+  group.present:
+    - name: docker
+    - addusers:
       - user
-      - qubes
-      - docker
 
 {% endif -%}

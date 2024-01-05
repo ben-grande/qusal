@@ -16,6 +16,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-core-agent-networking
+      - qubes-core-agent-passwordless-root
       - dnf-plugins-core
       - createrepo_c
       - debootstrap
@@ -35,5 +37,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       - python3-debian
       - reprepro
       - systemd-udev
+
+"{{ slsdotpath }}-qubes-executor-add-user-to-mock-group":
+  group.present:
+    - name: mock
+    - addusers:
+      - user
 
 {% endif -%}
