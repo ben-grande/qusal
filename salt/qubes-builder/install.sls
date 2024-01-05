@@ -62,4 +62,10 @@ include:
       - rsync
       - tree
 
+"{{ slsdotpath }}-add-user-to-mock-group":
+  group.present:
+    - name: mock
+    - addusers:
+      - user
+
 {% endif -%}
