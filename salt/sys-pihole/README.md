@@ -7,6 +7,10 @@ Pi-hole DNS Sinkhole in Qubes OS.
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [Web interface](#web-interface)
+  * [Torified Pi-Hole](#torified-pi-hole)
+  * [Local DNS server](#local-dns-server)
+  * [DNS issues after netvm restart](#dns-issues-after-netvm-restart)
 * [Credits](#credits)
 
 ## Description
@@ -55,6 +59,8 @@ qubesctl state.apply sys-pihole.prefs
 
 ## Usage
 
+### Web interface
+
 Pi-hole will be installed with these default settings:
 
 - The DNS provider is Quad9 (filtered, DNSSEC)
@@ -76,16 +82,30 @@ running. The browser qube is offline and only has access to the admin
 interface. In other words, it has control over the server functions, if the
 browser is compromised, it can compromise the server.
 
-You can clone `sys-pihole`. If you do, you must manually change the IP address
-of the clone.
+### Torified Pi-Hole
 
 If you want to combine Pi-Hole with Tor, then you should reconfigure your
 netvm chaining (will break tor's client stream isolation) as such:
 
 - qube -> sys-pihole -> Tor-gateway -> sys-firewall -> sys-net
 
+### Local DNS server
+
+If you want sys-pihole to use itself to resolve DNS queries, enable the
+service `local-dns-server` from Dom0 to sys-pihole:
+```sh
+qvm-service sys-pihole local-dns-server 1
+```
+
+Don't forget to restart sys-pihole after the changes.
+
+Note that if Pi-hole as a problem the host will not not be able to reach the
+internet for updates, syncing time etc.
+
+### DNS issues after netvm restart
+
 If you encounter problems with DNS after having upstream netvm route changes,
-restart Pi-Hole DNS from `sys-pihole` and run the following as root:
+restart Pi-hole DNS from sys-pihole:
 ```sh
 pihole restartdns
 ```
