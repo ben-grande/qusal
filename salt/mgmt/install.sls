@@ -16,7 +16,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - qubes-core-agent-passwordless-root
       - qubes-mgmt-salt-vm-connector
       - socat
 
