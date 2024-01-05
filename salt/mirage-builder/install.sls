@@ -27,7 +27,6 @@ include:
     - skip_suggestions: True
     - pkgs:
       ## https://github.com/mirage/qubes-mirage-firewall/blob/main/Dockerfile
-      - qubes-core-agent-passwordless-root
       - qubes-core-agent-networking
       - ca-certificates
       - bash-completion

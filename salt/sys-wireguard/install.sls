@@ -23,7 +23,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - skip_suggestions: True
     - pkgs:
       - qubes-core-agent-networking
-      - qubes-core-agent-passwordless-root
       - ca-certificates
       - iproute2
       - libnotify-bin
