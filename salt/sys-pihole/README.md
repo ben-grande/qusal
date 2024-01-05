@@ -61,14 +61,9 @@ Pi-hole will be installed with these default settings:
 - Steven Black's Unified Hosts List is included
 - Query logging is enabled to show everything.
 
-You can change these settings via the admin interface:
+You can change the settings via the admin interface:
 - URL: http://localhost/admin
-- default password: `UpSNQsy4`
-
-You should change this password on first use by running in `sys-pihole`:
-```sh
-pihole -a -p
-```
+- There is no password (access allowed only through localhost)
 
 If you want to view statistics or manage the server through a GUI, open
 `sys-pihole` or `sys-pihole-browser` desktop file `pihole-browser.desktop`
@@ -90,7 +85,7 @@ netvm chaining (will break tor's client stream isolation) as such:
 - qube -> sys-pihole -> Tor-gateway -> sys-firewall -> sys-net
 
 If you encounter problems with DNS after having upstream netvm route changes,
-restart Pi-Hole DNS from `sys-pihole`:
+restart Pi-Hole DNS from `sys-pihole` and run the following as root:
 ```sh
 pihole restartdns
 ```
