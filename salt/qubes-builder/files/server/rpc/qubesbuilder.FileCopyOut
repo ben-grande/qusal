@@ -1,9 +1,0 @@
-#!/usr/bin/bash
-
-# SPDX-FileCopyrightText: 2022 - 2023 The Qubes OS Project <https://www.qubes-os.org>
-#
-# SPDX-License-Identifier: GPL-2.0-only
-
-path="${1//__/\//}"
-
-exec /usr/lib/qubes/qfile-agent "$path"

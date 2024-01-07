@@ -11,16 +11,6 @@ include:
   - dotfiles.copy-sh
   - dotfiles.copy-x11
 
-"{{ slsdotpath }}-executor-rpc":
-  file.recurse:
-    - name: /usr/local/etc/qubes-rpc/
-    - source: salt://{{ slsdotpath }}/files/server/rpc/
-    - user: root
-    - group: root
-    - dir_mode: '0755'
-    - file_mode: '0755'
-    - makedirs: True
-
 "{{ slsdotpath }}-executor-makedir-binded-builder":
   file.directory:
     - name: /rw/bind-dirs/builder
