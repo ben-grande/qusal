@@ -22,6 +22,7 @@ admin.vm.Kill * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow target=
 qubesbuilder.FileCopyIn * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 qubesbuilder.FileCopyOut * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 
+qubes.Filecopy * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 qubes.WaitForSession * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 qubes.VMShell * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 ## vim:ft=qrexecpolicy

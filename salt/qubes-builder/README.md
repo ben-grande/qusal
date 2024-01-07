@@ -69,9 +69,13 @@ Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
 
 If you need to pull new commits, a set of trusted keys is present in
-`/home/user/.gnupg/qubes-builder` to be used to verify commits or tags:
+`/home/user/.gnupg/qubes-builder`. By default, the provided gitconfig verifies
+merges, so pulling new commits will do signature verification of `FETCH_HEAD`:
 ```sh
-GNUPGHOME="$HOME/.gnupg/qubes-builder" git verify-commit "HEAD^{commit}"
+GNUPGHOME="$HOME/.gnupg/qubes-builder" git pull
+Commit 7c37bb7 has a good GPG signature by Frédéric Pierret (fepitre)
+<frederic.pierret@qubes-os.org>
+...
 ```
 
 There are no further modifications needed to comply with this package. Consult
