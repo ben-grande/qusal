@@ -8,6 +8,8 @@ Setup Qubes OS Builder V2 in Qubes OS itself.
 * [Installation](#installation)
 * [Access Control](#access-control)
 * [Usage](#usage)
+  * [Builder configuration](#builder-configuration)
+  * [Update repository safely](#update-repository-safely)
 
 ## Description
 
@@ -54,11 +56,14 @@ unattended build.
 
 ## Usage
 
-The builder qube is named `qubes-builder`.
+### Builder configuration
 
 When using the Qubes Executor, configure the `builder.yml` `dispvm` option to
 either `dom0` or `dvm-qubes-builder`:
 ```yaml
+include:
+  - example-configs/desired-config.yml
+
 executor:
   type: qubes
   options:
@@ -68,15 +73,14 @@ executor:
 Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
 
-If you need to pull new commits, a set of trusted keys is present in
-`/home/user/.gnupg/qubes-builder`. By default, the provided gitconfig verifies
-merges, so pulling new commits will do signature verification of `FETCH_HEAD`:
+### Update repository safely
+
+If you need to pull new commits, set `GNUPGHOME` to
+`/home/user/.gnupg/qubes-builder`, the provided gitconfig enforces signature
+verification on git merges:
 ```sh
 GNUPGHOME="$HOME/.gnupg/qubes-builder" git pull
 Commit 7c37bb7 has a good GPG signature by Frédéric Pierret (fepitre)
 <frederic.pierret@qubes-os.org>
 ...
 ```
-
-There are no further modifications needed to comply with this package. Consult
-upstream documentation on how to use the Qubes OS Builder V2.
