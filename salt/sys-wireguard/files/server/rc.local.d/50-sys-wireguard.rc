@@ -4,4 +4,4 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-wg-quick up /rw/config/vpn/wireguard.conf
+wg-quick up /home/user/wireguard.conf

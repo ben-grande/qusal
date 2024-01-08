@@ -32,15 +32,16 @@ qubesctl --skip-dom0 --targets=sys-wireguard state.apply sys-wireguard.configure
 ```
 <!-- pkg:end:post-install -->
 
-To add the VPN configuration and configure the qubes firewall:
-```sh
-/srv/salt/qusal/sys-wireguard/files/admin/setup-sys-wireguard.sh
-```
-
 ## Usage
 
 Use the VPN qube `sys-wireguard` to enforce incoming and outgoing connections
 from clients connected to the VPN with a fail safe mechanism.
+
+To start using the VPN:
+
+1. Copy the Wireguard configuration you downloaded to `sys-wireguard` and
+   place it in `/home/user/wireguard.conf`.
+2. Run from Dom0 to apply Qubes Firewall rules: `qvm-wireguard`
 
 ## Credits
 
