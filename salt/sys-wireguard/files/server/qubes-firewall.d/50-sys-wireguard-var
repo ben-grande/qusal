@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+wg_conf="/home/user/wireguard.conf"
+nft_conf="/var/run/wireguard/dnat.nft"
+
+mkdir -p /var/run/wireguard/
+rm -f "${nft_conf}"
+touch "${nft_conf}"
+
+set_nft(){
+  echo "${*}" | tee -a "${nft_conf}" >/dev/null
+}
+
+set_nft_dnat(){
+  ipv="${1}" # empty(4), 6
+  proto="${2}" # tcp, udp
+  dns_host="${3}"
+  set_nft "insert rule ip${ipv} qubes custom-dnat iifgroup 2 ${proto} dport 53 dnat to ${dns_host}"
+}
+
+dns="$(grep -s "^\s*DNS\s*=\s*\S\+" "${wg_conf}" | sed "s/.*=//;s/ //g")"
+dns_primary="$(echo "${dns}" | cut -d "," -f 1)"
+dns_secondary="$(echo "${dns}" | cut -d "," -f 2)"
+
+dns_primary_ipv=""
+if echo "${dns_primary}" | grep -qF ":"; then
+  dns_primary_ipv=6
+fi
+
+dns_secondary_ipv=""
+if echo "${dns_secondary}" | grep -qF ":"; then
+  dns_secondary_ipv=6
+fi
+
+if test -n "${dns}"; then
+  set_nft_dnat "${dns_primary_ipv}" udp "${dns_primary}"
+  set_nft_dnat "${dns_primary_ipv}" tcp "${dns_primary}"
+  if echo "${dns}" | grep -qF ","; then
+    set_nft_dnat "${dns_secondary_ipv}" udp "${dns_secondary}"
+    set_nft_dnat "${dns_secondary_ipv}" tcp "${dns_secondary}"
+  fi
+fi

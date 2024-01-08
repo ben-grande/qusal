@@ -35,3 +35,12 @@ features:
   - service.tinyproxy
 {%- endload %}
 {{ load(defaults) }}
+
+"{{ slsdotpath }}-qvm-wireguard":
+  file.managed:
+    - name: /usr/local/bin/qvm-wireguard
+    - source: salt://{{ slsdotpath }}/files/admin/qvm-wireguard
+    - user: root
+    - group: root
+    - mode: '0755'
+    - makedirs: True

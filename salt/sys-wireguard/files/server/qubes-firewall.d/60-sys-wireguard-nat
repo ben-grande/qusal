@@ -1,0 +1,25 @@
+#!/usr/sbin/nft -f
+# vim: ft=nftables
+
+# SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+flush chain ip  qubes custom-forward
+flush chain ip6 qubes custom-forward
+insert rule ip  qubes custom-forward oifgroup 1 drop
+insert rule ip  qubes custom-forward iifgroup 1 drop
+insert rule ip6 qubes custom-forward oifgroup 1 drop
+insert rule ip6 qubes custom-forward iifgroup 1 drop
+
+add chain ip6 qubes dnat-dns { type nat hook prerouting priority dstnat; policy accept; }
+add chain ip  qubes custom-dnat { type nat hook prerouting priority dstnat; policy accept; }
+add chain ip6 qubes custom-dnat { type nat hook prerouting priority dstnat; policy accept; }
+
+flush chain ip  qubes dnat-dns
+flush chain ip6 qubes dnat-dns
+flush chain ip  qubes custom-dnat
+flush chain ip6 qubes custom-dnat
+
+include "/var/run/wireguard/dnat.nft"

@@ -7,10 +7,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
+{#
 "{{ slsdotpath }}-qvpn-group":
   group.present:
     - name: qvpn
     - system: True
+#}
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
@@ -25,12 +27,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       - qubes-core-agent-networking
       - ca-certificates
       - iproute2
-      - libnotify-bin
-      - mate-notification-daemon
       - resolvconf
-      - unzip
       - wireguard
+      - unzip
       - curl
-      - zenity
 
 {% endif -%}

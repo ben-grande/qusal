@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+ln -sf /run/resolvconf/resolv.conf /etc/resolv.conf
+/rw/config/qubes-firewall.d/50-sys-wireguard-var
+nft -f /rw/config/qubes-firewall.d/60-sys-wireguard-nat

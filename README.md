@@ -9,8 +9,7 @@ and will be introduced in the meantime. You've been warned.
 
 The following projects are unfinished (not a complete list):
 
-- sys-wireguard: unfinished firewall port to nft, waiting for R4.2
-- sys-syncthing: broken firewall script functionality with disposable netvm
+- sys-syncthing: broken firewall script due to nftables and disposable netvm
 
 Other projects might also have drastic changes, the above are simply not ready
 at all.
