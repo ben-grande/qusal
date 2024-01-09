@@ -140,6 +140,12 @@ features:
   - service.cups-browsed
   - service.meminfo-writer
   - service.qubes-updates-proxy
+tags:
+- add:
+  - usbvm
 {%- endload %}
 {{ load(defaults) }}
 {% endfor -%}
+
+{% from 'utils/macros/policy.sls' import policy_set with context -%}
+{{ policy_set(sls_path, '80') }}

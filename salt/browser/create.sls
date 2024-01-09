@@ -40,11 +40,12 @@ prefs:
 - template_for_dispvms: True
 - include_in_backups: False
 features:
+- enable:
+  - appmenus-dispvm
+  - service.qubes-ctap-proxy
 - disable:
   - service.tracker
   - service.evolution-data-server
-- enable:
-  - appmenus-dispvm
 - set:
   - menu-items: "firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}

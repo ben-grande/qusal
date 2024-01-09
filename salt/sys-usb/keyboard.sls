@@ -22,17 +22,6 @@ include:
     - pkg:
       - qubes-input-proxy
 
-"{{ slsdotpath }}-input-proxy-keyboard":
-  file.managed:
-    - require:
-      - qvm: {{ slsdotpath }}
-      - pkg: installed-dom0
-    - name: /etc/qubes/policy.d/80-{{ slsdotpath }}.policy
-    - source: salt://{{ slsdotpath }}/files/policy/default.policy
-    - user: root
-    - group: qubes
-    - mode: '0664'
-
 {% set uefi_xen_cfg = '/boot/efi/EFI/qubes/xen.cfg' %}
 {% if grains['boot_mode'] == 'efi' %}
 {% set grub_cfg = '/boot/efi/EFI/qubes/grub.cfg' %}
