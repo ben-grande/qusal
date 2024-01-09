@@ -94,7 +94,7 @@ netvm chaining (will break tor's client stream isolation) as such:
 If you want sys-pihole to use itself to resolve DNS queries, enable the
 service `local-dns-server` from Dom0 to sys-pihole:
 ```sh
-qvm-service sys-pihole local-dns-server 1
+qvm-features sys-pihole service.local-dns-server 1
 ```
 
 Don't forget to restart sys-pihole after the changes.
