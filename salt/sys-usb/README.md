@@ -40,13 +40,19 @@ Install the proxy on the client template:
 ```sh
 qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-proxy
 ```
+
 If the client requires decrypting a device, install on the client template:
 ```sh
 qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-cryptsetup
 ```
+
 If the client requires a FIDO device, install on the client template:
 ```sh
 qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
+```
+And enable the CTAP Proxy service for the client qubes:
+```sh
+qvm-features QUBE service.qubes-ctap-proxy 1
 ```
 
 ## Usage
