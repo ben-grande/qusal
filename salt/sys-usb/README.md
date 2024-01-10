@@ -6,6 +6,7 @@ PCI handler of USB devices in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+* [Access control](#access-control)
 * [Usage](#usage)
 * [Credits](#credits)
 
@@ -54,6 +55,14 @@ And enable the CTAP Proxy service for the client qubes:
 ```sh
 qvm-features QUBE service.qubes-ctap-proxy 1
 ```
+
+## Access control
+
+No extra services are implemented, consult upstream to learn how to use the
+following services:
+- `qubes.InputMouse`, `qubes.InputKeyboard`, `qubes.InputTablet`;
+- `ctap.GetInfo`, `ctap.ClientPin`, `u2f.Register`, `u2f.Authenticate`,
+  `policy.RegisterArgument`.
 
 ## Usage
 
