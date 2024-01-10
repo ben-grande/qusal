@@ -14,7 +14,6 @@ include:
 "dvm-{{ template.template }}-absent":
   qvm.absent:
     - names:
-      - dvm-{{ template.template_clean }}
       - {{ template.template_clean }}-dvm
       - {{ template.template }}-dvm
 
