@@ -10,24 +10,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - .clone
 
-{#
-"{{ slsdotpath }}-updated-dom0":
-  pkg.uptodate:
-    - refresh: True
-
-"{{ slsdotpath }}-install-dom0-package":
-  pkg.installed:
-    - pkgs:
-      - qubes-ctap-dom0
-#}
-
-"{{ slsdotpath }}-absent":
+## If sys-usb is an AppVM, the state will fail, replace the AppVM for a DispVM
+{% set non_disp_usb = salt['cmd.shell']("qvm-ls --no-spinner --raw-data --fields=NAME,CLASS sys-usb sys-usb-dock sys-usb-left 2>/dev/null | awk -F '|' '!/\|DispVM$/{print $1}'") -%} # noqa: 204
+{% for wrong_class in non_disp_usb.split("\n") -%}
+"{{ slsdotpath }}-absent-{{ wrong_class }}":
   qvm.absent:
-    - names:
-      - {{ slsdotpath }}
-      - sys-usb-dock
-      - sys-usb-left
-      - dvm-{{ slsdotpath }}
+    - name: {{ wrong_class }}
+{% endfor -%}
 
 {% load_yaml as defaults -%}
 name: dvm-{{ slsdotpath }}
