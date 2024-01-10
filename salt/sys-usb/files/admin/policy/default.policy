@@ -28,32 +28,31 @@
   {%- set tablet_action = 'deny' -%}
 {% endif -%}
 
-qubes.InputMouse    * @tag:usbvm dom0 {{ mouse_action }}
-qubes.InputKeyboard * @tag:usbvm dom0 {{ keyboard_action }}
-qubes.InputTablet   * @tag:usbvm dom0 {{ tablet_action }}
-
-qubes.InputKeyboard * @tag:usbvm @adminvm deny
+qubes.InputMouse    * @tag:usbvm @adminvm {{ mouse_action }}
 qubes.InputMouse    * @tag:usbvm @adminvm deny
+
+qubes.InputKeyboard * @tag:usbvm @adminvm {{ keyboard_action }}
+qubes.InputKeyboard * @tag:usbvm @adminvm deny
+
+qubes.InputTablet   * @tag:usbvm @adminvm {{ tablet_action }}
 qubes.InputTablet   * @tag:usbvm @adminvm deny
-qubes.InputKeyboard * @tag:usbvm @anyvm deny
-qubes.InputMouse    * @tag:usbvm @anyvm deny
-qubes.InputTablet   * @tag:usbvm @anyvm deny
 
 ctap.ClientPin   * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
+ctap.ClientPin   * @anyvm @default   ask user=root default_target={{ sls_path }}
+ctap.ClientPin   * @anyvm @anyvm     deny
+
 ctap.GetInfo     * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
+ctap.GetInfo     * @anyvm @default   ask user=root default_target={{ sls_path }}
+ctap.GetInfo     * @anyvm @anyvm     deny
+
 u2f.Authenticate * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
+u2f.Authenticate * @anyvm @default   ask user=root default_target={{ sls_path }}
+u2f.Authenticate * @anyvm @anyvm     deny
+
 u2f.Register     * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
-
-ctap.ClientPin   * @anyvm @default ask user=root default_target={{ sls_path }}
-ctap.GetInfo     * @anyvm @default ask user=root default_target={{ sls_path }}
-u2f.Authenticate * @anyvm @default ask user=root default_target={{ sls_path }}
-u2f.Register     * @anyvm @default ask user=root default_target={{ sls_path }}
-
-ctap.GetInfo     * @anyvm @anyvm deny
-ctap.ClientPin   * @anyvm @anyvm deny
-u2f.Authenticate * @anyvm @anyvm deny
-u2f.Register     * @anyvm @anyvm deny
+u2f.Register     * @anyvm @default   ask user=root default_target={{ sls_path }}
+u2f.Register     * @anyvm @anyvm     deny
 
 policy.RegisterArgument +u2f.Authenticate @tag:usbvm @anyvm allow target=dom0
-policy.RegisterArgument +u2f.Authenticate @tag:usbvm @anyvm deny
+policy.RegisterArgument +u2f.Authenticate @anyvm     @anyvm deny
 # vim:ft=qrexecpolicy
