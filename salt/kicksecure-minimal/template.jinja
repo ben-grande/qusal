@@ -1,0 +1,15 @@
+{#
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+{% set base = 'kicksecure' -%}
+{% set version = salt['pillar.get']('qvm:kicksecure:version', '17') -%}
+{% set flavor = salt['pillar.get']('qvm:kicksecure:flavor', 'minimal') -%}
+#{% set repo = salt['pillar.get']('qvm:kicksecure:repo', 'qubes-templates-itl') -%}
+{% if flavor -%}
+  {% set flavor = '-' ~ flavor -%}
+{% endif -%}
+{% set template = base  ~ '-' ~ version ~ flavor -%}
+{% set template_clean = base ~ flavor -%}

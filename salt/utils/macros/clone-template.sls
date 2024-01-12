@@ -13,18 +13,23 @@ Usage:
 {{ clone_template('debian-minimal', sls_path) }}
 #}
 
-{% macro clone_template(source, name) -%}
+{% macro clone_template(source, name, noprefix) -%}
 
 {%- import source ~ "/template.jinja" as template -%}
 
 include:
   - {{ source }}.create
 
-"tpl-{{ name }}-clone":
+{% set prefix = "tpl-" -%}
+{% if noprefix -%}
+  {%- set prefix = "" -%}
+{% endif -%}
+
+"{{ prefix }}{{ name }}-clone":
   qvm.clone:
     - require:
       - sls: {{ source }}.create
     - source: {{ template.template }}
-    - name: tpl-{{ name }}
+    - name: {{ prefix }}{{ name }}
 
 {% endmacro -%}

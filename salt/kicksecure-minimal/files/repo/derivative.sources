@@ -1,0 +1,6 @@
+Types: deb
+URIs: http://deb.kicksecure.com
+Suites: bookworm
+Components: main contrib non-free
+Signed-by: /usr/share/keyrings/derivative.asc
+# vim:ft=debsources
