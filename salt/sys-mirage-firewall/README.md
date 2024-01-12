@@ -11,8 +11,8 @@ Mirage Firewall in Qubes OS.
 
 ## Description
 
-Creates a Mirage Firewall qube named "sys-mirage-firewall". It is an OCaml
-program compiled to run as an operating system kernel, in this case, a
+Creates a Mirage Firewall qube named "disp-sys-mirage-firewall". It is an
+OCaml program compiled to run as an operating system kernel, in this case, a
 MirageOS unikernel replacement for the default firewall (sys-firewall). It
 pulls in just the code it needs as libraries.
 
@@ -42,19 +42,20 @@ qubesctl state.apply sys-mirage-firewall.create
 
 ## Usage
 
-As a started, set qubes `netvm` to `sys-mirage-firewall`:
+As a started, set qubes `netvm` to `disp-sys-mirage-firewall`:
 ```sh
-qvm-prefs --set QUBE netvm sys-mirage-firewall
+qvm-prefs --set QUBE netvm disp-sys-mirage-firewall
 ```
 
 To test the firewall, apply rules with `qvm-firewall`.
 
 For monitoring, inspect the Unikernel console:
 ```sh
-sudo xl console sys-mirage-firewall
+sudo xl console disp-sys-mirage-firewall
 ```
 Exit the console with `Ctrl-]`.
 
 ## Credits
 
 - [Unman](https://github.com/unman/shaker/tree/main/mirage)
+- [Thien Tran](https://privsec.dev/posts/qubes/firewalling-with-mirageos-on-qubes-os/)

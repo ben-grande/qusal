@@ -1,8 +1,9 @@
 {#
+SPDX-FileCopyrightText: 2022 Thien Tran <contact@tommytran.io>
 SPDX-FileCopyrightText: 2023 unman <unman@thirdeyesecurity.org>
 SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
-SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
 #}
 
 {%- from "qvm/template.jinja" import load -%}
@@ -46,24 +47,65 @@ the chain (sys-net).
     - makedirs: True
 
 {% load_yaml as defaults -%}
-name: sys-mirage-firewall
+name: tpl-sys-mirage-firewall
 force: True
 require:
-  - file: sys-mirage-firewall-save-version
+- file: sys-mirage-firewall-save-version
 present:
-- class: StandaloneVM
-- label: orange
-- virt_mode: pvh
+- class: TemplateVM
+- label: black
 prefs:
+- virt_mode: pvh
+- label: black
+- memory: 64
+- maxmem: 64
+- vcpus: 1
+- kernel: mirage-firewall
+- kernelopts: ""
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: dvm-sys-mirage-firewall
+force: True
+require:
+- qvm: tpl-sys-mirage-firewall
+present:
+- template: tpl-sys-mirage-firewall
+- label: orange
+prefs:
+- template: tpl-sys-mirage-firewall
 - label: orange
 - netvm: {{ netvm }}
 - memory: 64
 - maxmem: 64
 - vcpus: 1
 - provides-network: True
-- default_dispvm: ""
-- kernel: mirage-firewall
-- kernelopts: ''
+- template_for_dispvms: True
+features:
+- enable:
+  - service.qubes-firewall
+  - no-default-kernelopts
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: disp-sys-mirage-firewall
+force: True
+require:
+- qvm: tpl-sys-mirage-firewall
+present:
+- class: DispVM
+- template: dvm-sys-mirage-firewall
+- label: orange
+prefs:
+- template: dvm-sys-mirage-firewall
+- label: orange
+- netvm: {{ netvm }}
+- memory: 64
+- maxmem: 64
+- vcpus: 1
+- provides-network: True
 features:
 - enable:
   - service.qubes-firewall
