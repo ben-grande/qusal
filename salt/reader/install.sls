@@ -7,9 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-include:
-  - browser.install
-
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
     - refresh: True
@@ -20,6 +17,9 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-core-agent-networking
+      - ca-certificates
+      - firefox-esr
       - libreoffice
       - antiword
       - evince
