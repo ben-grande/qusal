@@ -5,6 +5,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 include:
-  - .install
-  - .touch-zshrc
-  - .change-shell
+  - utils.tools.zsh.install
+  - utils.tools.zsh.touch-zshrc
+  - utils.tools.zsh.change-shell

@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .touch-zshrc
+  - utils.tools.zsh.touch-zshrc
 
 "{{ slsdotpath }}-updated":
   pkg.uptodate:
