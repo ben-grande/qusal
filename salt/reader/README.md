@@ -43,6 +43,9 @@ originator/client did no trust to open in its environment. When you run
 `default_dispvm`, it will open the file to be read in a disposable based on
 `dvm-reader`.
 
+By default, there is no `netvm`, thus allowing you to set the networking chain
+you want before the disposable makes a connection.
+
 ## Credits
 
 - [Unman](https://github.com/unman/shaker/tree/main/reader)
