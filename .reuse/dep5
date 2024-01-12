@@ -30,6 +30,10 @@ Copyright: The Qubes OS Project <https://www.qubes-os.org>
            Simon Gaiser <simon@invisiblethingslab.com>
 License: CC0-1.0
 
+Files: salt/kicksecure-minimal/files/template/ld.so.preload
+Copyright: 2014 Patrick Schleizer <adrelanos@kicksecure.com>
+License: CC0-1.0
+
 Files: salt/ansible/files/repo/*
 Copyright: 2014 Ansible, Inc. <https://ansible.com>
 License: CC0-1.0
@@ -40,6 +44,10 @@ License: CC0-1.0
 
 Files: salt/docker/files/repo/*
 Copyright: 2017 Docker Inc. <docker@docker.com>
+License: CC0-1.0
+
+Files: salt/kicksecure-minimal/files/repo/*
+Copyright: 2014 Patrick Schleizer <adrelanos@kicksecure.com>
 License: CC0-1.0
 
 Files: salt/signal/files/repo/*

@@ -23,6 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       - repl: 'http://HTTPS/'
       - flags: [ 'IGNORECASE', 'MULTILINE' ]
       - backup: False
+      - ignore_if_missing: True
 {% endif -%}
 
 {% elif grains['os_family']|lower == 'arch' -%}
