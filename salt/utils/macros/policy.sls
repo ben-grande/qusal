@@ -35,7 +35,7 @@ contents:
 
 #}
 
-{% set policy_mode = '0644' -%}
+{% set policy_mode = '0664' -%}
 {% set policy_user = 'root' -%}
 {% set policy_group = 'qubes' -%}
 
