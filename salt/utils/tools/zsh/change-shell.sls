@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .install
+  - utils.tools.zsh.install
 
 ## chsh is not in Fedora and usermod covers a wider range.
 "{{ slsdotpath }}-change-user-shell-to-zsh":
