@@ -9,19 +9,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 # 'qvm.sys-usb', which is different from the one we create at create.sls.
 # Last known update of 'qvm.usb-keyboard': 2023-08-31
 
-include:
-  - .create
-  - qvm.hide-usb-from-dom0
-
-"{{ slsdotpath }}-updated-dom0":
-  pkg.uptodate:
-    - refresh: True
-
-"{{ slsdotpath }}-installed-dom0":
-  pkg.installed:
-    - pkg:
-      - qubes-input-proxy
-
 {% set uefi_xen_cfg = '/boot/efi/EFI/qubes/xen.cfg' %}
 {% if grains['boot_mode'] == 'efi' %}
 {% set grub_cfg = '/boot/efi/EFI/qubes/grub.cfg' %}

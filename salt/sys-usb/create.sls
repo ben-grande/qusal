@@ -9,6 +9,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
+  - qvm.hide-usb-from-dom0
+
+"{{ slsdotpath }}-updated-dom0":
+  pkg.uptodate:
+    - refresh: True
+
+"{{ slsdotpath }}-installed-dom0":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs:
+      - qubes-input-proxy
 
 {% load_yaml as defaults -%}
 name: dvm-{{ slsdotpath }}
