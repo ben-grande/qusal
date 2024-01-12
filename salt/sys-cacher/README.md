@@ -20,7 +20,7 @@ packages, so that you need only download a package once for it to be used when
 updating many  The proxy is preconfigured to work out of the box
 for Debian, Ubuntu, Arch, and Fedora
 
-When you install this package, qubes will be tagged with "sys-cacher-updatevm"
+When you install this package, qubes will be tagged with "updatevm-sys-cacher"
 and they will be altered to use the proxy by default. When there is "https://"
 in your repository definitions, the entries will be changed in the templates
 from to "http://HTTPS///". This is so that the request to the proxy is plain
@@ -99,7 +99,7 @@ Non-TemplateVMs updates or simply make them functional again, the qube will
 need the `service.updates-proxy-setup` feature set:
 ```sh
 qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
-qvm-tags add QUBE sys-cacher-updatevm
+qvm-tags add QUBE updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
 ```
 Don't forget to restart the qube.
@@ -132,7 +132,7 @@ qubesctl --skip-dom0 --templates state.apply sys-cacher.uninstall-client
 If you want to use the standard proxy for a few templates:
 ```sh
 qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-cacher.uninstall-client
-qvm-tags del TEMPLATE sys-cacher-updatevm
+qvm-tags del TEMPLATE updatevm-sys-cacher
 ```
 
 ## Credits

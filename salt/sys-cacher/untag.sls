@@ -11,5 +11,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   qvm.tags:
     - name: {{ tpl }}
     - del:
-      - sys-cacher-updatevm
+      - updatevm-sys-cacher
 {% endfor -%}
