@@ -10,14 +10,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - .clone
 
-## If sys-usb is an AppVM, the state will fail, replace the AppVM for a DispVM
-{% set non_disp_usb = salt['cmd.shell']("qvm-ls --no-spinner --raw-data --fields=NAME,CLASS sys-usb sys-usb-dock sys-usb-left 2>/dev/null | awk -F '|' '!/\|DispVM$/{print $1}'") -%} # noqa: 204
-{% for wrong_class in non_disp_usb.split("\n") -%}
-"{{ slsdotpath }}-absent-{{ wrong_class }}":
-  qvm.absent:
-    - name: {{ wrong_class }}
-{% endfor -%}
-
 {% load_yaml as defaults -%}
 name: dvm-{{ slsdotpath }}
 force: True
@@ -52,10 +44,10 @@ features:
 {% set usb_pcidevs = salt['grains.get']('pci_usb_devs', []) -%}
 {% if usb_pcidevs == ['00:14.0', '00:1a.0', '00:1d.0'] -%}
   {% set usb_host_model = 'ThinkPad T430' -%}
-  {% set usbs = ['sys-usb', 'sys-usb-dock', 'sys-usb-left'] -%}
+  {% set usbs = ['disp-sys-usb', 'disp-sys-usb-dock', 'disp-sys-usb-left'] -%}
 {% else -%}
   {% set usb_host_model = 'unknown' -%}
-  {% set usbs = ['sys-usb'] -%}
+  {% set usbs = ['disp-sys-usb'] -%}
 {% endif -%}
 
 {#
@@ -72,12 +64,12 @@ Questions:
 {#
 {% set usb_pcidevs = {
     'ThinkPad T430': {
-      'qubes': ['sys-usb', 'sys-usb-dock', 'sys-usb-left'],
+      'qubes': ['disp-sys-usb', 'disp-sys-usb-dock', 'disp-sys-usb-left'],
       'pcidevs': ['00:14.0', '00:1a.0', '00:1d.0'],
       'autostart': False,
     },
     'UNCATEGORIZED': {
-      'qubes': ['sys-usb'],
+      'qubes': ['disp-sys-usb'],
       'pcidevs': {{ usb_pcidevs }},
       'autostart': True,
     },
@@ -109,11 +101,11 @@ prefs:
 - pci_strictreset: False
 {% if usb_host_model == 'ThinkPad T430' -%}
 - autostart: False
-{% if usb == 'sys-usb-left' -%}
+{% if usb == 'disp-sys-usb-left' -%}
 - pcidevs: {{ [usb_pcidevs[0]]|yaml }}
-{% elif usb == 'sys-usb' -%}
+{% elif usb == 'disp-sys-usb' -%}
 - pcidevs: {{ [usb_pcidevs[1]]|yaml }}
-{% elif usb == 'sys-usb-dock' -%}
+{% elif usb == 'disp-sys-usb-dock' -%}
 - pcidevs: {{ [usb_pcidevs[2]]|yaml }}
 {% endif -%}
 {% else -%}

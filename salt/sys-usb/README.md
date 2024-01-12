@@ -66,6 +66,10 @@ following services:
 
 ## Usage
 
+Depending on you system, one or more USB qubes will be created to hold the
+different controllers. The qube names are `disp-sys-usb`, `disp-sys-usb-left`,
+`disp-sys-usb-dock`.
+
 Start a USB qube an connect a device to it.  USB PCI devices will appear on
 the system tray icon `qui-devices`. From there, assign it to the intended
 qube.

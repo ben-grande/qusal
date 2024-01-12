@@ -37,20 +37,20 @@ qubes.InputKeyboard * @tag:usbvm @adminvm deny
 qubes.InputTablet   * @tag:usbvm @adminvm {{ tablet_action }}
 qubes.InputTablet   * @tag:usbvm @adminvm deny
 
-ctap.ClientPin   * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
-ctap.ClientPin   * @anyvm @default   ask user=root default_target={{ sls_path }}
+ctap.ClientPin   * @anyvm @tag:usbvm ask user=root default_target=disp-{{ sls_path }}
+ctap.ClientPin   * @anyvm @default   ask user=root default_target=disp-{{ sls_path }}
 ctap.ClientPin   * @anyvm @anyvm     deny
 
-ctap.GetInfo     * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
-ctap.GetInfo     * @anyvm @default   ask user=root default_target={{ sls_path }}
+ctap.GetInfo     * @anyvm @tag:usbvm ask user=root default_target=disp-{{ sls_path }}
+ctap.GetInfo     * @anyvm @default   ask user=root default_target=disp-{{ sls_path }}
 ctap.GetInfo     * @anyvm @anyvm     deny
 
-u2f.Authenticate * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
-u2f.Authenticate * @anyvm @default   ask user=root default_target={{ sls_path }}
+u2f.Authenticate * @anyvm @tag:usbvm ask user=root default_target=disp-{{ sls_path }}
+u2f.Authenticate * @anyvm @default   ask user=root default_target=disp-{{ sls_path }}
 u2f.Authenticate * @anyvm @anyvm     deny
 
-u2f.Register     * @anyvm @tag:usbvm ask user=root default_target={{ sls_path }}
-u2f.Register     * @anyvm @default   ask user=root default_target={{ sls_path }}
+u2f.Register     * @anyvm @tag:usbvm ask user=root default_target=disp-{{ sls_path }}
+u2f.Register     * @anyvm @default   ask user=root default_target=disp-{{ sls_path }}
 u2f.Register     * @anyvm @anyvm     deny
 
 policy.RegisterArgument +u2f.Authenticate @tag:usbvm @anyvm allow target=dom0
