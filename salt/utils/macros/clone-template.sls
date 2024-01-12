@@ -21,7 +21,7 @@ include:
   - {{ source }}.create
 
 {% set prefix = "tpl-" -%}
-{% if noprefix -%}
+{% if noprefix is defined -%}
   {%- set prefix = "" -%}
 {% endif -%}
 
