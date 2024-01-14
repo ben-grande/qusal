@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 # SPDX-FileCopyrightText: 2023 Yukikoo neowutran <https://neowutran.ovh>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
@@ -8,29 +8,29 @@
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
 
-admin.vm.device.mic.Available * sys-audio @adminvm allow target=dom0
+admin.vm.device.mic.Available * disp-{{ sls_path }} @adminvm allow target=dom0
 
-admin.Events * sys-audio sys-audio allow target=dom0
-admin.Events * sys-audio @adminvm allow target=dom0
-admin.Events * sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.Events * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
+admin.Events * disp-{{ sls_path }} @adminvm allow target=dom0
+admin.Events * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
 
-admin.vm.CurrentState * sys-audio sys-audio allow target=dom0
-admin.vm.CurrentState * sys-audio @adminvm allow target=dom0
-admin.vm.CurrentState * sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.CurrentState * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
+admin.vm.CurrentState * disp-{{ sls_path }} @adminvm allow target=dom0
+admin.vm.CurrentState * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
 
-admin.vm.List * sys-audio sys-audio allow target=dom0
-admin.vm.List * sys-audio @adminvm allow target=dom0
-admin.vm.List * sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.List * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
+admin.vm.List * disp-{{ sls_path }} @adminvm allow target=dom0
+admin.vm.List * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
 
-admin.vm.property.Get +audiovm     sys-audio @tag:audiovm-sys-audio allow target=dom0
-admin.vm.property.Get +xid         sys-audio @tag:audiovm-sys-audio allow target=dom0
-admin.vm.property.Get +stubdom_xid sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.property.Get +audiovm     disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.property.Get +xid         disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.property.Get +stubdom_xid disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
 
-admin.vm.feature.CheckWithTemplate +audio                      sys-audio @tag:audiovm-sys-audio allow target=dom0
-admin.vm.feature.CheckWithTemplate +audio-model                sys-audio @tag:audiovm-sys-audio allow target=dom0
-admin.vm.feature.CheckWithTemplate +supported-service.pipewire sys-audio @tag:audiovm-sys-audio allow target=dom0
-admin.vm.feature.CheckWithTemplate +audio-low-latency          sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio                      disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio-model                disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +supported-service.pipewire disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio-low-latency          disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
 
-admin.vm.property.GetAll * sys-audio sys-audio allow target=dom0
-admin.vm.property.GetAll * sys-audio @tag:audiovm-sys-audio allow target=dom0
+admin.vm.property.GetAll * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
+admin.vm.property.GetAll * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
 ## vim:ft=qrexecpolicy

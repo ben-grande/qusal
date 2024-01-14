@@ -8,15 +8,15 @@ Audio operations in Qubes OS.
 * [Installation](#installation)
 * [Usage](#usage)
   * [Audio control](#audio-control)
-  * [Client started before sys-audio](#client-started-before-sys-audio)
+  * [Client started before it's AudioVM](#client-started-before-its-audiovm)
   * [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
 
 ## Description
 
-Creates the "sys-audio" qube for providing audio operations such as microphone
-and speakers to and from qubes. By default, you can use wired USB audio, but
-if you want, you can install the necessary packages for bluetooth with the
-provided state.
+Creates the named disposable "disp-sys-audio" qube for providing audio
+operations such as microphone and speakers to and from qubes. By default, you
+can use wired USB audio, but if you want, you can install the necessary
+packages for bluetooth with the provided state.
 
 ## Installation
 
@@ -45,7 +45,7 @@ qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluet
 
 ### Audio control
 
-The qube `sys-audio` will be used for audio capabilities for speakers and
+The qube `disp-sys-audio` will be used for audio capabilities for speakers and
 microphone, with builtin modules, Jack port or Bluetooth. You are be able to
 control the volume via the volume icon that appears on the system tray.
 
@@ -57,10 +57,10 @@ The basics are very simple to use:
 For more advanced features, right click the icon and click on `Open Mixer` or
 `Prefences`. For greater control, use the command `amixer`.
 
-### Client started before sys-audio
+### Client started before it's AudioVM
 
-Audio will not automatically connect if sys-audio starts after the client. To
-connect the client to audio server, restart the client's pipewire service:
+Audio will not automatically connect if the AudioVM starts after the client.
+To connect the client to audio server, restart the client's Pipewire service:
 ```sh
 systemctl --user restart pipewire
 ```
@@ -71,6 +71,6 @@ If you shutdown a client qube with a device attached, such as a microphone or
 speaker, normal operation to attach the device to the same or any other qube
 will fail. To be able to use the device again:
 
-- Restart the audio server `sys-audio`;
+- Restart the audio server `disp-sys-audio`;
 - Restart the audio client; and
 - Attach the device to the audio client;

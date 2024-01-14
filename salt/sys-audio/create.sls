@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -40,7 +40,7 @@ features:
 
 {% set audio_pcidevs = salt['grains.get']('pci_audio_devs', []) -%}
 {% load_yaml as defaults -%}
-name: {{ slsdotpath }}
+name: disp-{{ slsdotpath }}
 force: True
 require:
 - qvm: dvm-{{ slsdotpath }}
@@ -65,14 +65,17 @@ features:
   - service.cups-browsed
   - service.meminfo-writer
   - service.qubes-updates-proxy
+tags:
+- add:
+  - audiovm
 {%- endload %}
 {{ load(defaults) }}
 
-"{{ slsdotpath }}-default_audiovm":
+"disp-{{ slsdotpath }}-default_audiovm":
   cmd.run:
     - require:
-      - qvm: {{ slsdotpath }}
-    - name: qubes-prefs default_audiovm {{ slsdotpath }}
+      - qvm: disp-{{ slsdotpath }}
+    - name: qubes-prefs default_audiovm disp-{{ slsdotpath }}
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
 {{ policy_set(sls_path, '80') }}
