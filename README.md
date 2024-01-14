@@ -61,7 +61,7 @@ Qubes global settings (qubes-prefs) that will be managed:
 - **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
-- **default_audiovm**: sys-audio
+- **default_audiovm**: disp-sys-audio
 
 To be implemented:
 - **default_guivm**: sys-gui
