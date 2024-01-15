@@ -1,0 +1,266 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2017 Jean-Philippe Ouellet <jpo@vt.edu>
+# SPDX-FileCopyrightText: 2022 daktak <daktak@gmail.com>
+# SPDX-FileCopyrightText: 2023 Frederic Pierret <frederic.pierret@qubes-os.org>
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+#
+# Credits: https://gist.github.com/daktak/f887352d564b54f9e529404cc0eb60d5
+# Credits: https://gist.github.com/jpouellet/d8cd0eb8589a5b9bf0c53a28fc530369
+# Credits: https://gist.github.com/fepitre/941d7161ae1150d90e15f778027e3248
+
+set -eu
+
+run_qube(){
+  qube="${1}"
+  shift
+  qvm-run --pass-io --user=root "${qube}" -- "${@}"
+}
+
+create_net_dir(){
+  qube="${1}"
+  run_qube "${qube}" mkdir -p "${hook_dir}"
+}
+
+get_rule_handle(){
+  qube="${1}"
+  chain="${2}"
+  rule="${3}"
+  run_qube "${qube}" "nft --handle --stateless list chain ip qubes ${chain} | tr -d '\"' | grep '^\s\+${rule} # handle ' | awk '{print \$NF}' | tr '\n' ' '" 2>/dev/null
+}
+
+delete_rule_handle(){
+  qube="${1}"
+  chain="${2}"
+  handle="${3}"
+  run_qube "${qube}" "nft delete rule ip qubes ${chain} handle ${handle}"
+}
+
+delete_rule(){
+  qube="${1}"
+  chain="${2}"
+  rule="${3}"
+  handle="$(get_rule_handle "${qube}" "${chain}" "${rule}")"
+  if test -n "${handle}"; then
+    for h in ${handle}; do
+      delete_rule_handle "${qube}" "${chain}" "${h}"
+    done
+  fi
+}
+
+forward() {
+  from_qube="${1}"
+  to_qube="${2}"
+  create_net_dir "${from_qube}"
+
+  ## TODO: Handle multiple interfaces in upstream.
+  dev="$(run_qube "${from_qube}" ip -4 r \
+           | awk '/^default via /{print $5}' | head -1)"
+  from_ip="$(run_qube "${from_qube}" ip -4 -o a show dev "${dev}" \
+             | awk '{print $4}' | cut -d "/" -f 1)"
+  to_ip="$(qvm-prefs --get -- "${to_qube}" ip)"
+  to_ip_escaped="$(echo "${to_ip}" | tr "." "-")"
+  hook="${hook_prefix}${to_ip}-${proto}-${port}.sh"
+
+  if test "${from_ip}" = "None"; then
+    from_ip=""
+  fi
+
+  dnat_chain="custom-pf-${to_ip_escaped}"
+  dnat_rule="iifname ${dev} ip saddr ${lan_ip} ${proto} dport ${port} ct state established,related,new counter dnat to ${to_ip}"
+  forward_chain="custom-forward"
+  forward_rule="iifname ${dev} ip saddr ${lan_ip} ip daddr ${to_ip} ${proto} dport ${port} ct state established,related,new counter accept"
+  full_rule="nft 'add chain ip qubes ${dnat_chain} { type nat hook prerouting priority filter +1; policy accept; }
+add rule ip qubes ${dnat_chain} ${dnat_rule}
+add rule ip qubes ${forward_chain} ${forward_rule}'"
+
+  delete_rule "${from_qube}" "${forward_chain}" "${forward_rule}"
+  delete_rule "${from_qube}" "${dnat_chain}" "${dnat_rule}"
+  if test "${action}" = "del"; then
+    echo "info: ${from_qube}: deleting rules" >&2
+    run_qube "${from_qube}" "rm -f ${hook}"
+  else
+    echo "info: ${from_qube}: adding forward rule dev ${dev} saddr ${lan_ip} daddr ${to_ip}" >&2
+    run_qube "${from_qube}" "${full_rule}"
+
+    if test "${persistent}" = "1"; then
+      if test "$(qvm-prefs --get -- "${from_qube}" klass)" = "DispVM"; then
+        from_qube="$(qvm-prefs --get -- "${from_qube}" template)"
+      fi
+
+      full_rule="#!/bin/sh
+get_handle(){
+  chain=\\\${1}
+  rule=\\\${2}
+  nft --handle --stateless list chain ip qubes \\\${chain} | tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
+}
+
+forward_handle=\\\$(get_handle ${forward_chain} \\\"${forward_rule}\\\")
+if test -n \\\"\\\${forward_handle:-}\\\"; then
+  for h in \\\${forward_handle}; do
+    nft delete rule ip qubes ${forward_chain} handle \\\${h}
+  done
+fi
+
+dnat_handle=\\\$(get_handle ${dnat_chain} \\\"${dnat_rule}\\\")
+if test -n \\\"\\\${dnat_handle:-}\\\"; then
+  for h in \\\${dnat_handle}; do
+    nft delete rule ip qubes ${dnat_chain} handle \\\${h}
+  done
+fi
+
+${full_rule}"
+
+      create_net_dir "${from_qube}"
+      run_qube "${from_qube}" "echo \"${full_rule}\" | tee \"${hook}\" >/dev/null"
+      run_qube "${from_qube}" "chmod +x ${hook}"
+    fi
+  fi
+}
+
+input() {
+  qube="${1}"
+  to_ip="$(qvm-prefs --get -- "${qube}" ip)"
+  hook="${hook_prefix}${to_ip}-${proto}-${port}.sh"
+  create_net_dir "${qube}"
+
+  custom_input_rule="${proto} dport ${port} ip daddr ${to_ip} ct state new counter accept"
+  input_rule="nft add rule ip qubes custom-input ${custom_input_rule}"
+
+  delete_rule "${qube}" "custom-input" "${custom_input_rule}"
+  if test "${action}" = "del"; then
+    echo "info: ${qube}: deleting rules" >&2
+    run_qube "${qube}" "rm -f ${hook}"
+  else
+    echo "info: ${qube}: adding input rule daddr ${to_ip}" >&2
+    run_qube "${qube}" "${input_rule}"
+    if test "${persistent}" = "1"; then
+      input_rule="#!/bin/sh
+get_handle(){
+  chain=\\\${1}
+  rule=\\\${2}
+  nft --handle --stateless list chain ip qubes \\\${chain} | tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
+}
+
+input_handle=\\\$(get_handle custom-input \\\"${custom_input_rule}\\\")
+if test -n \\\"\\\${input_handle:-}\\\"; then
+  for h in \\\${input_handle}; do
+    nft delete rule ip qubes custom-input handle \\\${h}
+  done
+fi
+
+${input_rule}"
+
+      run_qube "${qube}" "echo \"${input_rule}\" | tee \"${hook}\" >/dev/null"
+      run_qube "${qube}" "chmod +x ${hook}"
+    fi
+  fi
+}
+
+get_lan(){
+  qube="${1}"
+  ## TODO: Handle multiple interfaces in upstream.
+  dev="$(run_qube "${qube}" ip -4 route \
+          | awk '/^default via /{print $5}' | head -1)"
+  if test -z "${dev}"; then
+    echo "error: ${qube}: could not find any device that is up" >&2
+    exit 1
+  fi
+  lan_ip="$(run_qube "${qube}" ip -4 r show dev "${dev}" prot kernel \
+            | cut -d " " -f 1)"
+  if test -z "${lan_ip}"; then
+    echo "error: ${qube}: could not find LAN from device ${dev}" >&2
+    exit 1
+  fi
+}
+
+recurse_netvms() {
+  cmd="${1}"
+  rec_qube="${2}"
+  rec_netvm="$(qvm-prefs --get -- "${rec_qube}" netvm)"
+  if test -n "${rec_netvm}" && test "${rec_netvm}" != "None"; then
+    case "${cmd}" in
+      show-upstream);;
+      apply-rules) forward "${rec_netvm}" "${rec_qube}";;
+    esac
+    recurse_netvms "${cmd}" "${rec_netvm}"
+  fi
+  case "${cmd}" in
+    show-upstream) get_lan "${rec_qube}";;
+    apply-rules) ;;
+  esac
+}
+
+usage() {
+  echo "Usage: ${0##*/} --action ACTION --qube QUBE --port PORT --proto PROTO --persistent
+Example:
+  ${0##*/} --action add --qube work --port 22 --proto tcp
+  ${0##*/} --action add --qube work --port 444 --proto udp --persistent
+  ${0##*/} --action del --qube work --port 22 --proto tcp
+  ${0##*/} --action del --qube work --port 444 --proto udp
+Note: Defaults to temporary rules
+Warn: If persistent is and and a netvm is disposable, the rule will be saved in the disposable template" >&2
+  exit 1
+}
+
+check_opt(){
+  case "${action:-}" in
+    add|del);;
+    *) echo "error: action must be either 'add' or 'del'" >&2; exit 1;;
+  esac
+
+  case "${proto:-}" in
+    tcp|udp);;
+    *) echo "error: protocol must be only 'tcp' or 'udp'" >&2; exit 1;;
+  esac
+
+  case "${port:-}" in
+    ""|*[!0-9]*) echo "error: port must be only numbers" >&2; exit 1;;
+    *)
+  esac
+
+  if test "${port}" -ge 1 && test "${port}" -le 65535; then
+    true
+  else
+    echo "error: port must be in range 1-65535" >&2
+    exit 1
+  fi
+
+  if test -z "${target_qube:-}"; then
+    echo "error: qube name not provided" >&2
+    exit 1
+  fi
+
+  if ! qvm-check "${target_qube}" >/dev/null 2>&1; then
+    echo "error: qube '${target_qube}' not found." >&2
+    exit 1
+  fi
+}
+
+hook_dir="/rw/config/network-hooks.d"
+hook_prefix="${hook_dir}/90-port-forward-"
+persistent=""
+
+if ! OPTS=$(getopt -o a:q:p:n:s --long action:,qube:,port:,proto:,persistent -n "${0}" -- "${@}"); then
+  echo "An error occurred while parsing options." >&2
+  exit 1
+fi
+
+eval set -- "${OPTS}"
+while test "${#}" -gt "0"; do
+  case "${1}" in
+    -a|--action) action="${2}"; shift;;
+    -q|--qube) target_qube="${2}"; shift;;
+    -p|--port) port="${2}"; shift;;
+    -n|--proto) proto="${2}"; shift;;
+    -s|--persistent) persistent=1; shift;;
+  esac
+  shift
+done
+
+check_opt
+recurse_netvms show-upstream "${target_qube}"
+input "${target_qube}"
+recurse_netvms apply-rules "${target_qube}"

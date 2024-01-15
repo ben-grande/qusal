@@ -7,13 +7,6 @@ Salt Formulas for Qubes OS.
 **Warning**: Not ready for production, development only. Breaking changes can
 and will be introduced in the meantime. You've been warned.
 
-The following projects are unfinished (not a complete list):
-
-- sys-syncthing: broken firewall script due to nftables and disposable netvm
-
-Other projects might also have drastic changes, the above are simply not ready
-at all.
-
 ## Table of Contents
 
 * [Description](#description)

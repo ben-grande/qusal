@@ -29,8 +29,8 @@ qubesctl top.enable sys-syncthing browser
 qubesctl --targets=tpl-browser,sys-syncthing-browser,tpl-sys-syncthing,sys-syncthing state.apply
 qubesctl top.disable sys-syncthing browser
 qubesctl state.apply sys-syncthing.appmenus
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing tcp 22000
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing udp 22000
+qvm-port-forward -a add -q sys-syncthing -n tcp -p 22000
+qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
 ```
 
 - State:
@@ -42,8 +42,8 @@ qubesctl --skip-dom0 --targets=tpl-sys-syncthing state.apply sys-syncthing.insta
 qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.configure
 qubesctl --skip-dom0 --targets=sys-syncthing-browser state.apply sys-syncthing.configure-browser
 qubesctl state.apply sys-syncthing.appmenus
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing tcp 22000
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p add sys-syncthing udp 22000
+qvm-port-forward -a add -q sys-syncthing -n tcp -p 22000
+qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
 ```
 <!-- pkg:end:post-install -->
 
@@ -99,10 +99,10 @@ If sys-net has more than one network card the first external interface will
 be used by default.
 If this is incorrect, you must change it manually. In Dom0 run:
 ```sh
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh delete sys-syncthing tcp 22000 -a -p
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh delete sys-syncthing udp 22000 -a -p
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh add sys-syncthing tcp 22000 -p
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh add sys-syncthing udp 22000 -p
+qvm-port-forward -a del -q sys-syncthing -n udp -p 22000
+qvm-port-forward -a del -q sys-syncthing -n tcp -p 22000
+qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
+qvm-port-forward -a add -q sys-syncthing -n tcp -p 22000
 ```
 This will let you choose the NIC.
 
@@ -117,8 +117,8 @@ Syncthing between qubes.
 Uninstallation procedure:
 <!-- pkg:begin:preun-uninstall -->
 ```sh
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p delete sys-syncthing tcp 22000
-/srv/salt/qusal/sys-syncthing/files/admin/firewall/in.sh -a -p delete sys-syncthing udp 22000
+qvm-port-forward -a del -q sys-syncthing -n tcp -p 22000
+qvm-port-forward -a del -q sys-syncthing -n udp -p 22000
 qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
 qubesctl state.apply sys-syncthing.clean
 ```
