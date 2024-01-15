@@ -97,3 +97,12 @@ features:
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
 {{ policy_set(sls_path, '80') }}
+
+"{{ slsdotpath }}-qvm-port-forward":
+  file.managed:
+    - name: /usr/local/bin/qvm-port-forward
+    - source: salt://{{ slsdotpath }}/files/admin/firewall/qvm-port-forward
+    - user: root
+    - group: root
+    - mode: '0755'
+    - makedirs: True
