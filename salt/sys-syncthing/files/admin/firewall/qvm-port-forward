@@ -243,12 +243,15 @@ hook_dir="/rw/config/network-hooks.d"
 hook_prefix="${hook_dir}/90-port-forward-"
 persistent=""
 
-if ! OPTS=$(getopt -o a:q:p:n:s --long action:,qube:,port:,proto:,persistent -n "${0}" -- "${@}"); then
+if ! OPTS=$(getopt -o h,a:q:p:n:s --long help,action:,qube:,port:,proto:,persistent -n "${0}" -- "${@}"); then
   echo "An error occurred while parsing options." >&2
   exit 1
 fi
 
 eval set -- "${OPTS}"
+if test "${OPTS}" = " --"; then
+  usage
+fi
 while test "${#}" -gt "0"; do
   case "${1}" in
     -a|--action) action="${2}"; shift;;
@@ -256,6 +259,7 @@ while test "${#}" -gt "0"; do
     -p|--port) port="${2}"; shift;;
     -n|--proto) proto="${2}"; shift;;
     -s|--persistent) persistent=1; shift;;
+    -h|--help) usage;;
   esac
   shift
 done
