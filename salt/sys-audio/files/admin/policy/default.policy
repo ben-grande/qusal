@@ -8,6 +8,9 @@
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
 
+## Literal name 'sys-usb' in case user has not installed from our formula.
+admin.vm.device.usb.Available * disp-{{ sls_path }} sys-usb allow target=dom0
+admin.vm.device.usb.Available * disp-{{ sls_path }} @tag:usbvm allow target=dom0
 admin.vm.device.mic.Available * disp-{{ sls_path }} @adminvm allow target=dom0
 
 admin.Events * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0

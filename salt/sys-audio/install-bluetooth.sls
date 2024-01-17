@@ -21,6 +21,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - blueman
-      - linux-firmware
+      - libspa-0.2-bluetooth
+      - firmware-iwlwifi
 
 {% endif -%}
