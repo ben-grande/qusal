@@ -15,8 +15,8 @@ Audio operations in Qubes OS.
 
 Creates the named disposable "disp-sys-audio" qube for providing audio
 operations such as microphone and speakers to and from qubes. By default, you
-can use wired USB audio, but if you want, you can install the necessary
-packages for bluetooth with the provided state.
+can use the builtin stereo, JACK and  USB , but if you want, you can install
+the necessary packages for bluetooth with the provided state.
 
 ## Installation
 
@@ -74,3 +74,16 @@ will fail. To be able to use the device again:
 - Restart the audio server `disp-sys-audio`;
 - Restart the audio client; and
 - Attach the device to the audio client;
+
+### How to use USB devices, Bluetooth, Camera and Microphone
+
+Bluetooth and Camera are normally integrated in laptops, but they still are
+USB devices internally. They will be held by `(disp-)sys-usb` or
+`(disp-)sys-net`, else `dom0`.
+
+Built-in microphones on the other hand, are directly attached to `dom0`.
+
+To use these devices, you have to attach them to their respective qubes:
+
+- audio server: Bluetooth; and
+- audio client: cameras, speakers, microphones.
