@@ -13,8 +13,11 @@ and will be introduced in the meantime. You've been warned.
 * [Design](#design)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
-  * [DomU](#domu)
-  * [Dom0](#dom0)
+  * [DomU Installation](#domu-installation)
+  * [Dom0 Installation](#dom0-installation)
+* [Update](#update)
+  * [DomU Update](#domu-update)
+  * [Dom0 Update](#dom0-update)
 * [Usage](#usage)
 * [Contribute](#contribute)
 * [Donate](#donate)
@@ -50,7 +53,7 @@ adjust the target of the qubesctl call or write Salt Top files.
 Qubes global settings (qubes-prefs) that will be managed:
 
 - **clockvm**: disp-sys-net, sys-net
-- **default_dispvm**: reader
+- **default_dispvm**: dvm-reader
 - **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
@@ -68,21 +71,26 @@ You current setup needs to fulfill the following requisites:
 
 ## Installation
 
-### DomU
+### DomU Installation
 
-1. Install `git` in the downloader qube, if it is an AppVM, install it in the
-TemplateVM.
+1. Install `git` in the downloader qube, if it is an AppVM, install it it's
+   the TemplateVM.
 
-2. Clone this repository in an app qube:
-```sh
-git clone --recurse-submodules https://github.com/ben-grande/qusal.git
-```
-If you made a fork, before cloning it, fork the submodule(s). Clone your own
-project instead of this one, the submodules will be from your fork also.
+2. Clone this repository:
+  ```sh
+  git clone --recurse-submodules https://github.com/ben-grande/qusal.git
+  ```
+  If you made a fork, fork the submodule(s) before clone and use your remote
+  repository instead, the submodules will also be from your fork.
 
-3. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits).
+3. Acquire the maintainer signing key by other means and import it.
 
-### Dom0
+4. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits) and expect a good signature, be surprised otherwise:
+  ```sh
+  git verify-commit HEAD
+  ```
+
+### Dom0 Installation
 
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
@@ -97,8 +105,38 @@ qvm-run -p <QUBE> tar -cC </PATH/TO> qusal | tar -xvC ~/QubesIncoming/<QUBE> qus
 
 2. Copy the project to the Salt directories:
 ```sh
-cd ~/QubesIncoming/<QUBE>/qusal
-./scripts/setup.sh
+~/QubesIncoming/<QUBE>/qusal/scripts/setup.sh
+```
+
+## Update
+
+To update, you can copy the repository again to dom0 as instructed in the
+[installation](#installation) instructions above or you can fetch it with Git,
+as will be demonstrated below.
+
+### DomU Update
+
+Update the repository state in your trusted DomU:
+```sh
+git -C ~/src/qusal fetch --recurse-submodules
+```
+
+### Dom0 Update
+
+1. Install git on Dom0, allow the Qrexec protocol to work in submodules and
+   clone the repository to `~/src/qusal` (only has to be run once):
+```sh
+mkdir -p ~/src
+sudo qubesctl state.apply sys-git.install-client
+git config --file ~/.gitconfig.local protocol.qrexec.allow always
+git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
+```
+
+2. Fetch from the app qube and place the files in the salt tree (git merge and
+   pull will verify the HEAD signature automatically)
+```sh
+git -C ~/src/qusal fetch --recurse-submodules
+~/src/qusal/scripts/setup.sh
 ```
 
 ## Usage
