@@ -29,6 +29,9 @@ include:
     'RedHat': {
       'exec_path': '/usr/libexec/git-core',
     },
+    'Qubes OS': {
+      'exec_path': '/usr/libexec/git-core',
+    },
 }.get(grains.os_family) -%}
 
 "{{ slsdotpath }}-install-client-git-core-dir":
@@ -46,3 +49,8 @@ include:
       - mode
       - user
       - group
+
+"{{ slsdotpath }}-install-client-allow-protocol":
+  cmd.run:
+    - name: git config --system protocol.qrexec.allow always
+    - runas: root
