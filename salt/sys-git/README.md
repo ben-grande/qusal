@@ -40,13 +40,36 @@ implementation:
 | Fetch | True | True  | True (only tags) | True |
 | Push  | True | True  | False | True |
 | Init  | True | False | False | False |
-| Validates Git communication | False | False | True | False |
+| Validates git communication | False | False | True | False |
 | Verifies tag signature | False | False | True | False |
 
 ## Security
 
 It is not possible to filter Git's stdout from a Qrexec call as it is used by
-the local running git process.
+the local running git process, we rely on Git's parsing and filtering for
+remote operations. A remote can send up to 4 bytes of UTF-8 character to it's
+stdout as packet information during the initial server client negotiation, the
+client will display the characters on stderr with an error message containing
+the character. Git only filters for control characters but other characters
+that are valid UTF-8 such as multibyte are not filtered. The same characters
+can be present in the git log.
+
+A remote helper that validates the data received can increase the security
+by not printing untrusted data, which is the case with
+[qubes-app-split-git](https://github.com/QubesOS-contrib/qubes-app-split-git/commits/master/),
+but unfortunately it demands signed tags and doesn't work for normal git
+operations with signed commits and branches, as the later can't be signed.
+A fork of the aforementioned project might be the future of this helper.
+
+Even if the transport is secure, the tool that renders the information of your
+recently acquired repository
+[can](https://nvd.nist.gov/vuln/detail/CVE-2022-23521)
+[contain](https://nvd.nist.gov/vuln/detail/CVE-2022-41902)
+[bugs](https://nvd.nist.gov/vuln/detail/CVE-2022-46663)
+[that](https://nvd.nist.gov/vuln/detail/CVE-2023-25652)
+[result](https://nvd.nist.gov/vuln/detail/CVE-2023-29007)
+in local code execution and remote code execution. In the end, if you don't
+trust the origin, don't use it.
 
 ## Installation
 
