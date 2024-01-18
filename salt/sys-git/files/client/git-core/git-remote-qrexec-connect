@@ -66,14 +66,14 @@ then
 fi
 
 if command -v qrexec-client-vm >/dev/null; then
-  log "->" qrexec-client-vm -- "${authority}" "${rpc_cmd}"
-  exec qrexec-client-vm -- "${authority}" "${rpc_cmd}"
+  log "->" qrexec-client-vm -T -- "${authority}" "${rpc_cmd}"
+  exec qrexec-client-vm -T -- "${authority}" "${rpc_cmd}"
 elif command -v qrexec-client >/dev/null; then
   if test "${authority}" = "@default"; then
     authority="${default_qube}"
   fi
-  log "->" qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
-  exec qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  log "->" qrexec-client -T -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  exec qrexec-client -T -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
 fi
 
 die "Qrexec programs not found: qrexec-client-vm, qrexec-client"

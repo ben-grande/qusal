@@ -6,6 +6,7 @@ Git operations through Qrexec in Qubes OS.
 
 * [Description](#description)
 * [Alternatives comparison](#alternatives-comparison)
+* [Security](#security)
 * [Installation](#installation)
 * [Access control](#access-control)
 * [Usage](#usage)
@@ -41,6 +42,11 @@ implementation:
 | Init  | True | False | False | False |
 | Validates Git communication | False | False | True | False |
 | Verifies tag signature | False | False | True | False |
+
+## Security
+
+It is not possible to filter Git's stdout from a Qrexec call as it is used by
+the local running git process.
 
 ## Installation
 

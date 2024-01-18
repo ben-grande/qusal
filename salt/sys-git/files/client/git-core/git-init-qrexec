@@ -40,12 +40,12 @@ default_qube="sys-git"
 rpc_cmd="${vendor}.${rpc}+${repo}"
 
 if command -v qrexec-client-vm >/dev/null; then
-  exec qrexec-client-vm -- "${authority}" "${rpc_cmd}"
+  exec qrexec-client-vm -tT -- "${authority}" "${rpc_cmd}"
 elif command -v qrexec-client >/dev/null; then
   if test "${authority}" = "@default"; then
     authority="${default_qube}"
   fi
-  exec qrexec-client -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  exec qrexec-client -tT -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
 fi
 
 die "Qrexec programs not found: qrexec-client-vm, qrexec-client"
