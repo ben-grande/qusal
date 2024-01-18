@@ -12,6 +12,7 @@ test "$(id -u)" = "0" || exec sudo "${0}"
 group="qusal"
 file_roots="/srv/salt/${group}"
 
+cd "${0%/*}"/..
 ## Avoid having extra unwanted files.
 rm -rf "${file_roots}"
 cp -f minion.d/*.conf /etc/salt/minion.d/
