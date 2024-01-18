@@ -52,7 +52,10 @@ stdout as packet information during the initial server client negotiation, the
 client will display the characters on stderr with an error message containing
 the character. Git only filters for control characters but other characters
 that are valid UTF-8 such as multibyte are not filtered. The same characters
-can be present in the git log.
+can be present in the git log. In reality, there are many other ways the
+remote can make the client display a refname with attacker controlled data
+with a much larger byte size, this cannot be solved while the remote helper
+does not verify each received reference.
 
 A remote helper that validates the data received can increase the security
 by not printing untrusted data, which is the case with
