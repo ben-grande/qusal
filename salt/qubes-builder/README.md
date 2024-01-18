@@ -80,7 +80,7 @@ If you need to pull new commits, set `GNUPGHOME` to
 verification on git merges:
 ```sh
 GNUPGHOME="$HOME/.gnupg/qubes-builder" git pull
-Commit 7c37bb7 has a good GPG signature by Frédéric Pierret (fepitre)
+Commit 7c37bb7 has a good GPG signature by Frederic Pierret (fepitre)
 <frederic.pierret@qubes-os.org>
 ...
 ```
