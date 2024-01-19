@@ -60,6 +60,7 @@ features:
 - enable:
   - servicevm
   - service.audiovm
+  - service.blueman
 - disable:
   - service.cups
   - service.cups-browsed
