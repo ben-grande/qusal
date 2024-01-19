@@ -10,6 +10,8 @@ Audio operations in Qubes OS.
   * [Audio control](#audio-control)
   * [Client started before it's AudioVM](#client-started-before-its-audiovm)
   * [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
+  * [How to use USB devices, Bluetooth, Camera and Microphone](#how-to-use-usb-devices-bluetooth-camera-and-microphone)
+  * [How to attach Bluetooth to the AudioVM persistenly](#how-to-attach-bluetooth-to-the-audiovm-persistenly)
 
 ## Description
 
@@ -36,7 +38,7 @@ qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
 ```
 <!-- pkg:end:post-install -->
 
-If you need Bluetooth support:
+If you need Bluetooth support, install the dependencies:
 ```sh
 qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluetooth
 ```
@@ -87,3 +89,30 @@ To use these devices, you have to attach them to their respective qubes:
 
 - audio server: Bluetooth; and
 - audio client: cameras, speakers, microphones.
+
+### How to attach Bluetooth to the AudioVM persistenly
+
+If using Bluetooth, you probably want to have it persistently attached to the
+AudioVM. Bluetooth devices are held by the USB stack, thus you need to attach
+from you `(disp-)sys-usb` to the `disp-sys-audio`.
+
+First, start the qube holding the USB stack:
+```sh
+qvm-start disp-sys-usb
+```
+
+Identify you Bluetooth controller:
+```
+qvm-usb list disp-sys-usb
+```
+
+If you haven't identified the device, run `lsusb` in the USB stack server:
+```sh
+qvm-run -p disp-sys-usb -- lsusb
+```
+
+Permanently attach the Bluetooth controller to the AudioVM (change `DEVID` for
+the one you identified above):
+```sh
+qvm-usb attach --persistent disp-sys-audio disp-sys-usb:DEVID
+```
