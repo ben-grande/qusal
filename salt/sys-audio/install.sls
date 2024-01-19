@@ -25,6 +25,7 @@ include:
       - alsa-utils
       - volumeicon-alsa
       - socat
+      - pavucontrol
 
 {% set pkg = {
     'Debian': {
