@@ -10,8 +10,10 @@ Audio operations in Qubes OS.
   * [Audio control](#audio-control)
   * [Client started before it's AudioVM](#client-started-before-its-audiovm)
   * [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
-  * [How to use USB devices, Bluetooth, Camera and Microphone](#how-to-use-usb-devices-bluetooth-camera-and-microphone)
-  * [How to attach Bluetooth to the AudioVM persistenly](#how-to-attach-bluetooth-to-the-audiovm-persistenly)
+  * [How to use devices](#how-to-use-devices)
+  * [How to use Bluetooth](#how-to-use-bluetooth)
+    * [How to make the Bluetooth icon appear in the system tray](#how-to-make-the-bluetooth-icon-appear-in-the-system-tray)
+    * [How to attach the Bluetooth controller to the AudioVM persistenly](#how-to-attach-the-bluetooth-controller-to-the-audiovm-persistenly)
 
 ## Description
 
@@ -77,7 +79,7 @@ will fail. To be able to use the device again:
 - Restart the audio client; and
 - Attach the device to the audio client;
 
-### How to use USB devices, Bluetooth, Camera and Microphone
+### How to use devices
 
 Bluetooth and Camera are normally integrated in laptops, but they still are
 USB devices internally. They will be held by `(disp-)sys-usb` or
@@ -90,11 +92,27 @@ To use these devices, you have to attach them to their respective qubes:
 - audio server: Bluetooth; and
 - audio client: cameras, speakers, microphones.
 
-### How to attach Bluetooth to the AudioVM persistenly
+### How to use Bluetooth
+
+#### How to make the Bluetooth icon appear in the system tray
+
+Note that the only way to autostart the Bluetooth icon (blueman-tray) in the
+system tray is to attach the Bluetooth controller persistently to the AudioVM.
+
+If you don't do this, you will have to attach the Bluetooth controller
+manually to `disp-sys-audio` after it has started and also run `blueman-tray`.
+
+#### How to attach the Bluetooth controller to the AudioVM persistenly
 
 If using Bluetooth, you probably want to have it persistently attached to the
 AudioVM. Bluetooth devices are held by the USB stack, thus you need to attach
 from you `(disp-)sys-usb` to the `disp-sys-audio`.
+
+Note that if you attach the device, the AudioVM will
+[not be able to start](https://github.com/QubesOS/qubes-issues/issues/8877)
+without first starting the backend holding the USB stack. You can move the
+controller from the USB qube to the Audio qube, but this would decrease your
+system security.
 
 First, start the qube holding the USB stack:
 ```sh
