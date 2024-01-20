@@ -17,6 +17,7 @@ force: True
 require:
 - sls: {{ slsdotpath }}.clone
 prefs:
+- audiovm: ""
 - vcpus: 1
 - memory: 300
 - maxmem: 700
@@ -45,6 +46,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: yellow
+- audiovm: ""
 - vcpus: 1
 - memory: 300
 - maxmem: 700
@@ -72,8 +74,9 @@ present:
 prefs:
 - template: tpl-browser
 - label: yellow
-- vcpus: 1
 - netvm: ""
+- audiovm: ""
+- vcpus: 1
 - memory: 300
 - maxmem: 600
 - autostart: False

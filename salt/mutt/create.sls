@@ -14,6 +14,8 @@ name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
 features:
 - set:
   - menu-items: "mutt.desktop qubes-run-terminal.desktop qubes-start.desktop"
@@ -32,6 +34,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: yellow
+- audiovm: ""
 - vcpus: 1
 - memory: 200
 - maxmem: 350

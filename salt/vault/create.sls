@@ -14,6 +14,8 @@ name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
 features:
 - set:
   - menu-items: "org.keepassxc.KeePassXC.desktop qubes-run-terminal.desktop qubes-start.desktop"
@@ -33,6 +35,7 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: black
 - netvm: ""
+- audiovm: ""
 - memory: 400
 - maxmem: 600
 - vcpus: 1

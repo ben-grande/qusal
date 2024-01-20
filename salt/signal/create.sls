@@ -15,6 +15,8 @@ name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
 features:
 - set:
   - menu-items: "signal-desktop.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
@@ -34,6 +36,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: yellow
+- audiovm: "*default*"
 - vcpus: 1
 - memory: 400
 - maxmem: 600

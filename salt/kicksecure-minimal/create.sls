@@ -24,6 +24,27 @@ include:
       - grub2-xen-pvh
 
 {% load_yaml as defaults -%}
+name: {{ template.template }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- label: black
+prefs:
+- label: black
+- audiovm: ""
+- memory: 300
+- maxmem: 600
+- vcpus: 2
+- include_in_backups: False
+features:
+- set:
+  - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+  - default-menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: dvm-{{ template.template_clean }}
 force: True
 require:
@@ -34,6 +55,7 @@ present:
 prefs:
 - template: {{ template.template }}
 - label: red
+- audiovm: ""
 - memory: 300
 - maxmem: 600
 - vcpus: 1
@@ -47,25 +69,5 @@ features:
 tags:
 - add:
   - updatevm-sys-cacher
-{%- endload %}
-{{ load(defaults) }}
-
-{% load_yaml as defaults -%}
-name: {{ template.template }}
-force: True
-require:
-- sls: {{ slsdotpath }}.clone
-present:
-- label: black
-prefs:
-- label: black
-- memory: 300
-- maxmem: 600
-- vcpus: 2
-- include_in_backups: False
-features:
-- set:
-  - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
-  - default-menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}

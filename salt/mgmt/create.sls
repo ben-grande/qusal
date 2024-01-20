@@ -10,6 +10,16 @@ include:
   - .clone
 
 {% load_yaml as defaults -%}
+name: tpl-{{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: dvm-{{ slsdotpath }}
 force: True
 require:
@@ -21,10 +31,11 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: black
 - netvm: ""
+- audiovm: ""
 - dispvm-allowed: True
+- vcpus: 1
 - memory: 300
 - maxmem: 600
-- vcpus: 1
 - autostart: False
 - template_for_dispvms: True
 - include_in_backups: False

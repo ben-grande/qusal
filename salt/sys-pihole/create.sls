@@ -35,9 +35,10 @@ present:
 - class: StandaloneVM
 prefs:
 - label: orange
+- audiovm: ""
+- vcpus: 1
 - memory: 300
 - maxmem: 400
-- vcpus: 1
 - netvm: {{ netvm }}
 - provides-network: true
 features:
@@ -66,10 +67,11 @@ present:
 - label: orange
 prefs:
 - label: orange
+- netvm: ""
+- audiovm: ""
+- vcpus: 1
 - memory: 300
 - maxmem: 600
-- vcpus: 1
-- netvm: ""
 - include_in_backups: False
 features:
 - disable:

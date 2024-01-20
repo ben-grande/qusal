@@ -57,6 +57,7 @@ present:
 prefs:
 - virt_mode: pvh
 - label: black
+- audiovm: ""
 - memory: 64
 - maxmem: 64
 - vcpus: 1
@@ -77,6 +78,7 @@ prefs:
 - template: tpl-sys-mirage-firewall
 - label: orange
 - netvm: {{ netvm }}
+- audiovm: ""
 - memory: 64
 - maxmem: 64
 - vcpus: 1
@@ -102,6 +104,7 @@ prefs:
 - template: dvm-sys-mirage-firewall
 - label: orange
 - netvm: {{ netvm }}
+- audiovm: ""
 - memory: 64
 - maxmem: 64
 - vcpus: 1

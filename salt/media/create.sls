@@ -7,10 +7,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {%- from "qvm/template.jinja" import load -%}
 
-{%- import "templates/debian-minimal.jinja" as template -%}
+{%- import "debian-minimal/template.jinja" as template -%}
 
 include:
   - .clone
+
+{% load_yaml as defaults -%}
+name: tpl-{{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
+{%- endload %}
+{{ load(defaults) }}
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}
@@ -24,6 +34,7 @@ prefs:
 - template: {{ template.template }}
 - label: yellow
 - netvm: ""
+- audiovm: ""
 - vcpus: 2
 - memory: 300
 - maxmem: 800
@@ -51,9 +62,10 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: yellow
 - netvm: ""
+- audiovm: "*default*"
+- vcpus: 2
 - memory: 300
 - maxmem: 800
-- vcpus: 2
 - template_for_dispvms: True
 - include_in_backups: False
 features:
@@ -78,8 +90,9 @@ present:
 prefs:
 - template: dvm-{{ slsdotpath }}
 - label: yellow
-- vcpus: 2
 - netvm: ""
+- audiovm: "*default*"
+- vcpus: 2
 - memory: 300
 - maxmem: 800
 - autostart: False

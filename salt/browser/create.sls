@@ -15,6 +15,7 @@ force: True
 require:
 - sls: {{ slsdotpath }}.clone
 prefs:
+- audiovm: ""
 - memory: 300
 - maxmem: 2000
 features:
@@ -34,6 +35,7 @@ present:
 - label: red
 prefs:
 - label: red
+- audiovm: "*default*"
 - memory: 300
 - maxmem: 2000
 - vcpus: 1

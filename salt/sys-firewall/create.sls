@@ -18,6 +18,16 @@ include:
   - .clone
 
 {% load_yaml as defaults -%}
+name: tpl-{{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: {{ slsdotpath }}
 force: True
 require:
@@ -28,6 +38,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: orange
+- audiovm: ""
 - memory: 300
 - maxmem: 400
 - netvm: {{ netvm }}
@@ -57,6 +68,7 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: orange
 - netvm: {{ netvm }}
+- audiovm: ""
 - memory: 300
 - maxmem: 400
 - vcpus: 1
@@ -86,6 +98,7 @@ prefs:
 - template: dvm-{{ slsdotpath }}
 - label: orange
 - netvm: {{ netvm }}
+- audiovm: ""
 - memory: 300
 - maxmem: 400
 - vcpus: 1
