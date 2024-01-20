@@ -15,6 +15,7 @@ force: True
 require:
 - sls: {{ slsdotpath }}.clone
 prefs:
+- audiovm: ""
 - memory: 300
 - maxmem: 400
 features:
@@ -24,6 +25,7 @@ features:
 {%- endload %}
 {{ load(defaults) }}
 
+{% load_yaml as defaults -%}
 name: {{ slsdotpath }}
 force: True
 require:
@@ -35,6 +37,7 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: purple
 - netvm: ""
+- audiovm: ""
 - vcpus: 1
 - memory: 400
 - maxmem: 500
@@ -61,6 +64,7 @@ prefs:
 - template: tpl-{{ slsdotpath }}
 - label: purple
 - netvm: ""
+- audiovm: ""
 - vcpus: 1
 - memory: 400
 - maxmem: 500

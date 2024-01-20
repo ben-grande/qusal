@@ -14,6 +14,8 @@ name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
 features:
 - set:
   - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop org.remmina.Remmina.desktop"
@@ -32,9 +34,10 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: orange
+- audiovm: ""
+- vcpus: 1
 - memory: 300
 - maxmem: 600
-- vcpus: 1
 - template_for_dispvms: True
 - include_in_backups: False
 features:
@@ -56,6 +59,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: orange
+- audiovm: ""
 - memory: 300
 - maxmem: 600
 - vcpus: 1

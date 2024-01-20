@@ -15,6 +15,7 @@ force: True
 require:
 - sls: {{ slsdotpath }}.clone
 prefs:
+- audiovm: ""
 - vcpus: 1
 - memory: 300
 - maxmem: 500
@@ -43,6 +44,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: gray
+- audiovm: ""
   ## Disable memory balooning because of HTTP 503: Cannot allocate memory
 - maxmem: 0
 - memory: 500
@@ -74,8 +76,9 @@ present:
 prefs:
 - template: tpl-browser
 - label: gray
-- vcpus: 1
 - netvm: ""
+- audiovm: ""
+- vcpus: 1
 - memory: 300
 - maxmem: 500
 - autostart: False
