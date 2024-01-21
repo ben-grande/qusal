@@ -7,7 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - ssh.install
   - dev.home-cleanup
   - dotfiles.copy-sh
   - dotfiles.copy-ssh
@@ -23,14 +22,16 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-core-agent-networking
+      - ca-certificates
       - socat
 
 {% set pkg = {
     'Debian': {
-      'pkg': ['procps'],
+      'pkg': ['procps', 'openssh-client'],
     },
     'RedHat': {
-      'pkg': ['procps-ng'],
+      'pkg': ['procps-ng', 'openssh-clients'],
     },
 }.get(grains.os_family) -%}
 

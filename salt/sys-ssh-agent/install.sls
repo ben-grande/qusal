@@ -7,7 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - ssh.install
   - dev.home-cleanup
   - dotfiles.copy-sh
   - dotfiles.copy-ssh
@@ -23,7 +22,25 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-core-agent-networking
+      - ca-certificates
       - socat
+
+{% set pkg = {
+    'Debian': {
+      'pkg': ['openssh-client'],
+    },
+    'RedHat': {
+      'pkg': ['openssh-clients'],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-agent-bin-dir":
   file.recurse:
