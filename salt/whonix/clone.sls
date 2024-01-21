@@ -13,5 +13,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ whonix.whonix_workstation_template }}-installed":
   qvm.template_installed:
-    - name: whonix-workstation-{{ whonix.whonix_workstation_template }}
+    - name: {{ whonix.whonix_workstation_template }}
     - fromrepo: {{ whonix.whonix_repo }}
