@@ -10,7 +10,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
-  - qvm.anon-whonix
 
 {% load_yaml as defaults -%}
 name: {{ template.whonix_workstation_template }}
@@ -19,6 +18,12 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+tags:
+- add:
+  - whonix-updatevm
+features:
+- enable:
+  - whonix-ws
 {%- endload %}
 {{ load(defaults) }}
 
@@ -29,6 +34,12 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+tags:
+- add:
+  - whonix-updatevm
+features:
+- enable:
+  - whonix-gw
 {%- endload %}
 {{ load(defaults) }}
 
@@ -37,6 +48,7 @@ name: sys-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+- qvm: {{ template.whonix_gateway_template }}
 present:
 - template: {{ template.whonix_gateway_template }}
 - label: black
@@ -47,8 +59,12 @@ prefs:
 - vcpus: 1
 - memory: 300
 - maxmem: 500
+- provides-network: True
 - include_in_backups: False
 - autostart: False
+tags:
+- add:
+  - anon-gateway
 {%- endload %}
 {{ load(defaults) }}
 
@@ -57,6 +73,8 @@ name: anon-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+- qvm: sys-{{ slsdotpath }}
+- qvm: {{ template.whonix_workstation_template }}
 present:
 - template: {{ template.whonix_workstation_template }}
 - label: red
@@ -70,5 +88,8 @@ prefs:
 - maxmem: 1500
 - include_in_backups: False
 - autostart: False
+tags:
+- add:
+  - anon-vm
 {%- endload %}
 {{ load(defaults) }}
