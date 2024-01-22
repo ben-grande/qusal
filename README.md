@@ -63,8 +63,8 @@ You current setup needs to fulfill the following requisites:
 
 ### DomU Installation
 
-1. Install `git` in the downloader qube, if it is an AppVM, install it it's
-   the TemplateVM.
+1. Install `git` in the qube, if it is an AppVM, install it it's the
+   TemplateVM and restart the AppVM.
 
 2. Clone this repository:
   ```sh
@@ -72,13 +72,6 @@ You current setup needs to fulfill the following requisites:
   ```
   If you made a fork, fork the submodule(s) before clone and use your remote
   repository instead, the submodules will also be from your fork.
-
-3. Acquire the maintainer signing key by other means and import it.
-
-4. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits) and expect a good signature, be surprised otherwise:
-  ```sh
-  git verify-commit HEAD
-  ```
 
 ### Dom0 Installation
 
@@ -95,9 +88,16 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
     "${qube}" /usr/lib/qubes/qfile-agent "${file}"
   ```
 
-2. Copy the project to the Salt directories:
+2. Acquire the maintainer signing key by other means and copy it to Dom0.
+
+3. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits) and expect a good signature, be surprised otherwise:
   ```sh
-  ~/QubesIncoming/<QUBE>/qusal/scripts/setup.sh
+  git verify-commit HEAD
+  ```
+
+4. Copy the project to the Salt directories:
+  ```sh
+  ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
   ```
 
 ## Update
