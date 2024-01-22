@@ -10,7 +10,6 @@ and will be introduced in the meantime. You've been warned.
 ## Table of Contents
 
 * [Description](#description)
-* [Design](#design)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [DomU Installation](#domu-installation)
@@ -30,27 +29,18 @@ and will be introduced in the meantime. You've been warned.
 
 ## Description
 
-Qusal providers a Free and Open Source solution to customizing various tasks
-in Qubes OS, from switching PCI handlers to be disposables or app qubes,
-installing different pieces of software on dedicated minimal templates for
-split agent operations for separating the key store from the client.
+Qusal is a Free and Open Source security-focused project that provides
+SaltStack Formulas for Qubes OS users to complete various daily tasks, such
+as web browsing, video-calls, remote administration, coding, network tunnels
+and much more, which are easy to install and maintains low attack surface.
 
-Each project is in a separate directory, but they may interact with other
-projects.
+We not only provide a single solution for each project, but also provides
+alternative when they differ, such as for networking, you could use a VPN,
+DNS Sink-hole, Mirage Unikernel or the standard Qubes Firewall for managing
+the network chain and the connections the clients connected to these NetVMs
+are allowed to make.
 
-If you want to edit the access control for any service, such as resolution to
-allow, ask, deny or the intended target, you should always use the Qrexec
-policy at `/etc/qubes/policy.d/30-user.policy`, as this file will take
-precedence over the packaged policy.
-
-## Design
-
-Every project creates its own template, client and server (when necessary)
-with only the required packages and configuration. You don't need to use a
-separate template for everything, but if you want to do that, you will have
-adjust the target of the qubesctl call or write Salt Top files.
-
-Qubes global settings (qubes-prefs) that will be managed:
+Here are some of the Global Preferences we can manage:
 
 - **clockvm**: disp-sys-net, sys-net
 - **default_dispvm**: dvm-reader
@@ -59,17 +49,17 @@ Qubes global settings (qubes-prefs) that will be managed:
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **default_audiovm**: disp-sys-audio
 
-To be implemented:
-- **default_guivm**: sys-gui
+If you want to learn more about how we make decisions, take a look at our
+[design document](docs/DESIGN.md).
 
-## Prerequisites
+## Installation
+
+### Prerequisites
 
 You current setup needs to fulfill the following requisites:
 
 - Qubes OS R4.2
 - Internet connection
-
-## Installation
 
 ### DomU Installation
 
@@ -95,18 +85,20 @@ You current setup needs to fulfill the following requisites:
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
 
-1. Copy this repository from some qube to Dom0 from Dom0:
-```sh
-mkdir -p ~/QubesIncoming/<QUBE>
-qvm-run -p <QUBE> tar -cC </PATH/TO> qusal | tar -xvC ~/QubesIncoming/<QUBE> qusal
-## Example: mkdir -p ~/QubesIncoming/dev
-## Example: qvm-run -p dev tar -cC /home/user qusal | tar -xvC ~/QubesIncoming/dev qusal
-```
+1. Copy this repository `$file` from the DomU `$qube` to Dom0:
+  ```sh
+  qube="CHANGEME" # qube name where you downloaded the repository
+  file="CHANGEME" # path to the repository in the qube
+  qvm-run --pass-io --localcmd="UPDATES_MAX_FILES=10000
+    /usr/libexec/qubes/qfile-dom0-unpacker user
+    ~/QubesIncoming/${qube}/qusal" \
+    "${qube}" /usr/lib/qubes/qfile-agent "${file}"
+  ```
 
 2. Copy the project to the Salt directories:
-```sh
-~/QubesIncoming/<QUBE>/qusal/scripts/setup.sh
-```
+  ```sh
+  ~/QubesIncoming/<QUBE>/qusal/scripts/setup.sh
+  ```
 
 ## Update
 
@@ -125,56 +117,52 @@ git -C ~/src/qusal fetch --recurse-submodules
 
 1. Install git on Dom0, allow the Qrexec protocol to work in submodules and
    clone the repository to `~/src/qusal` (only has to be run once):
-```sh
-mkdir -p ~/src
-sudo qubesctl state.apply sys-git.install-client
-git config --file ~/.gitconfig.local protocol.qrexec.allow always
-git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
-```
+  ```sh
+  mkdir -p ~/src
+  sudo qubesctl state.apply sys-git.install-client
+  git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
+  ```
 
-2. Fetch from the app qube and place the files in the salt tree (git merge and
-   pull will verify the HEAD signature automatically)
-```sh
-git -C ~/src/qusal fetch --recurse-submodules
-~/src/qusal/scripts/setup.sh
-```
+2. Fetch from the app qube and place the files in the salt tree (git merge
+   and pull will verify the HEAD signature automatically)
+  ```sh
+  git -C ~/src/qusal fetch --recurse-submodules
+  ~/src/qusal/scripts/setup.sh
+  ```
 
 ## Usage
 
-Qusal is now installed. Please read the README.md of each project for further
-information on how to install the desired package.
+Qusal is now installed. Please read the README.md of each project in the
+[salt](salt/) directory for further information on how to install the desired
+package. If you are unsure how to start, get some ideas from our
+[bootstrap guide](docs/BOOTSTRAP.md).
 
 The intended behavior is to enforce the state of qubes and their services. If
-you modify the qubes and their services and apply the state again, there is a
-good chance your choices will be overwritten. To enforce your state, write a
-SaltFile to specify the desired state, do not do it manually, we are past
-that.
+you modify the qubes and their services and apply the state again,
+conflicting configurations will be overwritten. To enforce your state, write
+a SaltFile to specify the desired state and call it after the ones provided
+by this project.
 
-The only Qrexec policy file you should change is
-`/etc/qubes/policy.d/30-user.policy` as this file will take precedence over
-the ones provided by this project. If you modify the policies provided by
-Qusal, your changes will be overwritten next time you install/upgrade the
-packages.
+If you want to edit the access control of any service, you
+should always use the Qrexec policy at `/etc/qubes/policy.d/30-user.policy`,
+as this file will take precedence over the packaged policies.
 
 Please note that when you allow more Qrexec calls than the default shipped by
 Qubes OS, you are increasing the attack surface of the target, normally
-valuable qube that can hold secrets or pristine data. A compromise of the
-client qube can extend to the server, therefore configure the installation
-according to your threat model.
-
-If you are unsure how to start, follow the [bootstrap guide](BOOTSTRAP.md) for
-some ideas on how to customize your system.
+to a valuable qube that can hold secrets or pristine data. A compromise of
+the client qube can extend to the server, therefore configure the
+installation according to your threat model.
 
 ## Contribute
 
-There are several ways to contribute to this project. Spread the word, help on
-user support, review opened issues, fix typos, implement new features,
+There are several ways to contribute to this project. Spread the word, help
+on user support, review opened issues, fix typos, implement new features,
 donations.
 
-Please take a look at [contribution guidelines](CONTRIBUTING.md) before
-contributing code or to the documentation, it holds important information on
-how the project is structured, why some design decisions were made and what
-can be improved.
+Please take a look at our [contribution guidelines](docs/CONTRIBUTING.md)
+before contributing code or to the documentation, it holds important
+information on how the project is structured, why some design decisions were
+made and what can be improved.
 
 ## Donate
 
