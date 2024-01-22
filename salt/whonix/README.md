@@ -20,6 +20,7 @@ Template based on it.
 qubesctl top.enable whonix
 qubesctl --targets=whonix-workstation-17,whonix-gateway-17 state.apply
 qubesctl top.disable whonix
+qubesctl state.apply whonix.appmenus
 ```
 
 - State:
@@ -27,6 +28,7 @@ qubesctl top.disable whonix
 ```sh
 qubesctl state.apply whonix.create
 qubesctl --skip-dom0 --targets=whonix-workstation-17,whonix-gateway-17 state.apply whonix.install
+qubesctl state.apply whonix.appmenus
 ```
 <!-- pkg:end:post-install -->
 
