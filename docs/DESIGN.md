@@ -1,12 +1,10 @@
-# Contributing
+# Design
+
+Qusal design document.
 
 ## Table of Contents
 
-* [Respect](#respect)
-* [Environment](#environment)
-  * [Requirements](#requirements)
-  * [RPM Spec](#rpm-spec)
-  * [Lint](#lint)
+* [Goal](#goal)
 * [Format](#format)
   * [File naming](#file-naming)
   * [State ID](#state-id)
@@ -14,71 +12,32 @@
   * [Qube preferences](#qube-preferences)
     * [Qube naming](#qube-naming)
     * [Qube label](#qube-label)
-  * [Qrexec](#qrexec)
-* [Where to start](#where-to-start)
+  * [Qube connections](#qube-connections)
+  * [Qrexec call and policy](#qrexec-call-and-policy)
 
-## Respect
+## Goal
 
-Be respectful towards peers.
+Provide a minimal modular isolated environment for users to complete daily
+tasks in a secure manner. We should not focus on a specific Qubes OS user base
+as it would narrow our reach. We scope to have a diverse user base, with
+different needs and use case that could shape our project for the better.
 
-## Environment
+We must not aim to be a one solution fits all by adding every new project
+someone asks for, if the number of projects grows too large, it would be
+impossible to keep track of everything, especially with major distribution
+updates from templates and Qubes OS releases.
 
-You will need to setup you development environment before you start
-contributing. You will need Qubes OS R4 or higher.
+In order to achieve this goal, the formulas must always create qubes based on
+minimal templates, with only the strictly necessary packages and features it
+needs. If audio is not required, it is never installed and the qube preference
+`audiovm` is set to None, the same applies to networking, thus avoiding
+unexpected calls to the network or to the audio qube. If the memory
+requirements are low, it is capped to a low limit, thus avoiding exacerbated
+memory consumption on systems with low specs.
 
-### Requirements
-
-The following are the packages you need to install:
-
-General:
-- git
-
-For writing:
-- editorconfig
-- editorconfig plugin for your editor
-- vim, [vim-jinja](https://github.com/ben-grande/vim-jinja),
-  [vim-salt](https://github.com/ben-grande/vim-salt) (recommended)
-
-For linting:
-- pre-commit
-- gitlint
-- salt-lint
-- shellcheck
-- reuse
-
-For building RPMs:
-- sed (GNU sed)
-- dnf
-- dnf-plugins-core (dnf builddep)
-- rpm
-- rpmlint
-- rpmautospec (only available in Fedora)
-
-### RPM Spec
-
-Reference material:
-
-- [docs.fedoraproject.org/en-US/packaging-guidelines/](https://docs.fedoraproject.org/en-US/packaging-guidelines/)
-- [rpm-software-management.github.io](https://rpm-software-management.github.io/rpm/manual/spec.html)
-- [rpm-packaging-guide.github.io](https://rpm-packaging-guide.github.io/)
-- [rpm-guide.readthedocs.io](https://rpm-guide.readthedocs.io/en/latest/rpm-guide.html)
-- [ftp.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html](http://ftp.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html)
-
-### Lint
-
-Lint before you commit, please... else you will have to fix after the PR has
-already been sent.
-
-Install the local hooks:
-```sh
-pre-commit install
-gitlint install-hook
-```
-
-To run pre-commit linters:
-```sh
-pre-commit run
-```
+No extraneous features should be included by default besides the basic for
+functionality. Extra functionalities that could weak the system can be
+provided via extra states that needs to be installed per the user discretion.
 
 ## Format
 
@@ -102,9 +61,14 @@ pre-commit run
 
 ### Readme
 
-1. Every project should have a README.md with at least the following sections:
-   Table of Contents, Description, Installation, Access Control (if changed
-   Qrexec policy), Usage.
+Every project should have a README.md with at least the following sections:
+
+- Table of Contents;
+- Description;
+- Installation;
+- Access Control (if Qrexec policy changed);
+- Usage; and
+- Credits (if sourced).
 
 ### Qube preferences
 
@@ -122,18 +86,18 @@ part of its name and no exceptions.
 - **Service qubes (not a class)**: `sys-NAME`
 
 We recommend that for user created qubes, use the domain in the prefix of the
-qube. An AppVM for personal banking will be named `personal-banking`, an AppVM
-for personal e-mail will be named `personal-email`.
+qube. An AppVM for personal banking will be named `personal-banking`, an
+AppVM for personal e-mail will be named `personal-email`.
 
 #### Qube label
 
 We differ from upstream in many senses. We are not labeling qubes based on
 them sharing a common security domain, this is very limited if you have many
 security domains in use and they do not share the same level of trust. You
-don't (or shouldn't) trust your networked browsing qube for personal usage the
-same as you trust your vault. The following method tries to fix this problem,
-domain name is in the prefix of the qube, the label is solely related to
-trustworthiness of the data it is dealing with.
+don't (or shouldn't) trust your networked browsing qube for personal usage
+the same as you trust your vault. The following method tries to fix this
+problem, domain name is in the prefix of the qube, the label is solely
+related to trustworthiness of the data it is dealing with.
 
 - **Black**:
   - **Trust**: Ultimate.
@@ -174,7 +138,33 @@ trustworthiness of the data it is dealing with.
     disposables for opening untrusted files or web pages).
   - **Examples**: sys-net, sys-usb, dvm-browser.
 
-### Qrexec
+### Qube connections
+
+There are several ways a qube can connect to another, either directly with
+Xen or with Qrexec. If something is not required, we remove it.
+
+- `template` is always required:
+  - When required, must be set to the custom-made template;
+  - When not possible to use, prefer StandaloneVMs instead.
+- `audiovm` is rarely required on the majority of the projects:
+  - When required, set it to `"*default*"` to honor the global preferences.
+  - When not required, must be set to None;
+- `netvm` is required on a lot of projects.
+  - When required, must not be managed to honor the global preferences. If it
+    requires a custom networking scheme, the state must make sure that the
+    netvm exists;
+  - When not required, must be set to None.
+- `default_dispvm` is nice to have:
+  - When required, must guarantee that the network follows the same chain as
+    the calling qube in the default configuration;
+  - When not required, must be set to None.
+- `management_dispvm` is always required:
+  - When required, should not be managed to honor the global preferences,
+    but it can make sense to set a custom management qube for debugging.
+  - When not required, such as on qubes that don't work through Salt, don't
+    touch it, it doesn't increase attack surface.
+
+### Qrexec call and policy
 
 1. Don't use `*` for source and destination, use `@anyvm` instead
 2. Target qube for policies must be `@default`. It allows for the real target
@@ -183,7 +173,3 @@ trustworthiness of the data it is dealing with.
    `qrexec-client-vm`.
 3. Target qube for client script must default to `@default`, but other targets
    must be allowed via parameters.
-
-## Where to start
-
-See open issues and search for the word `TODO` in the repository files.
