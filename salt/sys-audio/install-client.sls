@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-## qubes-usb-proxy required for integrated camera (USB internally).
+## qubes-usb-proxy: integrated camera and external USB.
 include:
   - sys-usb.install-client-proxy
 
