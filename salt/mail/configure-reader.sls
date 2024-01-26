@@ -12,4 +12,13 @@ include:
   - dotfiles.copy-net
   - dotfiles.copy-mutt
 
+"{{ slsdotpath }}-reader-mailcap":
+  file.managed:
+    - name: /home/user/.mailcap
+    - source: salt://{{ slsdotpath }}/files/reader/mailcap
+    - mode: "0644"
+    - user: user
+    - group: user
+    - makedirs: True
+
 {% endif -%}

@@ -1,0 +1,20 @@
+# ~/.msmtprc
+
+## SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+##### DO NOT EDIT THIS BLOCK #####
+defaults
+  auth on
+  tls on
+  tls_starttls off
+  tls_trust_file system
+  logfile ~/log/msmtp.log
+
+##### EDIT THIS BLOCK #####
+account main
+  host smtp.mail.example
+  user john-doe
+  password secret123
+account default : main

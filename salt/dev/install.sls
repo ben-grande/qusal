@@ -55,6 +55,11 @@ include:
       - gitlint
       - pylint
       - yamllint
+      # git-send-email
+      - git-email
+      - libemail-valid-perl
+      - libmailtools-perl
+      - libauthen-sasl-perl
 
 {% set pkg = {
     'Debian': {

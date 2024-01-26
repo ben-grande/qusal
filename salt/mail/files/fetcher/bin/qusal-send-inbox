@@ -1,0 +1,25 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+inbox_dir="${HOME}/mail/INBOX"
+if test ! -d "${inbox_dir}"; then
+  echo "Inbox '${inbox_dir}' does not exist" >&2
+  exit 1
+fi
+cd "${inbox_dir}" || exit 1
+
+files_to_send="$(find "${inbox_dir}" -type f)"
+if test -z "${files_to_send}"; then
+  echo "Inbox '${inbox_dir}' is empty" >&2
+  exit 1
+fi
+
+qrexec-client-vm --filter-escape-chars-stderr -- @default qusal.MailFetch \
+  /usr/lib/qubes/qfile-agent *
+
+find "${inbox_dir}" -type f -delete

@@ -1,0 +1,22 @@
+{#
+SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+base:
+  'dom0':
+    - match: nodegroup
+    - mail.create
+  'tpl-mail-fetcher':
+    - mail.install-fetcher
+  'tpl-mail-reader':
+    - mail.install-reader
+  'tpl-mail-sender':
+    - mail.install-sender
+  'dvm-mail-fetcher':
+    - mail.configure-fetcher
+  'mail-reader':
+    - mail.configure-reader
+  'dvm-mail-sender':
+    - mail.configure-sender
