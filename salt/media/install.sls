@@ -21,6 +21,8 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-pdf-converter
+      - qubes-img-converter
       - qubes-app-shutdown-idle
       - audacious
       - calibre
