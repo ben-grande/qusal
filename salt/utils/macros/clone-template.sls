@@ -13,16 +13,13 @@ Usage:
 {{ clone_template('debian-minimal', sls_path) }}
 #}
 
-{% macro clone_template(source, name, noprefix) -%}
+{% macro clone_template(source, name, prefix='tpl-', include_create=True) -%}
 
 {%- import source ~ "/template.jinja" as template -%}
 
+{% if include_create -%}
 include:
   - {{ source }}.create
-
-{% set prefix = "tpl-" -%}
-{% if noprefix is defined -%}
-  {%- set prefix = "" -%}
 {% endif -%}
 
 "{{ prefix }}{{ name }}-clone":

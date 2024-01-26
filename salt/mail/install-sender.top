@@ -5,6 +5,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 base:
-  'mutt':
-    - match: nodegroup
-    - mutt.configure
+  'tpl-mail-sender':
+    - mail.install-sender

@@ -1,0 +1,12 @@
+## SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Fetch mail using mpop
+After=network.target network-online.target dbus.socket
+Documentation=man:mpop(1)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mpop

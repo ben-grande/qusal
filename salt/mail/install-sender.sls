@@ -10,35 +10,21 @@ include:
   - dotfiles.copy-x11
   - dotfiles.copy-sh
   - dotfiles.copy-net
-  - dotfiles.copy-mutt
-  - sys-pgp.install-client
 
-"{{ slsdotpath }}-updated":
+"{{ slsdotpath }}-sender-updated":
   pkg.uptodate:
     - refresh: True
 
-"{{ slsdotpath }}-installed":
+"{{ slsdotpath }}-sender-installed":
   pkg.installed:
     - refresh: True
     - skip_suggestions: True
     - install_recommends: False
     - pkgs:
-      # general
-      - qubes-app-shutdown-idle
       - qubes-core-agent-networking
-      - qubes-pdf-converter
-      - qubes-img-converter
-      - w3m
-      - man-db
-      - less
-      # mutt
-      - vim
-      - mutt
-      - notmuch
-      - notmuch-mutt
-      - offlineimap3
-      - mb2md
       - ca-certificates
+      - man-db
+      - msmtp
       - libgnutls30
       - libio-socket-ssl-perl
       - libnet-smtp-ssl-perl
@@ -46,10 +32,14 @@ include:
       - libsasl2-2
       - libsasl2-modules
       - libsasl2-modules-db
-      # git-email
-      - git-email
-      - libemail-valid-perl
-      - libmailtools-perl
-      - libauthen-sasl-perl
+
+"{{ slsdotpath }}-sender-rpc":
+  file.managed:
+    - name: /etc/qubes-rpc/qusal.MailEnqueue
+    - source: salt://{{ slsdotpath }}/files/sender/rpc/qusal.MailEnqueue
+    - mode: "0755"
+    - user: root
+    - group: root
+    - makedirs: True
 
 {% endif -%}
