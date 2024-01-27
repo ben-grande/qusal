@@ -4,8 +4,8 @@
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
-qusal.MailFetch   * mail-fetcher @default ask target=mail-reader default_target=mail-reader
+qusal.MailFetch   * disp-mail-fetcher @default ask target=mail-reader default_target=mail-reader
 qusal.MailFetch   * @anyvm @anyvm deny
-qusal.MailEnqueue * mail-reader  @default ask target=mail-sender default_target=mail-sender
+qusal.MailEnqueue * mail-reader  @default ask target=disp-mail-sender default_target=disp-mail-sender
 qusal.MailEnqueue * @anyvm @anyvm deny
 ## vim:ft=qrexecpolicy
