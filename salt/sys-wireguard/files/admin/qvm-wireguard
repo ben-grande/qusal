@@ -8,7 +8,7 @@
 set -eu
 
 test "$(id -u)" = "0" || exec sudo "$0" "$@"
-qube="${1:-"sys-wireguard"}"
+qube="$1"
 
 if ! qvm-check -q "$qube" >/dev/null 2>&1; then
   echo "Qube '$qube' doesn't exist" >&2
