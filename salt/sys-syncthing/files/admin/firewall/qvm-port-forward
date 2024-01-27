@@ -194,14 +194,20 @@ recurse_netvms() {
 }
 
 usage() {
-  echo "Usage: ${0##*/} --action ACTION --qube QUBE --port PORT --proto PROTO --persistent
+  echo "Usage: ${0##*/} --action ACTION --qube QUBE --port PORT --proto PROTO [--persistent]
+Options:
+  -a, --action ACTION        add or delete a rule (add, del)
+  -q, --qube QUBE            qube name which holds the service to be exposed
+  -p, --port PORT            port number to be exposed
+  -n, --proto PROTO          protocol the service uses (tcp, udp)
+  -s, --persistent           persist rules across reboots
 Example:
   ${0##*/} --action add --qube work --port 22 --proto tcp
   ${0##*/} --action add --qube work --port 444 --proto udp --persistent
   ${0##*/} --action del --qube work --port 22 --proto tcp
   ${0##*/} --action del --qube work --port 444 --proto udp
 Note: Defaults to temporary rules
-Warn: If persistent is and and a netvm is disposable, the rule will be saved in the disposable template" >&2
+Warn: Use of '--persistent' with disposable netvm saves the rule in the disposable template" >&2
   exit 1
 }
 
