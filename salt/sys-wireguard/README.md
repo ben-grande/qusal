@@ -41,7 +41,7 @@ To start using the VPN:
 
 1. Copy the Wireguard configuration you downloaded to `sys-wireguard` and
    place it in `/home/user/wireguard.conf`.
-2. Run from Dom0 to apply Qubes Firewall rules: `qvm-wireguard`
+2. Run from Dom0 to apply Qubes Firewall rules: `qvm-wireguard sys-wireguard`
 
 ## Credits
 
