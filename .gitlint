@@ -32,7 +32,7 @@ line-length=72
 min-length=20
 
 [body-is-missing]
-ignore-merge-commits=false
+ignore-merge-commits=true
 
 [ignore-body-lines]
 regex=(^Co-Authored-By)|(^Reported-by)|(^Signed-off-by)

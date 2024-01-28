@@ -46,9 +46,17 @@ jobs:
       - name: Lint commits
         # yamllint disable-line rule:line-length
         run: |
-          if test "${{ github.event.before }}" = "${{ github.event.after }}" || test -z "${{ github.event.before }}"
+          if test "${{ github.event_name}}" = "pull_request"
           then
-            gitlint --debug --commit "${{ github.event.after }}"
+            base="${{ github.event.pull_request.base.sha }}"
+            head="${{ github.event.pull_request.head.sha }}"
           else
-            gitlint --debug --commits "${{ github.event.before }}..${{ github.event.after }}"
+            base="${{ github.event.before }}"
+            head="${{ github.event.after }}"
+          fi
+          if test "${base}" = "${head}" || test -z "${base}"
+          then
+            gitlint --debug --commit "${head}"
+          else
+            gitlint --debug --commits "${base}..${head}"
           fi
