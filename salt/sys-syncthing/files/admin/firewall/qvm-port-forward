@@ -176,13 +176,21 @@ get_lan(){
   fi
 }
 
+test_qvm_run(){
+  qube="${1}"
+  if ! run_qube "${qube}" echo "Test QUBESRPC" >/dev/null 2>&1; then
+    echo "error: ${qube}: could not connect to qubes.VMShell, use a different qube" >&2
+    exit 1
+  fi
+}
+
 recurse_netvms() {
   cmd="${1}"
   rec_qube="${2}"
   rec_netvm="$(qvm-prefs --get -- "${rec_qube}" netvm)"
   if test -n "${rec_netvm}" && test "${rec_netvm}" != "None"; then
     case "${cmd}" in
-      show-upstream);;
+      show-upstream) test_qvm_run "${rec_qube}";;
       apply-rules) forward "${rec_netvm}" "${rec_qube}";;
     esac
     recurse_netvms "${cmd}" "${rec_netvm}"
