@@ -42,7 +42,7 @@ qubesctl state.apply sys-mirage-firewall.create
 
 ## Usage
 
-As a started, set qubes `netvm` to `disp-sys-mirage-firewall`:
+Set qubes `netvm` to `disp-sys-mirage-firewall`:
 ```sh
 qvm-prefs --set QUBE netvm disp-sys-mirage-firewall
 ```
