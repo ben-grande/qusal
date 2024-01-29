@@ -1,7 +1,7 @@
 {#
 SPDX-FileCopyrightText: 2022 Thien Tran <contact@tommytran.io>
 SPDX-FileCopyrightText: 2023 unman <unman@thirdeyesecurity.org>
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: MIT
 #}

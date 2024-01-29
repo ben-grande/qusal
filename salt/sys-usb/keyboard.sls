@@ -1,6 +1,6 @@
 {#
 SPDX-FileCopyrightText: 2018 - 2023 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 #}
