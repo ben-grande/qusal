@@ -24,6 +24,50 @@ create_net_dir(){
   run_qube "${qube}" mkdir -p "${hook_dir}"
 }
 
+validate_handle(){
+  qube="${1}"
+  untrusted_handle="${2}"
+  case "${untrusted_handle}" in
+    ""|*[!0-9]*)
+      echo "error: ${qube}: invalid handle" >&2
+      exit 1
+      ;;
+  esac
+}
+
+validate_ipv4(){
+  qube="${1}"
+  untrusted_ip="${2}"
+  case "${untrusted_ip}" in
+    ""|*[!0-9./]*)
+      echo "error: ${qube}: invalid IPv4 address" >&2
+      exit 1
+      ;;
+  esac
+}
+
+validate_ipv6(){
+  qube="${1}"
+  untrusted_ip="${2}"
+  case "${untrusted_ip}" in
+    ""|*[!0-9a-f:/]*)
+      echo "error: ${qube}: invalid IPv6 address" >&2
+      exit 1
+      ;;
+  esac
+}
+
+validate_dev(){
+  qube="${1}"
+  untrusted_dev="${2}"
+  case "${untrusted_dev}" in
+    ""|*[!0-9A-Za-z]*)
+      echo "error: ${qube}: invalid device name" >&2
+      exit 1
+      ;;
+  esac
+}
+
 get_rule_handle(){
   qube="${1}"
   chain="${2}"
@@ -42,10 +86,13 @@ delete_rule(){
   qube="${1}"
   chain="${2}"
   rule="${3}"
-  handle="$(get_rule_handle "${qube}" "${chain}" "${rule}")"
-  if test -n "${handle}"; then
-    for h in ${handle}; do
-      delete_rule_handle "${qube}" "${chain}" "${h}"
+  untrusted_handle_list="$(get_rule_handle "${qube}" "${chain}" "${rule}")"
+  if test -n "${untrusted_handle_list}"; then
+    for untrusted_handle in ${untrusted_handle_list}; do
+      unset handle
+      validate_handle "${qube}" "${untrusted_handle}"
+      handle="${untrusted_handle}"
+      delete_rule_handle "${qube}" "${chain}" "${handle}"
     done
   fi
 }
@@ -55,11 +102,19 @@ forward() {
   to_qube="${2}"
   create_net_dir "${from_qube}"
 
+  unset dev
   ## TODO: Handle multiple interfaces in upstream.
-  dev="$(run_qube "${from_qube}" ip -4 r \
-           | awk '/^default via /{print $5}' | head -1)"
-  from_ip="$(run_qube "${from_qube}" ip -4 -o a show dev "${dev}" \
-             | awk '{print $4}' | cut -d "/" -f 1)"
+  untrusted_dev="$(run_qube "${from_qube}" ip -4 route \
+                   | awk '/^default via /{print $5}' | head -1)"
+  validate_dev "${from_qube}" "${untrusted_dev}"
+  dev="${untrusted_dev}"
+
+  unset from_ip
+  untrusted_from_ip="$(run_qube "${from_qube}" ip -4 -o addr show dev \
+                       "${dev}" | awk '{print $4}' | cut -d "/" -f 1)"
+  validate_ipv4 "${from_qube}" "${untrusted_from_ip}"
+  from_ip="${untrusted_from_ip}"
+
   to_ip="$(qvm-prefs --get -- "${to_qube}" ip)"
   to_ip_escaped="$(echo "${to_ip}" | tr "." "-")"
   hook="${hook_prefix}${to_ip}-${proto}-${port}.sh"
@@ -161,15 +216,25 @@ ${input_rule}"
 
 get_lan(){
   qube="${1}"
+
+  unset dev
   ## TODO: Handle multiple interfaces in upstream.
-  dev="$(run_qube "${qube}" ip -4 route \
-          | awk '/^default via /{print $5}' | head -1)"
+  untrusted_dev="$(run_qube "${qube}" ip -4 route \
+                   | awk '/^default via /{print $5}' | head -1)"
+  validate_dev "${qube}" "${untrusted_dev}"
+  dev="${untrusted_dev}"
+
   if test -z "${dev}"; then
     echo "error: ${qube}: could not find any device that is up" >&2
     exit 1
   fi
-  lan_ip="$(run_qube "${qube}" ip -4 r show dev "${dev}" prot kernel \
-            | cut -d " " -f 1)"
+
+  unset lan_ip
+  untrusted_lan_ip="$(run_qube "${qube}" ip -4 route show dev "${dev}" \
+                      prot kernel | cut -d " " -f 1)"
+  validate_ipv4 "${qube}" "${untrusted_lan_ip}"
+  lan_ip="${untrusted_lan_ip}"
+
   if test -z "${lan_ip}"; then
     echo "error: ${qube}: could not find LAN from device ${dev}" >&2
     exit 1
@@ -179,7 +244,7 @@ get_lan(){
 test_qvm_run(){
   qube="${1}"
   if ! run_qube "${qube}" echo "Test QUBESRPC" >/dev/null 2>&1; then
-    echo "error: ${qube}: could not connect to qubes.VMShell, use a different qube" >&2
+    echo "error: ${qube}: service qubes.VMShell failed, use a different qube" >&2
     exit 1
   fi
 }
