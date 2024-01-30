@@ -12,8 +12,12 @@ Fetch publicly accessible files over the internet in Qubes OS.
 
 A Template for DispVMs will be created and named "dvm-fetcher", from this qube
 you will create others that can connect to the internet to download files. You
-will be able to download from any protocol as long as the installed tools,
-`curl`, `wget`, `git`, `rsync`, accept them.
+will be able to download from many protocol as long as the installed tools
+accepts them.
+
+Supported protocols: DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS,
+ IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP,
+ SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS, WSS, RSYNC, BitTorrent.
 
 ## Installation
 
@@ -35,9 +39,10 @@ qubesctl --skip-dom0 --targets=dvm-fetcher state.apply fetcher.configure-dvm
 
 ## Usage
 
-You will base qubes from the Template for DispVMs `dvm-fetcher` to download
-files over the internet using popular command-line tools such as `git`,
-`curl`, `wget`, `rsync`.
+You will create disposable qubes based on the Template for DispVMs
+`dvm-fetcher` to download files over the internet using popular command-line
+tools such as `git`, `curl`, `wget`, `rsync`, `transmission-cli` as well as a
+graphical interface for torrenting `transmission-qt`.
 
 You can use disposables based from `dvm-fetcher` to clone repositories,
 download PGP signatures, Operating System ISOs etc.
