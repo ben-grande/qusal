@@ -63,6 +63,7 @@ prefs:
 - vcpus: 1
 - kernel: mirage-firewall
 - kernelopts: ""
+- include_in_backups: False
 {%- endload %}
 {{ load(defaults) }}
 
@@ -84,6 +85,7 @@ prefs:
 - vcpus: 1
 - provides-network: True
 - template_for_dispvms: True
+- include_in_backups: False
 features:
 - enable:
   - service.qubes-firewall
@@ -109,6 +111,7 @@ prefs:
 - maxmem: 64
 - vcpus: 1
 - provides-network: True
+- include_in_backups: False
 features:
 - enable:
   - service.qubes-firewall
