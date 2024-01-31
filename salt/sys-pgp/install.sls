@@ -23,12 +23,14 @@ include:
       - gnupg2
 
 {% set pkg = {
-    'Debian': {
-      'pkg': ['sq'],
-    },
-    'RedHat': {
-      'pkg': ['sequoia-sq'],
-    },
+  'Debian': {
+    'pkg': ['sq', 'sq-keyring-linter', 'sq-wot', 'sqop', 'sqv'],
+  },
+  'RedHat': {
+    'pkg': ['sequoia-sq', 'sequoia-keyring-linter', 'sequoia-wot',
+            'sequoia-sop', 'sequoia-sqv', 'sequoia-policy-config',
+            'sequoia-chameleon-gnupg'],
+  },
 }.get(grains.os_family) -%}
 
 "{{ slsdotpath }}-installed-os-specific":
