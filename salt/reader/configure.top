@@ -7,8 +7,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 base:
   'dom0':
     - match: nodegroup
-    - browser.create
-  'tpl-browser':
-    - browser.install
-  'dvm-browser':
-    - browser.configure
+    - reader.configure

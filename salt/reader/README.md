@@ -21,7 +21,7 @@ necessary packages will be installed in the template.
 - Top:
 ```sh
 qubesctl top.enable reader
-qubesctl --targets=tpl-reader state.apply
+qubesctl --targets=tpl-reader,dvm-reader state.apply
 qubesctl top.disable reader
 qubesctl state.apply reader.appmenus
 ```
@@ -31,6 +31,7 @@ qubesctl state.apply reader.appmenus
 ```sh
 qubesctl state.apply reader.create
 qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
+qubesctl --skip-dom0 --targets=dvm-reader state.apply reader.configure
 qubesctl state.apply reader.appmenus
 ```
 <!-- pkg:end:post-install -->
