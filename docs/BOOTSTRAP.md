@@ -54,6 +54,9 @@ you accomplish your mission.
   - [mutt](../salt/mutt/README.md)
   - [signal](../salt/signal/README.md)
 
+- Electronic cash:
+  - [electrum](../salt/electrum/README.md)
+
 ### Files
 
 - USB:
