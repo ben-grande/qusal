@@ -10,3 +10,5 @@ base:
     - reader.create
   'tpl-reader':
     - reader.install
+  'dvm-reader':
+    - reader.configure

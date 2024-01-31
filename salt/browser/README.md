@@ -24,7 +24,7 @@ Firefox-ESR, W3M or Lynx.
 - Top
 ```sh
 qubesctl top.enable browser
-qubesctl --targets=tpl-browser state.apply
+qubesctl --targets=tpl-browser,dvm-browser state.apply
 qubesctl top.disable browser
 qubesctl state.apply browser.appmenus
 ```
@@ -34,6 +34,7 @@ qubesctl state.apply browser.appmenus
 ```sh
 qubesctl state.apply browser.create
 qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
+qubesctl --skip-dom0 --targets=dvm-browser state.apply browser.configure
 qubesctl state.apply browser.appmenus
 ```
 <!-- pkg:end:post-install -->
