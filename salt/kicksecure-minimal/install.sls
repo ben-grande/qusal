@@ -30,31 +30,21 @@ include:
     - skip_suggestions: True
     - pkgs:
       - kicksecure-qubes-cli
-      - lkrg-dkms
-      - hardened-kernel
-      - tirdad
       - linux-image-amd64
       - linux-headers-amd64
       - grub2
       - qubes-kernel-vm-support
 
 "{{ slsdotpath }}-remove-debian-default-sources.list":
-  file.absent:
+  file.comment:
     - require:
       - pkg: "{{ slsdotpath }}-installed"
     - name: /etc/apt/sources.list
-
-"{{ slsdotpath }}-permission-hardener-enabled":
-  service.enabled:
-    - require:
-      - pkg: "{{ slsdotpath }}-installed"
-    - name: permission-hardening
-    #- name: permission-hardener
+    - regex: "^\s*deb"
+    - ignore_missing: True
 
 "{{ slsdotpath }}-permission-hardener-conf":
   file.managed:
-    - require:
-      - service: "{{ slsdotpath }}-permission-hardener-enabled"
     - name: /etc/permission-hardener.d/40_qusal.conf
     - source: salt://{{ slsdotpath }}/files/template/permission-hardener.d/40_qusal.conf
     - mode: '0600'

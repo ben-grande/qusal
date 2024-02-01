@@ -11,6 +11,19 @@ Most likely the GUI agent will break, use qvm-console-dispvm to get a terminal.
 include:
   - kicksecure-minimal.install
 
+"{{ slsdotpath }}-developers-updated":
+  pkg.uptodate:
+    - refresh: True
+
+"{{ slsdotpath }}-developers-installed":
+  pkg.installed:
+    - refresh: True
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs:
+      - lkrg
+      - tirdad
+
 ## Breaks systemd service qubes-gui-agent
 "{{ slsdotpath }}-proc-hidepid-enabled":
   service.enabled:
@@ -49,17 +62,6 @@ include:
     - require:
       - pkg: "{{ slsdotpath }}-installed"
     - name: remount-secure
-
-"{{ slsdotpath }}-remount-secure-grub-cfg":
-  file.managed:
-    - require:
-      - service: "{{ slsdotpath }}-remount-secure-enabled"
-    - name: /etc/default/grub.d/40_qusal.cfg
-    - source: salt://{{ slsdotpath }}/files/template/grub.d/40_qusal.cfg
-    - mode: '0600'
-    - user: root
-    - group: root
-    - makedirs: True
 
 "{{ slsdotpath }}-update-grub":
   cmd.run:
