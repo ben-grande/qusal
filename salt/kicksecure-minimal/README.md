@@ -33,10 +33,10 @@ qubesctl state.apply kicksecure-minimal.prefs
 <!-- pkg:end:post-install -->
 
 If you want to help improve Kicksecure integration on Qubes, install packages
-that are known to be broken on Qubes and report bugs upstream (get a terminal
-with `qvm-console-dispvm`):
+that are known to be broken on Qubes and can break the boot of the Kicksecure
+Qube, to report bugs upstream (get a terminal with `qvm-console-dispvm`):
 ```sh
-qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install-testing
+qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install-developers
 ```
 
 ## Usage
