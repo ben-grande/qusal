@@ -18,6 +18,10 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+- vcpus: 1
+- memory: 300
+- maxmem: 1500
+- include_in_backups: False
 tags:
 - add:
   - whonix-updatevm
@@ -34,6 +38,10 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+- vcpus: 1
+- memory: 300
+- maxmem: 600
+- include_in_backups: False
 tags:
 - add:
   - whonix-updatevm
