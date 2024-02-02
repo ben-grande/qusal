@@ -43,26 +43,6 @@ include:
     - regex: "^\s*deb"
     - ignore_missing: True
 
-"{{ slsdotpath }}-permission-hardener-conf":
-  file.managed:
-    - name: /etc/permission-hardener.d/40_qusal.conf
-    - source: salt://{{ slsdotpath }}/files/template/permission-hardener.d/40_qusal.conf
-    - mode: '0600'
-    - user: root
-    - group: root
-    - makedirs: True
-
-"{{ slsdotpath }}-hardened-malloc-preload":
-  file.managed:
-    - require:
-      - pkg: "{{ slsdotpath }}-installed"
-    - name: /etc/ld.so.preload
-    - source: salt://{{ slsdotpath }}/files/template/ld.so.preload
-    - mode: '0644'
-    - user: root
-    - group: root
-    - makedirs: True
-
 "{{ slsdotpath }}-distribution-kernel":
   cmd.run:
     - require:

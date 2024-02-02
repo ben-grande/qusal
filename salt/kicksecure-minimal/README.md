@@ -42,3 +42,27 @@ qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-mini
 ## Usage
 
 AppVMs and StandaloneVMs can be based on this template.
+
+### Kicksecure Developers
+
+This is intended for Kicksecure Developers to test known to be broken
+hardening measures. It is not intended for other developers or users.
+
+After you have ran the developers SaltFile, when reporting bugs upstream,
+share the following information of the customizations made by this formula:
+
+- `hardened-malloc`:
+```
+libhardened_malloc.so
+```
+
+- `hide-hardware-info`:
+```
+sysfs_whitelist=0
+cpuionfo_whitelist=0
+```
+
+- `permission-hardener`:
+```
+whitelists_disable_all=true
+```
