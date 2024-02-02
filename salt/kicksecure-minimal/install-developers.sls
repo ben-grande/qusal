@@ -24,6 +24,28 @@ include:
       - lkrg
       - tirdad
 
+## Breaks browsers.
+"{{ slsdotpath }}-hardened-malloc-preload":
+  file.managed:
+    - require:
+      - pkg: "{{ slsdotpath }}-installed"
+    - name: /etc/ld.so.preload
+    - source: salt://{{ slsdotpath }}/files/template/ld.so.preload
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+## Does not break (maybe), present here because it is not the default.
+"{{ slsdotpath }}-permission-hardener-conf":
+  file.managed:
+    - name: /etc/permission-hardener.d/40_qusal.conf
+    - source: salt://{{ slsdotpath }}/files/template/permission-hardener.d/40_qusal.conf
+    - mode: '0600'
+    - user: root
+    - group: root
+    - makedirs: True
+
 ## Breaks systemd service qubes-gui-agent
 "{{ slsdotpath }}-proc-hidepid-enabled":
   service.enabled:
