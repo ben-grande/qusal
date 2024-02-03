@@ -3,7 +3,14 @@ SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.co
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 
-Most likely the GUI agent will break, use qvm-console-dispvm to get a terminal.
+The GUI agent will break, use qvm-console-dispvm to get a terminal.
+
+https://www.kicksecure.com/wiki/Security-misc
+https://www.kicksecure.com/wiki/Hardened-kernel
+https://www.kicksecure.com/wiki/Hardened_Malloc
+https://www.kicksecure.com/wiki/Operating_System_Hardening
+https://www.kicksecure.com/wiki/Linux_Kernel_Runtime_Guard_LKRG
+https://www.qubes-os.org/doc/managing-vm-kernels/#distribution-kernel
 #}
 
 {% if grains['nodename'] != 'dom0' -%}
@@ -21,6 +28,10 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-kernel-vm-support
+      - linux-image-amd64
+      - linux-headers-amd64
+      - grub2
       - lkrg
       - tirdad
 
@@ -90,6 +101,13 @@ include:
     - require:
       - file: "{{ slsdotpath }}-remount-secure-grub-cfg"
     - name: update-grub
+    - runas: root
+
+"{{ slsdotpath }}-distribution-kernel":
+  cmd.run:
+    - require:
+      - pkg: "{{ slsdotpath }}-installed"
+    - name: grub-install /dev/xvda
     - runas: root
 
 {% endif %}

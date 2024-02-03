@@ -11,18 +11,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - .clone
 
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
-
-"{{ slsdotpath }}-installed":
-  pkg.installed:
-    - refresh: True
-    - install_recommends: False
-    - skip_suggestions: True
-    - pkgs:
-      - grub2-xen-pvh
-
 {% load_yaml as defaults -%}
 name: {{ template.template }}
 force: True
