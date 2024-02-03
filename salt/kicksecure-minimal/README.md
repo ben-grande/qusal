@@ -32,6 +32,8 @@ qubesctl state.apply kicksecure-minimal.prefs
 ```
 <!-- pkg:end:post-install -->
 
+### Kicksecure Developers Installation
+
 If you want to help improve Kicksecure integration on Qubes, install packages
 that are known to be broken on Qubes and can break the boot of the Kicksecure
 Qube, to report bugs upstream (get a terminal with `qvm-console-dispvm`):
@@ -39,11 +41,28 @@ Qube, to report bugs upstream (get a terminal with `qvm-console-dispvm`):
 qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install-developers
 ```
 
+Choose the `kernel` according to the `virt_mode` you want for the template:
+
+- `hvm`:
+```sh
+qubesctl state.apply kicksecure-minimal.kernel-hvm
+```
+
+- `pvh`:
+```sh
+qubesctl state.apply kicksecure-minimal.kernel-pv
+```
+
+- Dom0 provided kernel (resets `virt_mode` to `pvh`):
+```sh
+qubesctl state.apply kicksecure-minimal.kernel-default
+```
+
 ## Usage
 
 AppVMs and StandaloneVMs can be based on this template.
 
-### Kicksecure Developers
+### Kicksecure Developers Usage
 
 This is intended for Kicksecure Developers to test known to be broken
 hardening measures. It is not intended for other developers or users.
