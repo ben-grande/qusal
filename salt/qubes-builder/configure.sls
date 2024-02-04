@@ -49,6 +49,7 @@ include:
     - user: user
     - group: user
     - mode: '0700'
+    - makedirs: True
 
 "{{ slsdotpath }}-save-keys":
   file.recurse:
