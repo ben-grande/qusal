@@ -7,4 +7,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- import slsdotpath ~ "/template.jinja" as template -%}
 
 {% from 'utils/macros/sync-appmenus.sls' import sync_appmenus -%}
-{{ sync_appmenus('dvm-' ~ template.whonix_workstation_clean_template) }}
+{{ sync_appmenus('sys-whonix') }}

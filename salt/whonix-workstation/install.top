@@ -5,6 +5,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 base:
-  'dom0':
-    - match: nodegroup
-    - whonix.appmenus
+  'whonix-workstation-17':
+    - whonix-workstation.install
