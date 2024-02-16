@@ -1,0 +1,24 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+set -eu
+
+qube="$(qubesdb-read /name)"
+txid="${1}"
+wallet="${2}"
+block_hash="${3}"
+block_height="${4-}"
+title="${qube}: wallet: ${wallet}"
+date="$(date +%FT%H:%m:%SZ)"
+
+if test "${block_hash}" = "unconfirmed"; then
+  body="TXID ${txid} is ${block_hash}"
+else
+  body="TXID ${txid} is in block ${block_height} ${block_hash}"
+fi
+
+echo "${date} ${title}: ${body}" | tee ~/.bitcoin/walletnotify.log
+if command -v notify-send >/dev/null; then
+  notify-send -t 10000 "${title}" "${body}"
+fi

@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Creates a new rpcauth for the client qube if it does not exist. If bitcoind
+# is running remotely, there is no way to set a new option with bitcoin-cli.
+
+set -eu
+
+bitcoin_conf="/home/user/.bitcoin/conf.d/rpcauth.conf"
+bitcoin_pass="/home/user/.bitcoin/rpcclient.pass"
+user="${QREXEC_REMOTE_DOMAIN}"
+
+if ! systemctl is-active bitcoind >/dev/null 2>&1; then
+  echo "systemd service 'bitcoind' is not active, cannot add credentials with remote RPC" >&2
+  exit 1
+fi
+
+if test -r "${bitcoin_conf}"; then
+  if grep -qs "^\s*rpcauth=${user}:" "${bitcoin_conf}"; then
+    grep -m1 "^${user}:" "${bitcoin_pass}"
+    exit
+  fi
+fi
+
+if ! command -v bitcoin-rpcauth >/dev/null; then
+  echo "command not found: bitcoin-rpcauth" >&2
+  exit 127
+fi
+
+full_auth="$(bitcoin-rpcauth "${user}" | sed -n '2p;4p')"
+rpcauth="$(echo "${full_auth}" | head -1)"
+user="$(echo "${rpcauth}" | cut -d "=" -f2 | cut -d ":" -f1)"
+password="$(echo "${full_auth}" | tail -1)"
+
+echo "${rpcauth}" | sudo -u user tee -a "${bitcoin_conf}" >/dev/null
+echo "${user}:${password}" | sudo -u user tee -a "${bitcoin_pass}" >/dev/null
+echo "${user}:${password}"
+
+## Restart bitcoind to apply the configuration changes. Currently, there is no
+## prevention of DDoS besides when the client already has an authentication
+## configured, it is printed and returned before getting to this part.
+systemctl restart bitcoind

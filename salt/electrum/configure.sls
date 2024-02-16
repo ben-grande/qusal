@@ -10,11 +10,7 @@ include:
   - dev.home-cleanup
   - dotfiles.copy-x11
   - dotfiles.copy-sh
-
-"{{ slsdotpath }}-setconfig-auto_connect":
-  cmd.run:
-    - name: electrum --offline setconfig auto_connect false
-    - runas: user
+  - whonix-workstation.configure-offline
 
 "{{ slsdotpath }}-setconfig-check_updates":
   cmd.run:

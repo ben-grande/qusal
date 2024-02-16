@@ -1,0 +1,20 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+# shellcheck disable=SC1090,SC1091
+set -eu
+
+cd ~/.electrumx
+. electrumx.conf
+. conf.d/cookie.conf
+if test -r conf.d/electrumx.conf.local; then
+  . conf.d/electrumx.conf.local
+fi
+
+if test -z "${1-}"; then
+  set -- --help
+fi
+
+electrumx_rpc "${@}"

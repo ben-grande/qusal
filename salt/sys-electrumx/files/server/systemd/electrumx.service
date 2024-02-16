@@ -1,0 +1,39 @@
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Electrumx
+ConditionPathExists=/var/run/qubes-service/bitcoin-client
+ConditionPathExists=/usr/lib/python3/dist-packages/electrumx
+ConditionPathExists=/usr/bin/electrumx_server
+ConditionPathExists=/usr/bin/electrumx_rpc
+ConditionPathExists=/home/user/.electrumx/electrumx.conf
+Requires=bitcoin-rpc-qrexec.socket
+Requires=electrumx-cookie.service
+After=network.target
+After=qubes-sysinit.service
+After=qubes-qrexec-agent.service
+After=bitcoin-rpc-qrexec.socket
+After=electrumx-cookie.service
+StartLimitBurst=2
+StartLimitIntervalSec=20
+
+[Service]
+EnvironmentFile=/home/user/.electrumx/electrumx.conf
+EnvironmentFile=/home/user/.electrumx/conf.d/cookie.conf
+EnvironmentFile=/home/user/.electrumx/conf.d/electrumx.conf.local
+ExecStart=/usr/bin/electrumx_server
+ExecStop=/usr/bin/electrumx_rpc stop
+User=user
+Group=user
+LimitNOFILE=8192
+TimeoutStopSec=30min
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
+PrivateDevices=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

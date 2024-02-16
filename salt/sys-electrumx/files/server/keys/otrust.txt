@@ -1,0 +1,3 @@
+# List of assigned trustvalues, created Thu 02 Nov 2023 09:43:48 PM UTC
+# (Use "gpg --import-ownertrust" to restore them)
+4AD64339DFA05E20B3F6AD51E7B748CDAF5E5ED9:6:

@@ -7,6 +7,34 @@ Files: README.md */README.md docs/* .github/ISSUE_TEMPLATE/*
 Copyright: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
 
+Files: salt/electrum/files/client/keys/*
+Copyright: SomberNight/ghost43 <somber.night@protonmail.com>
+           Stephan Oeste <stephan@oeste.de>
+           Thomas Voegtlin <thomasv1@gmx.de>
+License: CC0-1.0
+
+Files: salt/sys-bitcoin/files/server/keys/*
+Copyright: Ava Chow <me@achow101.com>
+           Duncan Dean <duncangleeddean@gmail.com>
+           Gloria Zhao <gloriajzhao@gmail.com>
+           Hennadii Stepanov (hebasto) <hebasto@gmail.com>
+           Michael Ford (bitcoin-otc) <fanquake@gmail.com>
+           Ryan Ofsky <ryan@ofsky.org>
+           Wladimir J. van der Laan <laanwj@gmail.com>
+License: CC0-1.0
+
+Files: salt/sys-electrs/files/server/keys/*
+Copyright: Roman Zeyde <roman.zeyde@gmail.com>
+License: CC0-1.0
+
+Files: salt/sys-electrumx/files/server/keys/*
+Copyright: SomberNight <somber.night@protonmail.com>
+License: CC0-1.0
+
+Files: salt/sys-electrumx/files/server/conf/banner.txt
+Copyright: Benjamin Grande M. S. <ben.grande.b@gmail.com>
+License: CC0-1.0
+
 Files: salt/sys-mirage-firewall/files/admin/mirage-firewall.tar.bz2
        salt/sys-mirage-firewall/files/admin/mirage-firewall.sha256
        salt/sys-mirage-firewall/files/admin/version.txt

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+bin_dir="/usr/bin"
+tmp_dir="/tmp/electrs-upload"
+man1_dir="/usr/share/man/man1"
+
+rm -rf "${tmp_dir}"
+mkdir -p "${tmp_dir}"
+qfile-unpacker 0 "${tmp_dir}"
+cd "${tmp_dir}"
+cp electrs "${bin_dir}"/
+cp electrs.1 "${man1_dir}"/
+
+## Qube needs to shutdown for the app qube to have the uploaded files.
+shutdown now

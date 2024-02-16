@@ -1,0 +1,11 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+conf="${HOME}/.bitcoin/conf.d/dbcache.conf"
+cache_Mi="$(awk '/^MemTotal:/{printf "%.0f", $2/1024}' /proc/meminfo)"
+cache="$((cache_Mi*75/100))"
+echo "dbcache=${cache}" | tee "${conf}" >/dev/null

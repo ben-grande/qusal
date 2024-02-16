@@ -8,7 +8,13 @@ base:
   'dom0':
     - match: nodegroup
     - electrum.create
+  'tpl-electrum-builder':
+    - electrum.install-builder
   'tpl-electrum':
     - electrum.install
-  'electrum-cold,electrum-hot':
+  'disp-electrum-builder':
+    - electrum.configure-builder
+  'electrum':
     - electrum.configure
+  'electrum-hot':
+    - electrum.configure-hot
