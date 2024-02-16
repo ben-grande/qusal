@@ -1,0 +1,17 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+conf="${HOME}/.bitcoin/conf.d/cookie.conf"
+
+if ! systemctl is-active bitcoind >/dev/null 2>&1; then
+  echo "systemd service 'bitcoind' is not active, remote RPC cannot add crendtials" >&2
+  exit 1
+fi
+
+rpc_list="$(bitcoin-cli help | awk '/^[a-z]/{print $1}' | tr "\n" ",")"
+
+echo "rpcwhitelist=__cookie__:${rpc_list}" | tee "${conf}" >/dev/null

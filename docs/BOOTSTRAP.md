@@ -55,6 +55,9 @@ you accomplish your mission.
   - [signal](../salt/signal/README.md)
 
 - Electronic cash:
+  - [sys-bitcoin](../salt/sys-bitcoin/README.md)
+  - [sys-electrumx](../salt/sys-electrumx/README.md)
+  - [sys-electrs](../salt/sys-electrs/README.md)
   - [electrum](../salt/electrum/README.md)
 
 ### Files

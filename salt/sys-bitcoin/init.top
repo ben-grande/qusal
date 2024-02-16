@@ -1,0 +1,20 @@
+{#
+SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+base:
+  'dom0':
+    - match: nodegroup
+    - sys-bitcoin.create
+  'sys-bitcoin-gateway':
+    - sys-bitcoin.configure-gateway
+  'tpl-sys-bitcoin':
+    - sys-bitcoin.install
+  'disp-bitcoin-builder':
+    - sys-bitcoin.configure-builder
+  'sys-bitcoin':
+    - sys-bitcoin.configure
+  'bitcoin':
+    - sys-bitcoin.configure-client

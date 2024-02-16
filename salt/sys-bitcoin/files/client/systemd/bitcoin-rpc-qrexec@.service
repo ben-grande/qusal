@@ -1,0 +1,16 @@
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Bitcoin RPC over Qrexec
+ConditionPathExists=/var/run/qubes-service/bitcoin-client
+Requires=bitcoin-rpc-qrexec.socket
+After=qubes-sysinit.service
+After=qubes-qrexec-agent.service
+After=bitcoin-rpc-qrexec.socket
+
+[Service]
+ExecStart=qrexec-client-vm @default qubes.ConnectTCP+8332
+StandardInput=socket
+StandardOutput=inherit

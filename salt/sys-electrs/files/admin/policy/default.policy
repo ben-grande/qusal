@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qusal.InstallElectrs * disp-electrs-builder @default allow target=tpl-sys-electrs user=root autostart=yes
+qusal.InstallElectrs * @anyvm @anyvm deny
+
+qubes.ConnectTCP +50001 @tag:electrum-client @default allow target=sys-electrs
+qubes.ConnectTCP * @tag:electrum-client @anyvm deny
+## vim:ft=qrexecpolicy

@@ -6,11 +6,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {%- from "qvm/template.jinja" import load -%}
 
-{%- import "whonix/template.jinja" as whonix -%}
+{%- import "whonix-workstation/template.jinja" as whonix_workstation -%}
 
 include:
   - .clone
-  - whonix.create
+  - sys-bitcoin.create
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
@@ -26,7 +26,23 @@ features:
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
-name: {{ slsdotpath }}-cold
+name: tpl-{{ slsdotpath }}-builder
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
+- default_dispvm: ""
+tags:
+- add:
+  - "updatevm-sys-bitcoin-gateway"
+- del:
+  - "whonix-updatevm"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
@@ -48,7 +64,10 @@ features:
   - service.cups
   - service.cups-browsed
 - set:
-  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop electrum.desktop"
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop qubes-open-file-manager.desktop electrum.desktop"
+tags:
+- add:
+  - "electrum-client"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -58,25 +77,92 @@ force: True
 require:
 - sls: {{ slsdotpath }}.clone
 present:
-- template: {{ whonix.whonix_workstation_template }}
+- template: {{ whonix_workstation.template }}
 - label: orange
 prefs:
-- template: {{ whonix.whonix_workstation_template }}
+- template: {{ whonix_workstation.template }}
 - label: orange
 - audiovm: ""
+- netvm: sys-bitcoin-gateway
 - vcpus: 1
 - memory: 400
 - maxmem: 600
 - autostart: False
 - include_in_backups: True
-tags:
-- add:
-  - anon-vm
 features:
 - disable:
   - service.cups
   - service.cups-browsed
 - set:
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop qubes-open-file-manager.desktop electrum.desktop"
+tags:
+- add:
+  - "anon-vm"
 {%- endload %}
 {{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: dvm-electrum-builder
+force: True
+require:
+- qvm: tpl-electrum-builder
+present:
+- template: tpl-electrum-builder
+- label: red
+prefs:
+- template: tpl-electrum-builder
+- label: red
+- netvm: sys-bitcoin-gateway
+- audiovm: ""
+- default_dispvm: ""
+- vcpus: 4
+- memory: 400
+- maxmem: 2000
+- autostart: False
+- template_for_dispvms: True
+features:
+- disable:
+  - service.cups
+  - service.cups-browsed
+tags:
+- add:
+  - "anon-bitcoin-vm"
+- del:
+  - "anon-vm"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: disp-electrum-builder
+force: True
+require:
+- qvm: dvm-electrum-builder
+present:
+- template: dvm-electrum-builder
+- label: red
+- class: DispVM
+prefs:
+- template: dvm-electrum-builder
+- label: red
+- netvm: sys-bitcoin-gateway
+- audiovm: ""
+- vcpus: 4
+- memory: 400
+- maxmem: 2000
+- autostart: False
+- include_in_backups: False
+features:
+- disable:
+  - appmenus-dispvm
+  - service.cups
+  - service.cups-browsed
+tags:
+- add:
+  - "anon-bitcoin-vm"
+- del:
+  - "anon-vm"
+{%- endload %}
+{{ load(defaults) }}
+
+{% from 'utils/macros/policy.sls' import policy_set with context -%}
+{{ policy_set(sls_path, '80') }}

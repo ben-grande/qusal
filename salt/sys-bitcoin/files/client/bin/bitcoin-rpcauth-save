@@ -1,0 +1,19 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+set -eu
+
+if test -s ~/.bitcoin/.cookie; then
+  exit 0
+fi
+
+auth="$(qrexec-client-vm -tT -- @default qusal.BitcoinAuthGet)"
+
+if test -n "${auth}"; then
+  mkdir -p ~/.bitcoin/.cookie
+  echo "${auth}" | tee ~/.bitcoin/.cookie >/dev/null
+else
+  echo "failed to get Bitcoin Authentication" >&2
+  exit 1
+fi

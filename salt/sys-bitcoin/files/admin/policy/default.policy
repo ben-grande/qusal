@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Do not modify this file, create a new policy with with a lower number in the
+## file name instead. For example `30-user.policy`.
+qusal.InstallBitcoin * disp-bitcoin-builder @default allow target=tpl-sys-bitcoin user=root autostart=yes
+qusal.InstallBitcoin * @anyvm @anyvm deny
+
+qusal.BitcoinAuthGet * @tag:bitcoin-client @default allow target=sys-bitcoin user=root
+qusal.BitcoinAuthGet * @anyvm              @anyvm   deny
+
+qubes.ConnectTCP +8332 @tag:bitcoin-client @default allow target=sys-bitcoin
+qubes.ConnectTCP +8333 @tag:bitcoin-client @default allow target=sys-bitcoin
+qubes.ConnectTCP +8433 @tag:bitcoin-client @default allow target=sys-bitcoin
+qubes.ConnectTCP *     @tag:bitcoin-clinet @anyvm   deny
+
+qubes.UpdatesProxy * @tag:updatevm-sys-bitcoin-gateway @default allow target=sys-bitcoin-gateway
+qubes.UpdatesProxy * @tag:updatevm-sys-bitcoin-gateway @anyvm   deny
+
+whonix.NewStatus * @tag:anon-bitcoin-vm @anyvm allow target=sys-bitcoin-gateway autostart=no
+whonix.NewStatus * @tag:anon-bitcoin-vm @anyvm deny
+
+whonix.SdwdateStatus + sys-bitcoin-gateway @tag:anon-bitcoin-vm allow autostart=no notify=no
+whonix.SdwdateStatus + sys-bitcoin-gateway @default deny
+whonix.SdwdateStatus * sys-bitcoin-gateway @anyvm   deny
+
+whonix.GatewayCommand +restart sys-bitcoin-gateway @tag:anon-bitcoin-vm allow autostart=no
+whonix.GatewayCommand +stop    sys-bitcoin-gateway @tag:anon-bitcoin-vm allow autostart=no
+whonix.GatewayCommand +showlog sys-bitcoin-gateway @tag:anon-bitcoin-vm allow autostart=no
+whonix.GatewayCommand *        sys-bitcoin-gateway @anyvm deny
+## vim:ft=qrexecpolicy

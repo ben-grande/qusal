@@ -1,0 +1,40 @@
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Electrs
+ConditionPathExists=/var/run/qubes-service/bitcoin-client
+ConditionPathExists=/usr/bin/electrs
+ConditionPathExists=/home/user/.electrs/config.toml
+Requires=bitcoin-rpc-qrexec.socket
+Requires=bitcoin-p2p-qrexec.socket
+After=qubes-sysinit.service
+After=qubes-qrexec-agent.service
+After=bitcoin-rpc-qrexec.socket
+After=bitcoin-p2p-qrexec.socket
+StartLimitBurst=2
+StartLimitIntervalSec=20
+
+[Service]
+WorkingDirectory=/home/user/.electrs
+Environment="RUST_BACKTRACE=1"
+ExecStartPre=bitcoin-rpcauth-save
+ExecStart=/usr/bin/electrs \
+          --conf /home/user/.electrs/config.toml \
+          --conf-dir /home/user/.electrs/conf.d/
+User=user
+Group=user
+Type=simple
+KillMode=process
+TimeoutSec=60
+Restart=always
+RestartSec=60
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
+PrivateDevices=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

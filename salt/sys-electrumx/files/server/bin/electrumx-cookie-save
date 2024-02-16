@@ -1,0 +1,23 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+electrumx_conf="${HOME}/.electrumx/conf.d/cookie.conf"
+cookie="${HOME}/.bitcoin/.cookie"
+
+if ! test -f "${cookie}"; then
+  echo "cookie not found" >&2
+  exit 1
+fi
+
+if ! test -r "${cookie}"; then
+  echo "cannot read from cookie" >&2
+  exit 1
+fi
+
+auth="$(cat "${cookie}")"
+
+echo "DAEMON_URL=${auth}@127.0.0.1:8332" | tee "${electrumx_conf}" >/dev/null

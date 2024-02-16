@@ -1,0 +1,94 @@
+#!/bin/bash
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+#date_mined="20130604"
+#block_number="230009"
+block_hash="00000000000000ecbbff6bafb7efa2f7df05b227d5c73dca8f2635af32a2e949"
+txid="54e48e5f5c656b26c3bca14a8c95aa583d07ebe84dde3b7dd4a78f4e4186e713"
+dir="${HOME}"
+file="bitcoin.pdf"
+
+has(){
+  cmd="$(command -v "${1}" 2>/dev/null)" || return 1
+  test -x "${cmd}" || return 1
+}
+
+check_installed(){
+  missing_programs=0
+  for prog in "${@}"; do
+    if ! has "${prog}"; then
+      echo "Missing program: ${prog}" >&2
+      missing_programs=1
+    fi
+  done
+  if test "${missing_programs}"; then
+    exit 1
+  fi
+}
+
+validate_dir(){
+  if ! test -d "${dir}"; then
+    echo "Directory '${dir}' does not exist" >&2
+    exit 1
+  fi
+  if ! test -w "${dir}"; then
+    echo "Directory '${dir}' is not writable" >&2
+    exit 1
+  fi
+}
+
+getblock(){
+  check_installed bitcoin-cli xxd
+  bitcoin-cli getblock "${block_hash}" 0 \
+    | tail -c+92167 \
+    | for ((o=0;o<946;++o)); do read -rN420 x; echo -n "${x::130}${x:132:130}${x:264:130}" ; done \
+    | xxd -r -p \
+    | tail -c+9 \
+    | head -c184292 \
+    | tee "${output_file}" >/dev/null
+}
+
+getrawtransaction(){
+  check_installed bitcoin-cli xxd
+  bitcoin-cli getrawtransaction "${txid}" 0 "${block_hash}" \
+    | sed 's/0100000000000000/\n/g' \
+    | tail -n +2 \
+    | cut -c7-136,139-268,271-400 \
+    | tr -d '\n' \
+    | cut -c17-368600 \
+    | xxd -p -r \
+    | tee "${output_file}" >/dev/null
+}
+
+gettxout(){
+  check_installed bitcoin-cli jq xxd seq
+  seq 0 947 \
+    | (while read -r n; do bitcoin-cli gettxout "${txid}" "${n}" \
+    | jq -r '.scriptPubKey.asm' \
+    | awk '{ print $2 $3 $4 }'; done) \
+    | tr -d '\n' \
+    | cut -c 17-368600 \
+    | xxd -r -p \
+    | tee "${output_file}" >/dev/null
+}
+
+usage(){
+  echo "Usage: ${0##*/} getblock|getrawtransaction|gettxtout [DIR]"
+  echo "Note: gettxtout works with pruned node"
+  echo "Note: DIR defaults to \$HOME"
+  exit 1
+}
+
+case "${1:-}" in
+  "getblock"|"getrawtransaction"|"gettxtout")
+    test -z "${2}" || dir="${2}"
+    validate_dir "${dir}"
+    output_file="${dir}/${file}"
+    "${1}"
+    ;;
+  *) usage;;
+esac
