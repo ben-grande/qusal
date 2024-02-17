@@ -26,6 +26,7 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - socat
       - python3-aiohttp
       - python3-aiorpcx
       - python3-attr
