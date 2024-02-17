@@ -28,6 +28,7 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - socat
       - librocksdb-dev
       - man-db
 
