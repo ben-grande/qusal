@@ -111,10 +111,17 @@ include:
     - overwrite: True
     - clean: True
 
-"{{ slsdotpath }}-copy-files-to-template":
+"{{ slsdotpath }}-generate-payment-request":
   cmd.run:
     - require:
       - archive: "{{ slsdotpath }}-extract-archive"
+    - name: ./contrib/generate_payreqpb2.sh
+    - cwd: /tmp/{{ electrum_archive_dir }}
+
+"{{ slsdotpath }}-copy-files-to-template":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-generate-payment-request"
     - name: qrexec-client-vm -T -- @default qusal.InstallElectrum /usr/lib/qubes/qfile-agent electrum/ run_electrum electrum.desktop
     - cwd: /tmp/{{ electrum_archive_dir }}
     - runas: user

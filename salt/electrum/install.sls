@@ -31,6 +31,9 @@ include:
     - skip_suggestions: True
     - pkgs:
       - socat
+      - man-db
+      ## Recommends
+      - python3-zbar
       ## Unlisted dependency.
       - python3-jsonpatch
       ## Dependencies retrieved from 'electrum' and 'python3-electrum' pkg.
