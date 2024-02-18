@@ -28,5 +28,6 @@ include:
       - ca-certificates
       - curl
       - tar
+      - protobuf-compiler
 
 {% endif -%}
