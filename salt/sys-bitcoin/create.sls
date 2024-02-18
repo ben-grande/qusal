@@ -52,6 +52,10 @@ require:
 prefs:
 - audiovm: ""
 - default_dispvm: ""
+features:
+- set:
+  - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "updatevm-sys-bitcoin-gateway"
@@ -87,6 +91,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.meminfo-writer
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "anon-bitcoin-vm"
@@ -118,6 +124,8 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "anon-bitcoin-vm"
@@ -150,6 +158,8 @@ features:
   - appmenus-dispvm
   - service.cups
   - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "anon-bitcoin-vm"
@@ -186,18 +196,14 @@ features:
 tags:
 - del:
   - "bitcoin-client"
-
 {%- endload %}
 {{ load(defaults) }}
 
-## TODO: remove comment of volume extension
-{#
 "{{ slsdotpath }}-extend-private-volume":
   cmd.run:
     - require:
       - qvm: {{ slsdotpath }}
     - name: qvm-volume extend {{ slsdotpath }}:private 1Ti
-#}
 
 "{{ slsdotpath }}-extend-builder-private-volume":
   cmd.run:
