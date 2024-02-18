@@ -17,6 +17,10 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+features:
+- set:
+  - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -45,6 +49,8 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "bitcoin-client"
@@ -59,6 +65,10 @@ require:
 prefs:
 - audiovm: ""
 - default_dispvm: ""
+features:
+- set:
+  - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "updatevm-sys-bitcoin-gateway"
@@ -90,6 +100,8 @@ features:
 - disable:
   - service.cups
   - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "anon-bitcoin-vm"
@@ -122,6 +134,8 @@ features:
   - appmenus-dispvm
   - service.cups
   - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:
 - add:
   - "anon-bitcoin-vm"
