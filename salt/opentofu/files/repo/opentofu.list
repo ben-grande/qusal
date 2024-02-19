@@ -1,0 +1,2 @@
+deb [signed-by=/usr/share/keyrings/opentofu.asc] http://packages.opentofu.org/opentofu/tofu/any/ any main
+# vim:ft=debsources
