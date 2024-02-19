@@ -85,6 +85,7 @@ you accomplish your mission.
 - Remote task execution and configuration management:
   - [ansible](../salt/ansible/README.md)
   - [docker](../salt/docker/README.md)
+  - [opentofu](../salt/opentofu/README.md)
   - [terraform](../salt/terraform/README.md)
 
 - Coding:

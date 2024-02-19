@@ -73,6 +73,10 @@ Files: salt/kicksecure-minimal/files/repo/*
 Copyright: 2014 Patrick Schleizer <adrelanos@kicksecure.com>
 License: CC0-1.0
 
+Files: salt/opentofu/files/repo/*
+Copyright: 2023 OpenTofu <core@opentofu.org>
+License: CC0-1.0
+
 Files: salt/signal/files/repo/*
 Copyright: 2017 Open Whisper Systems <support@whispersystems.org>
 License: CC0-1.0
