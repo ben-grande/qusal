@@ -170,11 +170,6 @@ You can list agents and their keys with:
 qvm-ssh-agent ls <AGENT>
 ```
 
-Follow SSH agents journal:
-```sh
-journalctl --user -fu qubes-ssh-agent@*.service
-```
-
 ### Client
 
 #### Enable and Start the service
