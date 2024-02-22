@@ -55,6 +55,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.crond
 - disable:
   - service.cups
   - service.cups-browsed
