@@ -34,14 +34,21 @@ qubesctl --skip-dom0 --targets=media state.apply media.configure
 
 ## Usage
 
-You will store multimedia files in the "media" qube. When you try to open a
+You will store multimedia files in the `media` qube. When you try to open a
 file in that qube, it will open instead in the disposable "disp-media".
 
-No file browser is installed in the "media" qube as code execution exploits in
+No file browser is installed in the `media` qube as code execution exploits in
 file browsers are common when rendering thumbnails, indexing file name,
 automatically running scripts saved in the home directory. You are open to
 forward files from the "media" qube to "disp-media" by running `xdg-open
 /path/file` or more explicitly, `qvm-open-in-dvm /path/file`.
+
+To get a decent performance with `mpv`, you will need to configure it in
+`/etc/mpv/mpv.conf`:
+```cfg
+vo=x11
+profile=sw-fast
+```
 
 ## Credits
 
