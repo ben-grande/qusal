@@ -1,18 +1,26 @@
 # SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Information gathered from https://admin.fedoraproject.org/mirrormanager/
+# Link from /etc/yum.repos.d/fedora.repo:
+#   https://mirrors.fedoraproject.org/metalink?repo=fedora-source-f$releasever&arch=$basearch
 
 http://archive.linux.duke.edu/pub/fedora/linux/
+http://ask4.mm.fcix.net/fedora/linux/
+http://b4sh.mm.fcix.net/fedora/linux/
+http://creeperhost.mm.fcix.net/fedora/linux/
 http://distrib-coffee.ipsl.jussieu.fr/pub/linux/fedora/linux/
+http://divergentnetworks.mm.fcix.net/fedora/linux/
 http://dl.fedoraproject.org
 http://download-cc-rdu01.fedoraproject.org/pub/fedora/linux/
 http://download-ib01.fedoraproject.org/pub/fedora/linux
 http://download.fedoraproject.org/pub/fedora/linux/
 http://fedora-mirror01.rbc.ru/pub/fedora/linux/
 http://fedora.blizoo.mk/fedora/linux/
-http://fedora.cu.be
-http://fedora.ip-connect.info
-http://fedora.ipacct.com
+http://fedora.cu.be/linux/
+http://fedora.ip-connect.info/linux/
+http://fedora.ipacct.com/fedora/linux/
 http://fedora.is.co.za/linux/
 http://fedora.mirror.angkasa.id/pub/fedora/linux/
 http://fedora.mirror.constant.com
@@ -22,10 +30,10 @@ http://fedora.mirror.iweb.com/linux/
 http://fedora.mirror.liteserver.nl
 http://fedora.mirror.root.lu/
 http://fedora.mirror.tn/pub/fedora/linux/
-http://fedora.mirror.wearetriple.com
+http://fedora.mirror.wearetriple.com/linux/
 http://fedora.mirrors.pair.com/linux/
 http://fedora.mirrors.telekom.ro/pub/fedora/linux/
-http://fedora.mirrorservice.org
+http://fedora.mirrorservice.org/fedora/linux/
 http://fedora.tu-chemnitz.de/pub/linux/fedora/linux/
 http://fr2.rpmfind.net/linux/fedora/linux/
 http://free.nchc.org.tw/fedora/linux/
@@ -45,10 +53,12 @@ http://ftp.iij.ad.jp/pub/linux/Fedora/fedora/linux/
 http://ftp.ines.lug.ro/fedora/linux/
 http://ftp.jaist.ac.jp/pub/Linux/Fedora/
 http://ftp.linux.cz/pub/linux/fedora/linux/
+http://ftp.linux.org.tr/fedora/updates
 http://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/
 http://ftp.lysator.liu.se/pub/fedora/linux/
 http://ftp.nluug.nl/pub/os/Linux/distr/fedora/linux/
 http://ftp.ntua.gr/pub/linux/fedora/linux/
+http://ftp.otenet.gr/linux/
 http://ftp.plusline.net/fedora/linux/
 http://ftp.tsukuba.wide.ad.jp/Linux/fedora/linux/
 http://ftp.tudelft.nl/download.fedora.redhat.com/linux/
@@ -60,11 +70,13 @@ http://ftp.upjs.sk/pub/fedora/linux/
 http://ftp.yz.yamagata-u.ac.jp/pub/linux/fedora-projects/fedora/linux/
 http://ftp.yzu.edu.tw/Linux/Fedora/linux/
 http://kdeforge2.unl.edu/mirrors/fedora/linux/
+http://level66.mm.fcix.net/fedora/linux/
 http://linux.mirrors.es.net/fedora/
 http://mirror.1000mbps.com/fedora/linux/
-http://mirror.23m.com
+http://mirror.23m.com/fedora/linux/
 http://mirror.23media.de/fedora/linux/
 http://mirror.aarnet.edu.au/pub/fedora/linux/
+http://mirror.accum.se/mirror/fedora/linux/
 http://mirror.bytemark.co.uk/fedora/epel/
 http://mirror.bytemark.co.uk/fedora/linux/
 http://mirror.cedia.org.ec/fedora/linux/
@@ -86,11 +98,12 @@ http://mirror.i3d.net/pub/fedora/linux/
 http://mirror.in2p3.fr/pub/fedora/linux/
 http://mirror.infonline.de/fedora/linux/
 http://mirror.init7.net/fedora/fedora/linux/
+http://mirror.it4i.cz/fedora/linux/
 http://mirror.its.dal.ca/pub/fedora/linux/
 http://mirror.karneval.cz/pub/linux/fedora/linux/
 http://mirror.lagoon.nc/pub/fedora/linux/
 http://mirror.library.ucy.ac.cy/linux/fedora/linux/
-http://mirror.linux-ia64.org/fedora/linux/
+http://mirror.linux-ia64.org/fedora/fedora/linux/
 http://mirror.metrocast.net/fedora/linux/
 http://mirror.mrjester.net/fedora/linux/
 http://mirror.netcologne.de/fedora/linux/
@@ -127,7 +140,9 @@ http://mirror.vpsnet.com/fedora/linux/
 http://mirror.vutbr.cz/fedora/
 http://mirror.yandex.ru/fedora/linux/
 http://mirror2.totbb.net/fedora/linux/
+http://mirroronet.pl/pub/mirrors/fedora/linux/
 http://mirrors.cat.pdx.edu/fedora/linux/
+http://mirrors.dotsrc.org/fedora-enchilada/linux/
 http://mirrors.dotsrc.org/fedora/linux/
 http://mirrors.fedoraproject.org
 http://mirrors.ircam.fr/pub/fedora/linux/
@@ -147,8 +162,9 @@ http://opensource.nchc.org.tw/fedora/linux/
 http://packages.oit.ncsu.edu
 http://pubmirror1.math.uh.edu/fedora-buffet/fedora/linux/
 http://pubmirror2.math.uh.edu/fedora-buffet/fedora/linux/
+http://repo.fedora.md/fedora/linux/
 http://ucmirror.canterbury.ac.nz/linux/fedora/linux/
 http://vesta.informatik.rwth-aachen.de/ftp/pub/Linux/fedora/linux/
-http://www.fedora.is/fedora/linux/
+http://www.fedora.is/fedora/
 http://www.mirrorservice.org/sites/dl.fedoraproject.org/pub/fedora/linux/
 http://www.nic.funet.fi/pub/mirrors/fedora.redhat.com/pub/fedora/linux/
