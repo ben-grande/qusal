@@ -114,6 +114,15 @@ specifying how many `MiB` of block files to retain:
 prune=550
 ```
 
+A configuration you may want to do after IBD (Initial Block Download) is to
+reduce the used memory, as it is not necessary anymore to have a large cache.
+As the bitcoind option `dbcache` is dynamic allocated per the qube memory,
+you just need to reduce the memory available to the `sys-bitcoin` qube. From
+`dom0`, run:
+```sh
+qvm-prefs sys-bitcoin memory 1000
+```
+
 ### Bitcoin Core GUI
 
 Do not use the GUI in the `sys-bitcoin` qube to edit configuration, it won't
