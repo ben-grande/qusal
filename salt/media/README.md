@@ -43,12 +43,7 @@ automatically running scripts saved in the home directory. You are open to
 forward files from the "media" qube to "disp-media" by running `xdg-open
 /path/file` or more explicitly, `qvm-open-in-dvm /path/file`.
 
-To get a decent performance with `mpv`, you will need to configure it in
-`/etc/mpv/mpv.conf`:
-```cfg
-vo=x11
-profile=sw-fast
-```
+You can personalize `mpv` by editing `$XDG_CONFIG_HOME/mpv/mpv.conf`.
 
 ## Credits
 
