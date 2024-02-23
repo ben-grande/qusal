@@ -17,16 +17,16 @@ it.
 
 - Top:
 ```sh
-qubesctl top.enable debian-minimal
-qubesctl --targets=debian-12-minimal state.apply
-qubesctl top.disable debian-minimal
+sudo qubesctl top.enable debian-minimal
+sudo qubesctl --targets=debian-12-minimal state.apply
+sudo qubesctl top.disable debian-minimal
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply debian-minimal.create
-qubesctl --skip-dom0 --targets=debian-12-minimal state.apply debian-minimal.install
+sudo qubesctl state.apply debian-minimal.create
+sudo qubesctl --skip-dom0 --targets=debian-12-minimal state.apply debian-minimal.install
 ```
 <!-- pkg:end:post-install -->
 

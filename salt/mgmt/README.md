@@ -18,18 +18,18 @@ of a qube or for Salt Management on DomUs.
 
 - Top:
 ```sh
-qubesctl top.enable mgmt
-qubesctl --targets=tpl-mgmt state.apply
-qubesctl top.disable mgmt
-qubesctl state.apply mgmt.prefs
+sudo qubesctl top.enable mgmt
+sudo qubesctl --targets=tpl-mgmt state.apply
+sudo qubesctl top.disable mgmt
+sudo qubesctl state.apply mgmt.prefs
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply mgmt.create
-qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
-qubesctl state.apply mgmt.prefs
+sudo qubesctl state.apply mgmt.create
+sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
+sudo qubesctl state.apply mgmt.prefs
 ```
 <!-- pkg:end:post-install -->
 

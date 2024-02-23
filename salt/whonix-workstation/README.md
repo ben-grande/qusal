@@ -17,18 +17,18 @@ based on it.
 
 - Top:
 ```sh
-qubesctl top.enable whonix-workstation
-qubesctl --targets=whonix-workstation-17 state.apply
-qubesctl top.disable whonix-workstation
-qubesctl state.apply whonix-workstation.appmenus
+sudo qubesctl top.enable whonix-workstation
+sudo qubesctl --targets=whonix-workstation-17 state.apply
+sudo qubesctl top.disable whonix-workstation
+sudo qubesctl state.apply whonix-workstation.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply whonix-workstation.create
-qubesctl --skip-dom0 --targets=whonix-workstation-17 state.apply whonix-workstation.install
-qubesctl state.apply whonix-workstation.appmenus
+sudo qubesctl state.apply whonix-workstation.create
+sudo qubesctl --skip-dom0 --targets=whonix-workstation-17 state.apply whonix-workstation.install
+sudo qubesctl state.apply whonix-workstation.appmenus
 ```
 <!-- pkg:end:post-install -->
 

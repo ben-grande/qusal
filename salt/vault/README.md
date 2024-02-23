@@ -18,18 +18,18 @@ keys.
 
 - Top:
 ```sh
-qubesctl top.enable vault
-qubesctl --targets=tpl-vault state.apply
-qubesctl top.disable vault
-qubesctl state.apply vault.appmenus
+sudo qubesctl top.enable vault
+sudo qubesctl --targets=tpl-vault state.apply
+sudo qubesctl top.disable vault
+sudo qubesctl state.apply vault.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply vault.create
-qubesctl --skip-dom0 --targets=tpl-vault state.apply vault.install
-qubesctl state.apply vault.appmenus
+sudo qubesctl state.apply vault.create
+sudo qubesctl --skip-dom0 --targets=tpl-vault state.apply vault.install
+sudo qubesctl state.apply vault.appmenus
 ```
 <!-- pkg:end:post-install -->
 

@@ -28,15 +28,15 @@ and local checksum matched when comparing the same release.
 
 - Top
 ```sh
-qubesctl top.enable sys-mirage-firewall
-qubesctl state.apply
-qubesctl top.disable sys-mirage-firewall
+sudo qubesctl top.enable sys-mirage-firewall
+sudo qubesctl state.apply
+sudo qubesctl top.disable sys-mirage-firewall
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-mirage-firewall.create
+sudo qubesctl state.apply sys-mirage-firewall.create
 ```
 <!-- pkg:end:post-install -->
 

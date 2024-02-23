@@ -16,16 +16,16 @@ Creates the Debian Xfce Template as well as a Disposable Template based on it.
 
 - Top:
 ```sh
-qubesctl top.enable debian-xfce
-qubesctl --targets=debian-12-xfce state.apply
-qubesctl top.disable debian-xfce
+sudo qubesctl top.enable debian-xfce
+sudo qubesctl --targets=debian-12-xfce state.apply
+sudo qubesctl top.disable debian-xfce
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply debian-xfce.create
-qubesctl --skip-dom0 --targets=debian-12-xfce state.apply debian-xfce.install
+sudo qubesctl state.apply debian-xfce.create
+sudo qubesctl --skip-dom0 --targets=debian-12-xfce state.apply debian-xfce.install
 ```
 <!-- pkg:end:post-install -->
 

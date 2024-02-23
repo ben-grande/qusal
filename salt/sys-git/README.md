@@ -78,23 +78,23 @@ trust the origin, don't use it.
 
 - Top
 ```sh
-qubesctl top.enable sys-git
-qubesctl --targets=tpl-sys-git,sys-git state.apply
-qubesctl top.disable sys-git
+sudo qubesctl top.enable sys-git
+sudo qubesctl --targets=tpl-sys-git,sys-git state.apply
+sudo qubesctl top.disable sys-git
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-git.create
-qubesctl --skip-dom0 --targets=tpl-sys-git state.apply sys-git.install
-qubesctl --skip-dom0 --targets=sys-git state.apply sys-git.configure
+sudo qubesctl state.apply sys-git.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-git state.apply sys-git.install
+sudo qubesctl --skip-dom0 --targets=sys-git state.apply sys-git.configure
 ```
 <!-- pkg:end:post-install -->
 
 Installation on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-dev state.apply sys-git.install-client
+sudo qubesctl --skip-dom0 --targets=tpl-dev state.apply sys-git.install-client
 ```
 
 ## Access control

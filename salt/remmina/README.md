@@ -18,18 +18,18 @@ you prefer to use an app qube, a qube named "remmina" will also be created.
 
 - Top:
 ```sh
-qubesctl top.enable remmina
-qubesctl --targets=tpl-remmina state.apply
-qubesctl top.disable remmina
-qubesctl state.apply remmina.appmenus
+sudo qubesctl top.enable remmina
+sudo qubesctl --targets=tpl-remmina state.apply
+sudo qubesctl top.disable remmina
+sudo qubesctl state.apply remmina.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply remmina.create
-qubesctl --skip-dom0 --targets=tpl-remmina state.apply remmina.install
-qubesctl state.apply remmina.appmenus
+sudo qubesctl state.apply remmina.create
+sudo qubesctl --skip-dom0 --targets=tpl-remmina state.apply remmina.install
+sudo qubesctl state.apply remmina.appmenus
 ```
 <!-- pkg:end:post-install -->
 

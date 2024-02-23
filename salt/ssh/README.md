@@ -20,17 +20,17 @@ in as a one time connection or to an untrusted host use a DispVM based on
 
 - Top:
 ```sh
-qubesctl top.enable ssh
-qubesctl --targets=tpl-ssh,dvm-ssh,ssh state.apply
-qubesctl top.disable ssh
+sudo qubesctl top.enable ssh
+sudo qubesctl --targets=tpl-ssh,dvm-ssh,ssh state.apply
+sudo qubesctl top.disable ssh
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply ssh.create
-qubesctl --skip-dom0 --targets=tpl-ssh state.apply ssh.install
-qubesctl --skip-dom0 --targets=dvm-ssh,ssh state.apply ssh.configure
+sudo qubesctl state.apply ssh.create
+sudo qubesctl --skip-dom0 --targets=tpl-ssh state.apply ssh.install
+sudo qubesctl --skip-dom0 --targets=dvm-ssh,ssh state.apply ssh.configure
 ```
 <!-- pkg:end:post-install -->
 

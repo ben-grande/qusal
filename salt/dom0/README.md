@@ -17,21 +17,21 @@ etc.
 
 - Top
 ```sh
-qubesctl top.enable dom0
-qubesctl state.apply
-qubesctl top.disable dom0
+sudo qubesctl top.enable dom0
+sudo qubesctl state.apply
+sudo qubesctl top.disable dom0
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply dom0
+sudo qubesctl state.apply dom0
 ```
 <!-- pkg:end:post-install -->
 
 If you need to develop in Dom0, install some goodies (bare bones):
 ```sh
-qubesctl state.apply dom0.install-dev
+sudo qubesctl state.apply dom0.install-dev
 ```
 
 ## Usage

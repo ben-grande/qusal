@@ -76,24 +76,24 @@ exploitation, as `msmtp` still needs to parse the mail to be sent.
 
 - Top
 ```sh
-qubesctl top.enable mail reader
-qubesctl --targets=tpl-mail-fetcher,tpl-mail-reader,tpl-mail-sender,dvm-mail-fetcher,mail-reader,dvm-mail-sender,tpl-reader state.apply
-qubesctl top.disable mail reader
-qubesctl state.apply mail.appmenus,reader.appmenus
+sudo qubesctl top.enable mail reader
+sudo qubesctl --targets=tpl-mail-fetcher,tpl-mail-reader,tpl-mail-sender,dvm-mail-fetcher,mail-reader,dvm-mail-sender,tpl-reader state.apply
+sudo qubesctl top.disable mail reader
+sudo qubesctl state.apply mail.appmenus,reader.appmenus
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply mail.create
-qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
-qubesctl --skip-dom0 --targets=tpl-mail-fetcher state.apply mail.install-fetcher
-qubesctl --skip-dom0 --targets=tpl-mail-reader state.apply mail.install-reader
-qubesctl --skip-dom0 --targets=tpl-mail-sender state.apply mail.install-sender
-qubesctl --skip-dom0 --targets=dvm-mail-fetcher state.apply mail.configure-fetcher
-qubesctl --skip-dom0 --targets=mail-reader state.apply mail.configure-reader
-qubesctl --skip-dom0 --targets=dvm-mail-sender state.apply mail.configure-sender
-qubesctl state.apply mail.appmenus,reader.appmenus
+sudo qubesctl state.apply mail.create
+sudo qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
+sudo qubesctl --skip-dom0 --targets=tpl-mail-fetcher state.apply mail.install-fetcher
+sudo qubesctl --skip-dom0 --targets=tpl-mail-reader state.apply mail.install-reader
+sudo qubesctl --skip-dom0 --targets=tpl-mail-sender state.apply mail.install-sender
+sudo qubesctl --skip-dom0 --targets=dvm-mail-fetcher state.apply mail.configure-fetcher
+sudo qubesctl --skip-dom0 --targets=mail-reader state.apply mail.configure-reader
+sudo qubesctl --skip-dom0 --targets=dvm-mail-sender state.apply mail.configure-sender
+sudo qubesctl state.apply mail.appmenus,reader.appmenus
 ```
 <!-- pkg:end:post-install -->
 

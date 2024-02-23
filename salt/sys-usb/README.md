@@ -19,37 +19,37 @@ the USB controllers to different qubes is possible.
 
 - Top:
 ```sh
-qubesctl top.enable sys-usb
-qubesctl --targets=tpl-sys-usb state.apply
-qubesctl top.disable sys-usb
+sudo qubesctl top.enable sys-usb
+sudo qubesctl --targets=tpl-sys-usb state.apply
+sudo qubesctl top.disable sys-usb
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-usb.create
-qubesctl --skip-dom0 --targets=tpl-sys-usb state.apply sys-usb.install
+sudo qubesctl state.apply sys-usb.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-usb state.apply sys-usb.install
 ```
 <!-- pkg:end:post-install -->
 
 If you use an USB keyboard, also run:
 ```sh
-qubesctl state.apply sys-usb.keyboard
+sudo qubesctl state.apply sys-usb.keyboard
 ```
 
 Install the proxy on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-proxy
+sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-proxy
 ```
 
 If the client requires decrypting a device, install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-cryptsetup
+sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-cryptsetup
 ```
 
 If the client requires a FIDO device, install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
+sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
 ```
 And enable the CTAP Proxy service for the client qubes:
 ```sh

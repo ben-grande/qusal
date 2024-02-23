@@ -17,16 +17,16 @@ of Terraform.
 
 - Top:
 ```sh
-qubesctl top.enable opentofu
-qubesctl --targets=tpl-opentofu state.apply
-qubesctl top.disable opentofu
+sudo qubesctl top.enable opentofu
+sudo qubesctl --targets=tpl-opentofu state.apply
+sudo qubesctl top.disable opentofu
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply opentofu.create
-qubesctl --skip-dom0 --targets=tpl-opentofu state.apply opentofu.install
+sudo qubesctl state.apply opentofu.create
+sudo qubesctl --skip-dom0 --targets=tpl-opentofu state.apply opentofu.install
 ```
 <!-- pkg:end:post-install -->
 

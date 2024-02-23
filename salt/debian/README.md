@@ -16,16 +16,16 @@ Creates the Debian template as well as a Disposable Template based on it.
 
 - Top:
 ```sh
-qubesctl top.enable debian
-qubesctl --targets=debian-12 state.apply
-qubesctl top.disable debian
+sudo qubesctl top.enable debian
+sudo qubesctl --targets=debian-12 state.apply
+sudo qubesctl top.disable debian
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply debian.create
-qubesctl --skip-dom0 --targets=debian-12 state.apply debian.install
+sudo qubesctl state.apply debian.create
+sudo qubesctl --skip-dom0 --targets=debian-12 state.apply debian.install
 ```
 <!-- pkg:end:post-install -->
 

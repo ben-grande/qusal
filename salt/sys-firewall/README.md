@@ -30,24 +30,24 @@ the installation.
 
 - Top:
 ```sh
-qubesctl top.enable sys-firewall
-qubesctl --targets=tpl-sys-firewall state.apply
-qubesctl top.disable sys-firewall
-qubesctl state.apply sys-firewall.prefs-disp
+sudo qubesctl top.enable sys-firewall
+sudo qubesctl --targets=tpl-sys-firewall state.apply
+sudo qubesctl top.disable sys-firewall
+sudo qubesctl state.apply sys-firewall.prefs-disp
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-firewall.create
-qubesctl --skip-dom0 --targets=tpl-sys-firewall state.apply sys-firewall.install
-qubesctl state.apply sys-firewall.prefs-disp
+sudo qubesctl state.apply sys-firewall.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-firewall state.apply sys-firewall.install
+sudo qubesctl state.apply sys-firewall.prefs-disp
 ```
 <!-- pkg:end:post-install -->
 
 Alternatively, if you prefer to have an app qube as the firewall:
 ```sh
-qubesctl state.apply sys-firewall.prefs
+sudo qubesctl state.apply sys-firewall.prefs
 ```
 
 ## Usage

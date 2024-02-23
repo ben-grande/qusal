@@ -16,19 +16,19 @@ Install Signal Desktop and creates an app qube named "signal".
 
 - Top:
 ```sh
-qubesctl top.enable signal
-qubesctl --targets=tpl-signal,signal state.appply
-qubesctl top.disable signal
-qubesctl state.apply signal.appmenus
+sudo qubesctl top.enable signal
+sudo qubesctl --targets=tpl-signal,signal state.appply
+sudo qubesctl top.disable signal
+sudo qubesctl state.apply signal.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply signal.create
-qubesctl --skip-dom0 --targets=tpl-signal state.apply signal.install
-qubesctl --skip-dom0 --targets=signal state.apply signal.configure
-qubesctl state.apply signal.appmenus
+sudo qubesctl state.apply signal.create
+sudo qubesctl --skip-dom0 --targets=tpl-signal state.apply signal.install
+sudo qubesctl --skip-dom0 --targets=signal state.apply signal.configure
+sudo qubesctl state.apply signal.appmenus
 ```
 <!-- pkg:end:post-install -->
 

@@ -28,23 +28,23 @@ the user.
 
 - Top:
 ```sh
-qubesctl top.enable sys-rsync
-qubesctl --targets=tpl-sys-rsync,sys-rsync state.apply
-qubesctl top.disable sys-rsync
+sudo qubesctl top.enable sys-rsync
+sudo qubesctl --targets=tpl-sys-rsync,sys-rsync state.apply
+sudo qubesctl top.disable sys-rsync
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-rsync.create
-qubesctl --skip-dom0 --targets=tpl-sys-rsync state.apply sys-rsync.install
-qubesctl --skip-dom0 --targets=sys-rsync state.apply sys-rsync.configure
+sudo qubesctl state.apply sys-rsync.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-rsync state.apply sys-rsync.install
+sudo qubesctl --skip-dom0 --targets=sys-rsync state.apply sys-rsync.configure
 ```
 <!-- pkg:end:post-install -->
 
 Install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-rsync.install-client
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-rsync.install-client
 ```
 
 The client qube requires the Rsync forwarder service to be enabled:

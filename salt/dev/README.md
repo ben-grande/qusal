@@ -18,18 +18,18 @@ sys-ssh-agent.
 
 - Top
 ```sh
-qubesctl top.enable dev
-qubesctl --targets=tpl-dev,dvm-dev,dev state.apply
-qubesctl top.disable dev
+sudo qubesctl top.enable dev
+sudo qubesctl --targets=tpl-dev,dvm-dev,dev state.apply
+sudo qubesctl top.disable dev
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply dev.create
-qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install
-qubesctl --skip-dom0 --targets=dvm-dev state.apply dev.configure-dvm
-qubesctl --skip-dom0 --targets=dev state.apply dev.configure
+sudo qubesctl state.apply dev.create
+sudo qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install
+sudo qubesctl --skip-dom0 --targets=dvm-dev state.apply dev.configure-dvm
+sudo qubesctl --skip-dom0 --targets=dev state.apply dev.configure
 ```
 <!-- pkg:end:post-install -->
 

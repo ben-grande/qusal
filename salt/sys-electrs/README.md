@@ -28,19 +28,19 @@ This formula depends on [sys-bitcoin](../sys-bitcoin/README.md).
 
 - Top
 ```sh
-qubesctl top.enable sys-electrs
-qubesctl --targets=tpl-electrs-builder,tpl-sys-electrs,disp-electrs-builder,sys-electrs state.apply
-qubesctl top.disable sys-electrs
+sudo qubesctl top.enable sys-electrs
+sudo qubesctl --targets=tpl-electrs-builder,tpl-sys-electrs,disp-electrs-builder,sys-electrs state.apply
+sudo qubesctl top.disable sys-electrs
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-electrs.create
-qubesctl --skip-dom0 --targets=tpl-electrs-builder state.apply sys-electrs.install-builder
-qubesctl --skip-dom0 --targets=tpl-sys-electrs state.apply sys-electrs.install
-qubesctl --skip-dom0 --targets=disp-electrs-builder state.apply sys-electrs.configure-builder
-qubesctl --skip-dom0 --targets=sys-electrs state.apply sys-electrs.configure
+sudo qubesctl state.apply sys-electrs.create
+sudo qubesctl --skip-dom0 --targets=tpl-electrs-builder state.apply sys-electrs.install-builder
+sudo qubesctl --skip-dom0 --targets=tpl-sys-electrs state.apply sys-electrs.install
+sudo qubesctl --skip-dom0 --targets=disp-electrs-builder state.apply sys-electrs.configure-builder
+sudo qubesctl --skip-dom0 --targets=sys-electrs state.apply sys-electrs.configure
 ```
 <!-- pkg:end:post-install -->
 

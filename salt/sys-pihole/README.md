@@ -33,20 +33,20 @@ provider however, don't install this package.
 
 - Top:
 ```sh
-qubesctl top.enable sys-pihole browser
-qubesctl --targets=tpl-browser,sys-pihole-browser,sys-pihole state.apply
-qubesctl top.disable sys-pihole browser
-qubesctl state.apply sys-pihole.appmenus
+sudo qubesctl top.enable sys-pihole browser
+sudo qubesctl --targets=tpl-browser,sys-pihole-browser,sys-pihole state.apply
+sudo qubesctl top.disable sys-pihole browser
+sudo qubesctl state.apply sys-pihole.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-pihole.create
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
-qubesctl --skip-dom0 --targets=sys-pihole state.apply sys-pihole.install
-qubesctl --skip-dom0 --targets=sys-pihole-browser state.apply sys-pihole.configure-browser
-qubesctl state.apply sys-pihole.appmenus
+sudo qubesctl state.apply sys-pihole.create
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
+sudo qubesctl --skip-dom0 --targets=sys-pihole state.apply sys-pihole.install
+sudo qubesctl --skip-dom0 --targets=sys-pihole-browser state.apply sys-pihole.configure-browser
+sudo qubesctl state.apply sys-pihole.appmenus
 ```
 <!-- pkg:end:post-install -->
 
@@ -54,7 +54,7 @@ If you want to change the global preferences `updatevm` and `default_netvm`
 and the per-qube preference `netvm` of all qubes from `sys-firewall` to
 `sys-pihole`, run:
 ```sh
-qubesctl state.apply sys-pihole.prefs
+sudo qubesctl state.apply sys-pihole.prefs
 ```
 
 ## Usage

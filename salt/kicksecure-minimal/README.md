@@ -17,18 +17,18 @@ on it.
 
 - Top:
 ```sh
-qubesctl top.enable kicksecure-minimal
-qubesctl --targets=kicksecure-17-minimal state.apply
-qubesctl top.disable kicksecure-minimal
-qubesctl state.apply kicksecure-minimal.prefs
+sudo qubesctl top.enable kicksecure-minimal
+sudo qubesctl --targets=kicksecure-17-minimal state.apply
+sudo qubesctl top.disable kicksecure-minimal
+sudo qubesctl state.apply kicksecure-minimal.prefs
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply kicksecure-minimal.create
-qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install
-qubesctl state.apply kicksecure-minimal.prefs
+sudo qubesctl state.apply kicksecure-minimal.create
+sudo qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install
+sudo qubesctl state.apply kicksecure-minimal.prefs
 ```
 <!-- pkg:end:post-install -->
 
@@ -38,24 +38,24 @@ If you want to help improve Kicksecure integration on Qubes, install packages
 that are known to be broken on Qubes and can break the boot of the Kicksecure
 Qube, to report bugs upstream (get a terminal with `qvm-console-dispvm`):
 ```sh
-qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install-developers
+sudo qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install-developers
 ```
 
 Choose the `kernel` according to the `virt_mode` you want for the template:
 
 - `hvm`:
 ```sh
-qubesctl state.apply kicksecure-minimal.kernel-hvm
+sudo qubesctl state.apply kicksecure-minimal.kernel-hvm
 ```
 
 - `pvh`:
 ```sh
-qubesctl state.apply kicksecure-minimal.kernel-pv
+sudo qubesctl state.apply kicksecure-minimal.kernel-pv
 ```
 
 - Dom0 provided kernel (resets `virt_mode` to `pvh`):
 ```sh
-qubesctl state.apply kicksecure-minimal.kernel-default
+sudo qubesctl state.apply kicksecure-minimal.kernel-default
 ```
 
 ## Usage
