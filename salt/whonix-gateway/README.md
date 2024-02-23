@@ -17,18 +17,18 @@ it.
 
 - Top:
 ```sh
-qubesctl top.enable whonix-gateway
-qubesctl --targets=whonix-gateway-17 state.apply
-qubesctl top.disable whonix-gateway
-qubesctl state.apply whonix-gateway.appmenus
+sudo qubesctl top.enable whonix-gateway
+sudo qubesctl --targets=whonix-gateway-17 state.apply
+sudo qubesctl top.disable whonix-gateway
+sudo qubesctl state.apply whonix-gateway.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply whonix-gateway.create
-qubesctl --skip-dom0 --targets=whonix-gateway-17 state.apply whonix-gateway.install
-qubesctl state.apply whonix-gateway.appmenus
+sudo qubesctl state.apply whonix-gateway.create
+sudo qubesctl --skip-dom0 --targets=whonix-gateway-17 state.apply whonix-gateway.install
+sudo qubesctl state.apply whonix-gateway.appmenus
 ```
 <!-- pkg:end:post-install -->
 

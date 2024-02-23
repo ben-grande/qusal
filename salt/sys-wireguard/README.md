@@ -18,17 +18,17 @@ other qubes through the VPN with fail closed mechanism.
 
 - Top:
 ```sh
-qubesctl top.enable sys-wireguard
-qubesctl --targets=tpl-sys-wireguard,sys-wireguard state.apply
-qubesctl top.disable sys-wireguard
+sudo qubesctl top.enable sys-wireguard
+sudo qubesctl --targets=tpl-sys-wireguard,sys-wireguard state.apply
+sudo qubesctl top.disable sys-wireguard
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-wireguard.create
-qubesctl --skip-dom0 --targets=tpl-sys-wireguard state.apply sys-wireguard.install
-qubesctl --skip-dom0 --targets=sys-wireguard state.apply sys-wireguard.configure
+sudo qubesctl state.apply sys-wireguard.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-wireguard state.apply sys-wireguard.install
+sudo qubesctl --skip-dom0 --targets=sys-wireguard state.apply sys-wireguard.configure
 ```
 <!-- pkg:end:post-install -->
 

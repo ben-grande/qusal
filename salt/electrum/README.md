@@ -33,22 +33,22 @@ usage from ever connecting to the internet.
 
 - Top
 ```sh
-qubesctl top.enable electrum
-qubesctl --targets=tpl-electrum-builder,tpl-electrum,disp-electrum-builder,electrum,electrum-hot state.apply
-qubesctl top.disable electrum
-qubesctl state.apply electrum.appmenus
+sudo qubesctl top.enable electrum
+sudo qubesctl --targets=tpl-electrum-builder,tpl-electrum,disp-electrum-builder,electrum,electrum-hot state.apply
+sudo qubesctl top.disable electrum
+sudo qubesctl state.apply electrum.appmenus
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply electrum.create
-qubesctl --skip-dom0 --targets=tpl-electrum-builder state.apply electrum.install-builder
-qubesctl --skip-dom0 --targets=tpl-electrum state.apply electrum.install
-qubesctl --skip-dom0 --targets=disp-electrum-builder state.apply electrum.configure-builder
-qubesctl --skip-dom0 --targets=electrum state.apply electrum.configure
-qubesctl --skip-dom0 --targets=electrum-hot state.apply electrum.configure-hot
-qubesctl state.apply electrum.appmenus
+sudo qubesctl state.apply electrum.create
+sudo qubesctl --skip-dom0 --targets=tpl-electrum-builder state.apply electrum.install-builder
+sudo qubesctl --skip-dom0 --targets=tpl-electrum state.apply electrum.install
+sudo qubesctl --skip-dom0 --targets=disp-electrum-builder state.apply electrum.configure-builder
+sudo qubesctl --skip-dom0 --targets=electrum state.apply electrum.configure
+sudo qubesctl --skip-dom0 --targets=electrum-hot state.apply electrum.configure-hot
+sudo qubesctl state.apply electrum.appmenus
 ```
 <!-- pkg:end:post-install -->
 

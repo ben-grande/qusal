@@ -18,17 +18,17 @@ files in a named disposable "disp-media" via MIME configuration.
 
 - Top:
 ```sh
-qubesctl top.enable media
-qubesctl --targets=tpl-media,media state.apply
-qubesctl top.disable media
+sudo qubesctl top.enable media
+sudo qubesctl --targets=tpl-media,media state.apply
+sudo qubesctl top.disable media
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply media.create
-qubesctl --skip-dom0 --targets=tpl-media state.apply media.install
-qubesctl --skip-dom0 --targets=media state.apply media.configure
+sudo qubesctl state.apply media.create
+sudo qubesctl --skip-dom0 --targets=tpl-media state.apply media.install
+sudo qubesctl --skip-dom0 --targets=media state.apply media.configure
 ```
 <!-- pkg:end:post-install -->
 

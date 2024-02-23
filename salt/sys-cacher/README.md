@@ -37,23 +37,23 @@ specify otherwise.
 
 - Top
 ```sh
-qubesctl top.enable sys-cacher browser
-qubesctl --targets=tpl-browser,sys-cacher-browser,tpl-sys-cacher,sys-cacher state.apply
-qubesctl top.disable sys-cacher browser
-qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
-qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
+sudo qubesctl top.enable sys-cacher browser
+sudo qubesctl --targets=tpl-browser,sys-cacher-browser,tpl-sys-cacher,sys-cacher state.apply
+sudo qubesctl top.disable sys-cacher browser
+sudo qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
+sudo qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-cacher.create
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
-qubesctl --skip-dom0 --targets=tpl-sys-cacher state.apply sys-cacher.install
-qubesctl --skip-dom0 --targets=sys-cacher state.apply sys-cacher.configure
-qubesctl --skip-dom0 --targets=sys-cacher-browser state.apply sys-cacher.configure-browser
-qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
-qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
+sudo qubesctl state.apply sys-cacher.create
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
+sudo qubesctl --skip-dom0 --targets=tpl-sys-cacher state.apply sys-cacher.install
+sudo qubesctl --skip-dom0 --targets=sys-cacher state.apply sys-cacher.configure
+sudo qubesctl --skip-dom0 --targets=sys-cacher-browser state.apply sys-cacher.configure-browser
+sudo qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
+sudo qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
 ```
 <!-- pkg:end:post-install -->
 
@@ -98,7 +98,7 @@ By default, only templates will use the proxy to update, if you want to cache
 Non-TemplateVMs updates or simply make them functional again, the qube will
 need the `service.updates-proxy-setup` feature set:
 ```sh
-qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
+sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
 qvm-tags add QUBE updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
 ```
@@ -117,21 +117,21 @@ sudo systemctl restart qubes-updates-proxy-forwarder.socket
 
 - Top:
 ```sh
-qubesctl top.enable sys-cacher.deinit
-qubesctl --templates state.apply
-qubesctl top.disable sys-cacher.deinit
+sudo qubesctl top.enable sys-cacher.deinit
+sudo qubesctl --templates state.apply
+sudo qubesctl top.disable sys-cacher.deinit
 ```
 
 - State:
 ```sh
-qubesctl state.apply sys-cacher.remove-policy
-qubesctl state.apply sys-cacher.untag
-qubesctl --skip-dom0 --templates state.apply sys-cacher.uninstall-client
+sudo qubesctl state.apply sys-cacher.remove-policy
+sudo qubesctl state.apply sys-cacher.untag
+sudo qubesctl --skip-dom0 --templates state.apply sys-cacher.uninstall-client
 ```
 
 If you want to use the standard proxy for a few templates:
 ```sh
-qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-cacher.uninstall-client
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-cacher.uninstall-client
 qvm-tags del TEMPLATE updatevm-sys-cacher
 ```
 

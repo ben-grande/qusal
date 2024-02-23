@@ -16,16 +16,16 @@ Setup docker in Qubes OS with the Docker repository.
 
 - Top
 ```sh
-qubesctl top.enable docker
-qubesctl --targets=tpl-qubes-builder,qubes-builder state.apply
-qubesctl top.disable docker
+sudo qubesctl top.enable docker
+sudo qubesctl --targets=tpl-qubes-builder,qubes-builder state.apply
+sudo qubesctl top.disable docker
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply docker.install
-qubesctl --skip-dom0 --targets=qubes-builder state.apply docker.configure
+sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply docker.install
+sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply docker.configure
 ```
 <!-- pkg:end:post-install -->
 

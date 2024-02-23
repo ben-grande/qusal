@@ -19,23 +19,23 @@ and access to them is made from the client through Qrexec.
 
 - Top:
 ```sh
-qubesctl top.enable sys-pgp
-qubesctl --targets=tpl-sys-pgp,sys-pgp state.apply
-qubesctl top.disable sys-pgp
+sudo qubesctl top.enable sys-pgp
+sudo qubesctl --targets=tpl-sys-pgp,sys-pgp state.apply
+sudo qubesctl top.disable sys-pgp
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-pgp.create
-qubesctl --skip-dom0 --targets=tpl-sys-pgp state.apply sys-pgp.install
-qubesctl --skip-dom0 --targets=sys-pgp state.apply sys-pgp.configure
+sudo qubesctl state.apply sys-pgp.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-pgp state.apply sys-pgp.install
+sudo qubesctl --skip-dom0 --targets=sys-pgp state.apply sys-pgp.configure
 ```
 <!-- pkg:end:post-install -->
 
 Install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-qubes-builder,tpl-dev state.apply sys-pgp.install-client
+sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder,tpl-dev state.apply sys-pgp.install-client
 ```
 
 The client qube requires the split GPG client service to be enabled:

@@ -48,40 +48,40 @@ At least `1TB` of disk space is required. At block `829054` (2024-02-05),
 
 - Top
 ```sh
-qubesctl top.enable sys-bitcoin
-qubesctl --targets=sys-bitcoin-gateway,tpl-sys-bitcoin,disp-sys-bitcoin-builder,sys-bitcoin,bitcoin state.apply
-qubesctl top.disable sys-bitcoin
-qubesctl state.apply sys-bitcoin.appmenus
+sudo qubesctl top.enable sys-bitcoin
+sudo qubesctl --targets=sys-bitcoin-gateway,tpl-sys-bitcoin,disp-sys-bitcoin-builder,sys-bitcoin,bitcoin state.apply
+sudo qubesctl top.disable sys-bitcoin
+sudo qubesctl state.apply sys-bitcoin.appmenus
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-bitcoin.create
-qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway
-qubesctl --skip-dom0 --targets=tpl-sys-bitcoin state.apply sys-bitcoin.install
-qubesctl --skip-dom0 --targets=disp-bitcoin-builder state.apply sys-bitcoin.configure-builder
-qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configure
-qubesctl --skip-dom0 --targets=bitcoin state.apply sys-bitcoin.configure-client
-qubesctl state.apply sys-bitcoin.appmenus
+sudo qubesctl state.apply sys-bitcoin.create
+sudo qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway
+sudo qubesctl --skip-dom0 --targets=tpl-sys-bitcoin state.apply sys-bitcoin.install
+sudo qubesctl --skip-dom0 --targets=disp-bitcoin-builder state.apply sys-bitcoin.configure-builder
+sudo qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configure
+sudo qubesctl --skip-dom0 --targets=bitcoin state.apply sys-bitcoin.configure-client
+sudo qubesctl state.apply sys-bitcoin.appmenus
 ```
 <!-- pkg:end:post-install -->
 
 If you prefer to build from source (will take approximately 1 hour to build):
 ```sh
-qubesctl --skip-dom0 --targets=tpl-sys-bitcoin state.apply sys-bitcoin.install-source
-qubesctl --skip-dom0 --targets=disp-bitcoin-builder state.apply sys-bitcoin.configure-builder-source
+sudo qubesctl --skip-dom0 --targets=tpl-sys-bitcoin state.apply sys-bitcoin.install-source
+sudo qubesctl --skip-dom0 --targets=disp-bitcoin-builder state.apply sys-bitcoin.configure-builder-source
 ```
 
 If you want to relay blocks (listening node):
 ```sh
-qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway-listen
-qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configure-listen
+sudo qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway-listen
+sudo qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configure-listen
 ```
 
 Add the tag `bitcoin-client` to the client and install in the client template:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-bitcoin.install-client
+sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-bitcoin.install-client
 ```
 
 

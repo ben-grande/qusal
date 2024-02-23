@@ -29,23 +29,23 @@ server qube directly.
 
 - Top:
 ```sh
-qubesctl top.enable sys-ssh
-qubesctl --targets=tpl-sys-ssh,sys-ssh state.apply
-qubesctl top.disable sys-ssh
+sudo qubesctl top.enable sys-ssh
+sudo qubesctl --targets=tpl-sys-ssh,sys-ssh state.apply
+sudo qubesctl top.disable sys-ssh
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-ssh.create
-qubesctl --skip-dom0 --targets=tpl-sys-ssh state.apply sys-ssh.install
-qubesctl --skip-dom0 --targets=sys-ssh state.apply sys-ssh.configure
+sudo qubesctl state.apply sys-ssh.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-ssh state.apply sys-ssh.install
+sudo qubesctl --skip-dom0 --targets=sys-ssh state.apply sys-ssh.configure
 ```
 <!-- pkg:end:post-install -->
 
 Install on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh.install-client
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh.install-client
 ```
 
 The client qube requires the SSH forwarder service to be enabled:

@@ -20,19 +20,19 @@ necessary packages will be installed in the template.
 
 - Top:
 ```sh
-qubesctl top.enable reader
-qubesctl --targets=tpl-reader,dvm-reader state.apply
-qubesctl top.disable reader
-qubesctl state.apply reader.appmenus
+sudo qubesctl top.enable reader
+sudo qubesctl --targets=tpl-reader,dvm-reader state.apply
+sudo qubesctl top.disable reader
+sudo qubesctl state.apply reader.appmenus
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply reader.create
-qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
-qubesctl --skip-dom0 --targets=dvm-reader state.apply reader.configure
-qubesctl state.apply reader.appmenus
+sudo qubesctl state.apply reader.create
+sudo qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
+sudo qubesctl --skip-dom0 --targets=dvm-reader state.apply reader.configure
+sudo qubesctl state.apply reader.appmenus
 ```
 <!-- pkg:end:post-install -->
 

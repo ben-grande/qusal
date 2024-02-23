@@ -23,17 +23,17 @@ Supported protocols: DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS,
 
 - Top:
 ```sh
-qubesctl top.enable fetcher
-qubesctl --targets=tpl-fetcher,dvm-fetcher state.apply
-qubesctl top.disable fetcher
+sudo qubesctl top.enable fetcher
+sudo qubesctl --targets=tpl-fetcher,dvm-fetcher state.apply
+sudo qubesctl top.disable fetcher
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply fetcher.create
-qubesctl --skip-dom0 --targets=tpl-fetcher state.apply fetcher.install
-qubesctl --skip-dom0 --targets=dvm-fetcher state.apply fetcher.configure-dvm
+sudo qubesctl state.apply fetcher.create
+sudo qubesctl --skip-dom0 --targets=tpl-fetcher state.apply fetcher.install
+sudo qubesctl --skip-dom0 --targets=dvm-fetcher state.apply fetcher.configure-dvm
 ```
 <!-- pkg:end:post-install -->
 

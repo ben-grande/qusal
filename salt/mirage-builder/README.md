@@ -23,17 +23,17 @@ the hosting provider however, don't install this package.
 
 - Top
 ```sh
-qubesctl top.enable mirage-builder
-qubesctl --targets=tpl-mirage-builder,mirage-builder state.apply
-qubesctl top.disable mirage-builder
+sudo qubesctl top.enable mirage-builder
+sudo qubesctl --targets=tpl-mirage-builder,mirage-builder state.apply
+sudo qubesctl top.disable mirage-builder
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply mirage-builder.create
-qubesctl --skip-dom0 --targets=tpl-mirage-builder state.apply mirage-builder.install
-qubesctl --skip-dom0 --targets=mirage-builder state.apply mirage-builder.configure
+sudo qubesctl state.apply mirage-builder.create
+sudo qubesctl --skip-dom0 --targets=tpl-mirage-builder state.apply mirage-builder.install
+sudo qubesctl --skip-dom0 --targets=mirage-builder state.apply mirage-builder.configure
 ```
 <!-- pkg:end:post-install -->
 

@@ -54,23 +54,23 @@ A rogue client has full control of the allowed agent, therefore it can:
 
 - Top:
 ```sh
-qubesctl top.enable sys-ssh-agent
-qubesctl --targets=tpl-sys-ssh-agent,sys-ssh-agent state.apply
-qubesctl top.disable sys-ssh-agent
+sudo qubesctl top.enable sys-ssh-agent
+sudo qubesctl --targets=tpl-sys-ssh-agent,sys-ssh-agent state.apply
+sudo qubesctl top.disable sys-ssh-agent
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-ssh-agent.create
-qubesctl --skip-dom0 --targets=tpl-sys-ssh-agent state.apply sys-ssh-agent.install
-qubesctl --skip-dom0 --targets=sys-ssh-agent state.apply sys-ssh-agent.configure
+sudo qubesctl state.apply sys-ssh-agent.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-ssh-agent state.apply sys-ssh-agent.install
+sudo qubesctl --skip-dom0 --targets=sys-ssh-agent state.apply sys-ssh-agent.configure
 ```
 <!-- pkg:end:post-install -->
 
 Installation on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh-agent.install-client
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh-agent.install-client
 ```
 
 ## Access Control

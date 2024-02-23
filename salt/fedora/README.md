@@ -16,16 +16,16 @@ Creates the Fedora template as well as a Disposable Template based on it.
 
 - Top:
 ```sh
-qubesctl top.enable fedora
-qubesctl --targets=fedora-39 state.apply
-qubesctl top.disable fedora
+sudo qubesctl top.enable fedora
+sudo qubesctl --targets=fedora-39 state.apply
+sudo qubesctl top.disable fedora
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply fedora.create
-qubesctl --skip-dom0 --targets=fedora-39 state.apply fedora.install
+sudo qubesctl state.apply fedora.create
+sudo qubesctl --skip-dom0 --targets=fedora-39 state.apply fedora.install
 ```
 <!-- pkg:end:post-install -->
 

@@ -25,10 +25,10 @@ accessible externally.
 
 - Top:
 ```sh
-qubesctl top.enable sys-syncthing browser
-qubesctl --targets=tpl-browser,sys-syncthing-browser,tpl-sys-syncthing,sys-syncthing state.apply
-qubesctl top.disable sys-syncthing browser
-qubesctl state.apply sys-syncthing.appmenus
+sudo qubesctl top.enable sys-syncthing browser
+sudo qubesctl --targets=tpl-browser,sys-syncthing-browser,tpl-sys-syncthing,sys-syncthing state.apply
+sudo qubesctl top.disable sys-syncthing browser
+sudo qubesctl state.apply sys-syncthing.appmenus
 qvm-port-forward -a add -q sys-syncthing -n tcp -p 22000
 qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
 ```
@@ -36,12 +36,12 @@ qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-syncthing.create
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
-qubesctl --skip-dom0 --targets=tpl-sys-syncthing state.apply sys-syncthing.install
-qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.configure
-qubesctl --skip-dom0 --targets=sys-syncthing-browser state.apply sys-syncthing.configure-browser
-qubesctl state.apply sys-syncthing.appmenus
+sudo qubesctl state.apply sys-syncthing.create
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
+sudo qubesctl --skip-dom0 --targets=tpl-sys-syncthing state.apply sys-syncthing.install
+sudo qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.configure
+sudo qubesctl --skip-dom0 --targets=sys-syncthing-browser state.apply sys-syncthing.configure-browser
+sudo qubesctl state.apply sys-syncthing.appmenus
 qvm-port-forward -a add -q sys-syncthing -n tcp -p 22000
 qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
 ```
@@ -49,7 +49,7 @@ qvm-port-forward -a add -q sys-syncthing -n udp -p 22000
 
 Install Syncthing on the client template:
 ```sh
-qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-syncthing.install-client
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-syncthing.install-client
 ```
 
 The client qube requires the split Syncthing service to be enabled:
@@ -119,8 +119,8 @@ Uninstallation procedure:
 ```sh
 qvm-port-forward -a del -q sys-syncthing -n tcp -p 22000
 qvm-port-forward -a del -q sys-syncthing -n udp -p 22000
-qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
-qubesctl state.apply sys-syncthing.clean
+sudo qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
+sudo qubesctl state.apply sys-syncthing.clean
 ```
 <!-- pkg:end:preun-uninstall -->
 

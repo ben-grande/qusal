@@ -23,19 +23,19 @@ Firefox-ESR, W3M or Lynx.
 
 - Top
 ```sh
-qubesctl top.enable browser
-qubesctl --targets=tpl-browser,dvm-browser state.apply
-qubesctl top.disable browser
-qubesctl state.apply browser.appmenus
+sudo qubesctl top.enable browser
+sudo qubesctl --targets=tpl-browser,dvm-browser state.apply
+sudo qubesctl top.disable browser
+sudo qubesctl state.apply browser.appmenus
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply browser.create
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
-qubesctl --skip-dom0 --targets=dvm-browser state.apply browser.configure
-qubesctl state.apply browser.appmenus
+sudo qubesctl state.apply browser.create
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
+sudo qubesctl --skip-dom0 --targets=dvm-browser state.apply browser.configure
+sudo qubesctl state.apply browser.appmenus
 ```
 <!-- pkg:end:post-install -->
 
@@ -46,28 +46,28 @@ to install:
 
 - Chromium:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chromium
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chromium
 ```
 - Chrome:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chrome
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chrome
 ```
 - Firefox-ESR:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox
 ```
 - W3M:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-w3m
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-w3m
 ```
 - Lynx:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-lynx
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-lynx
 ```
 
 Do not forget to sync the `appmenus`:
 ```sh
-qubesctl state.apply browser.appmenus
+sudo qubesctl state.apply browser.appmenus
 ```
 
 ## Usage

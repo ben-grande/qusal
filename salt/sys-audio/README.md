@@ -26,23 +26,23 @@ the necessary packages for bluetooth with the provided state.
 
 - Top
 ```sh
-qubesctl top.enable sys-audio
-qubesctl --targets=tpl-sys-audio,dvm-sys-audio state.apply
-qubesctl top.disable sys-audio
+sudo qubesctl top.enable sys-audio
+sudo qubesctl --targets=tpl-sys-audio,dvm-sys-audio state.apply
+sudo qubesctl top.disable sys-audio
 ```
 
 - State
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-audio.create
-qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install
-qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
+sudo qubesctl state.apply sys-audio.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install
+sudo qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
 ```
 <!-- pkg:end:post-install -->
 
 If you need Bluetooth support, install the dependencies:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluetooth
+sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluetooth
 ```
 
 ## Usage

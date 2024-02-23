@@ -17,16 +17,16 @@ you can base disposable qubes, geared towards USB client usage.
 
 - Top:
 ```sh
-qubesctl top.enable usb
-qubesctl --targets=tpl-usb state.apply
-qubesctl top.disable usb
+sudo qubesctl top.enable usb
+sudo qubesctl --targets=tpl-usb state.apply
+sudo qubesctl top.disable usb
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply usb.create
-qubesctl --skip-dom0 --targets=tpl-usb state.apply usb.install
+sudo qubesctl state.apply usb.create
+sudo qubesctl --skip-dom0 --targets=tpl-usb state.apply usb.install
 ```
 <!-- pkg:end:post-install -->
 

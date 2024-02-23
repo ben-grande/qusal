@@ -16,16 +16,16 @@ Install Terraform and use it on the "terraform" app qube.
 
 - Top:
 ```sh
-qubesctl top.enable terraform
-qubesctl --targets=tpl-terraform state.apply
-qubesctl top.disable terraform
+sudo qubesctl top.enable terraform
+sudo qubesctl --targets=tpl-terraform state.apply
+sudo qubesctl top.disable terraform
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply terraform.create
-qubesctl --skip-dom0 --targets=tpl-terraform state.apply terraform.install
+sudo qubesctl state.apply terraform.create
+sudo qubesctl --skip-dom0 --targets=tpl-terraform state.apply terraform.install
 ```
 <!-- pkg:end:post-install -->
 

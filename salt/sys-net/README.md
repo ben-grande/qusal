@@ -31,29 +31,29 @@ DNS is working, after that, proceed with the installation.
 
 - Top:
 ```sh
-qubesctl top.enable sys-net
-qubesctl --targets=tpl-sys-net state.apply
-qubesctl top.disable sys-net
-qubesctl state.apply sys-net.prefs-disp
+sudo qubesctl top.enable sys-net
+sudo qubesctl --targets=tpl-sys-net state.apply
+sudo qubesctl top.disable sys-net
+sudo qubesctl state.apply sys-net.prefs-disp
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
-qubesctl state.apply sys-net.create
-qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install
-qubesctl state.apply sys-net.prefs-disp
+sudo qubesctl state.apply sys-net.create
+sudo qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install
+sudo qubesctl state.apply sys-net.prefs-disp
 ```
 <!-- pkg:end:post-install -->
 
 If you need to debug a net qube, install some helper tools:
 ```sh
-qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install-debug
+sudo qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install-debug
 ```
 
 If you prefer to have an app qube as the net qube:
 ```sh
-qubesctl state.apply sys-net.prefs
+sudo qubesctl state.apply sys-net.prefs
 ```
 
 You might need to install some firmware on the template for your network
