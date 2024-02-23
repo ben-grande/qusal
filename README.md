@@ -10,13 +10,14 @@ and will be introduced in the meantime. You've been warned.
 ## Table of Contents
 
 * [Description](#description)
-* [Prerequisites](#prerequisites)
 * [Installation](#installation)
+  * [Prerequisites](#prerequisites)
   * [DomU Installation](#domu-installation)
   * [Dom0 Installation](#dom0-installation)
 * [Update](#update)
   * [DomU Update](#domu-update)
-  * [Dom0 Update](#dom0-update)
+  * [Dom0 Update without extra packages](#dom0-update-without-extra-packages)
+  * [Dom0 Update with Git](#dom0-update-with-git)
 * [Usage](#usage)
 * [Contribute](#contribute)
 * [Donate](#donate)
@@ -78,7 +79,7 @@ You current setup needs to fulfill the following requisites:
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
 
-1. Copy this repository `$file` from the DomU `$qube` to Dom0:
+1. Copy the repository `$file` from the DomU `$qube` to Dom0:
   ```sh
   qube="CHANGEME" # qube name where you downloaded the repository
   file="CHANGEME" # path to the repository in the qube
@@ -103,8 +104,8 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 ## Update
 
 To update, you can copy the repository again to dom0 as instructed in the
-[installation](#installation) instructions above or you can fetch it with Git,
-as will be demonstrated below.
+[installation](#installation) section above or you can use easier methods
+demonstrated below.
 
 ### DomU Update
 
@@ -113,7 +114,35 @@ Update the repository state in your trusted DomU:
 git -C ~/src/qusal fetch --recurse-submodules
 ```
 
-### Dom0 Update
+### Dom0 Update without extra packages
+
+This method is similar to the installation method, but shorter.
+
+1. Install the helpers scripts on Dom0 (only has to be run once):
+  ```sh
+  sudo qubesctl state.apply dom0.install-helpers
+  ```
+
+2. Copy the repository `$file` from the DomU `$qube` to Dom0:
+  ```sh
+  qube="CHANGEME" # qube name where you downloaded the repository
+  file="CHANGEME" # path to the repository in the qube
+  rm -rfi ~/QubesIncoming/"${qube}"/qusal
+  UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
+  ```
+
+3. Verify the commit or tag signature and expect a good signature, be
+  surprised otherwise:
+  ```sh
+  git verify-commit HEAD
+  ```
+
+4. Copy the project to the Salt directories:
+  ```sh
+  ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
+  ```
+
+### Dom0 Update with Git
 
 1. Install git on Dom0, allow the Qrexec protocol to work in submodules and
    clone the repository to `~/src/qusal` (only has to be run once):

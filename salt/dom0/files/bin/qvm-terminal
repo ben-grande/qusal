@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+me="${0##*/}"
+
+usage(){
+  printf '%s\n' "Usage: ${me} [QVM-RUN_OPTIONS] QUBE
+Examples:
+  ${me} --dispvm=DVM_TEMPLATE
+  ${me} -u root QUBE
+  ${me} QUBE" >&2
+  exit "${1-"1"}"
+}
+
+case "${me}" in
+  *-terminal) service=qubes-run-terminal ;;
+  *-file-manager) service=qubes-open-file-manager ;;
+  *) printf '%s\n' "Invalid script name: ${me}" exit 1 ;;
+esac
+
+
+case "${1-}" in
+  -h|--help)
+    usage 1
+    ;;
+  "")
+    ## Try to run on focused window, if Dom0 is focused, it will prompt you to
+    ## select a qube window.
+    id="$(xdotool getwindowfocus)"
+    qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F '"' '{print $2}')"
+    if test -n "${qube}"; then
+      exec qvm-run --service -- "${qube}" "qubes.StartApp+${service}"
+    fi
+    echo "Select a qube window ..."
+    id="$(xdotool selectwindow)"
+    qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F '"' '{print $2}')"
+    if test -n "${qube}"; then
+      qvm-run --service -- "${qube}" "qubes.StartApp+${service}"
+    fi
+    ;;
+  *)
+    qvm-run --service "${@}" -- "qubes.StartApp+${service}"
+    ;;
+esac

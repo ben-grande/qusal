@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Copy a file from an DomU to Dom0. Script has to be run in Dom0
+set -eu
+
+usage(){
+  echo "usage: ${0##*/} <QUBE> <FILE> <FILE2...>
+note: disk quota is capped and can be controlled via environment variables:
+note:   UPDATES_MAX_BYTES (default: 4GiB)
+note:   UPDATES_MAX_FILES (default: 2048)" >&2
+  exit 1
+}
+
+test -n "${2-}" || usage
+qube="${1}"
+shift
+
+dir="${HOME}/QubesIncoming/${qube}"
+user="$(qvm-prefs --get -- "${qube}" default_user)"
+max_bytes="${UPDATES_MAX_BYTES:-4GiB}"
+max_files="${UPDATES_MAX_FILES:-2048}"
+qvm-run --pass-io --localcmd="
+  UPDATES_MAX_BYTES=\"${max_bytes}\" UPDATES_MAX_FILES=\"${max_files}\"
+  /usr/libexec/qubes/qfile-dom0-unpacker \"${user}\" \"${dir}\"" \
+  "${qube}" /usr/lib/qubes/qfile-agent "${@}"
