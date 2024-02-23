@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-terminal-helper":
   file.managed:
-    - name: /usr/local/bin/qvm-termnal
+    - name: /usr/local/bin/qvm-terminal
     - source: salt://{{ slsdotpath }}/files/bin/qvm-terminal
     - mode: "0755"
     - user: root
