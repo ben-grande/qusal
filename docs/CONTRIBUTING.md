@@ -77,3 +77,5 @@ pre-commit run
 ## Where to start
 
 See open issues and search for the word `TODO` in the repository files.
+
+If you want to understand how Qusal uses Salt features, read our [Salt guide](SALT.md).
