@@ -18,8 +18,8 @@ Qusal design document.
 ## Goal
 
 Provide a minimal modular isolated environment for users to complete daily
-tasks in a secure manner. We should not focus on a specific Qubes OS user base
-as it would narrow our reach. We scope to have a diverse user base, with
+tasks in a secure manner. We should not focus on a specific Qubes OS user
+base as it would narrow our reach. We scope to have a diverse user base, with
 different needs and use case that could shape our project for the better.
 
 We must not aim to be a one solution fits all by adding every new project
@@ -36,7 +36,7 @@ requirements are low, it is capped to a low limit, thus avoiding exacerbated
 memory consumption on systems with low specs.
 
 No extraneous features should be included by default besides the basic for
-functionality. Extra functionalities that could weak the system can be
+functionality. Extra functionalities that could weaken the system can be
 provided via extra states that needs to be installed per the user discretion.
 
 ## Format
