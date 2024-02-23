@@ -43,6 +43,15 @@ include:
     - group: root
     - makedirs: True
 
+"{{ slsdotpath }}-etc-mpv.conf":
+  file.managed:
+    - name: /etc/mpv/mpv.conf
+    - source: salt://{{ slsdotpath }}/files/browser/mpv.conf
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
 "{{ slsdotpath }}-idle-trimleness":
   file.replace:
     - name: /usr/lib/python3/dist-packages/qubesidle/idleness_monitor.py
