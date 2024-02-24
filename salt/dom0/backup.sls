@@ -14,9 +14,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-backup-profile":
   file.managed:
-    - name: /etc/qubes/backup/qusal.conf
-    - source: salt://{{ slsdotpath }}/files/backup/qusal.conf
-    - mode: '0755'
+    - name: /etc/qubes/backup/qusal.conf.example
+    - source: salt://{{ slsdotpath }}/files/backup/qusal.conf.example
+    - mode: '0644'
     - user: root
-    - group: root
-    - replace: False
+    - group: qubes
+    - makedirs: True
