@@ -125,10 +125,8 @@ This method is similar to the installation method, but shorter.
 
 2. Copy the repository `$file` from the DomU `$qube` to Dom0:
   ```sh
-  qube="CHANGEME" # qube name where you downloaded the repository
-  file="CHANGEME" # path to the repository in the qube
-  rm -rfi ~/QubesIncoming/"${qube}"/qusal
-  UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
+  # Update qube and file variables in ~/src/qusal/scripts/sync.sh
+  ~/src/qusal/scripts/sync.sh
   ```
 
 3. Verify the commit or tag signature and expect a good signature, be
