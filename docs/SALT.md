@@ -20,13 +20,17 @@ the use of Salt in Qubes OS or any other project, although it may share some
 similarities. It is not meant to substitute our other guidelines,
 [contribution](CONTRIBUTING.md) and [design](DESIGN.md) rules still apply.
 
-If you just want to understand SaltStack, upstream provides an
+If you just want to understand SaltStack in the QubesOS context, [the QubesOS
+documentation](https://www.qubes-os.org/doc/salt/) and [this forum post](https://forum.qubes-os.org/t/qubes-salt-beginners-guide/20126)
+are simple introductions.
+
+If you want to better understand SaltStack, upstream provides an
 [excellent tutorial](https://docs.saltproject.io/en/getstarted/system/index.html),
 don't worry if you don't understand everything, Qubes OS SaltStack integration
 abstracts the client to server communication, only remaining to you to [learn
 how to write states](https://docs.saltproject.io/en/getstarted/config/index.html)
 and [how to correctly apply them](https://docs.saltproject.io/en/latest/topics/targeting/index.html),
-in Qubes OS case, install of running salt-call directly, use
+in Qubes OS case, instead of running salt-call directly, use
 [qubesctl](https://www.qubes-os.org/doc/salt/#salt-configuration-qubesos-layout).
 
 ## Resources
