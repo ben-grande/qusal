@@ -127,7 +127,7 @@ This method is similar to the installation method, but shorter.
   ```sh
   qube="CHANGEME" # qube name where you downloaded the repository
   file="CHANGEME" # path to the repository in the qube
-  rm -rfi ~/QubesIncoming/"${qube}"/qusal
+  rm -rf ~/QubesIncoming/"${qube}"/qusal
   UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
   ```
 
