@@ -7,33 +7,48 @@
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
+{% set audiovm = 'disp-' ~ sls_path %}
+## Literal name 'sys-usb' in case user has not installed via our formula.
+admin.vm.device.usb.Available * @tag:audiovm sys-usb allow target=dom0
+admin.vm.device.usb.Available * @tag:audiovm @tag:usbvm allow target=dom0
+admin.vm.device.usb.Available * @tag:audiovm @anyvm deny
 
-## Literal name 'sys-usb' in case user has not installed from our formula.
-admin.vm.device.usb.Available * disp-{{ sls_path }} sys-usb allow target=dom0
-admin.vm.device.usb.Available * disp-{{ sls_path }} @tag:usbvm allow target=dom0
-admin.vm.device.mic.Available * disp-{{ sls_path }} @adminvm allow target=dom0
+admin.vm.device.mic.Available * @tag:audiovm @adminvm allow target=dom0
+admin.vm.device.mic.Available * @anyvm @anyvm deny
 
-admin.Events * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
-admin.Events * disp-{{ sls_path }} @adminvm allow target=dom0
-admin.Events * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.Events * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.Events * @tag:audiovm   @adminvm allow target=dom0
+admin.Events * @tag:audiovm   @anyvm deny
 
-admin.vm.CurrentState * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
-admin.vm.CurrentState * disp-{{ sls_path }} @adminvm allow target=dom0
-admin.vm.CurrentState * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.CurrentState * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.CurrentState * @tag:audiovm @adminvm allow target=dom0
+admin.vm.CurrentState * @tag:audiovm @anyvm deny
 
-admin.vm.List * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
-admin.vm.List * disp-{{ sls_path }} @adminvm allow target=dom0
-admin.vm.List * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.List * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.List * @tag:audiovm   @adminvm allow target=dom0
+admin.vm.List * @tag:audiovm   @anyvm deny
 
-admin.vm.property.Get +audiovm     disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
-admin.vm.property.Get +xid         disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
-admin.vm.property.Get +stubdom_xid disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.property.Get +audiovm {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +audiovm @anyvm @tag:audiovm-{{ audiovm }} deny
 
-admin.vm.feature.CheckWithTemplate +audio                      disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
-admin.vm.feature.CheckWithTemplate +audio-model                disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
-admin.vm.feature.CheckWithTemplate +supported-service.pipewire disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
-admin.vm.feature.CheckWithTemplate +audio-low-latency          disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.property.Get +stubdom_xid {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +stubdom_xid @anyvm @tag:audiovm-{{ audiovm }} deny
 
-admin.vm.property.GetAll * disp-{{ sls_path }} disp-{{ sls_path }} allow target=dom0
-admin.vm.property.GetAll * disp-{{ sls_path }} @tag:audiovm-disp-{{ sls_path }} allow target=dom0
+admin.vm.property.Get +xid {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +xid @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.feature.CheckWithTemplate +audio {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.feature.CheckWithTemplate +audio-low-latency {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio-low-latency @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.feature.CheckWithTemplate +audio-model {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +audio-model @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.feature.CheckWithTemplate +supported-service.pipewire {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.feature.CheckWithTemplate +supported-service.pipewire @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.property.GetAll * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.GetAll * @anyvm @tag:audiovm-{{ audiovm }} deny
 ## vim:ft=qrexecpolicy
