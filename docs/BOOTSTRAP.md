@@ -52,7 +52,7 @@ matter in some circumstances, in those cases, it is noted in this page.
   - [fetcher](../salt/fetcher/README.md)
 
 - Instant messaging and E-Mail:
-  - [mutt](../salt/mutt/README.md)
+  - [mail](../salt/mail/README.md)
   - [signal](../salt/signal/README.md)
 
 - Electronic cash:
