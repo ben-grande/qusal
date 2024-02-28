@@ -16,8 +16,8 @@ and will be introduced in the meantime. You've been warned.
   * [Dom0 Installation](#dom0-installation)
 * [Update](#update)
   * [DomU Update](#domu-update)
-  * [Dom0 Update without extra packages](#dom0-update-without-extra-packages)
   * [Dom0 Update with Git](#dom0-update-with-git)
+  * [Dom0 Update by literally copying the git repository](#dom0-update-by-literally-copying-the-git-repository)
 * [Usage](#usage)
 * [Contribute](#contribute)
 * [Donate](#donate)
@@ -114,13 +114,42 @@ Update the repository state in your trusted DomU:
 git -C ~/src/qusal fetch --recurse-submodules
 ```
 
-### Dom0 Update without extra packages
+### Dom0 Update with Git
 
-This method is similar to the installation method, but shorter.
+This method is more secure than literally copying the whole directory of the
+repository to dom0 but the setup is more involved. Requires some familiary
+with the sys-git formula.
 
-1. Install the helpers scripts on Dom0 (only has to be run once):
+0. Install the [sys-git formula](salt/sys-git/README.md) and push the
+   repository to the git server.
+
+1. Install git on Dom0, allow the Qrexec protocol to work in submodules and
+   clone the repository to `~/src/qusal` (only has to be run once):
+  ```sh
+  mkdir -p ~/src
+  sudo qubesctl state.apply sys-git.install-client
+  git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
+  ```
+
+2. Fetch from the app qube and place the files in the salt tree (git merge
+   and pull will verify the HEAD signature automatically)
+  ```sh
+  git -C ~/src/qusal fetch --recurse-submodules
+  ~/src/qusal/scripts/setup.sh
+  ```
+
+### Dom0 Update by literally copying the git repository
+
+This method is similar to the installation method, but easier to type. This
+method is less secure than Git over Qrexec because it copies the whole
+repository, including the `.git` directory which holds files that are not
+tracked by git. It would be easier to distrust the downloader qube if the
+project had a signed archive.
+
+1. Install the helpers scripts and git on Dom0 (only has to be run once):
   ```sh
   sudo qubesctl state.apply dom0.install-helpers
+  sudo qubes-dom0-update git
   ```
 
 2. Copy the repository `$file` from the DomU `$qube` to Dom0:
@@ -140,23 +169,6 @@ This method is similar to the installation method, but shorter.
 4. Copy the project to the Salt directories:
   ```sh
   ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
-  ```
-
-### Dom0 Update with Git
-
-1. Install git on Dom0, allow the Qrexec protocol to work in submodules and
-   clone the repository to `~/src/qusal` (only has to be run once):
-  ```sh
-  mkdir -p ~/src
-  sudo qubesctl state.apply sys-git.install-client
-  git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
-  ```
-
-2. Fetch from the app qube and place the files in the salt tree (git merge
-   and pull will verify the HEAD signature automatically)
-  ```sh
-  git -C ~/src/qusal fetch --recurse-submodules
-  ~/src/qusal/scripts/setup.sh
   ```
 
 ## Usage
