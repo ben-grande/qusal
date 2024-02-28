@@ -6,8 +6,15 @@ PCI handler of USB devices in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+  * [Keyboard installation](#keyboard-installation)
+  * [AudioVM installation](#audiovm-installation)
+  * [Client installation](#client-installation)
+    * [Client USB proxy installation](#client-usb-proxy-installation)
+    * [Client cryptsetup installation](#client-cryptsetup-installation)
+    * [Client CTAP installation](#client-ctap-installation)
 * [Access control](#access-control)
 * [Usage](#usage)
+  * [How to use audio devices](#how-to-use-audio-devices)
 * [Credits](#credits)
 
 ## Description
@@ -32,22 +39,46 @@ sudo qubesctl --skip-dom0 --targets=tpl-sys-usb state.apply sys-usb.install
 ```
 <!-- pkg:end:post-install -->
 
+### Keyboard installation
+
 If you use an USB keyboard, also run:
 ```sh
 sudo qubesctl state.apply sys-usb.keyboard
 ```
+
+### AudioVM installation
+
+If you plan to use `disp-sys-usb` as an AudioVM:
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-sys-usb state.apply sys-audio.install
+sudo qubesctl --skip-dom0 --targets=dvm-sys-usb state.apply sys-audio.configure-dvm
+qvm-tags disp-sys-usb add audiovm
+qvm-features disp-sys-usb service.audiovm 1
+```
+And set the qube preference `audiovm` to `disp-sys-usb`:
+```sh
+qvm-prefs QUBE audiovm disp-sys-usb
+```
+
+### Client installation
+
+#### Client USB proxy installation
 
 Install the proxy on the client template:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-proxy
 ```
 
+#### Client cryptsetup installation
+
 If the client requires decrypting a device, install on the client template:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-cryptsetup
 ```
 
-If the client requires a FIDO device, install on the client template:
+#### Client CTAP installation
+
+If the client requires a CTAP device, install on the client template:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
 ```
@@ -70,9 +101,34 @@ Depending on you system, one or more USB qubes will be created to hold the
 different controllers. The qube names are `disp-sys-usb`, `disp-sys-usb-left`,
 `disp-sys-usb-dock`.
 
-Start a USB qube an connect a device to it.  USB PCI devices will appear on
-the system tray icon `qui-devices`. From there, assign it to the intended
-qube.
+Start a USB qube an connect a device to it. USB PCI devices will appear on the
+system tray icon `qui-devices`. From there, assign it to the intended qube.
+
+### How to use audio devices
+
+Bluetooth and Camera are normally integrated in laptops, but they still are
+USB devices internally. They will be held by `(disp-)sys-usb` or
+`(disp-)sys-net`, else `dom0`.
+
+Built-in microphones on the other hand, are directly attached to `dom0`.
+
+To use these devices, there are two options:
+
+1. Attaching the device (USB passthrough) to the audio client:
+    - Advantages:
+        - Easier setup as it doesn't require an AudioVM.
+    - Disadvantages:
+        - Increased latency;
+        - Only one qube can use the device; and
+        - Less secure as it exposes the Audio stack to the client.
+
+2. Leaving devices to the AudioVM (`(disp-)sys-usb` as AudioVM):
+    - Advantages:
+        - More secure as the devices are not on the client;
+        - Less latency; and
+        - All audio clients will have the same audio capabilities.
+    - Disadvantages:
+        - Some applications might not work due to not finding the device.
 
 ## Credits
 

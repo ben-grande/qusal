@@ -8,12 +8,13 @@ Audio operations in Qubes OS.
 * [Installation](#installation)
 * [Usage](#usage)
   * [Audio control](#audio-control)
+  * [Client switched it's AudioVM](#client-switched-its-audiovm)
   * [Client started before it's AudioVM](#client-started-before-its-audiovm)
   * [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
-  * [How to use devices](#how-to-use-devices)
+  * [How to use USB devices](#how-to-use-usb-devices)
   * [How to use Bluetooth](#how-to-use-bluetooth)
     * [How to make the Bluetooth icon appear in the system tray](#how-to-make-the-bluetooth-icon-appear-in-the-system-tray)
-    * [How to attach the Bluetooth controller to the AudioVM persistenly](#how-to-attach-the-bluetooth-controller-to-the-audiovm-persistenly)
+    * [How to attach the Bluetooth controller to the AudioVM persistently](#how-to-attach-the-bluetooth-controller-to-the-audiovm-persistently)
 
 ## Description
 
@@ -49,17 +50,22 @@ sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-
 
 ### Audio control
 
-The qube `disp-sys-audio` will be used for audio capabilities for speakers and
-microphone, with builtin modules, Jack port or Bluetooth. You are be able to
-control the volume via the volume icon that appears on the system tray.
+The qube `disp-sys-audio` will be used for audio capabilities for speakers
+and microphone, with builtin modules, Jack port or Bluetooth. You are be able
+to control the volume via the volume icon that appears on the system tray.
 
-The basics are very simple to use:
+Audio control basics:
 
 - Left click toggles the volume; and
 - Scrolling the mouse from left to right changes the volume;
 
 For more advanced features, right click the icon and click on `Open Mixer` or
 `Prefences`. For greater control, use the command `amixer`.
+
+### Client switched it's AudioVM
+
+If the client has already started when you decided to switch the AudioVM, you
+will need to restart the client qube until [upstream issue is fixed](https://github.com/QubesOS/qubes-issues/issues/8975).
 
 ### Client started before it's AudioVM
 
@@ -75,22 +81,13 @@ If you shutdown a client qube with a device attached, such as a microphone or
 speaker, normal operation to attach the device to the same or any other qube
 will fail. To be able to use the device again:
 
-- Restart the audio server `disp-sys-audio`;
+- Restart the AudioVM `disp-sys-audio`;
 - Restart the audio client; and
-- Attach the device to the audio client;
+- Attach the device to the audio client.
 
-### How to use devices
+### How to use USB devices
 
-Bluetooth and Camera are normally integrated in laptops, but they still are
-USB devices internally. They will be held by `(disp-)sys-usb` or
-`(disp-)sys-net`, else `dom0`.
-
-Built-in microphones on the other hand, are directly attached to `dom0`.
-
-To use these devices, you have to attach them to their respective qubes:
-
-- audio server: Bluetooth; and
-- audio client: cameras, speakers, microphones.
+Please refer to the [sys-usb formula instructions](../sys-usb/README.md).
 
 ### How to use Bluetooth
 
@@ -102,13 +99,13 @@ system tray is to attach the Bluetooth controller persistently to the AudioVM.
 If you don't do this, you will have to attach the Bluetooth controller
 manually to `disp-sys-audio` after it has started and also run `blueman-tray`.
 
-#### How to attach the Bluetooth controller to the AudioVM persistenly
+#### How to attach the Bluetooth controller to the AudioVM persistently
 
 If using Bluetooth, you probably want to have it persistently attached to the
 AudioVM. Bluetooth devices are held by the USB stack, thus you need to attach
-from you `(disp-)sys-usb` to the `disp-sys-audio`.
+from your `(disp-)sys-usb` to the `disp-sys-audio`.
 
-Note that if you attach the device, the AudioVM will
+Note that if you attach the device persistently, the AudioVM will
 [not be able to start](https://github.com/QubesOS/qubes-issues/issues/8877)
 without first starting the backend holding the USB stack. You can move the
 controller from the USB qube to the Audio qube, but this would decrease your
