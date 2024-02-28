@@ -35,7 +35,7 @@ If there is an existing issue, link it here.
 
 ### Proposed solution
 <!--
-W
+What solution do envision that respects the project goals and guidelines?
 -->
 
 
