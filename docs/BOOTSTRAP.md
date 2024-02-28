@@ -13,15 +13,16 @@ Qusal bootstrap strategy.
 
 ## Description
 
-With so many packages, you are wondering, how to bootstrap a new system? Which
-order should the packages be applied? Well, the answer depends on your goal.
+With so many packages, you may be wondering, how to bootstrap a new system?
+Well, the answer depends on your goal.
 
 Bellow you will find a list sorted by task, which have projects that can help
-you accomplish your mission.
+you accomplish your mission. The order of which the formulas are applied can
+matter in some circumstances, in those cases, it is noted in this page.
 
 ## Essential
 
-- Base (in order):
+- Base (order matters):
   - [dom0](../salt/dom0/README.md)
   - [debian-minimal](../salt/debian-minimal/README.md)
   - [fedora-minimal](../salt/fedora-minimal/README.md)
