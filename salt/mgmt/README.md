@@ -1,6 +1,6 @@
 # mgmt
 
-Management console environment in Qubes OS.
+Management environment in Qubes OS.
 
 ## Table of Contents
 

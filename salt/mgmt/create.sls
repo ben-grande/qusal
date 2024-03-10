@@ -7,6 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- from "qvm/template.jinja" import load -%}
 
 include:
+  - fedora.create
   - .clone
 
 {% load_yaml as defaults -%}
@@ -45,3 +46,17 @@ features:
   - internal
 {%- endload %}
 {{ load(defaults) }}
+
+"{{ slsdotpath }}-set-management_dispvm-to-dvm-fedora":
+  cmd.run:
+    - require:
+      - qvm: dvm-fedora
+    - name: qubes-prefs management_dispvm dvm-fedora
+
+## TODO: Remove when template with patch reaches upstream.
+## https://github.com/QubesOS/qubes-issues/issues/8806
+"{{ slsdotpath }}-install-":
+  cmd.run:
+    - require:
+      - qvm: tpl-{{ slsdotpath }}
+    - name: qvm-run -u root tpl-{{ slsdotpath }} -- dnf install --refresh --assumeyes --setopt=install_weak_deps=False python3-urllib3

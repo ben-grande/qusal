@@ -13,3 +13,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - name: default-mgmt-dvm
     - require:
       - cmd: {{ slsdotpath }}-set-management_dispvm
+
+## TODO: Remove when template with patch reaches upstream.
+## https://github.com/QubesOS/qubes-issues/issues/8806
+"{{ slsdotpath }}-shutdown-template":
+  qvm.shutdown:
+    - name: tpl-{{ slsdotpath }}
