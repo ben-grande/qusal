@@ -45,6 +45,10 @@ elif command -v qrexec-client >/dev/null; then
   if test "${authority}" = "@default"; then
     authority="${default_qube}"
   fi
+  if ! qvm-check "${authority}" >/dev/null 2>&1; then
+    die "Qube doesn't exist: '${authority}'"
+  fi
+  qvm-start --skip-if-running "${authority}"
   exec qrexec-client -tT -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
 fi
 
