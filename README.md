@@ -79,10 +79,12 @@ You current setup needs to fulfill the following requisites:
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
 
-1. Copy the repository `$file` from the DomU `$qube` to Dom0:
+1. Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
+   `CHANGEME` for the desired valued):
   ```sh
   qube="CHANGEME" # qube name where you downloaded the repository
   file="CHANGEME" # path to the repository in the qube
+
   qvm-run --pass-io --localcmd="UPDATES_MAX_FILES=10000
     /usr/libexec/qubes/qfile-dom0-unpacker user
     ~/QubesIncoming/${qube}/qusal" \
@@ -94,6 +96,7 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 3. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits) and expect a good signature, be surprised otherwise:
   ```sh
   git verify-commit HEAD
+  git submodule foreach git verify-commit HEAD
   ```
 
 4. Copy the project to the Salt directories:
@@ -109,7 +112,7 @@ demonstrated below.
 
 ### DomU Update
 
-Update the repository state in your trusted DomU:
+Update the repository state in your DomU:
 ```sh
 git -C ~/src/qusal fetch --recurse-submodules
 ```
@@ -117,13 +120,13 @@ git -C ~/src/qusal fetch --recurse-submodules
 ### Dom0 Update with Git
 
 This method is more secure than literally copying the whole directory of the
-repository to dom0 but the setup is more involved. Requires some familiary
+repository to dom0 but the setup is more involved. Requires some familiarity
 with the sys-git formula.
 
-0. Install the [sys-git formula](salt/sys-git/README.md) and push the
+1. Install the [sys-git formula](salt/sys-git/README.md) and push the
    repository to the git server.
 
-1. Install git on Dom0, allow the Qrexec protocol to work in submodules and
+2. Install git on Dom0, allow the Qrexec protocol to work in submodules and
    clone the repository to `~/src/qusal` (only has to be run once):
   ```sh
   mkdir -p ~/src
@@ -131,10 +134,22 @@ with the sys-git formula.
   git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
   ```
 
-2. Fetch from the app qube and place the files in the salt tree (git merge
-   and pull will verify the HEAD signature automatically)
+3. Next updates will be pulling instead of cloning:
   ```sh
-  git -C ~/src/qusal fetch --recurse-submodules
+  git -C ~/src/qusal pull --recurse-submodules
+  git -C ~/src/qusal submodule update --merge
+  ```
+
+4. Verify the commit or tag signature and expect a good signature, be
+  surprised otherwise (signature verification on submodules is skipped if
+  checking out but not merging):
+  ```sh
+  git verify-commit HEAD
+  git submodule foreach git verify-commit HEAD
+  ```
+
+5. Copy the project to the Salt directories:
+  ```
   ~/src/qusal/scripts/setup.sh
   ```
 
@@ -144,7 +159,8 @@ This method is similar to the installation method, but easier to type. This
 method is less secure than Git over Qrexec because it copies the whole
 repository, including the `.git` directory which holds files that are not
 tracked by git. It would be easier to distrust the downloader qube if the
-project had a signed archive.
+project had a signed archive. The `.git/info/exclude` can exclude modified
+files from being tracked and signature verification won't catch it.
 
 1. Install the helpers scripts and git on Dom0 (only has to be run once):
   ```sh
@@ -152,10 +168,12 @@ project had a signed archive.
   sudo qubes-dom0-update git
   ```
 
-2. Copy the repository `$file` from the DomU `$qube` to Dom0:
+2. Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
+   `CHANGEME` for the desired valued):
   ```sh
   qube="CHANGEME" # qube name where you downloaded the repository
   file="CHANGEME" # path to the repository in the qube
+
   rm -rf ~/QubesIncoming/"${qube}"/qusal
   UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
   ```
@@ -164,6 +182,7 @@ project had a signed archive.
   surprised otherwise:
   ```sh
   git verify-commit HEAD
+  git submodule foreach git verify-commit HEAD
   ```
 
 4. Copy the project to the Salt directories:
