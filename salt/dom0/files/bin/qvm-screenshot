@@ -1,0 +1,308 @@
+#!/bin/sh
+#
+# SPDX-FileCopyrightText: 2017 - 2020 EvaDogStar <evastar@protonmail.com>
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+#
+# Take screenshot in Qubes GuiVM and copy/move to qube.
+#
+# Dialog tools: kdialog, zenity
+# Shot tools: spectacle, xfce4-screenshooter, maim, scrot
+
+set -eu
+
+take_screenshot() {
+  screenshot_type="${1}"
+
+  case "${screenshot_cmd}" in
+    spectacle)
+      case "${screenshot_type}" in
+        window) spectacle -a -o "${screenshot_file}";;
+        fullscreen) spectacle -f -o "${screenshot_file}";;
+      esac
+      ;;
+    xfce4-screenshooter)
+      case "${screenshot_type}" in
+        window) xfce4-screenshooter -w -s "${screenshot_file}";;
+        fullscreen) xfce4-screenshooter -f -s "${screenshot_file}";;
+      esac
+      ;;
+    scrot)
+      case "${screenshot_type}" in
+        window) scrot -s -b "${screenshot_file}";;
+        fullscreen) scrot -b "${screenshot_file}";;
+      esac
+      ;;
+    maim)
+      case "${screenshot_type}" in
+        window) maim -s -o -u "${screenshot_file}";;
+        fullscreen) maim -o -u "${screenshot_file}";;
+      esac
+      ;;
+  esac
+}
+
+print_help(){
+  echo "Usage: ${0##*/} [OPTIONS]
+ -h, --help                  print this help message and exit
+Capture mode:
+ -r, --region                select only a region of the screen
+ -f, --fullscreen            select all the available screen
+File outcome:
+ -d, --qube NAME             qube to save screenshot
+ --qube-file-manager         open file manager in qube
+ --move                      move file instead of copy
+Development mode:
+ -D, --dialog-cmd           dialog tool: kdialog, zenity
+ -S, --screenshot-cmd       screenshot tool: spectacle, xfce4-screenshooter,
+                             scrot, maim"
+  exit 1
+}
+
+## Expand directory only in the qube.
+qube_pictures_dir="\$(xdg-user-dir PICTURES)"
+guivm_pictures_dir="$(xdg-user-dir PICTURES)"
+mkdir -p "${guivm_pictures_dir}" || exit 1
+
+current_date="$(date +"%Y-%m-%d-%H%M%S")"
+screenshot_basename="${current_date}.png"
+screenshot_file="${guivm_pictures_dir}/${screenshot_basename}"
+screenshot_type_text=""
+screenshot_action_text=""
+screenshot_action_supplied=""
+qube=""
+exit_required=0
+file_manager=0
+file_move=0
+screenshot_cmd=""
+screenshot_cmd_wanted=""
+dialog_cmd=""
+dialog_cmd_wanted=""
+
+while test "$#" -gt 0; do
+  key="${1}"
+  case "${key}" in
+    -h|--help)
+      print_help
+      ;;
+    -r|--region)
+      screenshot_type_text="Region or Window"
+      ;;
+    -f|--fullscreen)
+      screenshot_type_text="Fullscreen"
+      ;;
+    -d|--qube)
+      shift
+      qube="${1}"
+      ;;
+    --qube-file-manager)
+      file_manager=1
+      screenshot_action_supplied="1"
+      ;;
+    --move)
+      file_move=1
+      screenshot_action_supplied="1"
+      ;;
+    -S|--screenshot-cmd)
+      shift
+      screenshot_cmd_wanted="${1}"
+      ;;
+    -D|--dialog-cmd)
+      shift
+      dialog_cmd_wanted="${1}"
+      ;;
+    *)
+      echo "Unknown option: ${key}"
+      exit 1
+    ;;
+  esac
+  shift
+done
+
+if test -n "${dialog_cmd_wanted}"; then
+  if ! command -v "${dialog_cmd_wanted}" >/dev/null; then
+    msg="wanted dialog program not found: ${dialog_cmd_wanted}"
+    echo "[ERROR] ${msg}"
+    exit 1
+  fi
+  dialog_cmd="${dialog_cmd_wanted}"
+else
+  if command -v kdialog >/dev/null; then
+    dialog_cmd="kdialog"
+  elif command -v zenity >/dev/null; then
+    dialog_cmd="zenity"
+  fi
+fi
+
+if test -z "${dialog_cmd}"; then
+  echo "[ERROR] dialog programs not found: zenity kdialog"
+  exit 1
+fi
+
+if test -n "${screenshot_cmd_wanted}"; then
+  if ! command -v "${screenshot_cmd_wanted}" >/dev/null; then
+    msg="wanted screenshot program not found: ${screenshot_cmd_wanted}"
+    echo "[ERROR] ${msg}"
+    case "${dialog_cmd}" in
+      zenity) zenity --info --text "${msg}";;
+      kdialog) kdialog --msgbox "${msg}";;
+    esac
+    exit 1
+  fi
+  screenshot_cmd="${screenshot_cmd_wanted}"
+else
+  if command -v spectacle >/dev/null; then
+    screenshot_cmd="spectacle"
+  elif command -v xfce4-screenshooter >/dev/null; then
+    screenshot_cmd="xfce4-screenshooter"
+  elif command -v scrot >/dev/null; then
+    screenshot_cmd="scrot"
+  elif command -v maim >/dev/null; then
+    screenshot_cmd="maim"
+  fi
+  if test -z "${screenshot_cmd}"; then
+    msg="screenshot programs not found: spectacle xfce4-screenshooter scrot maim"
+    echo "[ERROR] ${msg}"
+    case "${dialog_cmd}" in
+      zenity) zenity --info --text "${msg}";;
+      kdialog) kdialog --msgbox "${msg}";;
+    esac
+    exit 1
+  fi
+fi
+
+if test -z "${screenshot_type_text}"; then
+  # shellcheck disable=SC2086
+  dialog_title="Select capture mode:"
+  case "${dialog_cmd}" in
+    zenity)
+      screenshot_type_text="$(zenity --list \
+        --text "${dialog_title}" \
+        --radiolist \
+        --column "Pick" --column "Mode" \
+        TRUE "Region or Window" \
+        FALSE "Fullscreen" \
+      )"
+      ;;
+    kdialog)
+      screenshot_type_text="$(kdialog --radiolist "${dialog_title}" \
+        "Region or Window" "Region or Window" off \
+        "Fullscreen" "Fullscreen" off \
+      )"
+      ;;
+  esac
+fi
+
+case "${screenshot_type_text}" in
+  "Region or Window") take_screenshot window;;
+  "Fullscreen") take_screenshot fullscreen;;
+  *) echo "[ERROR] mode not selected"; exit 1;;
+esac
+
+if ! test -f "${guivm_pictures_dir}/${screenshot_basename}"; then
+  msg="Screenshot was not saved in GuiVM"
+  echo "[ERROR] ${msg}"
+  case "${dialog_cmd}" in
+    zenity) zenity --warning --text "${msg}";;
+    kdialog) kdialog --sorry "${msg}";;
+  esac
+  exit 1
+fi
+
+if test "${screenshot_action_supplied}" != "1"; then
+  dialog_title="Saved to ${screenshot_basename}. What do you want to do with the screenshot?"
+  case "${dialog_cmd}" in
+    zenity)
+      screenshot_action_text="$(zenity --list --width=280 --height=210 \
+        --text "${dialog_title}" \
+        --separator="\n" \
+        --checklist --column "Pick" --column "Resolution" \
+        FALSE "Exit" \
+        FALSE "Open file manager in qube" \
+        FALSE "Move file"
+      )"
+      ;;
+    kdialog)
+      screenshot_action_text="$(kdialog --checklist "${dialog_title}" \
+        --separate-output \
+        "Exit" "Exit" off \
+        "Open file manager in qube" "Open file manager in qube" off \
+        "Move file" "Move file" off
+      )"
+      ;;
+  esac
+
+  if test -z "${screenshot_action_text}"; then
+    exit 0
+  fi
+
+  IFSOLD="${IFS}"
+  IFS="|"
+  screenshot_action_text="$(echo "${screenshot_action_text}" | tr "\n" "|")"
+  for val in ${screenshot_action_text}; do
+    case "${val}" in
+      "Exit") exit_required=1;;
+      "Open file manager in qube") file_manager=1;;
+      "Move file") file_move=1;;
+      *) exit 1;;
+    esac
+  done
+  IFS="${IFSOLD}"
+fi
+
+if test "${exit_required}" = "1"; then
+  exit 0
+fi
+
+qube_list="$(qvm-ls --no-spinner --raw-data --fields=NAME,CLASS | \
+         awk -F "|" '$1 !~ /(^dvm-|-dvm$)/ &&
+                     $2 !~ /^(AdminVM|TemplateVM)$/{print $1}')"
+
+if test -z "${qube}"; then
+  dialog_title="Select destination qube (Unix based):"
+  case "${dialog_cmd}" in
+    zenity)
+      qube_list="$(echo "${qube_list}" | sed "s/^/FALSE /")"
+      # shellcheck disable=SC2086
+      qube="$(zenity --list  --width=200 --height=390 \
+              --text "${dialog_title}" \
+              --radiolist --column "Pick" --column "qube" ${qube_list})"
+      ;;
+    kdialog)
+      qube_list="$(echo "${qube_list}" | sed "s/\(.*\)/\1 \1 off/")"
+      # shellcheck disable=SC2086
+      qube="$(kdialog --radiolist "${dialog_title}" ${qube_list})"
+      ;;
+  esac
+  if test -z "${qube}"; then
+    msg="qube was not selected"
+    echo "[ERROR] ${msg}"
+    case "${dialog_cmd}" in
+      zenity) zenity --error --text "${msg}";;
+      kdialog) kdialog --error "${msg}";;
+    esac
+    exit 1
+  fi
+fi
+
+if ! qvm-check -- "${qube}" >/dev/null 2>&1; then
+  msg="qube doesn't exist: ${qube}"
+  echo "[ERROR] ${msg}"
+  case "${dialog_cmd}" in
+    zenity) zenity --error --text "${msg}";;
+    kdialog) kdialog --error "${msg}";;
+  esac
+  exit 1
+fi
+
+qvm-run "${qube}" -- "mkdir -p \"${qube_pictures_dir}\""
+qvm-run --pass-io "${qube}" -- "cat > \"${qube_pictures_dir}/${screenshot_basename}\"" < "${guivm_pictures_dir}/${screenshot_basename}"
+
+if test ${file_move} = "1"; then
+  rm -f "${guivm_pictures_dir}/${screenshot_basename}"
+fi
+
+if test "${file_manager}" = "1"; then
+  qvm-run "${qube}" -- "xdg-open \"${qube_pictures_dir}\""
+fi
