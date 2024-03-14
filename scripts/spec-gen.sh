@@ -16,7 +16,7 @@ usage(){
 get_scriptlet(){
   scriptlet="$1"
   sed -n "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" "${readme}" \
-    | grep -v -e '^```\S*$' -e "^<\!-- " || echo "true"
+    | grep -v -e '^```\S*$' -e "^<\!-- " | sed "s/^sudo //" || echo "true"
 }
 
 get_spec(){
