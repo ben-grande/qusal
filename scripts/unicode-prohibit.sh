@@ -1,0 +1,45 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+##
+## Finds Unicode recursively and prints in hexadecimal format.
+
+set -eu
+
+command -v git >/dev/null ||
+  { printf "Missing program: git\n" >&2; exit 1; }
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+files=""
+if test -n "${1-}"; then
+  files="${*}"
+  if test -z "${files}"; then
+    exit 0
+  fi
+fi
+
+files="$(echo "${files}" | sort -u)"
+# shellcheck disable=SC2086
+unicode_match="$(grep -oPrHn --exclude-dir=.git --exclude-dir=LICENSES \
+                 -e "[^\x00-\x7F]" -- ${files} || true)"
+
+match_found=""
+if test -n "${unicode_match}"; then
+  for line in ${unicode_match}; do
+    line_file="$(echo "${line}" | cut -d ":" -f1)"
+    case "${line_file}" in
+      git/*|LICENSES/*|.reuse/dep5|*.asc) continue;;
+    esac
+    line_number="$(echo "${line}" | cut -d ":" -f2)"
+    line_unicode="$(echo "${line}" | cut -d ":" -f3 | od -A n -vt c)"
+    echo "${line_file}:${line_number}:${line_unicode}"
+    match_found="1"
+  done
+  if test "${match_found}" = 1; then
+    exit 1
+  fi
+fi
+
+exit 0

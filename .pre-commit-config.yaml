@@ -6,6 +6,14 @@
 repos:
   - repo: local
     hooks:
+
+      - id: unicode-prohibit
+        name: unicode-prohibit
+        entry: scripts/unicode-prohibit.sh
+        language: script
+        pass_filenames: true
+        description: Prohibit Unicode
+
       - id: reuse
         name: reuse
         entry: reuse
@@ -13,18 +21,21 @@ repos:
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
+
       - id: salt-lint
         name: salt-lint
         entry: scripts/salt-lint.sh
         language: script
         pass_filenames: true
         description: Lint Salt files
+
       - id: shellcheck
         name: shellcheck
         entry: scripts/shell-lint.sh
         language: script
         pass_filenames: true
         description: Lint Shellscripts
+
       - id: gitlint
         name: gitlint
         language: python
