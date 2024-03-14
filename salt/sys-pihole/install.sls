@@ -10,6 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% set pihole_tag = 'v5.17.2' -%}
 
 include:
+  - sys-cacher.uninstall-client
   - dotfiles.copy-x11
 
 "{{ slsdotpath }}-updated":
@@ -75,6 +76,7 @@ include:
 "{{ slsdotpath }}-git-clone":
   git.latest:
     - name: https://github.com/pi-hole/pi-hole.git
+    - rev: {{ pihole_tag }}
     - user: root
     - target: /root/pi-hole
     - force_fetch: True

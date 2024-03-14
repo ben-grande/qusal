@@ -52,8 +52,12 @@ features:
   - service.cups-browsed
   - service.tracker
   - service.evolution-data-server
+  - service.updates-proxy-setup
 - set:
   - menu-items: "pihole-browser.desktop qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- del:
+  - updatevm-sys-cacher
 {%- endload %}
 {{ load(defaults) }}
 
