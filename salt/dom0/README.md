@@ -34,6 +34,11 @@ If you need to develop in Dom0, install some goodies (bare bones):
 sudo qubesctl state.apply dom0.install-dev
 ```
 
+To forward ports from qubes to the external world:
+```sh
+sudo qubesctl state.apply dom0.port-forward
+```
+
 ## Usage
 
 You may have noticed the desktop experience in Dom0 has enhanced. You are
