@@ -15,10 +15,10 @@ Setup an offline Electrs (Electrum Server) qube named "sys-electrs",
 connected to your own full node running on "sys-bitcoin" to index the
 blockchain to allow for efficient query of the history of arbitrary addresses.
 
-A disposable qube "disp-electrs-builder" will be created, based on
-Whonix-Workstation, it will server to install and verify Electrs. After the
-verification succeeds, files are copied to the template "tpl-sys-electrs".
-This method was chosen so the server can be always offline.
+A disposable qube "disp-electrs-builder" will be created, it will serve to
+install and verify Electrs. After the verification succeeds, files are copied
+to the template "tpl-sys-electrs". This method was chosen so the server can be
+always offline.
 
 At least `200GB` of disk space is required.
 

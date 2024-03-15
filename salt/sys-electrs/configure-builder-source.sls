@@ -8,9 +8,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% set electrs_obj_type = 'tag' -%}
 {% if electrs_obj_type == 'commit' -%}
-  {% set electrs_obj = '52e3b1907248b8b7f778edc70af9cbac7387a6b6' -%}
+  {% set electrs_obj = '6595edf20e35b991b7a8e24bb7648dd04d59fe01' -%}
 {% else -%}
-  {% set electrs_obj = 'v0.10.3' -%}
+  {% set electrs_obj = 'v0.10.4' -%}
 {% endif -%}
 
 {% set cfg_me_version = '0.1.1' -%}
