@@ -14,5 +14,6 @@ include:
   - .kde
   - .update-settings
   - .xorg
+  - .screenshot
 
 {% endif -%}
