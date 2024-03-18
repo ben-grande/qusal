@@ -128,7 +128,7 @@ features:
 
 {% set template_updatevm = salt['cmd.shell']("qrexec-policy tpl-sys-firewall @default qubes.UpdatesProxy 2>/dev/null | awk -F '=' '/^target=/{print $2}'") -%}
 {% if template_updatevm -%}
-"{{ slsdotpath }}-start-{{ template_updatevm }}-anticipate-network-use":
+"{{ slsdotpath }}-start-{{ template_updatevm }}-antecipate-network-use":
   qvm.start:
     - name: {{ template_updatevm }}
 {% endif -%}

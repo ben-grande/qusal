@@ -10,16 +10,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% set pihole_tag = 'v5.17.2' -%}
 
 include:
+  - utils.tools.common.update
   - sys-cacher.uninstall-client
   - dotfiles.copy-x11
 
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

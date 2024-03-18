@@ -1,22 +1,21 @@
 {#
 SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.org>
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% if grains['nodename'] != 'dom0' -%}
 
-{% from 'utils/macros/install-repo.sls' import install_repo -%}
-{{ install_repo(sls_path, 'syncthing') }}
-
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
+include:
+  - .install-repo
+  - utils.tools.common.update
 
 "{{ slsdotpath }}-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: {{ slsdotpath }}.install-repo
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

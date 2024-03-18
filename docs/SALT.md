@@ -169,14 +169,14 @@ features:
 {% if grains['nodename'] != 'dom0' %}
 
 {# Always update the package list before trying to install any package #}
-keys-updated:
-  pkg.uptodate:
-    - refresh: True
+include:
+  - utils.tools.common.update
 
 {# Install packages using Salt's pkg.installed module #}
 keys-installed:
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     {# Enforce that we don't want to install recommended packages #}
     - install_recommends: False
     {# Enforce that we don't want to install suggested packages #}
@@ -200,7 +200,8 @@ keys-installed:
 {# Install the packages specific to the OS that this state is being applied #}
 keys-installed-os-specific:
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     {# Get the Jinja variable 'pkg.pkg' and convert it to an YAML list #}

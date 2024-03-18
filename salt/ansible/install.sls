@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -7,16 +7,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - .install-repo
+  - utils.tools.common.update
   - utils.tools.zsh
   - ssh.install
 
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: {{ slsdotpath }}.install-repo
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
@@ -40,7 +40,8 @@ include:
 
 "{{ slsdotpath }}-installed-os-specific":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}

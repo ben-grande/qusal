@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -39,18 +39,23 @@ If sls_path is 'browser', then this would install the repo from:
     - group: root
     - makedirs: True
 
+"{{ name }}-remove-{{ repo }}-old-format":
+  file.absent:
+    - require:
+      - file: "{{ name }}-install-{{ repo }}-keyring"
+    - name: /etc/apt/sources.list.d/{{ repo }}.list
+
 "{{ name }}-install-{{ repo }}-repository":
   file.managed:
+    - require:
+      - file: "{{ name }}-install-{{ repo }}-keyring"
+      - file: "{{ name }}-remove-{{ repo }}-old-format"
     - name: /etc/apt/sources.list.d/{{ repo }}.sources
     - source: salt://{{ name }}/files/repo/{{ repo }}.sources
     - mode: '0644'
     - user: root
     - group: root
     - makedirs: True
-
-"{{ name }}-remove-{{ repo }}-old-format":
-  file.absent:
-    - name: /etc/apt/sources.list.d/{{ repo }}.list
 
 {% elif grains['os_family']|lower == 'redhat' -%}
 
@@ -65,6 +70,8 @@ If sls_path is 'browser', then this would install the repo from:
 
 "{{ name }}-install-{{ repo }}-repository":
   file.managed:
+    - require:
+      - file: "{{ name }}-install-{{ repo }}-keyring"
     - name: /etc/yum.repos.d/{{ repo }}.repo
     - source: salt://{{ name }}/files/repo/{{ repo }}.yum.repo
     - mode: '0644'

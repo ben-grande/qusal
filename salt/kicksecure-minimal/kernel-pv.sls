@@ -10,14 +10,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
-
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
+  - utils.tools.common.update
 
 "{{ slsdotpath }}-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

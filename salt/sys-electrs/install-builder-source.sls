@@ -9,16 +9,14 @@ Source: https://github.com/romanz/electrs/blob/master/doc/install.md
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - utils.tools.common.update
   - sys-git.install-client
   - sys-pgp.install-client
 
-"{{ slsdotpath }}-builder-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-builder-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
