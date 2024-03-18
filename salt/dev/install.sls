@@ -7,9 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  {%- if salt['qvm.exists']('sys-cacher') %}
-  - sys-cacher.install-client
-  {% endif %}
+  - utils.tools.common.update
   - .home-cleanup
   - .install-python-tools
   - .install-salt-tools
@@ -19,13 +17,10 @@ include:
   - sys-git.install-client
   - sys-ssh-agent.install-client
 
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
@@ -72,7 +67,8 @@ include:
 
 "{{ slsdotpath }}-installed-os-specific":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}

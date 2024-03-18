@@ -16,15 +16,14 @@ https://www.qubes-os.org/doc/managing-vm-kernels/#distribution-kernel
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - utils.tools.common.update
   - kicksecure-minimal.install
-
-"{{ slsdotpath }}-developers-updated":
-  pkg.uptodate:
-    - refresh: True
 
 "{{ slsdotpath }}-developers-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
+      - sls: kicksecure-minimal.install
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

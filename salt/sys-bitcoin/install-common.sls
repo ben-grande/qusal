@@ -7,19 +7,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - utils.tools.common.update
   - dev.home-cleanup
   - dev.install-terminal
   - dotfiles.copy-x11
   - dotfiles.copy-sh
   - whonix-workstation.install-nostart-tbb
 
-"{{ slsdotpath }}-common-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-common-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
@@ -47,7 +45,8 @@ include:
 
 "{{ slsdotpath }}-common-installed-os-specific":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}

@@ -7,15 +7,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] == 'dom0' -%}
 
 include:
+  - utils.tools.common.update
   - sys-git.install-client
-
-"{{ slsdotpath }}-dev-updated":
-  pkg.uptodate:
-    - refresh: True
 
 "{{ slsdotpath }}-dev-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

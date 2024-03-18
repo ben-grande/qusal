@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -9,13 +9,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - .install-common
 
-"{{ slsdotpath }}-updated-firefox":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-installed-firefox":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: {{ slsdotpath }}.install-common
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

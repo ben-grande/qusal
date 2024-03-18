@@ -10,16 +10,15 @@ https://www.kicksecure.com/wiki/Debian
 
 include:
   - kicksecure-minimal.install-repo
+  - utils.tools.common.update
   - sys-cacher.install-client
   - utils.tools.zsh
 
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: kicksecure-minimal.install-repo
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

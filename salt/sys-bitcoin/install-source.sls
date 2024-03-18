@@ -7,6 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - utils.tools.common.update
   - .install-common
   - dotfiles.copy-ssh
   - dotfiles.copy-git
@@ -14,7 +15,8 @@ include:
 
 "{{ slsdotpath }}-source-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
@@ -36,7 +38,8 @@ include:
 
 "{{ slsdotpath }}-source-installed-os-specific":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}
@@ -53,7 +56,8 @@ include:
 
 "{{ slsdotpath }}-source-qt-installed-os-specific":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}

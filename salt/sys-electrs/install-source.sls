@@ -9,6 +9,7 @@ Source: https://github.com/romanz/electrs/blob/master/doc/install.md
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
+  - utils.tools.common.update
   - dev.home-cleanup
   - dev.install-terminal
   - dotfiles.copy-x11
@@ -18,13 +19,10 @@ include:
   - sys-git.install-client
   - sys-pgp.install-client
 
-"{{ slsdotpath }}-source-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-source-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

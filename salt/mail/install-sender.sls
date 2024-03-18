@@ -7,17 +7,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' %}
 
 include:
+  - utils.tools.common.update
   - dotfiles.copy-x11
   - dotfiles.copy-sh
   - dotfiles.copy-net
 
-"{{ slsdotpath }}-sender-updated":
-  pkg.uptodate:
-    - refresh: True
-
 "{{ slsdotpath }}-sender-installed":
   pkg.installed:
-    - refresh: True
+    - require:
+      - sls: utils.tools.common.update
     - skip_suggestions: True
     - install_recommends: False
     - pkgs:

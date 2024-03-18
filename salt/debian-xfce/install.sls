@@ -6,8 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-"{{ slsdotpath }}-updated":
-  pkg.uptodate:
-    - refresh: True
+include:
+  - utils.tools.common.update
 
 {% endif %}
