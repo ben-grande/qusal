@@ -126,6 +126,14 @@ if test -n "${dialog_cmd_wanted}"; then
     echo "[ERROR] ${msg}"
     exit 1
   fi
+  case "${dialog_cmd_wanted}" in
+    kdialog|zenity);;
+    *)
+      msg="wanted dialog program unsupported: ${dialog_cmd_wanted}"
+      echo "[ERROR] ${msg}"
+      exit 1
+      ;;
+  esac
   dialog_cmd="${dialog_cmd_wanted}"
 else
   if command -v kdialog >/dev/null; then
@@ -150,6 +158,14 @@ if test -n "${screenshot_cmd_wanted}"; then
     esac
     exit 1
   fi
+  case "${screenshot_cmd_wanted}" in
+    kdialog|zenity);;
+    *)
+      msg="wanted screenshot program unsupported: ${screenshot_cmd_wanted}"
+      echo "[ERROR] ${msg}"
+      exit 1
+      ;;
+  esac
   screenshot_cmd="${screenshot_cmd_wanted}"
 else
   if command -v spectacle >/dev/null; then
