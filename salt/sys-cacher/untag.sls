@@ -4,12 +4,14 @@ SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-{% set wanted = salt['cmd.shell']('qvm-ls --no-spinner --raw-list') -%}
+{% set wanted = salt['cmd.shell']('qvm-ls --no-spinner --raw-list --tags updatevm-sys-cacher') -%}
 
-{% for tpl in wanted.replace(",", " ") -%}
+{% if wanted -%}
+{% for tpl in wanted.split("\n") %}
 "{{ tpl }}-cacher-untag":
   qvm.tags:
     - name: {{ tpl }}
     - del:
       - updatevm-sys-cacher
 {% endfor -%}
+{% endif -%}
