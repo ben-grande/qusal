@@ -10,6 +10,7 @@ Caching proxy server for software repositories in Qubes OS.
   * [Report Page and Maintenance Tasks](#report-page-and-maintenance-tasks)
   * [Connect to the cacher via IP instead of Qrexec](#connect-to-the-cacher-via-ip-instead-of-qrexec)
   * [Non-TemplateVMs integration](#non-templatevms-integration)
+  * [Rewrite URIs inside the qube](#rewrite-uris-inside-the-qube)
 * [Uninstallation](#uninstallation)
 * [Credits](#credits)
 
@@ -87,11 +88,11 @@ browser is compromised, it can compromise the server.
 Because the `sys-cacher` qube is listening on port `8082`, you can use it from
 non-template qubes and qubes that do not have a working Qrexec. Use the native
 configuration to set the update proxy using the IP address of `sys-cacher` by
-setting the cacher as the netvm of the client qube.
+setting `sys-cacher` as the netvm of the client qube.
 
 ### Non-TemplateVMs integration
 
-**Attention**: this method will allow for a client qube to bypass the qubes
+**Attention**: this method will allow a client qube to bypass the qubes
 firewall and connect to a remote via the updates proxy.
 
 By default, only templates will use the proxy to update, if you want to cache
@@ -105,12 +106,24 @@ qvm-features QUBE service.updates-proxy-setup 1
 Don't forget to restart the qube.
 
 If you don't want or can't restart the qube, such as DispVMs, where you would
-lose you session, run the same commands as above plus the following inside the
+lose the current session, run the above commands plus the following inside the
 qube:
 ```sh
 sudo touch /var/run/qubes-service/updates-proxy-setup
 sudo /usr/lib/qubes/update-proxy-configs
 sudo systemctl restart qubes-updates-proxy-forwarder.socket
+```
+
+### Rewrite URIs inside the qube
+
+Sometimes you may want to enable of disable the cacher definition, mostly when
+you are using an AppVM based on a TemplateVM that uses `sys-cacher`, but the
+AppVM should make a direct connection instead of going through the proxy for
+updates.
+
+Use `uninstall` or `install` as argument to the command `apt-cacher-ng-repo`:
+```sh
+sudo apt-cacher-ng-repo uninstal
 ```
 
 ## Uninstallation

@@ -1,0 +1,106 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+changes_file="$(mktemp)"
+trap 'rm -f "${changes_file}"' HUP INT QUIT ABRT EXIT
+
+rewrite_repo(){
+  test -n "${2}" || return 1
+  test -f "${repo}" || return 0
+  test -r "${repo}" || return 0
+  test -w "${repo}" || return 0
+  sed -i "s|${1}|${2}|w ${changes_file}" "${repo}"
+}
+
+usage(){
+  echo "Usage: ${0##*/} [install|uninstall]"
+  exit 1
+}
+
+case "${1-}" in
+  install|uninstall) action="${1}";;
+  *) usage;;
+esac
+action="${1}"
+
+if test -e /etc/fedora-release; then
+  ## Fedora
+  for repo in /etc/yum.repos.d/*.repo; do
+    case "${action}" in
+      install)
+        rewrite_repo "baseurl\s*=\s*https://" "baseurl=http://HTTPS///"
+        rewrite_repo "metalink\s*=\s*https://" "metalink=http://HTTPS///"
+        ;;
+      uninstall)
+        rewrite_repo "baseurl\s*=\s*http://HTTPS///" "baseurl=https://"
+        rewrite_repo "metalink\s*=\s*http://HTTPS///" "metalink=https://"
+        ;;
+      esac
+  done
+  for repo in /etc/yum.repos.d/rpmfusion*.repo; do
+    case "${action}" in
+      install)
+        rewrite_repo "^\s*#.*baseurl" "baseurl"
+        rewrite_repo "^\s*metalink\s*=\s*" "#metalink="
+        ;;
+      uninstall)
+        rewrite_repo "^\s*baseurl" "#baseurl"
+        rewrite_repo "^\s*#.*metalink\s*=" "metalink="
+        ;;
+    esac
+  done
+
+elif test -e /etc/debian_version && test ! -e /usr/share/whonix/marker; then
+  ## Debian but not Whonix.
+  for repo in \
+    /etc/apt/sources.list \
+    /etc/apt/sources.list.d/*.list \
+    /etc/apt/sources.list.d/*.sources
+  do
+    case "${action}" in
+      install)
+        rewrite_repo "URIs:\s*https://" "URIs: http://HTTPS///"
+        rewrite_repo "^\s*\(#*\)\s*deb\(.*\)https://" "\1deb\2http://HTTPS///"
+        ;;
+      uninstall)
+        rewrite_repo "URIs:\s*http://HTTPS///" "URIs: https://"
+        rewrite_repo "^\s*\(#*\)\s*deb\(.*\)http://HTTPS///" "\1deb\2https://"
+        ;;
+    esac
+  done
+
+elif test -e /etc/arch-release; then
+  ## Archlinux
+  for repo in \
+    /etc/pacman.d/mirrorlist \
+    /etc/pacman.d/*.conf \
+    /etc/pacman.d/*.conf.disabled
+  do
+    case "${action}" in
+      install)
+        rewrite_repo "Server\s*=\s*https://" "Server = http://HTTPS///"
+        ;;
+      uninstall)
+        rewrite_repo "Server\s*=\s*http://HTTPS///" "Server = https://"
+        ;;
+    esac
+  done
+
+else
+  echo "Cacher does not support your Operating System distribution." >&2
+  exit 1
+fi
+
+## Stateful cmd module.
+echo
+if test -s "${changes_file}"; then
+  echo "changed=yes comment='URIs have been modified'"
+else
+  echo "changed=no comment='URIs remained untouched'"
+fi
+exit
