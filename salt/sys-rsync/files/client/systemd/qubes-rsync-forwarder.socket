@@ -7,7 +7,7 @@ Description=Forward connection to Rsync over Qrexec
 ConditionPathExists=/var/run/qubes-service/rsync-setup
 
 [Socket]
-ListenStream=127.0.0.1:839
+ListenStream=127.0.0.1:1839
 BindToDevice=lo
 Accept=true
 
