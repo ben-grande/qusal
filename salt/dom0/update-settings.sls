@@ -5,6 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% if grains['nodename'] == 'dom0' -%}
+{%- from "qvm/template.jinja" import load -%}
 
 {% load_yaml as defaults -%}
 name: {{ slsdotpath }}
