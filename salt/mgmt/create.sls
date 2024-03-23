@@ -9,12 +9,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - fedora.create
   - .clone
+  - fedora-minimal.prefs
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+- sls: fedora-minimal.prefs
 prefs:
 - audiovm: ""
 {%- endload %}
@@ -48,15 +50,20 @@ features:
 {{ load(defaults) }}
 
 "{{ slsdotpath }}-set-management_dispvm-to-dvm-fedora":
-  cmd.run:
+  qvm.vm:
     - require:
       - qvm: dvm-fedora
-    - name: qubes-prefs management_dispvm dvm-fedora
+    - name: tpl-{{ slsdotpath }}
+    - prefs:
+      - management_dispvm: dvm-fedora
 
-## TODO: Remove when template with patch reaches upstream.
+## TODO: Remove when template with patch reaches upstream or updates enforce
+## salt-deps to be installed.
 ## https://github.com/QubesOS/qubes-issues/issues/8806
-"{{ slsdotpath }}-install-":
-  cmd.run:
+"{{ slsdotpath }}-install-salt-deps":
+  cmd.script:
     - require:
-      - qvm: tpl-{{ slsdotpath }}
-    - name: qvm-run -u root tpl-{{ slsdotpath }} -- dnf install --refresh --assumeyes --setopt=install_weak_deps=False python3-urllib3
+      - qvm: "{{ slsdotpath }}-set-management_dispvm-to-dvm-fedora"
+    - name: salt-patch.sh
+    - source: salt://fedora-minimal/files/admin/bin/salt-patch.sh
+    - args: tpl-{{ slsdotpath }}

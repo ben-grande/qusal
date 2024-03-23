@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -14,12 +14,6 @@ include:
     - name: tpl-{{ slsdotpath }}
     - prefs:
       - management_dispvm: "*default*"
-
-"{{ slsdotpath }}-remove-default-mgmt-dvm":
-  qvm.absent:
-    - require:
-      - qvm: {{ slsdotpath }}-set-management_dispvm-to-default
-    - name: default-mgmt-dvm
 
 ## TODO: Remove when template with patch reaches upstream or updates enforce
 ## salt-deps to be installed.

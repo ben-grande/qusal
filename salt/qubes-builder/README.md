@@ -35,6 +35,7 @@ template.
 sudo qubesctl top.enable qubes-builder
 sudo qubesctl --targets=tpl-qubes-builder,dvm-qubes-builder,qubes-builder state.apply
 sudo qubesctl top.disable qubes-builder
+sudo qubesctl state.apply qubes-builder.prefs
 ```
 
 - State
@@ -42,6 +43,7 @@ sudo qubesctl top.disable qubes-builder
 ```sh
 sudo qubesctl state.apply qubes-builder.create
 sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply qubes-builder.install
+sudo qubesctl state.apply qubes-builder.prefs
 sudo qubesctl --skip-dom0 --targets=dvm-qubes-builder state.apply qubes-builder.configure-qubes-executor
 sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.configure
 ```
