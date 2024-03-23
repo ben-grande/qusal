@@ -41,6 +41,11 @@ sudo qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configur
 ```
 <!-- pkg:end:post-install -->
 
+If you want to autostart the AudioVM on boot, you may run:
+```sh
+sudo qubesctl state.apply sys-audio.autostart
+```
+
 If you need Bluetooth support, install the dependencies:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluetooth
