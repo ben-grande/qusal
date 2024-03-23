@@ -74,6 +74,9 @@ You current setup needs to fulfill the following requisites:
   If you made a fork, fork the submodule(s) before clone and use your remote
   repository instead, the submodules will also be from your fork.
 
+3. Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D93E91A475969DE4E371E3.asc)
+   to your text editor and save the file to `/home/user/ben-code.asc`.
+
 ### Dom0 Installation
 
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
@@ -91,15 +94,33 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
     "${qube}" /usr/lib/qubes/qfile-agent "${file}"
   ```
 
-2. Acquire the maintainer signing key by other means and copy it to Dom0.
+2. Pass the maintainer's key from the qube to Dom0:
+    ```sh
+    qvm-run --pass-io "${qube}" -- "cat /home/user/ben-code.asc" | tee /tmp/ben-code.asc
+    ```
 
-3. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits) and expect a good signature, be surprised otherwise:
+3. Verify that the key fingerprint matches
+     `DF38 3487 5B65 7587 13D9  2E91 A475 969D E4E3 71E3`. You can use
+     Sequoia-PGP or GnuPG for the fingerprint verification:
+     ```sh
+     gpg --show-keys /tmp/ben-code.asc
+     # or
+     #sq inspect ben-code.asc
+     ```
+
+4. Import the verified key to your keyring:
+     ```sh
+     gpg --import /tmp/ben-code.asc
+     ```
+
+5. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
+   and expect a good signature, be surprised otherwise:
   ```sh
   git verify-commit HEAD
   git submodule foreach git verify-commit HEAD
   ```
 
-4. Copy the project to the Salt directories:
+6. Copy the project to the Salt directories:
   ```sh
   ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
   ```
