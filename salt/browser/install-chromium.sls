@@ -12,7 +12,7 @@ include:
 "{{ slsdotpath }}-installed-chromium":
   pkg.installed:
     - require:
-      - pkg: {{ slsdotpath }}.install-common
+      - sls: {{ slsdotpath }}.install-common
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
