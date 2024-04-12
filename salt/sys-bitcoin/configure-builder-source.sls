@@ -6,7 +6,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
-{% set bitcoin_tag = 'v26.0' -%}
+{%- import slsdotpath ~ "/version.jinja" as version -%}
+
+{% set bitcoin_tag = 'v' ~ version.version -%}
 
 include:
   - .configure-builder-common

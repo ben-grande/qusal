@@ -6,9 +6,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
+{%- import slsdotpath ~ "/version.jinja" as version -%}
+
 ## https://bitcoincore.org/bin/bitcoin-core-VERSION/
-## bitcoin-26.0-x86_64-linux-gnu.tar.gz|SHA256SUMS|SHA256SUMS.asc
-{% set bitcoin_version = '26.0' -%}
+## bitcoin-VERSION-x86_64-linux-gnu.tar.gz|SHA256SUMS|SHA256SUMS.asc
+{% set bitcoin_version = version.version -%}
 {% set bitcoin_url_dir = 'https://bitcoincore.org/bin/bitcoin-core-' ~ bitcoin_version ~ '/' -%}
 {% set bitcoin_archive_dir = 'bitcoin-' ~ bitcoin_version -%}
 {% set bitcoin_file_archive = bitcoin_archive_dir ~ '-x86_64-linux-gnu.tar.gz' -%}

@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' %}
 
-{% set pihole_tag = 'v5.17.2' -%}
+{% set pihole_tag = 'v5.18.2' -%}
 
 include:
   - utils.tools.common.update
