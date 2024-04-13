@@ -60,6 +60,22 @@ sudo qubesctl --skip-dom0 --targets="$(qvm-ls --no-spinner --raw-list --tags upd
 
 ## Usage
 
+## Access control
+
+The distributed policy will take precedence over the ones set during first
+installation or the GUI Global Config. If you want to use `sys-cacher`
+and edit configuration for certain qubes to update over different proxys, you
+can do so.
+
+Allow qubes with tag `whonix-updatevm` to use the proxy in `sys-alt-whonix`
+and qube `dev` to use the proxy in `disp-sys-net`.
+```qrexecpolicy
+qubes.UpdatesProxy * @tag:whonix-updatevm @default allow target=sys-alt-whonix
+qubes.UpdatesProxy * @tag:whonix-updatevm @anyvm   deny
+qubes.UpdatesProxy * dev @default allow target=disp-sys-net
+qubes.UpdatesProxy * dev @anyvm   deny
+```
+
 ### Report Page and Maintenance Tasks
 
 The report page is available from `sys-cacher` and `sys-cacher-browser` at
@@ -126,7 +142,7 @@ updates.
 
 Use `uninstall` or `install` as argument to the command `apt-cacher-ng-repo`:
 ```sh
-sudo apt-cacher-ng-repo uninstal
+sudo apt-cacher-ng-repo uninstall
 ```
 
 ## Uninstallation

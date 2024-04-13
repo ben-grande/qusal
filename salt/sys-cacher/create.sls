@@ -95,8 +95,10 @@ features:
 {%- endload %}
 {{ load(defaults) }}
 
+{% from 'utils/macros/policy.sls' import policy_unset with context -%}
+{{ policy_unset(sls_path, '75') }}
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
-{{ policy_set(sls_path, '75') }}
+{{ policy_set(sls_path, '45') }}
 
 "{{ slsdotpath }}-extend-volume":
   cmd.run:
