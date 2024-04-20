@@ -115,22 +115,24 @@ By default, only templates will use the proxy to update, if you want to cache
 Non-TemplateVMs updates or simply make them functional again, the qube will
 need the `service.updates-proxy-setup` feature set:
 ```sh
-qvm-tags add QUBE updatevm-sys-cacher
-qvm-features QUBE service.updates-proxy-setup 1
-sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
+QUBE=name_of_qube
+qvm-tags add $QUBE updatevm-sys-cacher
+qvm-features $QUBE service.updates-proxy-setup 1
+sudo qubesctl --skip-dom0 --targets=$QUBE state.apply sys-cacher.install-client
 ```
 Don't forget to restart the qube.
 
 If you don't want or can't restart the qube, such as DispVMs, where you would
 lose the current session:
 ```sh
-qvm-tags add QUBE updatevm-sys-cacher
-qvm-features QUBE service.updates-proxy-setup 1
-qvm-run --user=root QUBE -- "
+QUBE=nam_of_qube
+qvm-tags add $QUBE updatevm-sys-cacher
+qvm-features $QUBE service.updates-proxy-setup 1
+qvm-run --user=root $QUBE -- "
   touch /var/run/qubes-service/updates-proxy-setup
   /usr/lib/qubes/update-proxy-configs
   systemctl restart qubes-updates-proxy-forwarder.socket"
-sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
+sudo qubesctl --skip-dom0 --targets=$QUBE state.apply sys-cacher.install-client
 ```
 
 ### Rewrite URIs inside the qube
