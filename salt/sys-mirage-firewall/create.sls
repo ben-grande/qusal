@@ -8,10 +8,10 @@ SPDX-License-Identifier: MIT
 
 {%- from "qvm/template.jinja" import load -%}
 
-{% set mirage_version = 'v0.8.6' -%}
+{% set mirage_version = 'v0.9.0' -%}
 {% set mirage_file_archive = 'mirage-firewall.tar.bz2' -%}
 {% set mirage_url_archive = 'https://github.com/mirage/qubes-mirage-firewall/releases/download/' ~ mirage_version ~ '/' ~ mirage_file_archive -%}
-{% set mirage_sha256sum = 'b2a568dde165384cf041c577ffbfc4522a02115d95cc0830bff125ef1781a10c' %}
+{% set mirage_sha256sum = '86d41dcf0367fcccb0596ea0d547100b9a79b6dea09acd10ca3d43469d85080f' %}
 
 {# Use the netvm of the default_netvm. #}
 {% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
