@@ -58,8 +58,6 @@ sudo qubesctl --skip-dom0 --targets="$(qvm-ls --no-spinner --raw-list --tags upd
 ```
 <!-- pkg:end:post-install -->
 
-## Usage
-
 ## Access control
 
 The distributed policy will take precedence over the ones set during first
@@ -75,6 +73,8 @@ qubes.UpdatesProxy * @tag:whonix-updatevm @anyvm   deny
 qubes.UpdatesProxy * dev @default allow target=disp-sys-net
 qubes.UpdatesProxy * dev @anyvm   deny
 ```
+
+## Usage
 
 ### Report Page and Maintenance Tasks
 
