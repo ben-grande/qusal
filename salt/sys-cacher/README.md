@@ -42,7 +42,7 @@ sudo qubesctl top.enable sys-cacher browser
 sudo qubesctl --targets=tpl-browser,sys-cacher-browser,tpl-sys-cacher,sys-cacher state.apply
 sudo qubesctl top.disable sys-cacher browser
 sudo qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
-sudo qubesctl --skip-dom0 --templates state.apply sys-cacher.install-client
+sudo qubesctl --skip-dom0 --targets="$(qvm-ls --no-spinner --raw-list --tags updatevm-sys-cacher | tr "\n" ",")" state.apply sys-cacher.install-client
 ```
 
 - State
@@ -152,6 +152,7 @@ sudo apt-cacher-ng-repo uninstall
 sudo qubesctl top.enable sys-cacher.deinit
 sudo qubesctl --targets="$(qvm-ls --no-spinner --raw-list --tags updatevm-sys-cacher | tr "\n" ",")" state.apply
 sudo qubesctl top.disable sys-cacher.deinit
+sudo qubesctl state.apply sys-cacher.untag
 ```
 
 - State:
