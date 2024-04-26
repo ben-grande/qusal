@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Dynamically write repository definitions to be used by apt-cacher-ng
+After=qubes-mount-dirs.service
+Before=qubes-update-check.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/qubes/apt-cacher-ng-repo
+
+[Install]
+WantedBy=multi-user.target

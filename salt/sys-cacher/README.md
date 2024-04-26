@@ -106,13 +106,30 @@ non-template qubes and qubes that do not have a working Qrexec. Use the native
 configuration to set the update proxy using the IP address of `sys-cacher` by
 setting `sys-cacher` as the netvm of the client qube.
 
+Set `sys-cacher` as the netvm of your qube:
+```sh
+qvm-prefs QUBE netvm sys-cacher
+```
+
+Enable the service `netvm-cacher`:
+```sh
+qvm-features QUBE service.netvm-cacher 1
+```
+
+Copy [apt-cacher-ng-repo](files/client/bin/apt-cacher-ng-repo) to your qube
+and set the script to run on boot. Make sure that the file
+`/var/run/qubes-service/netvm-cacher` exists on every startup for the proxy
+address change take effect.
+
+The qube has to be restarted for changes to take effect.
+
 ### Non-TemplateVMs integration
 
 **Attention**: this method will allow a client qube to bypass the qubes
-firewall and connect to a remote via the updates proxy.
+firewall and connect to a remote host via the updates proxy.
 
 By default, only templates will use the proxy to update, if you want to cache
-Non-TemplateVMs updates or simply make them functional again, the qube will
+non-TemplateVMs updates or simply make them functional again, the qube will
 need the `service.updates-proxy-setup` feature set:
 ```sh
 qvm-tags add QUBE updatevm-sys-cacher
