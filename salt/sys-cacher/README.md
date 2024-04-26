@@ -6,6 +6,7 @@ Caching proxy server for software repositories in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+* [Access control](#access-control)
 * [Usage](#usage)
   * [Report Page and Maintenance Tasks](#report-page-and-maintenance-tasks)
   * [Connect to the cacher via IP instead of Qrexec](#connect-to-the-cacher-via-ip-instead-of-qrexec)
