@@ -9,7 +9,7 @@ Before=qubes-update-check.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/qubes/apt-cacher-ng-repo
+ExecStart=/usr/bin/apt-cacher-ng-repo
 
 [Install]
 WantedBy=multi-user.target
