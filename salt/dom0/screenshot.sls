@@ -6,6 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] == 'dom0' -%}
 
+{%- import slsdotpath ~ "/gui-user.jinja" as gui_user -%}
+
 include:
   - utils.tools.common.update
 
@@ -31,16 +33,14 @@ include:
       - pkg: "{{ slsdotpath }}-screenshot-installed"
 
 ## TODO: KDE shortcuts
-{% set gui_user = salt['cmd.shell']('groupmems -l -g qubes') -%}
-{% set gui_user_id = salt['cmd.shell']('id -u ' ~ gui_user) -%}
 "{{ slsdotpath }}-screenshot-keyboard-shortcuts-xfce":
   cmd.run:
     - name: |
-        DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/{{ gui_user_id }}/bus"
+        DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/{{ gui_user.gui_user_id }}/bus"
         export DBUS_SESSION_BUS_ADDRESS
         xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/Print" -n -s "qvm-screenshot --fullscreen"
         xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Alt>Print" -n -s "qvm-screenshot --region"
-    - runas: {{ gui_user }}
+    - runas: {{ gui_user.gui_user }}
     - require:
       - file: "{{ slsdotpath }}-screenshot-script"
 

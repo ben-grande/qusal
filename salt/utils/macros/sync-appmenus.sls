@@ -27,13 +27,14 @@ Usage:
   qvm.start:
     - name: {{ qube }}
 
-{% set gui_user = salt['cmd.shell']('groupmems -l -g qubes') -%}
+{% import "dom0/gui-user.jinja" as gui_user -%}
+
 "{{ qube }}-sync-appmenus":
   cmd.run:
     - require:
       - qvm: {{ qube }}-start
     - name: qvm-sync-appmenus {{ qube }}
-    - runas: {{ gui_user }}
+    - runas: {{ gui_user.gui_user }}
 
 {% if running == 0 -%}
 "{{ qube }}-shutdown":

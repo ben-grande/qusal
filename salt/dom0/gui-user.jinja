@@ -1,0 +1,9 @@
+{#
+SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+{% set gui_user = salt['cmd.shell']("getent group qubes | awk -F '[:,]' '{print $4}'") -%}
+{% set gui_user_id = salt['cmd.shell']("getent passwd " ~ gui_user ~ " | awk -F ':' '{print $3}'") -%}
+{% set gui_user_home = salt['cmd.shell']("getent passwd " ~ gui_user ~ " | awk -F ':' '{print $6}'") -%}

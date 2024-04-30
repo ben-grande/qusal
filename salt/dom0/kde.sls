@@ -50,19 +50,19 @@ include:
 
 "{{ slsdotpath }}-activity-notifier":
   file.managed:
-    - name: /home/user/.config/autostart-scripts/kde-activity-changed-notifier
+    - name: {{ gui_user.gui_user_home }}/.config/autostart-scripts/kde-activity-changed-notifier
     - source: salt://{{ slsdotpath }}/files/autostart-scripts/kde-activity-changed-notifier
-    - user: user
-    - group: user
+    - user: {{ gui_user.gui_user }}
+    - group: {{ gui_user.gui_user }}
     - mode: '0755'
     - makedirs: True
 
 "{{ slsdotpath }}-qubes-kde-win-rules":
   file.managed:
-    - name: /home/user/.local/bin/qubes-kde-win-rules
+    - name: {{ gui_user.gui_user_home }}/.local/bin/qubes-kde-win-rules
     - source: salt://{{ slsdotpath }}/files/bin/qubes-kde-win-rules
-    - user: user
-    - group: user
+    - user: {{ gui_user.gui_user }}
+    - group: {{ gui_user.gui_user }}
     - mode: '0755'
     - makedirs: True
 
