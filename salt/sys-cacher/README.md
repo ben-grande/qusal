@@ -11,7 +11,6 @@ Caching proxy server for software repositories in Qubes OS.
   * [Report Page and Maintenance Tasks](#report-page-and-maintenance-tasks)
   * [Connect to the cacher via IP instead of Qrexec](#connect-to-the-cacher-via-ip-instead-of-qrexec)
   * [Non-TemplateVMs integration](#non-templatevms-integration)
-  * [Rewrite URIs inside the qube](#rewrite-uris-inside-the-qube)
 * [Uninstallation](#uninstallation)
 * [Credits](#credits)
 
@@ -145,22 +144,10 @@ lose the current session:
 qvm-tags add QUBE updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
 qvm-run --user=root QUBE -- "
-  touch /var/run/qubes-service/updates-proxy-setup
-  /usr/lib/qubes/update-proxy-configs
-  systemctl restart qubes-updates-proxy-forwarder.socket"
+touch /var/run/qubes-service/updates-proxy-setup
+/usr/bin/apt-cacher-ng-repo
+systemctl restart qubes-updates-proxy-forwarder.socket"
 sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
-```
-
-### Rewrite URIs inside the qube
-
-Sometimes you may want to enable of disable the cacher definition, mostly when
-you are using an AppVM based on a TemplateVM that uses `sys-cacher`, but the
-AppVM should make a direct connection instead of going through the proxy for
-updates.
-
-Use `uninstall` or `install` as argument to the command `apt-cacher-ng-repo`:
-```sh
-sudo apt-cacher-ng-repo uninstall
 ```
 
 ## Uninstallation
