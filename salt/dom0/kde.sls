@@ -6,6 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] == 'dom0' -%}
 
+{%- import slsdotpath ~ "/gui-user.jinja" as gui_user -%}
+
 include:
   - utils.tools.common.update
 
