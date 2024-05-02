@@ -21,5 +21,6 @@ include:
       - wpasupplicant
       - gnome-keyring
       - notification-daemon
+      - pciutils
 
 {% endif -%}

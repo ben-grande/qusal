@@ -16,7 +16,6 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - pciutils
       - net-tools
       - wireless-tools
       - socat
