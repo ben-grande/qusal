@@ -16,6 +16,7 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - fwupd-qubes-vm
       - qubes-core-agent-dom0-updates
       - qubes-core-agent-networking
       - ca-certificates
