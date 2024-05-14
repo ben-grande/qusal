@@ -15,14 +15,14 @@ etc.
 
 ## Installation
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable dom0
 sudo qubesctl state.apply
 sudo qubesctl top.disable dom0
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply dom0

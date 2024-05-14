@@ -18,7 +18,7 @@ Be respectful towards peers.
 ## Environment
 
 You will need to setup you development environment before you start
-contributing. You will need Qubes OS R4 or higher.
+contributing.
 
 ### Requirements
 

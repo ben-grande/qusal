@@ -68,6 +68,7 @@ Pi-hole will be installed with these default settings:
 - Query logging is enabled to show everything.
 
 You can change the settings via the admin interface:
+
 - URL: http://localhost/admin
 - There is no password (access allowed only through localhost)
 

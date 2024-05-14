@@ -74,7 +74,7 @@ exploitation, as `msmtp` still needs to parse the mail to be sent.
 
 ## Installation
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable mail reader
 sudo qubesctl --targets=tpl-mail-fetcher,tpl-mail-reader,tpl-mail-sender,dvm-mail-fetcher,mail-reader,dvm-mail-sender,tpl-reader state.apply
@@ -82,7 +82,7 @@ sudo qubesctl top.disable mail reader
 sudo qubesctl state.apply mail.appmenus,reader.appmenus
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply mail.create

@@ -26,14 +26,14 @@ You can't use Mirage Firewall to be the updatevm, use another qube instead.
 We have built the Unikernel locally and verified that the upstream checksum
 and local checksum matched when comparing the same release.
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable sys-mirage-firewall
 sudo qubesctl state.apply
 sudo qubesctl top.disable sys-mirage-firewall
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply sys-mirage-firewall.create

@@ -21,7 +21,7 @@ Firefox-ESR, W3M or Lynx.
 
 ## Installation
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable browser
 sudo qubesctl --targets=tpl-browser,dvm-browser state.apply
@@ -29,7 +29,7 @@ sudo qubesctl top.disable browser
 sudo qubesctl state.apply browser.appmenus
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply browser.create

@@ -44,11 +44,11 @@ are allowed to make.
 Here are some of the Global Preferences we can manage:
 
 - **clockvm**: disp-sys-net, sys-net
+- **default_audiovm**: disp-sys-audio
 - **default_dispvm**: dvm-reader
 - **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
-- **default_audiovm**: disp-sys-audio
 
 If you want to learn more about how we make decisions, take a look at our
 [design document](docs/DESIGN.md).
@@ -64,66 +64,66 @@ You current setup needs to fulfill the following requisites:
 
 ### DomU Installation
 
-1. Install `git` in the qube, if it is an AppVM, install it it's the
-   TemplateVM and restart the AppVM.
+1.  Install `git` in the qube, if it is an AppVM, install it it's the
+    TemplateVM and restart the AppVM.
 
-2. Clone this repository:
-  ```sh
-  git clone --recurse-submodules https://github.com/ben-grande/qusal.git
-  ```
-  If you made a fork, fork the submodule(s) before clone and use your remote
-  repository instead, the submodules will also be from your fork.
+2.  Clone the repository (if you made a fork, fork the submodule(s) before
+    clone and use your remote repository instead, the submodules will also be
+    from your fork).
+    ```sh
+    git clone --recurse-submodules https://github.com/ben-grande/qusal.git
+    ```
 
-3. Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D93E91A475969DE4E371E3.asc)
-   to your text editor and save the file to `/home/user/ben-code.asc`.
+3.  Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D93E91A475969DE4E371E3.asc)
+    to your text editor and save the file to `/home/user/ben-code.asc`.
 
 ### Dom0 Installation
 
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
 
-1. Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
-   `CHANGEME` for the desired valued):
-  ```sh
-  qube="CHANGEME" # qube name where you downloaded the repository
-  file="CHANGEME" # path to the repository in the qube
+1.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
+    `CHANGEME` for the desired valued):
+    ```sh
+    qube="CHANGEME" # qube name where you downloaded the repository
+    file="CHANGEME" # path to the repository in the qube
 
-  qvm-run --pass-io --localcmd="UPDATES_MAX_FILES=10000
-    /usr/libexec/qubes/qfile-dom0-unpacker user
-    ~/QubesIncoming/${qube}/qusal" \
-    "${qube}" /usr/lib/qubes/qfile-agent "${file}"
-  ```
+    qvm-run --pass-io --localcmd="UPDATES_MAX_FILES=10000
+      /usr/libexec/qubes/qfile-dom0-unpacker user
+      ~/QubesIncoming/${qube}/qusal" \
+      "${qube}" /usr/lib/qubes/qfile-agent "${file}"
+    ```
 
-2. Pass the maintainer's key from the qube to Dom0:
+2.  Pass the maintainer's key from the qube to Dom0:
     ```sh
     qvm-run --pass-io "${qube}" -- "cat /home/user/ben-code.asc" | tee /tmp/ben-code.asc
     ```
 
-3. Verify that the key fingerprint matches
-     `DF38 3487 5B65 7587 13D9  2E91 A475 969D E4E3 71E3`. You can use
-     Sequoia-PGP or GnuPG for the fingerprint verification:
-     ```sh
-     gpg --show-keys /tmp/ben-code.asc
-     # or
-     #sq inspect ben-code.asc
-     ```
+3.  Verify that the key fingerprint matches
+    `DF38 3487 5B65 7587 13D9  2E91 A475 969D E4E3 71E3`. You can use
+    Sequoia-PGP or GnuPG for the fingerprint verification:
+    ```sh
+    gpg --show-keys /tmp/ben-code.asc
+    # or
+    #sq inspect ben-code.asc
+    ```
 
-4. Import the verified key to your keyring:
-     ```sh
-     gpg --import /tmp/ben-code.asc
-     ```
+4.  Import the verified key to your keyring:
+    ```sh
+    gpg --import /tmp/ben-code.asc
+    ```
 
-5. Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
-   and expect a good signature, be surprised otherwise:
-  ```sh
-  git verify-commit HEAD
-  git submodule foreach git verify-commit HEAD
-  ```
+5.  Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
+    and expect a good signature, be surprised otherwise:
+    ```sh
+    git verify-commit HEAD
+    git submodule foreach git verify-commit HEAD
+    ```
 
-6. Copy the project to the Salt directories:
-  ```sh
-  ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
-  ```
+6.  Copy the project to the Salt directories:
+    ```sh
+    ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
+    ```
 
 ## Update
 
@@ -144,35 +144,35 @@ This method is more secure than literally copying the whole directory of the
 repository to dom0 but the setup is more involved. Requires some familiarity
 with the sys-git formula.
 
-1. Install the [sys-git formula](salt/sys-git/README.md) and push the
-   repository to the git server.
+1.  Install the [sys-git formula](salt/sys-git/README.md) and push the
+    repository to the git server.
 
-2. Install git on Dom0, allow the Qrexec protocol to work in submodules and
-   clone the repository to `~/src/qusal` (only has to be run once):
-  ```sh
-  mkdir -p ~/src
-  sudo qubesctl state.apply sys-git.install-client
-  git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
-  ```
+2.  Install `git` on Dom0, allow the Qrexec protocol to work in submodules and
+    clone the repository to `~/src/qusal` (only has to be run once):
+    ```sh
+    mkdir -p ~/src
+    sudo qubesctl state.apply sys-git.install-client
+    git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
+    ```
 
 3. Next updates will be pulling instead of cloning:
-  ```sh
-  git -C ~/src/qusal pull --recurse-submodules
-  git -C ~/src/qusal submodule update --merge
-  ```
+    ```sh
+    git -C ~/src/qusal pull --recurse-submodules
+    git -C ~/src/qusal submodule update --merge
+    ```
 
-4. Verify the commit or tag signature and expect a good signature, be
-  surprised otherwise (signature verification on submodules is skipped if
-  checking out but not merging):
-  ```sh
-  git verify-commit HEAD
-  git submodule foreach git verify-commit HEAD
-  ```
+4.  Verify the commit or tag signature and expect a good signature, be
+    surprised otherwise (signature verification on submodules is skipped if
+    checking out but not merging):
+    ```sh
+    git verify-commit HEAD
+    git submodule foreach git verify-commit HEAD
+    ```
 
-5. Copy the project to the Salt directories:
-  ```
-  ~/src/qusal/scripts/setup.sh
-  ```
+5.  Copy the project to the Salt directories:
+    ```
+    ~/src/qusal/scripts/setup.sh
+    ```
 
 ### Dom0 Update by literally copying the git repository
 
@@ -183,33 +183,33 @@ tracked by git. It would be easier to distrust the downloader qube if the
 project had a signed archive. The `.git/info/exclude` can exclude modified
 files from being tracked and signature verification won't catch it.
 
-1. Install the helpers scripts and git on Dom0 (only has to be run once):
-  ```sh
-  sudo qubesctl state.apply dom0.install-helpers
-  sudo qubes-dom0-update git
-  ```
+1.  Install the helpers scripts and git on Dom0 (only has to be run once):
+    ```sh
+    sudo qubesctl state.apply dom0.install-helpers
+    sudo qubes-dom0-update git
+    ```
 
-2. Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
-   `CHANGEME` for the desired valued):
-  ```sh
-  qube="CHANGEME" # qube name where you downloaded the repository
-  file="CHANGEME" # path to the repository in the qube
+2.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
+    `CHANGEME` for the desired valued):
+    ```sh
+    qube="CHANGEME" # qube name where you downloaded the repository
+    file="CHANGEME" # path to the repository in the qube
 
-  rm -rf ~/QubesIncoming/"${qube}"/qusal
-  UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
-  ```
+    rm -rf ~/QubesIncoming/"${qube}"/qusal
+    UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
+    ```
 
-3. Verify the commit or tag signature and expect a good signature, be
-  surprised otherwise:
-  ```sh
-  git verify-commit HEAD
-  git submodule foreach git verify-commit HEAD
-  ```
+3.  Verify the commit or tag signature and expect a good signature, be
+    surprised otherwise:
+    ```sh
+    git verify-commit HEAD
+    git submodule foreach git verify-commit HEAD
+    ```
 
-4. Copy the project to the Salt directories:
-  ```sh
-  ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
-  ```
+4.  Copy the project to the Salt directories:
+    ```sh
+    ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
+    ```
 
 ## Usage
 

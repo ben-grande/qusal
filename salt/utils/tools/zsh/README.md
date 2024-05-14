@@ -15,14 +15,14 @@ warnings.
 
 ## Installation
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable utils.tools.zsh
 sudo qubesctl --targets=TARGET state.apply
 sudo qubesctl top.disable utils.tools.zsh
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.zsh.change-shell

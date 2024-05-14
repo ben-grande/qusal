@@ -21,14 +21,14 @@ are done through the web interface, they have GitHub Web-Flow signature. This
 is the best verification we can get for Mirage Firewall. If you don't trust
 the hosting provider however, don't install this package.
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable mirage-builder
 sudo qubesctl --targets=tpl-mirage-builder,mirage-builder state.apply
 sudo qubesctl top.disable mirage-builder
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply mirage-builder.create

@@ -26,14 +26,14 @@ At least `200GB` of disk space is required.
 
 This formula depends on [sys-bitcoin](../sys-bitcoin/README.md).
 
-- Top
+- Top:
 ```sh
 sudo qubesctl top.enable sys-electrs
 sudo qubesctl --targets=tpl-electrs-builder,tpl-sys-electrs,disp-electrs-builder,sys-electrs state.apply
 sudo qubesctl top.disable sys-electrs
 ```
 
-- State
+- State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply sys-electrs.create
