@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+---
+name: Cron
+
+# yamllint disable-line rule:truthy
+on:
+  # yamllint disable-line rule:empty-values
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  schedule:
+    - cron: "0 0 15,30 * *"
+
+concurrency:
+  group: ci-${{ github.ref }}-10
+  cancel-in-progress: true
+
+jobs:
+  pgp-expiration-check:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Discover keys that are expired or close to expiration date
+        run: scripts/pgp-expiration.sh $(find -type f -name "*.asc")
