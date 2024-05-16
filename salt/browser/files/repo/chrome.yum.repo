@@ -1,0 +1,8 @@
+[google-chrome]
+name=google-chrome - $basearch
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chrome
+
+# vim: ft=toml

@@ -7,15 +7,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' -%}
 
+{% if grains['os_family']|lower == 'debian' -%}
 include:
   - .install-repo
   - utils.tools.common.update
+{% endif -%}
 
 "{{ slsdotpath }}-installed":
   pkg.installed:
+    {% if grains['os_family']|lower == 'debian' %}
     - require:
       - sls: {{ slsdotpath }}.install-repo
       - sls: utils.tools.common.update
+    {% endif %}
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
