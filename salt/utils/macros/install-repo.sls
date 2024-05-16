@@ -81,4 +81,10 @@ If sls_path is 'browser', then this would install the repo from:
 
 {% endif -%}
 
+{% if salt['cmd.shell']('command -v apt-cacher-ng-repo >/dev/null') -%}
+"{{ name }}-run-apt-cacher-ng-repo":
+  cmd.run:
+    - name: apt-cacher-ng-repo
+{% endif -%}
+
 {% endmacro -%}

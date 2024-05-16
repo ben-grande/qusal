@@ -1,2 +1,2 @@
-deb [signed-by=/usr/share/keyrings/chrome.asc] http://dl.google.com/linux/chrome/deb/ stable main
+deb [signed-by=/usr/share/keyrings/chrome.asc] https://dl.google.com/linux/chrome/deb/ stable main
 # vim:ft=debsources

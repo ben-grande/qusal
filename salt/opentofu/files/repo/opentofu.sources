@@ -1,5 +1,5 @@
 Types: deb
-URIs: http://packages.opentofu.org/opentofu/tofu/any/
+URIs: https://packages.opentofu.org/opentofu/tofu/any/
 Suites: any
 Components: main
 Signed-by: /usr/share/keyrings/opentofu.asc

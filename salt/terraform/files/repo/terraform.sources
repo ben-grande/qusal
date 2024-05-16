@@ -1,5 +1,5 @@
 Types: deb
-URIs: http://apt.releases.hashicorp.com
+URIs: https://apt.releases.hashicorp.com
 Suites: bookworm
 Components: main
 Signed-by: /usr/share/keyrings/terraform.asc

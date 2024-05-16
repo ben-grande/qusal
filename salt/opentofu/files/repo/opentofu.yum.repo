@@ -1,6 +1,6 @@
 [opentofu]
 name=opentofu
-baseurl=http://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/$basearch
+baseurl=https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/$basearch
 repo_gpgcheck=0
 gpgcheck=1
 enabled=1
@@ -11,7 +11,7 @@ metadata_expire=300
 
 [opentofu-source]
 name=opentofu-source
-baseurl=http://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/SRPMS
+baseurl=https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/SRPMS
 repo_gpgcheck=0
 gpgcheck=1
 enabled=1

@@ -1,5 +1,5 @@
 Types: deb
-URIs: http://ppa.launchpad.net/ansible/ansible/ubuntu
+URIs: https://ppa.launchpad.net/ansible/ansible/ubuntu
 Suites: jammy
 Components: main
 Signed-by: /usr/share/keyrings/ansible.asc
