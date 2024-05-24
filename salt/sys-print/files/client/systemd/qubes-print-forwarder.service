@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2023 unman <unman@thirdeyesecurity.org>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Print over Qrexec
+After=qubes-qrexec-agent.service
+ConditionPathExists=/var/run/qubes-service/print-setup
+
+[Service]
+ExecStart=/usr/bin/socat TCP4-LISTEN:631,reuseaddr,fork,end-close EXEC:"qrexec-client-vm @default qusal.Print"
+Restart=on-failure
+RestartSec=3
+
+# Hardening
+ProtectSystem=full
+PrivateTmp=true
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
