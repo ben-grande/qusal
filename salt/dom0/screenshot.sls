@@ -19,7 +19,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - zenity
-      - scrot
+      - maim
 
 "{{ slsdotpath }}-screenshot-script":
   file.managed:

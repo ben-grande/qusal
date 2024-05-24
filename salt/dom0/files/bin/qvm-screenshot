@@ -55,8 +55,8 @@ File outcome:
  --move                      move file instead of copy
 Development mode:
  -D, --dialog-cmd           dialog tool: kdialog, zenity
- -S, --screenshot-cmd       screenshot tool: spectacle, xfce4-screenshooter,
-                             scrot, maim"
+ -S, --screenshot-cmd       screenshot tool: maim, scrot, spectacle,
+                             xfce4-screenshooter"
   exit 1
 }
 
@@ -156,26 +156,20 @@ if test -n "${screenshot_cmd_wanted}"; then
       zenity) zenity --info --text "${msg}";;
       kdialog) kdialog --msgbox "${msg}";;
     esac
+    msg="wanted screenshot program unsupported: ${screenshot_cmd_wanted}"
+    echo "[ERROR] ${msg}"
     exit 1
   fi
-  case "${screenshot_cmd_wanted}" in
-    kdialog|zenity);;
-    *)
-      msg="wanted screenshot program unsupported: ${screenshot_cmd_wanted}"
-      echo "[ERROR] ${msg}"
-      exit 1
-      ;;
-  esac
   screenshot_cmd="${screenshot_cmd_wanted}"
 else
-  if command -v spectacle >/dev/null; then
+  if command -v maim >/dev/null; then
+    screenshot_cmd="maim"
+  elif command -v scrot >/dev/null; then
+    screenshot_cmd="scrot"
+  elif command -v spectacle >/dev/null; then
     screenshot_cmd="spectacle"
   elif command -v xfce4-screenshooter >/dev/null; then
     screenshot_cmd="xfce4-screenshooter"
-  elif command -v scrot >/dev/null; then
-    screenshot_cmd="scrot"
-  elif command -v maim >/dev/null; then
-    screenshot_cmd="maim"
   fi
   if test -z "${screenshot_cmd}"; then
     msg="screenshot programs not found: spectacle xfce4-screenshooter scrot maim"
