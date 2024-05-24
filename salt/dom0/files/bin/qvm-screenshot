@@ -141,11 +141,10 @@ else
   elif command -v zenity >/dev/null; then
     dialog_cmd="zenity"
   fi
-fi
-
-if test -z "${dialog_cmd}"; then
-  echo "[ERROR] dialog programs not found: zenity kdialog"
-  exit 1
+  if test -z "${dialog_cmd}"; then
+    echo "[ERROR] dialog programs not found: zenity kdialog"
+    exit 1
+  fi
 fi
 
 if test -n "${screenshot_cmd_wanted}"; then
@@ -156,10 +155,16 @@ if test -n "${screenshot_cmd_wanted}"; then
       zenity) zenity --info --text "${msg}";;
       kdialog) kdialog --msgbox "${msg}";;
     esac
-    msg="wanted screenshot program unsupported: ${screenshot_cmd_wanted}"
-    echo "[ERROR] ${msg}"
     exit 1
   fi
+  case "${screenshot_cmd_wanted}" in
+    maim|scrot|spectacle|xfce4-screenshooter);;
+    *)
+      msg="wanted screenshot program unsupported: ${screenshot_cmd_wanted}"
+      echo "[ERROR] ${msg}"
+      exit 1
+      ;;
+  esac
   screenshot_cmd="${screenshot_cmd_wanted}"
 else
   if command -v maim >/dev/null; then
