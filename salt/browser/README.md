@@ -48,18 +48,27 @@ to install:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chromium
 ```
+
 - Chrome:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chrome
 ```
-- Firefox-ESR:
+
+- Firefox:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox
 ```
+
+- Firefox-ESR:
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox-esr
+```
+
 - W3M:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-w3m
 ```
+
 - Lynx:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-lynx

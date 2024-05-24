@@ -6,4 +6,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 base:
   'tpl-browser':
-    - browser.install-firefox
+    - browser.install-firefox-repo

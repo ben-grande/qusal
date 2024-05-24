@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://packages.mozilla.org/apt
+Suites: mozilla
+Components: main
+Signed-by: /usr/share/keyrings/mozilla.asc
+# vim:ft=debsources

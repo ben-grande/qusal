@@ -7,14 +7,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .install-firefox-repo
   - .install-common
 
-"{{ slsdotpath }}-installed-firefox":
+"{{ slsdotpath }}-installed-firefox-esr":
   pkg.installed:
+    - require:
+      - sls: {{ slsdotpath }}.install-common
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - firefox
+      - firefox-esr
 
 {% endif -%}
