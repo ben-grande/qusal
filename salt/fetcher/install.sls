@@ -28,5 +28,6 @@ include:
       - rsync
       - transmission-cli
       - transmission-qt
+      - man-db
 
 {% endif -%}

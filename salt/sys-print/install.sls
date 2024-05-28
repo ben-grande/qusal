@@ -25,6 +25,7 @@ include:
       - qubes-core-agent-networking
       - cups
       - ipp-usb
+      - man-db
       ## Print
       - printer-driver-cups-pdf
       - system-config-printer

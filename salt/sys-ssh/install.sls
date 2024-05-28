@@ -19,6 +19,7 @@ include:
     - pkgs:
       - openssh-server
       - socat
+      - man-db
 
 "{{ slsdotpath }}-stop-ssh":
   service.dead:

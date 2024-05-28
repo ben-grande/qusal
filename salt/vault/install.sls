@@ -19,13 +19,14 @@ include:
     - pkgs:
       - keepassxc
       - gnupg2
+      - man-db
 
 {% set pkg = {
     'Debian': {
       'pkg': ['sq', 'openssh-client'],
     },
     'RedHat': {
-      'pkg': ['sequoia-sq', 'openssh-clients'],
+      'pkg': ['sequoia-sq', 'sequoia-chameleon-gnupg', 'openssh-clients'],
     },
 }.get(grains.os_family) -%}
 

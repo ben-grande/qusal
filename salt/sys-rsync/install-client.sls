@@ -18,6 +18,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - rsync
+      - man-db
 
 "{{ slsdotpath }}-client-systemd":
   file.recurse:

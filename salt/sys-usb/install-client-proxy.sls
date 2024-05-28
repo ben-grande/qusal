@@ -17,5 +17,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - qubes-usb-proxy
+      - pciutils
+      - mab-db
 
 {% endif -%}

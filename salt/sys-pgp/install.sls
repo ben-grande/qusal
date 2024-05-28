@@ -19,6 +19,7 @@ include:
     - pkgs:
       - split-gpg2
       - gnupg2
+      - man-db
 
 {% set pkg = {
   'Debian': {

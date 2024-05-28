@@ -22,5 +22,6 @@ include:
       - ca-certificates
       - iproute2
       - systemd-timesyncd
+      - man-db
 
 {% endif -%}

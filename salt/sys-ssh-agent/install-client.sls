@@ -23,6 +23,7 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - socat
+      - man-db
 
 {% set pkg = {
     'Debian': {

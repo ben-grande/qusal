@@ -24,6 +24,7 @@ include:
     - pkgs:
       - socat
       - syncthing
+      - man-db
 
 {% set pkg = {
     'Debian': {

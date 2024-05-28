@@ -31,5 +31,6 @@ include:
       - wireguard
       - unzip
       - curl
+      - man-db
 
 {% endif -%}

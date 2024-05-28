@@ -21,6 +21,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - git
+      - man-db
 
 "{{ slsdotpath }}-rpc":
   file.recurse:

@@ -19,6 +19,7 @@ include:
     - pkgs:
       - rsync
       - socat
+      - man-db
 
 "{{ slsdotpath }}-stop-rsync":
   service.dead:

@@ -41,6 +41,7 @@ include:
       - php-xml
       - unzip
       - bash-completion
+      - man-db
 
 "{{ slsdotpath }}-disable-external-admin-interface":
   file.managed:

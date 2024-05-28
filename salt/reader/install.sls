@@ -29,5 +29,6 @@ include:
       - evince
       - python3-pdfminer
       - vim
+      - man-db
 
 {% endif -%}

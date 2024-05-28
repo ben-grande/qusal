@@ -29,6 +29,7 @@ include:
       - socat
       - qubes-core-agent-thunar
       - thunar
+      - man-db
 
 "{{ slsdotpath }}-rpc-service":
   file.managed:

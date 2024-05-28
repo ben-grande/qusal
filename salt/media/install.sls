@@ -31,6 +31,7 @@ include:
       - mpv
       - vlc
       - xpdf
+      - man-db
 
 "{{ slsdotpath }}-etc-mimeapps.list":
   file.managed:
