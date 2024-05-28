@@ -69,6 +69,10 @@ Files: salt/docker/files/repo/*
 Copyright: 2017 Docker Inc. <docker@docker.com>
 License: CC0-1.0
 
+Files: salt/element/files/repo/*
+Copyright: 2019 Element <packages@riot.im>
+License: CC0-1.0
+
 Files: salt/kicksecure-minimal/files/repo/*
 Copyright: 2014 Patrick Schleizer <adrelanos@kicksecure.com>
 License: CC0-1.0

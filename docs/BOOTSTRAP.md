@@ -54,6 +54,7 @@ matter in some circumstances, in those cases, it is noted in this page.
 - Instant messaging and E-Mail:
   - [mail](../salt/mail/README.md)
   - [signal](../salt/signal/README.md)
+  - [element](../salt/element/README.md)
 
 - Electronic cash:
   - [sys-bitcoin](../salt/sys-bitcoin/README.md)
@@ -70,6 +71,7 @@ matter in some circumstances, in those cases, it is noted in this page.
 - Multimedia:
   - [reader](../salt/reader/README.md)
   - [media](../salt/media/README.md)
+  - [sys-print](../salt/sys-print/README.md)
 
 - File sharing:
   - [sys-ssh](../salt/sys-ssh/README.md)

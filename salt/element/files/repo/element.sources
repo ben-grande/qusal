@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://packages.element.io/debian/
+Suites: default
+Components: main
+Signed-by: /usr/share/keyrings/element.asc
+# vim:ft=debsources
