@@ -34,8 +34,8 @@ include:
     - runtime: False
 
 "{{ slsdotpath }}-disable-apt-cacher-ng":
-  cmd.run:
-    - name: systemctl disable apt-cacher-ng
+  service.disabled:
+    - name: apt-cacher-ng
 
 "{{ slsdotpath }}-create-qubes-cacher-config-dir":
   file.directory:
@@ -48,11 +48,12 @@ include:
 
 "{{ slsdotpath }}-systemd-service":
   file.managed:
-    - name: /usr/lib/systemd/system/qubes-apt-cacher-ng.service
-    - source: salt://{{ slsdotpath }}/files/server/systemd/qubes-apt-cacher-ng.service
+    - name: /usr/lib/systemd/system/apt-cacher-ng.service.d/50_qusal.conf
+    - source: salt://{{ slsdotpath }}/files/server/systemd/apt-cacher-ng.service.d/50_qusal.conf
     - user: root
     - group: root
     - mode: '0644'
+    - makedirs: True
 
 "{{ slsdotpath }}-mask-qubes-apt-cacher-ng":
   service.masked:
@@ -60,8 +61,8 @@ include:
     - runtime: False
 
 "{{ slsdotpath }}-disable-qubes-apt-cacher-ng":
-  cmd.run:
-    - name: systemctl disable qubes-apt-cacher-ng
+  service.disabled:
+    - name: qubes-apt-cacher-ng
 
 "{{ slsdotpath }}-install-backends_debian":
   file.prepend:
@@ -99,6 +100,7 @@ include:
   file.managed:
     - name: /etc/qubes-apt-cacher-ng/acng.conf
     - source: salt://{{ slsdotpath }}/files/server/conf/acng.conf
+    - mode: '0644'
     - user: root
     - group: root
     - makedirs: True
