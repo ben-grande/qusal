@@ -1,2 +1,0 @@
-deb [signed-by=/usr/share/keyrings/mozilla.asc] https://packages.mozilla.org/apt mozilla main
-# vim:ft=debsources

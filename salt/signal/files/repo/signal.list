@@ -1,2 +1,0 @@
-deb [arch=amd64 signed-by=/usr/share/keyrings/signal.asc] https://updates.signal.org/desktop/apt xenial main
-# vim: ft=debsources

@@ -1,2 +1,0 @@
-deb [signed-by=/usr/share/keyrings/element.asc] https://packages.element.io/debian/ default main
-# vim:ft=debsources

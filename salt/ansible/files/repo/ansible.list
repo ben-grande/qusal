@@ -1,2 +1,0 @@
-deb [signed-by=/usr/share/keyrings/ansible.asc] https://ppa.launchpad.net/ansible/ansible/ubuntu focal main
-# vim: ft=debsources

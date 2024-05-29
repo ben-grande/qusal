@@ -1,2 +1,0 @@
-deb [arch=amd64 signed-by=/usr/share/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable
-# vim: ft=debsources
