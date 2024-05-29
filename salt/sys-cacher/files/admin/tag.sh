@@ -10,7 +10,19 @@ exclude="$(qvm-ls --no-spinner --raw-list --tags whonix-updatevm \
            | sed "s/^./--exclude &/" | tr "\n" " ")"
 
 # shellcheck disable=SC2086
-wanted="$(qvm-ls --no-spinner --raw-data --fields=NAME,CLASS --all ${exclude} \
-          | awk -v class="TemplateVM" -F "|" '$2 ~ class {print $1}')"
+templates="$(qvm-ls --no-spinner --raw-data --fields=NAME,CLASS --all ${exclude} \
+             | awk -v class="TemplateVM" -F "|" '$2 ~ class {print $1}' \
+             | tr "\n" " ")"
 
-echo "${wanted}"
+wanted=""
+for qube in ${templates}; do
+  os_distro="$(qvm-features "${qube}" os-distribution || true)"
+  case "${os_distro}" in
+    debian|ubuntu|linuxmint|kali|arch)
+      wanted="${wanted:+"${wanted} "}${qube}"
+      ;;
+    *) continue
+  esac
+done
+
+echo "${wanted}" | tr " " "\n"

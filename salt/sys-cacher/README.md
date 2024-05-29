@@ -31,6 +31,10 @@ This change will be done automatically for every template that exists and is
 not Whonix based. No changes are made to Whonix templates, and updates to
 those templates will not be cached.
 
+The caching proxy supports Debian derivatives (not Whonix) and Arch Linux.
+Fedora support was dropped due to unreliability of the mirror mechanism of
+zchunk checksums when caching packages.
+
 ## Installation
 
 Installation may take a long time as it will target all templates unless you
@@ -172,6 +176,13 @@ from the templates that you don't want to cache packages:
 ```sh
 sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.uninstall-client
 qvm-tags del QUBE updatevm-sys-cacher
+```
+
+If you tagged manually a qube that is unsupported, updates for that qube will
+fail. Get a full list of unsupported qubes (**warning**: there may be false
+positives of supported qubes being listed):
+```sh
+sudo qubesctl --show-output state.apply sys-cacher.list-extra-tag
 ```
 
 ## Credits

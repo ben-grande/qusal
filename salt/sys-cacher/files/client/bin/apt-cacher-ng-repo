@@ -85,15 +85,23 @@ check_netvm_cacher(){
   proxy_conf="proxy=${proxy_addr}"
 }
 
+reject_os(){
+  echo "${0##*/} does not support your Operating System distribution." >&2
+  exit 1
+}
+
+# shellcheck disable=SC2317
 set_proxy_os(){
   if test -e /etc/fedora-release; then
     ## Fedora
+    ## Uninstall because it leads to many zchunk checksum mismatch problems.
+    action="uninstall"
+    echo "${0##*/} doesn't work well on Fedora, uninstalling." >&2
 
     if test -w /etc/dnf/dnf.conf; then
       set_proxy_marker /etc/dnf/dnf.conf "zchunk=False
 ${proxy_conf}"
     fi
-
     if test -n "${proxy_addr}"; then
       cat >/etc/yum.conf.d/qubes-proxy.conf <<EOF
 ${proxy_conf}
@@ -162,7 +170,7 @@ EOF
     esac
 
   elif test -e /etc/debian_version && test ! -e /usr/share/whonix/marker; then
-    ## Debian but not Whonix.
+    ## Debian and derivatives but not Whonix.
 
     if test -n "${proxy_addr}"; then
       cat >/etc/apt/apt.conf.d/50cacher-proxy <<EOF
@@ -250,9 +258,9 @@ EOF
     esac
 
   else
-    ## TODO: Gentoo.
-    echo "Cacher does not support your Operating System distribution." >&2
-    exit 1
+    ## Gentoo: upstream does not have a good solution:
+    ##   https://wiki.gentoo.org/wiki/Local_distfiles_cache#Configuring_for_Gentoo
+    reject_os
   fi
 }
 

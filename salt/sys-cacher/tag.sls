@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% set templates = salt['cmd.script']('salt://' ~ slsdotpath ~ '/files/admin/tag.sh') -%}
 {% for tpl in templates.stdout.split("\n") -%}
-"{{ slsdotpath }}-tag-for-{{ tpl }}":
+"{{ slsdotpath }}-add-tag-of-{{ tpl }}":
   qvm.tags:
     - name: {{ tpl }}
     - add:

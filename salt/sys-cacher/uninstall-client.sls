@@ -4,13 +4,22 @@ SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-{% if salt['cmd.shell']('command -v apt-cacher-ng-repo >/dev/null') -%}
+"{{ slsdotpath }}-install-client-scripts":
+  file.recurse:
+    - name: /usr/bin/
+    - source: salt://{{ slsdotpath }}/files/client/bin/
+    - file_mode: "0755"
+    - group: root
+    - user: root
+    - makedirs: True
+
 "{{ slsdotpath }}-uninstall-client-repository-modifications":
   cmd.run:
+    - require:
+      - file: "{{ slsdotpath }}-install-client-scripts"
     - name: apt-cacher-ng-repo uninstall
     - stateful: True
     - runas: root
-{% endif -%}
 
 "{{ slsdotpath }}-uninstall-client-scripts":
   file.absent:
