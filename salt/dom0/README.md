@@ -6,6 +6,7 @@ Dom0 environment in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+  * [Choose your Dom0 environment](#choose-your-dom0-environment)
 * [Usage](#usage)
 
 ## Description
@@ -38,6 +39,22 @@ To forward ports from qubes to the external world:
 ```sh
 sudo qubesctl state.apply dom0.port-forward
 ```
+
+### Choose your Dom0 environment
+
+Instead of running the state `dom0`, you can select which states to apply:
+
+- Window Manager i3:
+```sh
+sudo qubesctl state.apply dom0.desktop-i3,dom0.desktop-i3-settings
+```
+
+- Window Manager AwesomeWM:
+```sh
+sudo qubesctl state.apply dom0.desktop-awesome
+```
+
+Follow the same syntax for other `dom0` states you desire.
 
 ## Usage
 

@@ -11,7 +11,7 @@ include:
   - .dotfiles
   - .helpers
   - .install
-  - .kde
+  - .desktop-kde
   - .update-settings
   - .xorg
   - .screenshot

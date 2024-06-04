@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -18,5 +18,9 @@ passphrase_text: my-password
 
 destination_vm: backup-ssh
 destination_path: ssh backup 'cat | tee /dir/qubes-backup-$(data +%Y-%m-%d-%H-%M-%S) >/dev/null'
+
+## $ qvm-backup-find-last backup-ssh /dir/ 'ssh backup'
+## $ qvm-backup-restore --verify-only -d backup-ssh \
+##     "ssh backup cat /dir/qubes-backup-file"
 
 # vim: ft=yaml
