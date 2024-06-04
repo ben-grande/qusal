@@ -68,7 +68,7 @@ tags:
 name: {{ slsdotpath }}
 force: True
 require:
-- sls: {{ slsdotpath }}.clone
+- qvm: tpl-{{ slsdotpath }}
 present:
 - template: tpl-{{ slsdotpath }}
 - label: yellow
@@ -169,10 +169,77 @@ tags:
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
+name: dvm-bitcoin
+force: True
+require:
+- qvm: tpl-{{ slsdotpath }}
+present:
+- template: tpl-{{ slsdotpath }}
+- label: gray
+prefs:
+- template: tpl-{{ slsdotpath }}
+- label: gray
+- netvm: ""
+- audiovm: ""
+- default_dispvm: ""
+- vcpus: 4
+- memory: 400
+- maxmem: 600
+- autostart: False
+- include_in_backups: False
+- template_for_dispvms: True
+features:
+- enable:
+  - appmenus-dispvm
+- disable:
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "bitcoin-qt.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- del:
+  - "bitcoin-client"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: disp-bitcoin
+force: True
+require:
+- qvm: dvm-bitcoin
+present:
+- template: dvm-bitcoin
+- label: gray
+- class: DispVM
+prefs:
+- template: dvm-bitcoin
+- label: gray
+- netvm: ""
+- audiovm: ""
+- default_dispvm: ""
+- vcpus: 4
+- memory: 400
+- maxmem: 600
+- autostart: False
+- include_in_backups: False
+features:
+- disable:
+  - appmenus-dispvm
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "bitcoin-qt.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- del:
+  - "bitcoin-client"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: bitcoin
 force: True
 require:
-- sls: {{ slsdotpath }}.clone
+- qvm: tpl-{{ slsdotpath }}
 present:
 - template: tpl-{{ slsdotpath }}
 - label: gray
@@ -208,7 +275,7 @@ tags:
 "{{ slsdotpath }}-extend-builder-private-volume":
   cmd.run:
     - require:
-      - qvm: disp-bitcoin-builder
+      - qvm: dvm-bitcoin-builder
     - name: qvm-volume extend dvm-bitcoin-builder:private 20Gi
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}

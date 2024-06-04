@@ -47,10 +47,75 @@ tags:
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
+name: dvm-{{ slsdotpath }}
+force: True
+require:
+- qvm: tpl-{{ slsdotpath }}
+present:
+- template: tpl-{{ slsdotpath }}
+- label: gray
+prefs:
+- template: tpl-{{ slsdotpath }}
+- label: gray
+- netvm: ""
+- audiovm: ""
+- vcpus: 1
+- memory: 400
+- maxmem: 600
+- autostart: False
+- include_in_backups: False
+- template_for_dispvms: True
+features:
+- enable:
+  - appmenus-dispvm
+- disable:
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop qubes-open-file-manager.desktop electrum.desktop"
+tags:
+- add:
+  - "electrum-client"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: disp-{{ slsdotpath }}
+force: True
+require:
+- qvm: dvm-{{ slsdotpath }}
+present:
+- template: dvm-{{ slsdotpath }}
+- label: gray
+- class: DispVM
+prefs:
+- template: dvm-{{ slsdotpath }}
+- label: gray
+- netvm: ""
+- audiovm: ""
+- vcpus: 1
+- memory: 400
+- maxmem: 600
+- autostart: False
+- include_in_backups: False
+features:
+- disable:
+  - appmenus-dispvm
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop qubes-open-file-manager.desktop electrum.desktop"
+tags:
+- add:
+  - "electrum-client"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: {{ slsdotpath }}
 force: True
 require:
-- sls: {{ slsdotpath }}.clone
+- qvm: tpl-{{ slsdotpath }}
 present:
 - template: tpl-{{ slsdotpath }}
 - label: gray
@@ -77,10 +142,75 @@ tags:
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
+name: dvm-{{ slsdotpath }}-hot
+force: True
+require:
+- qvm: {{ whonix_workstation.template }}
+present:
+- template: {{ whonix_workstation.template }}
+- label: orange
+prefs:
+- template: {{ whonix_workstation.template }}
+- label: orange
+- audiovm: ""
+- netvm: sys-bitcoin-gateway
+- vcpus: 1
+- memory: 400
+- maxmem: 600
+- autostart: False
+- include_in_backups: True
+- template_for_dispvms: True
+features:
+- enable:
+  - appmenus-dispvm
+- disable:
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop qubes-open-file-manager.desktop electrum.desktop"
+tags:
+- add:
+  - "anon-vm"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: disp-{{ slsdotpath }}-hot
+force: True
+require:
+- qvm: dvm-{{ slsdotpath }}-hot
+present:
+- template: dvm-{{ slsdotpath }}-hot
+- label: orange
+- class: DispVM
+prefs:
+- template: dvm-{{ slsdotpath }}-hot
+- label: orange
+- audiovm: ""
+- netvm: sys-bitcoin-gateway
+- vcpus: 1
+- memory: 400
+- maxmem: 600
+- autostart: False
+- include_in_backups: True
+features:
+- disable:
+  - appmenus-dispvm
+  - service.cups
+  - service.cups-browsed
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop qubes-open-file-manager.desktop electrum.desktop"
+tags:
+- add:
+  - "anon-vm"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: {{ slsdotpath }}-hot
 force: True
 require:
-- sls: {{ slsdotpath }}.clone
+- qvm: {{ whonix_workstation.template }}
 present:
 - template: {{ whonix_workstation.template }}
 - label: orange
