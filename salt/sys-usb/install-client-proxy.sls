@@ -18,6 +18,6 @@ include:
     - pkgs:
       - qubes-usb-proxy
       - pciutils
-      - mab-db
+      - man-db
 
 {% endif -%}

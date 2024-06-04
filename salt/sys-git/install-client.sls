@@ -19,7 +19,7 @@ include:
     - skip_suggestions: True
     - pkgs:
       - git
-      - mab-db
+      - man-db
 
 {% set git = {
     'Debian': {
