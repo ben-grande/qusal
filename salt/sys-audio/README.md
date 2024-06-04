@@ -92,7 +92,7 @@ will fail. To be able to use the device again:
 
 ### How to use USB devices
 
-Please refer to the [sys-usb formula instructions](../sys-usb/README.md).
+Please refer to the [usage of sys-usb](../sys-usb/README.md#usage).
 
 ### How to use Bluetooth
 

@@ -8,7 +8,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - utils.tools.common.update
-  ## qubes-usb-proxy: integrated camera and external USB.
+  ## TODO: video-companion covers camera, what about external USB speakers/mic?
+  ## qubes-usb-proxy: external USB microphone and speakers
   - sys-usb.install-client-proxy
 
 "{{ slsdotpath }}-client-installed":

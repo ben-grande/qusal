@@ -130,6 +130,16 @@ To use these devices, there are two options:
     - Disadvantages:
         - Some applications might not work due to not finding the device.
 
+3. Using [video-companion](../video-companion/README.md) to access webcam:
+    - Advantages:
+        - The most secure for client and server as the physical devices are
+          unmanaged;
+        - Least latency.
+    - Disadvantages:
+        - Can't use video-companion to screen share and share webcam at the
+          same time; and
+        - Does not cover audio.
+
 ## Credits
 
 - [Unman](https://github.com/unman/shaker/blob/main/sys-usb)
