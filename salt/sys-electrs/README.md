@@ -31,6 +31,7 @@ This formula depends on [sys-bitcoin](../sys-bitcoin/README.md).
 sudo qubesctl top.enable sys-electrs
 sudo qubesctl --targets=tpl-electrs-builder,tpl-sys-electrs,disp-electrs-builder,sys-electrs state.apply
 sudo qubesctl top.disable sys-electrs
+sudo qubesctl state.apply sys-electrs.appmenus
 ```
 
 - State:
@@ -41,6 +42,7 @@ sudo qubesctl --skip-dom0 --targets=tpl-electrs-builder state.apply sys-electrs.
 sudo qubesctl --skip-dom0 --targets=tpl-sys-electrs state.apply sys-electrs.install
 sudo qubesctl --skip-dom0 --targets=disp-electrs-builder state.apply sys-electrs.configure-builder
 sudo qubesctl --skip-dom0 --targets=sys-electrs state.apply sys-electrs.configure
+sudo qubesctl state.apply sys-electrs.appmenus
 ```
 <!-- pkg:end:post-install -->
 

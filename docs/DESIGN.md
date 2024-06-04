@@ -5,13 +5,15 @@ Qusal design document.
 ## Table of Contents
 
 * [Goal](#goal)
+* [Documentation](#documentation)
 * [Format](#format)
+  * [Readme](#readme)
   * [File naming](#file-naming)
   * [State ID](#state-id)
-  * [Readme](#readme)
   * [Qube preferences](#qube-preferences)
     * [Qube naming](#qube-naming)
     * [Qube label](#qube-label)
+    * [Qube menu](#qube-menu)
   * [Qube connections](#qube-connections)
   * [Qrexec call and policy](#qrexec-call-and-policy)
 
@@ -150,6 +152,20 @@ related to trustworthiness of the data it is dealing with.
     -   **Description**: Holds untrusted data (PCI devices, untrusted
         programs, disposables for opening untrusted files or web pages).
     -   **Examples**: sys-net, sys-usb, dvm-browser.
+
+#### Qube menu
+
+The Qubes App Menu is used by GUI users, always add the `.desktop` files to
+the qube feature `menu-items`, if it is a template, also add to the feature
+`default-menu-items`. Remember to sync the App Menus after the installation of
+software in the desired qube.
+
+Explicitly setting menu item avoids the user clicking on a software not
+intended to be run in the selected qube or trying to run software that is not
+installed. The user opening Tor Browser in a Whonix qube that is intended for
+building software is risky, the user trying to open a file manager on a qube
+that doesn't have one is less risky but for the user the behavior is
+unexpected.
 
 ### Qube connections
 

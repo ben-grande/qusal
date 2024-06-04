@@ -5,4 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% from 'utils/macros/sync-appmenus.sls' import sync_appmenus -%}
-{{ sync_appmenus('tpl-sys-bitcoin') }}
+{{ sync_appmenus('tpl-sys-electrs') }}
+
+{% from 'utils/macros/sync-appmenus.sls' import sync_appmenus -%}
+{{ sync_appmenus('tpl-electrs-builder') }}

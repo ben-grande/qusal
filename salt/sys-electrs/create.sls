@@ -67,6 +67,7 @@ prefs:
 - default_dispvm: ""
 features:
 - set:
+  - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 ## See comment in clone.sls.
 {% if salt['cmd.shell']('qvm-features tpl-electrs-builder') == "whonix-ws" %}
