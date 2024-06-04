@@ -29,20 +29,17 @@ matter in some circumstances, in those cases, it is noted in this page.
   - [sys-cacher](../salt/sys-cacher/README.md)
   - [mgmt](../salt/mgmt/README.md)
 
-- Networking:
-  - [sys-net](../salt/sys-net/README.md)
-  - [sys-firewall](../salt/sys-firewall/README.md)
-
-- Miscellaneous:
-  - [vault](../salt/vault/README.md)
-  - [sys-gui](../salt/sys-gui/README.md)
-  - [sys-audio](../salt/sys-audio/README.md)
-
 ## Optional
 
 ### Internet communication
 
+- PCI devices holders:
+  - [sys-net](../salt/sys-net/README.md)
+  - [sys-audio](../salt/sys-audio/README.md)
+  - [sys-usb](../salt/sys-usb/README.md)
+
 - Firewall, DNS Sinkhole and VPN Tunnel:
+  - [sys-firewall](../salt/sys-firewall/README.md)
   - [sys-mirage-firewall](../salt/sys-mirage-firewall/README.md)
   - [sys-pihole](../salt/sys-pihole/README.md)
   - [sys-wireguard](../salt/sys-wireguard/README.md)
@@ -64,16 +61,17 @@ matter in some circumstances, in those cases, it is noted in this page.
 
 ### Files
 
-- USB:
-  - [usb](../salt/usb/README.md)
-  - [sys-usb](../salt/sys-usb/README.md)
+Passwords and TOTP:
+  - [vault](../salt/vault/README.md)
 
 - Multimedia:
   - [reader](../salt/reader/README.md)
   - [media](../salt/media/README.md)
   - [sys-print](../salt/sys-print/README.md)
+  - [video-companion](../salt/video-companion/README.md)
 
 - File sharing:
+  - [usb](../salt/usb/README.md)
   - [sys-ssh](../salt/sys-ssh/README.md)
   - [sys-syncthing](../salt/sys-syncthing/README.md)
   - [sys-rsync](../salt/sys-rsync/README.md)
