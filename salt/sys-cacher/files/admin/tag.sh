@@ -18,7 +18,10 @@ wanted=""
 for qube in ${templates}; do
   os_distro="$(qvm-features "${qube}" os-distribution || true)"
   case "${os_distro}" in
-    debian|ubuntu|linuxmint|kali|arch)
+    debian|kali|kicksecure|parrot| \
+    ubuntu|linuxmint| \
+    arch|blackarch| \
+    fedora)
       wanted="${wanted:+"${wanted} "}${qube}"
       ;;
     *) continue

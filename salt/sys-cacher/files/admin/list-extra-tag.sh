@@ -17,7 +17,10 @@ wanted=""
 for qube in ${tagged}; do
   get_os_distro "${qube}"
   case "${os_distro}" in
-    debian|ubuntu|linuxmint|kali|kicksecure|arch)
+    debian|kali|kicksecure|parrot| \
+    ubuntu|linuxmint| \
+    arch|blackarch| \
+    fedora)
       continue
       ;;
     "")
@@ -43,7 +46,10 @@ for qube in ${tagged}; do
           esac
           get_os_distro "${template}"
           case "${os_distro}" in
-            debian|ubuntu|linuxmint|kali|kicksecure|arch)
+            debian|kali|kicksecure|parrot| \
+            ubuntu|linuxmint| \
+            arch|blackarch| \
+            fedora)
               continue
               ;;
             ## Qube is not supported.

@@ -17,9 +17,8 @@ Caching proxy server for software repositories in Qubes OS.
 ## Description
 
 The caching proxy is "sys-cacher" based on apt-cacher-ng, it stores downloaded
-packages, so that you need only download a package once for it to be used when
-updating many  The proxy is preconfigured to work out of the box
-for Debian, Ubuntu, Arch, and Fedora
+packages, so that you need only download a package once and fetch locally the
+next time you want to upgrade your system packages.
 
 When you install this package, qubes will be tagged with "updatevm-sys-cacher"
 and they will be altered to use the proxy by default. When there is "https://"
@@ -31,9 +30,11 @@ This change will be done automatically for every template that exists and is
 not Whonix based. No changes are made to Whonix templates, and updates to
 those templates will not be cached.
 
-The caching proxy supports Debian derivatives (not Whonix) and Arch Linux.
-Fedora support was dropped due to unreliability of the mirror mechanism of
-zchunk checksums when caching packages.
+The caching proxy supports:
+
+- Debian and derivatives (but not Whonix)
+- Fedora and derivatives
+- Arch Linux and derivatives
 
 ## Installation
 
@@ -136,7 +137,7 @@ By default, only templates will use the proxy to update, if you want to cache
 non-TemplateVMs updates or simply make them functional again, the qube will
 need the `service.updates-proxy-setup` feature set:
 ```sh
-qvm-tags add QUBE updatevm-sys-cacher
+qvm-tags QUBE add updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
 sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
 ```
@@ -145,13 +146,13 @@ Don't forget to restart the qube.
 If you don't want or can't restart the qube, such as DispVMs, where you would
 lose the current session:
 ```sh
-qvm-tags add QUBE updatevm-sys-cacher
+qvm-tags QUBE add updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
+sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
 qvm-run --user=root QUBE -- "
 touch /var/run/qubes-service/updates-proxy-setup
 /usr/bin/apt-cacher-ng-repo
 systemctl restart qubes-updates-proxy-forwarder.socket"
-sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
 ```
 
 ## Uninstallation
@@ -175,7 +176,7 @@ If you want to use the standard proxy for a few qubes, only uninstall it
 from the templates that you don't want to cache packages:
 ```sh
 sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.uninstall-client
-qvm-tags del QUBE updatevm-sys-cacher
+qvm-tags QUBE del updatevm-sys-cacher
 ```
 
 If you tagged manually a qube that is unsupported, updates for that qube will

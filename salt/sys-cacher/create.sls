@@ -56,6 +56,7 @@ features:
 - enable:
   - servicevm
   - service.crond
+  - service.apt-cacher-ng
 - disable:
   - service.cups
   - service.cups-browsed

@@ -4,7 +4,6 @@ SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-
 "{{ slsdotpath }}-install-client-scripts":
   file.recurse:
     - name: /usr/bin/

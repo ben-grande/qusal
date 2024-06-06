@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+http://cdn-fastly.deb.debian.org/debian-security
+http://deb.debian.org/debian-security
+http://security.debian.org
+http://security.debian.org/debian-security
+
+https://cdn-fastly.deb.debian.org/debian-security
+https://deb.debian.org/debian-security
+https://security.debian.org
+https://security.debian.org/debian-security

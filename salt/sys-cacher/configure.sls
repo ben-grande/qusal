@@ -9,15 +9,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - dotfiles.copy-x11
 
-"{{ slsdotpath }}-install-rc.local":
-  file.managed:
-    - name: /rw/config/rc.local.d/50-sys-cacher.rc
-    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-sys-cacher.rc
-    - mode: '0755'
-    - user: root
-    - group: root
-    - makedirs: True
-
 "{{ slsdotpath }}-install-qubes-firewall":
   file.managed:
     - name: /rw/config/qubes-firewall.d/50-sys-cacher

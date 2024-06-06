@@ -28,14 +28,25 @@ include:
       - anacron
       - apt-cacher-ng
 
-"{{ slsdotpath }}-mask-apt-cacher-ng":
-  service.masked:
+"{{ slsdotpath }}-unmask-apt-cacher-ng":
+  service.unmasked:
     - name: apt-cacher-ng
     - runtime: False
 
-"{{ slsdotpath }}-disable-apt-cacher-ng":
-  service.disabled:
+"{{ slsdotpath }}-enable-apt-cacher-ng":
+  service.enabled:
     - name: apt-cacher-ng
+
+## TODO: legacy: remove after some weeks for user to have time to upgrade
+"{{ slsdotpath }}-mask-qubes-apt-cacher-ng":
+  service.masked:
+    - name: qubes-apt-cacher-ng
+    - runtime: False
+
+## TODO: legacy: remove after some weeks for user to have time to upgrade
+"{{ slsdotpath }}-disable-qubes-apt-cacher-ng":
+  service.disabled:
+    - name: qubes-apt-cacher-ng
 
 "{{ slsdotpath }}-create-qubes-cacher-config-dir":
   file.directory:
@@ -55,38 +66,18 @@ include:
     - mode: '0644'
     - makedirs: True
 
-"{{ slsdotpath }}-mask-qubes-apt-cacher-ng":
-  service.masked:
-    - name: qubes-apt-cacher-ng
-    - runtime: False
-
-"{{ slsdotpath }}-disable-qubes-apt-cacher-ng":
-  service.disabled:
-    - name: qubes-apt-cacher-ng
-
-"{{ slsdotpath }}-install-backends_debian":
-  file.prepend:
-    - name: /etc/qubes-apt-cacher-ng/backends_debian
-    - text: https://deb.debian.org/debian
-
-"{{ slsdotpath }}-update-debian-mirrors":
+"{{ slsdotpath }}-update-deb_mirrors.gz":
   cmd.run:
     - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/qubes-apt-cacher-ng/deb_mirrors.gz
     - runas: root
 
-"{{ slsdotpath }}-update-fedora-mirrors":
-  file.managed:
-    - name: /etc/qubes-apt-cacher-ng/fedora_mirrors
-    - source: salt://{{ slsdotpath }}/files/server/mirrors/fedora_mirrors
-    - user: root
+"{{ slsdotpath }}-update-conf":
+  file.recurse:
+    - name: /etc/qubes-apt-cacher-ng/
+    - source: salt://{{ slsdotpath }}/files/server/conf/
+    - file_mode: "0644"
     - group: root
-
-"{{ slsdotpath }}-update-arch-mirrors":
-  file.managed:
-    - name: /etc/qubes-apt-cacher-ng/archlx_mirrors
-    - source: salt://{{ slsdotpath }}/files/server/mirrors/archlx_mirrors
     - user: root
-    - group: root
 
 "{{ slsdotpath }}-lib-qubes-bind-dirs":
   file.managed:
@@ -95,15 +86,6 @@ include:
     - mode: '0644'
     - user: root
     - group: root
-
-"{{ slsdotpath }}-acng.conf":
-  file.managed:
-    - name: /etc/qubes-apt-cacher-ng/acng.conf
-    - source: salt://{{ slsdotpath }}/files/server/conf/acng.conf
-    - mode: '0644'
-    - user: root
-    - group: root
-    - makedirs: True
 
 "{{ slsdotpath }}-desktop-application-browser":
   file.managed:

@@ -94,9 +94,6 @@ reject_os(){
 set_proxy_os(){
   if test -e /etc/fedora-release; then
     ## Fedora
-    ## Uninstall because it leads to many zchunk checksum mismatch problems.
-    action="uninstall"
-    echo "${0##*/} doesn't work well on Fedora, uninstalling." >&2
 
     if test -w /etc/dnf/dnf.conf; then
       set_proxy_marker /etc/dnf/dnf.conf "zchunk=False
