@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -9,17 +9,20 @@ set -eu
 me="${0##*/}"
 
 usage(){
-  printf '%s\n' "Usage: ${me} [QVM-RUN_OPTIONS] QUBE
+  printf '%s\n' "Usage: ${me} [QVM-RUN_OPTIONS] <QUBE>
 Examples:
-  ${me} --dispvm=DVM_TEMPLATE
-  ${me} -u root QUBE
-  ${me} QUBE" >&2
+  ${me} --dispvm=<DVM_TEMPLATE>
+  ${me} -u root <QUBE>
+  ${me} <QUBE>
+The application to open can be specified with environment variables:
+  QVM_TERMINAL=xterm ${me} -u root <QUBE>
+  QVM_FILE_MANAGER=thunar ${me} -u root <QUBE>" >&2
   exit "${1-"1"}"
 }
 
 case "${me}" in
-  *-terminal) service=qubes-run-terminal ;;
-  *-file-manager) service=qubes-open-file-manager ;;
+  *-terminal) service="${QVM_TERMINAL:-"qubes-run-terminal"}";;
+  *-file-manager) service="${QVM_FILE_MANAGER:-"qubes-open-file-manager"}";;
   *) printf '%s\n' "Invalid script name: ${me}" exit 1 ;;
 esac
 
