@@ -41,14 +41,14 @@ include:
     - name: systemctl disable lightdm
     - runas: root
     - require:
-      - pkg: {{ slsdotpath }}-kde-installed
+      - pkg: {{ slsdotpath }}-desktop-kde-installed
 
 "{{ slsdotpath }}-desktop-kde-enable-sddm":
   cmd.run:
     - name: systemctl enable sddm
     - runas: root
     - require:
-      - cmd: {{ slsdotpath }}-disable-lightdm
+      - cmd: {{ slsdotpath }}-desktop-kde-disable-lightdm
 
 "{{ slsdotpath }}-desktop-kde-activity-notifier":
   file.managed:
