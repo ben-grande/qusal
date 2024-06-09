@@ -68,7 +68,7 @@ features:
 name: {{ slsdotpath }}-browser
 force: true
 require:
-- sls: {{ slsdotpath }}.clone
+- sls: browser.create
 present:
 - template: tpl-browser
 - label: yellow

@@ -70,6 +70,7 @@ present:
 - template: tpl-browser
 - label: orange
 prefs:
+- template: tpl-browser
 - label: orange
 - netvm: ""
 - audiovm: ""

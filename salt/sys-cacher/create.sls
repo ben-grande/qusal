@@ -8,6 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
+  - browser.create
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
@@ -71,7 +72,7 @@ features:
 name: {{ slsdotpath }}-browser
 force: true
 require:
-- sls: {{ slsdotpath }}.clone
+- sls: browser.create
 present:
 - template: tpl-browser
 - label: gray
