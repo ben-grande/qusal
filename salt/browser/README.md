@@ -39,7 +39,7 @@ sudo qubesctl state.apply browser.appmenus
 ```
 <!-- pkg:end:post-install -->
 
-### Choose you browser
+### Choose your browser
 
 Instead of running the state `browser.install`, you can select which browser
 to install:

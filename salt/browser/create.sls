@@ -20,8 +20,8 @@ prefs:
 - maxmem: 2000
 features:
 - set:
-  - default-menu-items: "firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
-  - menu-items: "firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop hqubes-start.desktop" # noqa: 204
+  - default-menu-items: "org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
 - disable:
   - service.tracker
   - service.evolution-data-server
@@ -52,6 +52,6 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
 {%- endload %}
 {{ load(defaults) }}
