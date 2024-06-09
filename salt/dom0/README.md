@@ -21,12 +21,14 @@ etc.
 sudo qubesctl top.enable dom0
 sudo qubesctl state.apply
 sudo qubesctl top.disable dom0
+sudo qubesctl --skip-dom0 --templates --standalones state.apply update.qubes-vm
 ```
 
 - State:
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply dom0
+sudo qubesctl --skip-dom0 --templates --standalones state.apply update.qubes-vm
 ```
 <!-- pkg:end:post-install -->
 
