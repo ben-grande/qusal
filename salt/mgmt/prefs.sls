@@ -7,7 +7,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - .create
 
-"{{ slsdotpath }}-set-management_dispvm-to-default":
+"{{ slsdotpath }}-set-qubes-prefs-management_dispvm-to-dvm-{{ slsdotpath }}":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-install-salt-deps"
+    - name: qubes-prefs management_dispvm dvm-{{ slsdotpath }}
+
+"{{ slsdotpath }}-set-tpl-{{ slsdotpath }}-management_dispvm-to-default":
   qvm.vm:
     - require:
       - cmd: "{{ slsdotpath }}-install-salt-deps"
@@ -18,7 +24,8 @@ include:
 "{{ slsdotpath }}-remove-default-mgmt-dvm":
   qvm.absent:
     - require:
-      - qvm: {{ slsdotpath }}-set-management_dispvm-to-default
+      - cmd: "{{ slsdotpath }}-set-qubes-prefs-management_dispvm-to-dvm-{{ slsdotpath }}"
+      - qvm: "{{ slsdotpath }}-set-tpl-{{ slsdotpath }}-management_dispvm-to-default"
     - name: default-mgmt-dvm
 
 ## TODO: Remove when template with patch reaches upstream or updates enforce
@@ -27,7 +34,7 @@ include:
 "{{ slsdotpath }}-shutdown-template":
   qvm.shutdown:
     - require:
-      - qvm: "{{ slsdotpath }}-set-management_dispvm-to-default"
+      - qvm: "{{ slsdotpath }}-set-tpl-{{ slsdotpath }}-management_dispvm-to-default"
     - name: tpl-{{ slsdotpath }}
     - flags:
       - force
