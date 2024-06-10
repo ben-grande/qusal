@@ -4,5 +4,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 http://deb.debian.org/debian
+http://fasttrack.debian.net/debian-fasttrack
+http://debian-fasttrack.sur5r.net/debian
 
 https://deb.debian.org/debian
+https://fasttrack.debian.net/debian-fasttrack
+https://debian-fasttrack.sur5r.net/debian
