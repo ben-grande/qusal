@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2024 unman <unman@thirdeyesecurity.org>
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+https://ftp.qubes-os.org/
+https://archlinux.qubes-os.org/
+https://contrib.qubes-os.org/
+https://deb.qubes-os.org/
+https://debu.qubes-os.org/
+https://yum.qubes-os.org/
+
+http://ftp.halifax.rwth-aachen.de/qubes/
+http://ftp.icm.edu.pl/pub/os/qubes/
+https://ftp.cc.uoc.gr/mirrors/linux/qubes/
+https://ftp.rnl.tecnico.ulisboa.pt/pub/qubesos/
+https://is.mirror.flokinet.net/qubes/
+https://mirror-2.hosthink.net/qubes/
+https://mirror.accum.se/mirror/qubes-os.org/
+https://mirror.hackingand.coffee/qubes/
+https://mirror.koljasagorski.de/qubes/
+https://mirror.krmir.org/qubes/
+https://mirror.leitecastro.com/qubes/
+https://mirror.library.ucy.ac.cy/linux/qubes/
+https://mirrors.aliyun.com/qubes/
+https://mirrors.dgplug.org/qubes/
+https://mirrors.dotsrc.org/qubes/
+https://mirrors.edge.kernel.org/qubes/
+https://mirrors.gigenet.com/qubes/
+https://mirrors.hyperreal.coffee/qubes/
+https://mirrors.nju.edu.cn/qubes/
+https://mirrors.qontinuum.space/qubes-os/
+https://mirrors.tuna.tsinghua.edu.cn/qubesos/
+https://mirrors.ukfast.co.uk/sites/qubes-os.org/
+https://nl.mirror.flokinet.net/qubes/
+https://plug-mirror.rcac.purdue.edu/qubes/
+https://polish-mirror.evolution-host.com/qubes/
+https://quantum-mirror.hu/mirrors/pub/qubes/
+https://qubes-mirror.igniterefereeing.com.au/
+https://qubesos-mirror.applied-privacy.net/
+https://ro.mirror.flokinet.net/qubes/
