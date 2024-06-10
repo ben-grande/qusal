@@ -3,8 +3,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 [Unit]
-Description=Dynamically write repository definitions to be used by apt-cacher-ng
-After=qubes-mount-dirs.service
+Description=Dynamically write repository definitions for use of apt-cacher-ng
+After=qubes-misc-post.service
+After=qubes-sysinit.service
 Before=qubes-update-check.service
 
 [Service]
