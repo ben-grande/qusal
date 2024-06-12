@@ -1,4 +1,4 @@
-# debian
+# debian-xfce
 
 Debian Xfce Template in Qubes OS.
 

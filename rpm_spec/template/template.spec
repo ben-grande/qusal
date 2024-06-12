@@ -6,7 +6,6 @@
 %define my_name        %(./scripts/spec-get.sh @PROJECT@ name)
 %define branch         %(./scripts/spec-get.sh @PROJECT@ branch)
 %define project        %(./scripts/spec-get.sh @PROJECT@ project)
-%define release        %(./scripts/spec-get.sh @PROJECT@ release)
 %define summary        %(./scripts/spec-get.sh @PROJECT@ summary)
 %define group          %(./scripts/spec-get.sh @PROJECT@ group)
 %define vendor         %(./scripts/spec-get.sh @PROJECT@ vendor)
@@ -17,7 +16,7 @@
 
 Name:           %{project}
 Version:        @VERSION@
-Release:        %autorelease
+Release:        1%{?dist}
 Summary:        %{summary}
 
 Group:          %{group}
@@ -25,7 +24,10 @@ Vendor:         %{vendor}
 License:        %{license}
 URL:            %{url}
 Source0:        %{project}
+BuildArch:      noarch
 
+Requires:       qubes-mgmt-salt
+Requires:       qubes-mgmt-salt-dom0
 @REQUIRES@
 
 %description
@@ -37,7 +39,9 @@ Source0:        %{project}
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}%{file_roots}
+mkdir -p %{buildroot}%{file_roots} %{buildroot}/usr/share/licenses/%{project}
+mv -v %{project}/LICENSES/* %{buildroot}/usr/share/licenses/%{project}/
+rm -rv %{project}/LICENSES
 cp -rv %{project} %{buildroot}%{file_roots}/%{my_name}
 
 %check
@@ -73,10 +77,11 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%license %{file_roots}/%{my_name}/LICENSES/%{license_csv}
+%license /usr/share/licenses/%{project}/*
+%dir %{file_roots}/%{my_name}
 %doc %{file_roots}/%{my_name}/README.md
-%dir %{file_roots}/%{my_name}/*
-%dnl %{file_roots}/%{my_name}/*
+%exclude %{file_roots}/%{my_name}/README.md
+%{file_roots}/%{my_name}/*
 
 %changelog
-%dnl %autochangelog
+@CHANGELOG@

@@ -15,8 +15,8 @@ usage(){
 ## Get scriptlet command, else fail safe.
 get_scriptlet(){
   scriptlet="$1"
-  sed -n "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" "${readme}" \
-    | grep -v -e '^```\S*$' -e "^<\!-- " | sed "s/^sudo //" || echo "true"
+  sed -n "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" \
+    "${readme}" | sed '/^```.*/d;/^<\!-- pkg:/d;s/^sudo //' || echo "true"
 }
 
 get_spec(){
@@ -68,7 +68,7 @@ gen_spec(){
     "${template}" | tee "${target}" >/dev/null
 
   requires_key=""
-  for r in $(printf %s"${requires}" | tr " " "\n"); do
+  for r in $(printf %s"${requires}" | tr " " "\n" | sort -u); do
     requires_key="${requires_key}\nRequires: ${group}-${r}"
   done
   sed -i "s/@REQUIRES@/${requires_key}/" "${target}" >/dev/null
@@ -76,15 +76,19 @@ gen_spec(){
 }
 
 case "${1-}" in
-  ""|-h|--?help) usage; exit 1;;
+  -h|--?help) usage; exit 1;;
 esac
 
-command -v git >/dev/null ||
-  { printf "Missing program: git\n" >&2; exit 1; }
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)"
 
 spec_get="./scripts/spec-get.sh"
 
+if test -z "${1-}"; then
+  # shellcheck disable=SC2046
+  set -- $(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
+           | sort -d | tr "\n" " ")
+fi
 for p in "$@"; do
   gen_spec "${p}"
 done

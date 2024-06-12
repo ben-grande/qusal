@@ -8,6 +8,10 @@ set -eu
 
 now="$(date +%s)"
 fail="0"
+if test -z "${1-}"; then
+  echo "No file provided" >&2
+  exit 1
+fi
 for key in "${@}"; do
   data="$(gpg --no-keyring --no-auto-check-trustdb --no-autostart \
           --with-colons --show-keys "${key}")"

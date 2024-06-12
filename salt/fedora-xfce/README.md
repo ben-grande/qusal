@@ -1,4 +1,4 @@
-# fedora
+# fedora-xfce
 
 Fedora Xfce Template in Qubes OS.
 

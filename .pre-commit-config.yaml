@@ -43,3 +43,9 @@ repos:
         args: [--staged, --msg-filename]
         stages: [commit-msg]
         description: Lint Git commits
+
+      - id: qubesbuilder
+        name: qubesbuilder
+        entry: scripts/qubesbuilder-gen.sh test
+        language: script
+        description: Check if .qubesbuilder is up to date

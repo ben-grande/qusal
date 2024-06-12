@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+# vim: ft=yaml
+---
+host:
+  rpm:
+    build:
+      - rpm_spec/qusal-ansible.spec
+      - rpm_spec/qusal-browser.spec
+      - rpm_spec/qusal-debian.spec
+      - rpm_spec/qusal-debian-minimal.spec
+      - rpm_spec/qusal-debian-xfce.spec
+      - rpm_spec/qusal-dev.spec
+      - rpm_spec/qusal-docker.spec
+      - rpm_spec/qusal-dom0.spec
+      - rpm_spec/qusal-dotfiles.spec
+      - rpm_spec/qusal-electrum.spec
+      - rpm_spec/qusal-element.spec
+      - rpm_spec/qusal-fedora.spec
+      - rpm_spec/qusal-fedora-minimal.spec
+      - rpm_spec/qusal-fedora-xfce.spec
+      - rpm_spec/qusal-fetcher.spec
+      - rpm_spec/qusal-kicksecure-minimal.spec
+      - rpm_spec/qusal-mail.spec
+      - rpm_spec/qusal-media.spec
+      - rpm_spec/qusal-mgmt.spec
+      - rpm_spec/qusal-mirage-builder.spec
+      - rpm_spec/qusal-opentofu.spec
+      - rpm_spec/qusal-qubes-builder.spec
+      - rpm_spec/qusal-reader.spec
+      - rpm_spec/qusal-remmina.spec
+      - rpm_spec/qusal-signal.spec
+      - rpm_spec/qusal-ssh.spec
+      - rpm_spec/qusal-sys-audio.spec
+      - rpm_spec/qusal-sys-bitcoin.spec
+      - rpm_spec/qusal-sys-cacher.spec
+      - rpm_spec/qusal-sys-electrs.spec
+      - rpm_spec/qusal-sys-electrumx.spec
+      - rpm_spec/qusal-sys-firewall.spec
+      - rpm_spec/qusal-sys-git.spec
+      - rpm_spec/qusal-sys-mirage-firewall.spec
+      - rpm_spec/qusal-sys-net.spec
+      - rpm_spec/qusal-sys-pgp.spec
+      - rpm_spec/qusal-sys-pihole.spec
+      - rpm_spec/qusal-sys-print.spec
+      - rpm_spec/qusal-sys-rsync.spec
+      - rpm_spec/qusal-sys-ssh.spec
+      - rpm_spec/qusal-sys-ssh-agent.spec
+      - rpm_spec/qusal-sys-syncthing.spec
+      - rpm_spec/qusal-sys-usb.spec
+      - rpm_spec/qusal-sys-wireguard.spec
+      - rpm_spec/qusal-terraform.spec
+      - rpm_spec/qusal-usb.spec
+      - rpm_spec/qusal-utils.spec
+      - rpm_spec/qusal-vault.spec
+      - rpm_spec/qusal-video-companion.spec
+      - rpm_spec/qusal-whonix-gateway.spec
+      - rpm_spec/qusal-whonix-workstation.spec

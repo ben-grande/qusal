@@ -8,7 +8,8 @@
 set -eu
 
 usage(){
-  names="$(find salt/ -maxdepth 1 -type d | cut -d "/" -f2 | tr "\n" " ")"
+  names="$(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
+           | sort -d | tr "\n" " ")"
   echo "Usage: ${0##*/} <NAME> <KEY>"
   echo "Example: ${0##*/} qubes-builder description"
   echo "Names: ${names}"
@@ -28,29 +29,34 @@ block_max_chars(){
 
 keys="name branch group file_roots requires vendor url version project project_dir changelog readme license_csv license description summary saltfiles"
 
+name=""
+key=""
 case "${1-}" in
   "") usage; exit 1;;
   -h|--?help) usage; exit 0;;
+  *) name="${1}"; shift;;
 esac
-case "${2-}" in
+case "${1-}" in
   "") usage; exit 1;;
+  *) key="${1}"; shift;;
 esac
+if test -z "${key##* }"; then
+  echo "Key is emtpy: ${key}" >&2
+  exit 1
+fi
 
-command -v reuse >/dev/null ||
-  { printf "Missing program: reuse\n" >&2; exit 1; }
-command -v git >/dev/null ||
-  { printf "Missing program: git\n" >&2; exit 1; }
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)" || exit 1
+./scripts/requires-program.sh reuse
 
-name="${1}"
-key="${2}"
-branch="$(git branch --show-current)"
+if test "${key}" = "branch"; then
+  branch="$(git branch --show-current)"
+fi
+
 group="qusal"
 block_max_chars group "${group}" 70
-
 file_roots="/srv/salt/${group}"
 vendor="Benjamin Grande"
-
 url="https://github.com/ben-grande/qusal"
 version="1.0"
 
@@ -68,51 +74,53 @@ if ! test -f "${readme}"; then
   exit 1
 fi
 
-license_csv="$(reuse --root "${project_dir}" lint |
-  awk -F ':' '/^* Used licenses:/{print $2}' | tr -d " ")"
-license="$(echo "$license_csv" | sed "s/,/ AND /g")"
-#license="$(reuse --root "${project_dir}" lint |
-#           awk -F ':' '/^* Used licenses:/{print $2}' | sed "s|, | AND |g")"
-
-## The problem with %autochangelog is that it will print logs of all projects
-## and we separate a project per directory.
-## The disadvantage of the changelog below is that it doesn't differentiate
-## commits per package release.
-changelog="$(TZ=UTC0 git log -n 50 --format=format:"* %cd %an <%ae> - %h%n- %s%n%n" --date=format:"%a %b %d %Y" -- "${project_dir}" | sed -re "s/^- +- */- /;/^$/d")"
-
-#block_max_chars license "${license}" 70
-description="$(sed -n '/^## Description/,/^## /p' "${readme}" |
-               sed '1d;$d' | sed "1{/^$/d}")"
-summary="$(sed -n '3p' "${readme}")"
-block_max_chars summary "${summary}" 70
-
-saltfiles="$(find "${project_dir}" -maxdepth 1 -name "*.sls")"
-# shellcheck disable=SC2086
-if test -n "${saltfiles}"; then
-  requires="$(sed -n '/^include:$/,/^\s*$/p' ${saltfiles} | sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u | sed "s/- //")"
-  if grep -qrn "{%-\? from \('\|\"\)utils" ${saltfiles}; then
-    if test -n "${requires}"; then
-      requires="${requires} utils"
-    else
-      requires="utils"
-    fi
-  fi
-else
-  requires=""
+if test "${key}" = "license" || test "${key}" = "license_csv"; then
+  license_csv="$(reuse --root "${project_dir}" lint |
+    awk -F ':' '/^* Used licenses:/{print $2}' | tr -d " ")"
+  license="$(echo "${license_csv}" | sed "s/,/ AND /g")"
 fi
-requires_valid=""
-for r in $(printf %s"${requires}" | tr " " "\n"); do
-  if ! test -d "salt/${r}"; then
-    continue
-  fi
-  requires_valid="${requires_valid} ${r}"
-done
-requires="${requires_valid}"
-unset requires_valid
 
-if test -z "${key}" || test "$(echo "${key}" | sed "s/ //g")" = ""; then
-  echo "Key has no value: ${key}" >&2
-  exit 1
+## The macro %autochangelog prints logs of all projects and we separate a
+## project per directory. The disadvantage of the changelog below is it
+# #doesn't differentiate commits per version and release, but per commit id.
+if test "${key}" = "changelog"; then
+  changelog="$(TZ=UTC0 git log -n 50 --format=format:"* %cd %an <%ae> - %h%n- %s%n%n" --date=format:"%a %b %d %Y" -- "${project_dir}" | sed -re "s/^- +- */- /;/^$/d")"
+fi
+
+if test "${key}" = "description"; then
+  description="$(sed -n '/^## Description/,/^## /p' "${readme}" |
+                sed '1d;$d' | sed "1{/^$/d}")"
+fi
+
+if test "${key}" = "summary"; then
+  summary="$(sed -n "/^# ${name}$/,/^## Table of Contents$/{/./!d;/^#/d;p}" "${readme}")"
+  block_max_chars summary "${summary}" 70
+fi
+
+if test "${key}" = "saltfiles" || test "${key}" = "requires"; then
+  saltfiles="$(find "${project_dir}" -maxdepth 1 -name "*.sls")"
+  # shellcheck disable=SC2086
+  if test -n "${saltfiles}"; then
+    requires="$(sed -n '/^include:$/,/^\s*$/p' ${saltfiles} | sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u | sed "s/- //")"
+    if grep -qrn "{%-\? from \('\|\"\)utils" ${saltfiles}; then
+      if test -n "${requires}"; then
+        requires="${requires} utils"
+      else
+        requires="utils"
+      fi
+    fi
+  else
+    requires=""
+  fi
+  requires_valid=""
+  for r in $(printf %s"${requires}" | tr " " "\n"); do
+    if ! test -d "salt/${r}"; then
+      continue
+    fi
+    requires_valid="${requires_valid} ${r}"
+  done
+  requires="${requires_valid}"
+  unset requires_valid
 fi
 
 case "${key}" in
