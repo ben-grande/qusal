@@ -19,7 +19,7 @@ it.
 - Top:
 ```sh
 sudo qubesctl top.enable fedora-minimal
-sudo qubesctl --targets=fedora-39-minimal state.apply
+sudo qubesctl --targets=fedora-40-minimal state.apply
 sudo qubesctl top.disable fedora-minimal
 sudo qubesctl state.apply fedora-minimal.prefs
 ```
@@ -28,7 +28,7 @@ sudo qubesctl state.apply fedora-minimal.prefs
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl state.apply fedora-minimal.create
-sudo qubesctl --skip-dom0 --targets=fedora-39-minimal state.apply fedora-minimal.install
+sudo qubesctl --skip-dom0 --targets=fedora-40-minimal state.apply fedora-minimal.install
 sudo qubesctl state.apply fedora-minimal.prefs
 ```
 <!-- pkg:end:post-install -->
