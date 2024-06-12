@@ -15,14 +15,6 @@ include:
   - dotfiles.copy-x11
   - docker.configure
 
-"{{ slsdotpath }}-rpmmacros":
-  file.managed:
-    - name: /home/user/.rpmmacros
-    - source: salt://{{ slsdotpath }}/files/client/rpmmacros
-    - mode: '0644'
-    - user: user
-    - group: user
-
 "{{ slsdotpath }}-makedir-src":
   file.directory:
     - name: /home/user/src
