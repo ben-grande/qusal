@@ -8,20 +8,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - utils.tools.common.update
-  - dotfiles.copy-x11
-  - sys-net.install-proxy
 
-"{{ slsdotpath }}-installed":
+"{{ slsdotpath }}-proxy-installed":
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - qubes-core-agent-network-manager
-      - wpasupplicant
-      - gnome-keyring
-      - notification-daemon
-      - pciutils
+      - socat
 
-{% endif -%}
+"{{ slsdotpath }}-proxy-rpc":
+  file.recurse:
+    - require:
+      - pkg: "{{ slsdotpath }}-proxy-installed"
+    - name: /etc/qubes-rpc/
+    - source: salt://{{ slsdotpath }}/files/server/rpc
+    - user: root
+    - group: root
+    - file_mode: '0755'
+    - dir_mode: '0755'
+
+{% endif %}

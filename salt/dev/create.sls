@@ -30,6 +30,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: purple
+- netvm: ""
 - audiovm: ""
 - vcpus: 1
 - memory: 400
@@ -39,6 +40,7 @@ prefs:
 features:
 - enable:
   - service.split-gpg2-client
+  - service.qusal-proxy-client
   - service.crond
 - disable:
   - service.cups

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+## How to use with SSH?
+## On Dom0 Qrexec policy:
+##   qusal.ConnectTCP +domain.tld+22 sshclient @default ask default_target=sshproxy
+## On Dom0, enable the "qusal-proxy-client" service for the client qube:
+##   qvm-features sshclient service.qusal-proxy-client 1
+## On the SSH Proxy server (netvm of your liking), install this RPC service.
+##   qubesctl --skip-dom0 --targets=sshproxy state.apply sys-net.install-proxy
+## On the client ssh configuration:
+##   Match Exec "test -f /var/run/qubes-service/qusal-proxy-client"
+##           ProxyCommand qrexec-client-vm @default qusal.ConnectTCP+%h+%p
+
+set -eu
+
+arg="${QREXEC_SERVICE_ARGUMENT}"
+host="${arg%%+*}"
+port="${arg##*+}"
+
+if test -z "${port}" || test -z "${host}" || test "${port}" = "${host}"; then
+  echo "Missing either host, port or both" >&2
+  exit 1
+fi
+if test "${#host}" -gt 256; then
+  echo "Host size exceeds limit" >&2
+  exit 1
+fi
+if test "${#port}" -gt 5 || test "${port}" -gt 65535; then
+  echo "Invalid port number, it must be between 1 and 65535" >&2
+  exit 1
+fi
+
+exec socat - "TCP:${host}:${port}"

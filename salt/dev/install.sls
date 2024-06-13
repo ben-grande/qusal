@@ -26,7 +26,6 @@ include:
     - pkgs:
       ## Necessary
       - qubes-core-agent-passwordless-root
-      - qubes-core-agent-networking
       - ca-certificates
       - git
       - gnupg2

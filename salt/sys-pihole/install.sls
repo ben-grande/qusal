@@ -12,6 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - utils.tools.common.update
   - sys-cacher.uninstall-client
+  - sys-net.install-proxy
   - dotfiles.copy-x11
 
 "{{ slsdotpath }}-installed":

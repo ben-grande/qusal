@@ -20,6 +20,8 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
+      - qubes-core-agent-networking
+      - ca-certificates
       - ansible
       - ansible-lint
       - python3-argcomplete
