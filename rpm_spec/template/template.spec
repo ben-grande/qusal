@@ -14,6 +14,17 @@
 %define url            %(./scripts/spec-get.sh @PROJECT@ url)
 %define my_description %(./scripts/spec-get.sh @PROJECT@ description)
 
+## Reproducibility.
+%define source_date_epoch_from_changelog 1
+%define use_source_date_epoch_as_buildtime 1
+%define clamp_mtime_to_source_date_epoch 1
+# Changelog is trimmed according to current date, not last date from changelog.
+%define _changelog_trimtime 0
+%define _changelog_trimage 0
+%global _buildhost %{name}
+# Python bytecode interferes when updates occur and restart is not done.
+%undefine __brp_python_bytecompile
+
 Name:           %{project}
 Version:        @VERSION@
 Release:        1%{?dist}
@@ -39,8 +50,8 @@ Requires:       qubes-mgmt-salt-dom0
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}%{file_roots} %{buildroot}/usr/share/licenses/%{project}
-mv -v %{project}/LICENSES/* %{buildroot}/usr/share/licenses/%{project}/
+mkdir -p %{buildroot}%{file_roots} %{buildroot}%{_defaultlicensedir}/%{project}
+mv -v %{project}/LICENSES/* %{buildroot}%{_defaultlicensedir}/%{project}/
 rm -rv %{project}/LICENSES
 cp -rv %{project} %{buildroot}%{file_roots}/%{my_name}
 
@@ -77,7 +88,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%license /usr/share/licenses/%{project}/*
+%license %{_defaultlicensedir}/%{project}/*
 %dir %{file_roots}/%{my_name}
 %doc %{file_roots}/%{my_name}/README.md
 %exclude %{file_roots}/%{my_name}/README.md
