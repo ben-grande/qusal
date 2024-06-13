@@ -70,7 +70,7 @@ features:
   - default-menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 ## See comment in clone.sls.
-{% if salt['cmd.shell']('qvm-features tpl-electrs-builder') == "whonix-ws" %}
+{% if salt['cmd.shell']('qvm-features tpl-electrs-builder whonix-ws') == '1' %}
 tags:
 - add:
   - "updatevm-sys-bitcoin-gateway"
@@ -92,7 +92,7 @@ prefs:
 - template: tpl-electrs-builder
 - label: red
 ## See comment in clone.sls.
-{% if salt['cmd.shell']('qvm-features tpl-electrs-builder') == "whonix-ws" %}
+{% if salt['cmd.shell']('qvm-features tpl-electrs-builder whonix-ws') == '1' %}
 - netvm: sys-bitcoin-gateway
 {% else %}
 - netvm: "*default*"
@@ -131,7 +131,7 @@ prefs:
 - template: dvm-electrs-builder
 - label: red
 ## See comment in clone.sls.
-{% if salt['cmd.shell']('qvm-features tpl-electrs-builder') == "whonix-ws" %}
+{% if salt['cmd.shell']('qvm-features tpl-electrs-builder whonix-ws') == '1' %}
 - netvm: sys-bitcoin-gateway
 {% else %}
 - netvm: "*default*"
