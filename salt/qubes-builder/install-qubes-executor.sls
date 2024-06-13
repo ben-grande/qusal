@@ -33,7 +33,7 @@ include:
       - python3-sh
       - rpm-build
       - rpmdevtools
-      - wget
+      - wget2
       - python3-debian
       - reprepro
       - systemd-udev

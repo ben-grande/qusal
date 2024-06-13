@@ -23,7 +23,7 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - curl
-      - wget
+      - wget2
       - git
       - rsync
       - transmission-cli
