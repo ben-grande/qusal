@@ -42,6 +42,7 @@ repos:
         entry: gitlint
         args: [--staged, --msg-filename]
         stages: [commit-msg]
+        pass_filenames: true
         description: Lint Git commits
 
       - id: qubesbuilder
