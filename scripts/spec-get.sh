@@ -84,7 +84,7 @@ fi
 ## project per directory. The disadvantage of the changelog below is it
 # #doesn't differentiate commits per version and release, but per commit id.
 if test "${key}" = "changelog"; then
-  changelog="$(TZ=UTC0 git log -n 50 --format=format:"* %cd %an <%ae> - %h%n- %s%n%n" --date=format:"%a %b %d %Y" -- "${project_dir}" | sed -re "s/^- +- */- /;/^$/d")"
+  changelog="$(TZ=UTC0 git log -n 50 --format=format:"* %cd %an <%ae> - %h%n- %s%n" --date=format:"%a %b %d %Y" -- "${project_dir}" | sed -re "s/^- +- */- /")"
 fi
 
 if test "${key}" = "description"; then

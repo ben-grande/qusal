@@ -45,7 +45,7 @@ build_rpm(){
   done
 
   ## TODO: use qubes-builderv2 with mock or qubes executor
-  rpmbuild -ba -- "${spec}"
+  rpmbuild -ba --quiet --clean -- "${spec}"
   if test -n "${key_id}"; then
     rpm_basename="${build_dir}/RPMS/noarch/${group}-${project}-${version}-"
     rpm_suffix=".noarch.rpm"

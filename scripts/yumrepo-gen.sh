@@ -21,7 +21,14 @@ yum_repo="${yum_repo_root}/${qubes_release}/${repo}/host/${dist}"
 mkdir -p "${yum_repo}/rpm"
 find "${build_dir}/RPMS/" -type f -name "*.rpm" \
   -exec cp {} "${yum_repo}/rpm/" \;
-createrepo_c --checksum sha512 "${yum_repo}"
+
+createrepo_args=""
+if test -d "${yum_repo}/repodata"; then
+  createrepo_args="--update"
+fi
+# shellcheck disable=SC2086
+createrepo_c ${createrepo_args} --checksum sha512 "${yum_repo}"
+
 if test -n "${key_id}"; then
   rm -f -- "${yum_repo}/repodata/repomd.xml.asc"
   gpg --batch --no-tty --detach-sign --armor --local-user "${key_id}" \

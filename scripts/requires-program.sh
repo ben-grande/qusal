@@ -5,15 +5,15 @@
 
 set -eu
 
-missing_program=0
+requires_program=""
 for pkg in "${@}"; do
   if ! command -v "${pkg}" >/dev/null; then
-    missing_program=1
-    echo "Missing program: ${pkg}" >&2
+    requires_program="${requires_program:+"${requires_program} "}${pkg}"
     continue
   fi
 done
 
-if test "${missing_program}" = "1"; then
+if test -n "${requires_program}"; then
+  echo "Missing program(s): ${requires_program}" >&2
   exit 1
 fi
