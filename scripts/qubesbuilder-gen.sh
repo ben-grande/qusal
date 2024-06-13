@@ -6,6 +6,9 @@
 
 set -eu
 
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
 template=".qubesbuilder.template"
 target=".qubesbuilder"
 intended_target="${target}"
@@ -16,7 +19,7 @@ if test "${1-}" = "test"; then
 fi
 ignored="$(git ls-files --exclude-standard --others --ignored)"
 untracked="$(git ls-files --exclude-standard --others)"
-unwanted="$(echo "${ignored}" "${untracked}" | grep "^salt/" \
+unwanted="$(printf %s"${ignored}\n${untracked}\n" | grep "^salt/\S\+/README.md" \
             | cut -d "/" -f2 | sort -u)"
 group="$(./scripts/spec-get.sh dom0 group)"
 projects="$(find salt/ -mindepth 1 -maxdepth 1 -type d \
@@ -24,6 +27,11 @@ projects="$(find salt/ -mindepth 1 -maxdepth 1 -type d \
 for unwanted_project in ${unwanted}; do
   projects="$(echo "${projects}" | sed "\@rpm_spec/${group}-${unwanted_project}.spec@d")"
 done
+
+if test "${1-}" = "print"; then
+  echo "${projects}"
+  exit 0
+fi
 
 sed -e "/@SPEC@/d" "${template}" | tee "${target}" >/dev/null
 echo "${projects}" | tee -a "${target}" >/dev/null
