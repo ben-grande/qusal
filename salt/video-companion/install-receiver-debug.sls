@@ -17,6 +17,6 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - dunst
+      - cheese
 
 {% endif %}

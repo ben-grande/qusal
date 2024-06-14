@@ -12,4 +12,4 @@ include:
     - require:
       - sls: utils.tools.common.update
     - pkgs:
-      - video-companion-dom0
+      - qubes-video-companion-dom0
