@@ -12,7 +12,8 @@ Development environment in Qubes OS.
 
 Setup a development qube named "dev". Defines the user interactive shell,
 installing goodies, applying dotfiles, being client of sys-pgp, sys-git and
-sys-ssh-agent.
+sys-ssh-agent. The qube has netvm but can reach remote servers if the policy
+allows.
 
 ## Installation
 
@@ -41,4 +42,9 @@ The development qube `dev` can be used for:
 - building programs;
 - signing commits, tags, pushes and verifying with split-gpg;
 - fetching and pushing to and from local qube repository with split-git; and
-- fetching and pushing to and from remote repository with split-ssh-agent.
+- fetching and pushing to and from remote repository with split-ssh-agent and
+  without direct network connection, you can open port to the desired SSH or
+  HTTP server.
+
+As the qube has no netvm, configure the `qusal.ConnectTCP` service to allow
+for it to communicate with a remote repository for example.

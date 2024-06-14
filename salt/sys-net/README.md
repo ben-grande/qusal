@@ -59,6 +59,16 @@ sudo qubesctl state.apply sys-net.prefs
 You might need to install some firmware on the template for your network
 drivers. Check files/admin/firmware.txt.
 
+## Access control
+
+_Default policy_: every call is denied.
+
+Qube `dev` can ask to connect to `github.com:22` from `disp-sys-net`:
+```qrexecpolicy
+qusal.ConnectTCP +github.com+22 dev @default ask target=disp-sys-net
+qusal.ConnectTCP *              dev @anyvm   deny
+```
+
 ## Usage
 
 A network manager is provided in `sys-net`, from there you can manager Wi-Fi
