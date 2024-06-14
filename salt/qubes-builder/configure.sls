@@ -23,18 +23,6 @@ include:
     - mode: '0755'
     - makedirs: True
 
-"{{ slsdotpath }}-git-clone-builderv2":
-  git.latest:
-    - name: https://github.com/QubesOS/qubes-builderv2.git
-    - target: /home/user/src/qubes-builderv2
-    - user: user
-
-"{{ slsdotpath }}-git-clone-infrastructure-mirrors":
-  git.latest:
-    - name: https://github.com/QubesOS/qubes-infrastructure-mirrors.git
-    - target: /home/user/src/qubes-infrastructure-mirrors
-    - user: user
-
 "{{ slsdotpath }}-gnupg-home":
   file.directory:
     - name: /home/user/.gnupg/qubes-builder
@@ -71,6 +59,42 @@ include:
     - name: gpg --homedir . --import-ownertrust download/otrust.txt
     - cwd: /home/user/.gnupg/qubes-builder
     - runas: user
+
+"{{ slsdotpath }}-git-clone-builderv2":
+  git.cloned:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+    - name: https://github.com/QubesOS/qubes-builderv2.git
+    - target: /tmp/qubes-builderv2
+    - user: user
+
+"{{ slsdotpath }}-git-clone-infrastructure-mirrors":
+  git.cloned:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+    - name: https://github.com/QubesOS/qubes-infrastructure-mirrors.git
+    - target: /home/user/src/qubes-infrastructure-mirrors
+    - user: user
+
+"{{ slsdotpath }}-git-config-gpg.program-for-builder":
+  git.config_set:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+      - git: "{{ slsdotpath }}-git-clone-infrastructure-mirrors"
+    - name: gpg.program
+    - value: gpg-qubes-builder
+    - repo: /home/user/src/qubes-infrastructure-mirrors
+    - user: user
+
+"{{ slsdotpath }}-git-config-gpg.program-for-mirrors":
+  git.config_set:
+    - require:
+      - cmd: "{{ slsdotpath }}-import-keys"
+      - git: "{{ slsdotpath }}-git-clone-builderv2"
+    - name: gpg.program
+    - value: gpg-qubes-builder
+    - repo: /home/user/src/qubes-builderv2
+    - user: user
 
 "{{ slsdotpath }}-git-verify-HEAD-builderv2":
   cmd.run:

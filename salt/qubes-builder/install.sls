@@ -66,4 +66,13 @@ include:
     - addusers:
       - user
 
+"{{ slsdotpath }}-add-gpg-program-verify-git-commits-using-builder-keyring":
+  file.managed:
+    - name: /usr/bin/gpg-qubes-builder
+    - source: salt://{{ slsdotpath }}/files/client/bin/gpg-qubes-builder
+    - user: root
+    - group: root
+    - mode: '0755'
+    - makedirs: True
+
 {% endif -%}

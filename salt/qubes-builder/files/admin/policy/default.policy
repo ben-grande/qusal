@@ -5,6 +5,8 @@
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
+
+## TODO: split-gpg2 configuration for isolated_gnupghomedirs.
 qubes.Gpg2 * {{ sls_path }} @default allow target=sys-pgp
 
 qusal.GitInit  +qubes-builder {{ sls_path }} @default allow target=sys-git

@@ -8,8 +8,9 @@ Setup Qubes OS Builder V2 in Qubes OS itself.
 * [Installation](#installation)
 * [Access Control](#access-control)
 * [Usage](#usage)
+  * [Pulling new commits](#pulling-new-commits)
+  * [Add PGP public key to qubes-builder GPG home directory](#add-pgp-public-key-to-qubes-builder-gpg-home-directory)
   * [Builder configuration](#builder-configuration)
-  * [Update repository safely](#update-repository-safely)
 
 ## Description
 
@@ -58,6 +59,19 @@ unattended build.
 
 ## Usage
 
+### Pulling new commits
+
+The installation will clone the repository but not pull new commits. You will
+need to pull new commits from time to time, their signature will be
+automatically verified before merging them to your git index.
+
+### Add PGP public key to qubes-builder GPG home directory
+
+If you need to pull commits signed by someone with a key not deployed by
+default, import their key to the GPG home directory of qubes-builder:
+```sh
+gpg --homedir "$HOME/.gnupg/qubes-builder" --import KEY
+```
 ### Builder configuration
 
 When using the Qubes Executor, configure the `builder.yml` `dispvm` option to
@@ -74,15 +88,3 @@ executor:
 ```
 Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
-
-### Update repository safely
-
-If you need to pull new commits, set `GNUPGHOME` to
-`/home/user/.gnupg/qubes-builder`, the provided gitconfig enforces signature
-verification on git merges:
-```sh
-GNUPGHOME="$HOME/.gnupg/qubes-builder" git pull
-Commit 7c37bb7 has a good GPG signature by Frederic Pierret (fepitre)
-<frederic.pierret@qubes-os.org>
-...
-```
