@@ -27,7 +27,7 @@ block_max_chars(){
   fi
 }
 
-keys="name branch group file_roots requires vendor url version project project_dir changelog readme license_csv license description summary saltfiles"
+keys="name branch group file_roots requires packager vendor url bug_url version project project_dir changelog readme license_csv license description summary saltfiles"
 
 name=""
 key=""
@@ -56,8 +56,10 @@ fi
 group="qusal"
 block_max_chars group "${group}" 70
 file_roots="/srv/salt/${group}"
-vendor="Benjamin Grande"
-url="https://github.com/ben-grande/qusal"
+vendor="${QUSAL_VENDOR:-"Benjamin Grande"}"
+packager="${QUSAL_PACKAGER:-"Benjamin Grande"}"
+url="${QUSAL_URL:-"https://github.com/ben-grande/qusal"}"
+bug_url="${QUSAL_BUGURL:-"https://github.com/ben-grande/qusal/issues"}"
 version="1.0"
 
 project="${group}-${name}"
@@ -88,12 +90,13 @@ if test "${key}" = "changelog"; then
 fi
 
 if test "${key}" = "description"; then
-  description="$(sed -n '/^## Description/,/^## /p' "${readme}" |
+  description="$(sed -n '/^## Description/,/^## /p' -- "${readme}" |
                 sed '1d;$d' | sed "1{/^$/d}")"
 fi
 
 if test "${key}" = "summary"; then
-  summary="$(sed -n "/^# ${name}$/,/^## Table of Contents$/{/./!d;/^#/d;p}" "${readme}")"
+  summary="$(sed -n "/^# ${name}$/,/^## Table of Contents$/{
+                     /./!d; /^#/d; s/\.$//; p}" -- "${readme}")"
   block_max_chars summary "${summary}" 70
 fi
 
@@ -101,7 +104,7 @@ if test "${key}" = "saltfiles" || test "${key}" = "requires"; then
   saltfiles="$(find "${project_dir}" -maxdepth 1 -name "*.sls")"
   # shellcheck disable=SC2086
   if test -n "${saltfiles}"; then
-    requires="$(sed -n '/^include:$/,/^\s*$/p' ${saltfiles} | sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u | sed "s/- //")"
+    requires="$(sed -n '/^include:$/,/^\s*$/p' -- ${saltfiles} | sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u | sed "s/- //")"
     if grep -qrn "{%-\? from \('\|\"\)utils" ${saltfiles}; then
       if test -n "${requires}"; then
         requires="${requires} utils"
@@ -140,6 +143,8 @@ case "${key}" in
   saltfiles) echo "${saltfiles}";;
   summary) echo "${summary}";;
   url) echo "${url}";;
+  bug_url) echo "${bug_url}";;
   vendor) echo "${vendor}";;
+  packager) echo "${packager}";;
   version) echo "${version}";;
 esac

@@ -10,13 +10,25 @@ usage(){
   echo "Usage: ${0##*/} PROJECT [PROJECT ...]"
 }
 
+## Escape multiline strings for sed.
+escaped_key(){
+  echo "${1}" | sed ':a;N;$!ba;s/\n/\\n  /g' | sed 's/\$/\\$/'
+}
+
+
 # get_scriptlet scriptlet-action
 # [pre|post]-[install|upgrade], [pre|post]un-[uninstall|upgrade]
 ## Get scriptlet command, else fail safe.
 get_scriptlet(){
   scriptlet="$1"
-  sed -n "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" \
-    "${readme}" | sed '/^```.*/d;/^<\!-- pkg:/d;s/^sudo //' || echo "true"
+  scriptlet="$(sed -n \
+    "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" \
+    "${readme}" | sed '/^```.*/d;/^<\!-- pkg:/d;s/^sudo //')"
+  if test -z "${scriptlet}"; then
+    echo true
+    return 0
+  fi
+  escaped_key "${scriptlet}"
 }
 
 get_spec(){
@@ -33,21 +45,16 @@ gen_spec(){
   template="rpm_spec/template/template.spec"
   target="rpm_spec/${group}-${project}.spec"
 
-  ## Escape multiline strings for sed
-  escaped_key(){
-    echo "${1}" | sed ':a;N;$!ba;s/\n/\\n  /g' | sed 's/\$/\\$/'
-  }
-
   readme="$(get_spec readme)"
 
-  pre_install="$(escaped_key      "$(get_scriptlet pre-install)")"
-  pre_upgrade="$(escaped_key      "$(get_scriptlet pre-upgrade)")"
-  post_install="$(escaped_key     "$(get_scriptlet post-install)")"
-  post_upgrade="$(escaped_key     "$(get_scriptlet post-upgrade)")"
-  preun_uninstall="$(escaped_key  "$(get_scriptlet preun-uninstall)")"
-  preun_upgrade="$(escaped_key    "$(get_scriptlet preun-upgrade)")"
-  postun_uninstall="$(escaped_key "$(get_scriptlet postun-uninstall)")"
-  postun_upgrade="$(escaped_key   "$(get_scriptlet postun-upgrade)")"
+  pre_install="$(get_scriptlet pre-install)"
+  pre_upgrade="$(get_scriptlet pre-upgrade)"
+  post_install="$(get_scriptlet post-install)"
+  post_upgrade="$(get_scriptlet post-upgrade)"
+  preun_uninstall="$(get_scriptlet preun-uninstall)"
+  preun_upgrade="$(get_scriptlet preun-upgrade)"
+  postun_uninstall="$(get_scriptlet postun-uninstall)"
+  postun_upgrade="$(get_scriptlet postun-upgrade)"
 
   version="$(get_spec version)"
   changelog="$(get_spec changelog)"
@@ -69,7 +76,7 @@ gen_spec(){
 
   requires_key=""
   for r in $(printf %s"${requires}" | tr " " "\n" | sort -u); do
-    requires_key="${requires_key}\nRequires: ${group}-${r}"
+    requires_key="${requires_key}\nRequires:       ${group}-${r}"
   done
   sed -i "s/@REQUIRES@/${requires_key}/" "${target}" >/dev/null
   echo "${changelog}" | tee -a "${target}" >/dev/null

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -8,10 +8,12 @@
 %define project        %(./scripts/spec-get.sh @PROJECT@ project)
 %define summary        %(./scripts/spec-get.sh @PROJECT@ summary)
 %define group          %(./scripts/spec-get.sh @PROJECT@ group)
+%define packager       %(./scripts/spec-get.sh @PROJECT@ packager)
 %define vendor         %(./scripts/spec-get.sh @PROJECT@ vendor)
 %define license_csv    %(./scripts/spec-get.sh @PROJECT@ license_csv)
 %define license        %(./scripts/spec-get.sh @PROJECT@ license)
 %define url            %(./scripts/spec-get.sh @PROJECT@ url)
+%define bug_url        %(./scripts/spec-get.sh @PROJECT@ bug_url)
 %define my_description %(./scripts/spec-get.sh @PROJECT@ description)
 
 ## Reproducibility.
@@ -31,9 +33,11 @@ Release:        1%{?dist}
 Summary:        %{summary}
 
 Group:          %{group}
+Packager:       %{packager}
 Vendor:         %{vendor}
 License:        %{license}
 URL:            %{url}
+BugURL:         %{bug_url}
 Source0:        %{project}
 BuildArch:      noarch
 
@@ -50,14 +54,18 @@ Requires:       qubes-mgmt-salt-dom0
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}%{file_roots} %{buildroot}%{_defaultlicensedir}/%{project}
-mv -v %{project}/LICENSES/* %{buildroot}%{_defaultlicensedir}/%{project}/
-rm -rv %{project}/LICENSES
+install -m 755 -d \
+  %{buildroot}%{file_roots} \
+  %{buildroot}%{_docdir}/%{project} \
+  %{buildroot}%{_defaultlicensedir}/%{project}
+install -m 644 %{project}/LICENSES/* %{buildroot}%{_defaultlicensedir}/%{project}/
+install -m 644 %{project}/README.md %{buildroot}%{_docdir}/%{project}/
+rm -rv %{project}/LICENSES %{project}/README.md
 cp -rv %{project} %{buildroot}%{file_roots}/%{my_name}
 
 %check
 
-%pre
+%dnl %pre
 
 %post
 if test "$1" = "1"; then
@@ -89,10 +97,10 @@ fi
 %files
 %defattr(-,root,root,-)
 %license %{_defaultlicensedir}/%{project}/*
+%doc %{_docdir}/%{project}/README.md
 %dir %{file_roots}/%{my_name}
-%doc %{file_roots}/%{my_name}/README.md
-%exclude %{file_roots}/%{my_name}/README.md
 %{file_roots}/%{my_name}/*
+%dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
 @CHANGELOG@

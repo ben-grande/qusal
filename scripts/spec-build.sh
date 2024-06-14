@@ -59,7 +59,7 @@ build_rpm(){
     "${gpg}" --export --armor "${key_id}" | tee "${tmp_file}" >/dev/null
     rpmkeys --dbpath="${dbpath}" --import "${tmp_file}"
     ## TODO: target only the latest relase
-    rpm --dbpath="${dbpath}" --checksig --verbose \
+    rpmkeys --dbpath="${dbpath}" --checksig --verbose \
       -- "${rpm_basename}"*"${rpm_suffix}"
   fi
 }
