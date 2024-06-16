@@ -6,6 +6,7 @@ PCI handler of network devices in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+* [Access control](#access-control)
 * [Usage](#usage)
 
 ## Description

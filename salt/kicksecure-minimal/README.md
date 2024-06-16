@@ -6,7 +6,9 @@ Kicksecure Minimal Template in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+  * [Kicksecure Developers Installation](#kicksecure-developers-installation)
 * [Usage](#usage)
+  * [Kicksecure Developers Usage](#kicksecure-developers-usage)
 
 ## Description
 

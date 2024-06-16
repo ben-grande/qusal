@@ -11,6 +11,7 @@ Qusal SaltStack development guide.
 * [Targetting Minions](#targetting-minions)
 * [Idempotence](#idempotence)
 * [Examples](#examples)
+* [Troubleshooting](#troubleshooting)
 
 ## What this guide is
 

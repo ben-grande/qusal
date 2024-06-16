@@ -6,7 +6,7 @@ Browser environment in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
-  * [Choose you browser](#choose-you-browser)
+  * [Choose your browser](#choose-your-browser)
 * [Usage](#usage)
 
 ## Description
