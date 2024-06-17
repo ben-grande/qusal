@@ -59,5 +59,25 @@ qubes.Gpg2 * @anyvm @anyvm   deny
 
 ## Usage
 
-Consult [upstream documentation](https://www.qubes-os.org/doc/split-gpg/) on
-how to use split-gpg.
+Consult [upstream documentation](https://github.com/ben-grande/qubes-app-linux-split-gpg2) on
+how to use split-gpg2.
+
+Save your PGP keys to `sys-pgp`, using isolated GnuPG home directory per qube
+at `~/.gnupg/split-gpg/<QUBE>`.
+
+On `dom0`, enabled the service `split-gpg2-client` for the client qube `dev`:
+```sh
+qvm-features dev service.split-gpg2-client 1
+```
+
+On the qube `sys-pgp`, generate or import keys for the client qube `dev`:
+```sh
+mkdir -p ~/.gnupg/split-gpg/dev
+gpg --homedir ~/.gnupg/split-gpg/dev --import /path/to/secret.key
+gpg --homedir ~/.gnupg/split-gpg/dev --list-secret-keys
+```
+
+On the qube `dev`, import the public part of your key:
+```sh
+gpg --import /path/to/public.key
+```
