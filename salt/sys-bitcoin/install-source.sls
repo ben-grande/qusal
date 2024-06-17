@@ -46,7 +46,7 @@ include:
 
 {% set pkg = {
     'Debian': {
-      'pkg': ['libqt5gui5', 'libqt5core5a', 'libqt5dbus5', 'qttools5-dev',
+      'pkg': ['qtbase5-dev', 'qttools5-dev',
               'qttools5-dev-tools', 'libqrencode-dev'],
     },
     'RedHat': {
