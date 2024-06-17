@@ -64,6 +64,9 @@ drivers. Check files/admin/firmware.txt.
 
 _Default policy_: every call is denied.
 
+As every call is denied by default, you need to add rules to you Qrexec policy
+for a call to occur. Some examples are represented below.
+
 Qube `dev` can ask to connect to `github.com:22` from `disp-sys-net`:
 ```qrexecpolicy
 qusal.ConnectTCP +github.com+22 dev @default ask target=disp-sys-net

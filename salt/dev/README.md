@@ -46,5 +46,6 @@ The development qube `dev` can be used for:
   without direct network connection, you can open port to the desired SSH or
   HTTP server.
 
-As the qube has no netvm, configure the `qusal.ConnectTCP` service to allow
-for it to communicate with a remote repository for example.
+As the `dev` qube has no netvm, configure the Qrexec policy to allow or ask
+calls to the `qusal.ConnectTCP` RPC service, so the qube can communicate with
+a remote repository for example.
