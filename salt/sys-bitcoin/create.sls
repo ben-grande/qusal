@@ -279,4 +279,6 @@ tags:
     - name: qvm-volume extend dvm-bitcoin-builder:private 20Gi
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
-{{ policy_set(sls_path, '70') }}
+{{ policy_set(sls_path, '45') }}
+{% from 'utils/macros/policy.sls' import policy_unset with context -%}
+{{ policy_unset(sls_path, '70') }}
