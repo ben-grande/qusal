@@ -242,23 +242,12 @@ Qusal macros. The above examples are based on our [vault formula](../salt/vault)
 
 ## Troubleshooting
 
-The Salt Project has [troubleshooting](https://docs.saltproject.io/en/latest/topics/troubleshooting/)
-page for a variety of problems you may encounter.
-
-A nice summary of the states can be seen with the `--show-output` argument:
-```
-sudo qubesctl --show-output state.apply pkg.uptodate
-```
-
-Ending the Salt call with `-l debug` argument gives the most detailed output
-(may contain private information):
-```
-sudo qubesctl state.apply pkg.uptodate -l debug
-```
-
 You may face some [YAML idiosyncrasies](https://docs.saltproject.io/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html),
 these are the common mistakes that you may commit. Use an editor that:
 
 - Shows when tabs have been used instead of spaces;
 - Highlights syntax for Salt, Jinja, Python, YAML and Shellscript; and
 - Lints your file at will or when saving it;
+
+For further debugging information on Qusal, read our
+[troubleshooting guide](TROUBLESHOOTING.md).

@@ -50,8 +50,11 @@ Here are some of the Global Preferences we can manage:
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
 
-If you want to learn more about how we make decisions, take a look at our
+To learn more about how we make decisions, take a look at our
 [design document](docs/DESIGN.md).
+
+To troubleshoot issues, read our
+[troubleshooting document](docs/TROUBLESHOOTING.md).
 
 ## Installation
 
