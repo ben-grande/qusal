@@ -4,6 +4,7 @@
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
+qusal.Print * @anyvm @tag:print-server ask
 qusal.Print * @anyvm @default ask default_target=sys-print
 qusal.Print * @anyvm @anyvm deny
 ## vim:ft=qrexecpolicy

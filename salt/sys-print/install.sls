@@ -42,4 +42,22 @@ include:
     - addusers:
       - user
 
+"{{ slsdotpath }}-rpc":
+  file.managed:
+    - name: /etc/qubes-rpc/qusal.Print
+    - source: salt://{{ slsdotpath }}/files/server/rpc/qusal.Print
+    - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-bind-dirs":
+  file.managed:
+    - name: /etc/qubes-bind-dirs.d/50-sys-print.conf
+    - source: salt://{{ slsdotpath }}/files/server/qubes-bind-dirs.d/50-sys-print.conf
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
 {% endif -%}

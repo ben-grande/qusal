@@ -88,6 +88,9 @@ features:
   - service.evolution-data-server
 - set:
   - menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+tags:
+- add:
+  - "print-server"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -120,6 +123,9 @@ features:
   - service.evolution-data-server
 - set:
   - menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+tags:
+- add:
+  - "print-server"
 {%- endload %}
 {{ load(defaults) }}
 

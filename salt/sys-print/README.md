@@ -43,7 +43,7 @@ qube that has access to the printer.
 - Top:
 ```sh
 sudo qubesctl top.enable sys-print
-sudo qubesctl --targets=tpl-sys-print,sys-print state.apply
+sudo qubesctl --targets=tpl-sys-print state.apply
 sudo qubesctl top.disable sys-print
 sudo qubesctl state.apply sys-print.appmenus
 ```
@@ -53,7 +53,6 @@ sudo qubesctl state.apply sys-print.appmenus
 ```sh
 sudo qubesctl state.apply sys-print.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-print state.apply sys-print.install
-sudo qubesctl --skip-dom0 --targets=dvm-sys-print,sys-print state.apply sys-print.configure
 sudo qubesctl state.apply sys-print.appmenus
 ```
 <!-- pkg:end:post-install -->

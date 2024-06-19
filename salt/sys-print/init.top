@@ -10,5 +10,3 @@ base:
     - sys-print.create
   'tpl-sys-print':
     - sys-print.install
-  'dvm-sys-print,sys-print':
-    - sys-print.configure

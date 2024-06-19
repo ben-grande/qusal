@@ -7,9 +7,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-client-systemd-print-forwarder":
   file.managed:
-    - name: /usr/lib/systemd/system/qubes-print-forwarder.service
-    - source: salt://{{ slsdotpath }}/files/client/systemd/qubes-print-forwarder.service
+    - name: /usr/lib/systemd/system/qusal-print-forwarder.service
+    - source: salt://{{ slsdotpath }}/files/client/systemd/qusal-print-forwarder.service
     - mode: '0644'
     - user: root
     - group: root
     - makedirs: True
+
+"{{ slsdotpath }}-enable-systemd-service-print-forwarder":
+  service.enabled:
+    - name: qusal-print-forwarder.service
