@@ -8,9 +8,9 @@
 qubes.Gpg2 * {{ sls_path }} @default allow target=sys-pgp
 qubes.Gpg2 * {{ sls_path }} @anyvm   deny
 
-qusal.GitInit  +qubes-builder {{ sls_path }} @default allow target=sys-git
-qusal.GitFetch +qubes-builder {{ sls_path }} @default allow target=sys-git
-qusal.GitPush  +qubes-builder {{ sls_path }} @default ask   target=sys-git default_target=sys-git
+qusal.GitInit  +qubes-builderv2 {{ sls_path }} @default allow target=sys-git
+qusal.GitFetch +qubes-builderv2 {{ sls_path }} @default allow target=sys-git
+qusal.GitPush  +qubes-builderv2 {{ sls_path }} @default ask   target=sys-git default_target=sys-git
 
 qusal.SshAgent +qubes-builder {{ sls_path }} @default allow target=sys-ssh-agent
 qusal.SshAgent +qubes-builder {{ sls_path }} @anyvm deny
@@ -18,12 +18,12 @@ qusal.SshAgent +qubes-builder {{ sls_path }} @anyvm deny
 admin.vm.CreateDisposable * {{ sls_path }} dom0 allow
 admin.vm.CreateDisposable * {{ sls_path }} dvm-qubes-builder allow target=dom0
 admin.vm.Start * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow target=dom0
-admin.vm.Kill * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow target=dom0
+admin.vm.Kill  * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow target=dom0
 
-qubesbuilder.FileCopyIn * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
+qubesbuilder.FileCopyIn  * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 qubesbuilder.FileCopyOut * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 
-qubes.Filecopy * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
+qubes.Filecopy       * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 qubes.WaitForSession * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
-qubes.VMShell * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
+qubes.VMShell        * {{ sls_path }} @tag:disp-created-by-{{ sls_path }} allow
 ## vim:ft=qrexecpolicy
