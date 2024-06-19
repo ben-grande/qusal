@@ -5,6 +5,7 @@
 [Unit]
 Description=Bitcoin P2P over Qrexec
 ConditionPathExists=/var/run/qubes-service/bitcoin-client
+After=qubes-sysinit.service
 Requires=bitcoin-rpc-qrexec.socket
 
 [Service]

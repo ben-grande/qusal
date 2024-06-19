@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Syncthing over Qrexec
+After=qubes-sysinit.service
 After=qubes-qrexec-agent.service
 ConditionPathExists=/var/run/qubes-service/syncthing-setup
 

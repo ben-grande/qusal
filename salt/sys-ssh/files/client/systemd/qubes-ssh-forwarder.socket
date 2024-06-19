@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Forward connection to SSH over Qrexec
+After=qubes-sysinit.service
 ConditionPathExists=/var/run/qubes-service/ssh-setup
 
 [Socket]
