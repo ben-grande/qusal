@@ -8,15 +8,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - dev.home-cleanup
 
-"{{ slsdotpath }}-rc.local":
-  file.managed:
-    - name: /rw/config/rc.local.d/50-sys-wireguard.rc
-    - source: salt://{{ slsdotpath }}/files/server/rc.local.d/50-sys-wireguard.rc
-    - user: root
-    - group: root
-    - mode: '0755'
-    - makedirs: True
-
 "{{ slsdotpath }}-qubes-firewall":
   file.recurse:
     - name: /rw/config/qubes-firewall.d/

@@ -11,13 +11,6 @@ include:
   - utils.tools.common.update
   - sys-net.install-proxy
 
-{#
-"{{ slsdotpath }}-qvpn-group":
-  group.present:
-    - name: qvpn
-    - system: True
-#}
-
 "{{ slsdotpath }}-installed":
   pkg.installed:
     - require:
@@ -33,5 +26,18 @@ include:
       - unzip
       - curl
       - man-db
+
+"{{ slsdotpath }}-systemd-service":
+  file.managed:
+    - name: /usr/lib/systemd/system/wg-quick@wireguard.service.d/50_qusal.conf
+    - source: salt://{{ slsdotpath }}/files/server/systemd/wg-quick@wireguard.service.d/50_qusal.conf
+    - user: root
+    - group: root
+    - mode: '0644'
+    - makedirs: True
+
+"{{ slsdotpath }}-enable-wg-quick@wireguard":
+  service.enabled:
+    - name: wg-quick@wireguard
 
 {% endif -%}

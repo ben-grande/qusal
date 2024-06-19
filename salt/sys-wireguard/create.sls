@@ -50,7 +50,7 @@ features:
 "{{ slsdotpath }}-qvm-wireguard":
   file.managed:
     - name: /usr/local/bin/qvm-wireguard
-    - source: salt://{{ slsdotpath }}/files/admin/qvm-wireguard
+    - source: salt://{{ slsdotpath }}/files/admin/bin/qvm-wireguard
     - user: root
     - group: root
     - mode: '0755'

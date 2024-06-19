@@ -6,10 +6,10 @@
 
 set -eu
 
-wg_conf="/home/user/wireguard.conf"
+wg_conf="/etc/wireguard/wireguard.conf"
 nft_conf="/var/run/wireguard/dnat.nft"
 
-mkdir -p /var/run/wireguard/
+mkdir -p "${nft_conf%/*}"
 rm -f "${nft_conf}"
 touch "${nft_conf}"
 
@@ -25,6 +25,13 @@ set_nft_dnat(){
 }
 
 dns="$(grep -s "^\s*DNS\s*=\s*\S\+" "${wg_conf}" | sed "s/.*=//;s/ //g")"
+
+if test -z "${dns}"; then
+  set_nft "insert rule ip  qubes custom-dnat drop"
+  set_nft "insert rule ip6 qubes custom-dnat drop"
+  exit
+fi
+
 dns_primary="$(echo "${dns}" | cut -d "," -f 1)"
 dns_secondary="$(echo "${dns}" | cut -d "," -f 2)"
 

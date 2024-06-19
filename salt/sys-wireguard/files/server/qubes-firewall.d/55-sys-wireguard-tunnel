@@ -10,34 +10,14 @@
 add chain ip  qubes output { type filter hook output priority 0; policy accept; }
 add chain ip6 qubes output { type filter hook output priority 0; policy accept; }
 
-## Stop leaks between downstream (vif+) and upstream (eth0)
-#chain ip  qubes forward { policy drop; }
-#chain ip  qubes input   { policy drop; }
-#chain ip  qubes output  { policy drop; }
-#chain ip6 qubes forward { policy drop; }
-#chain ip6 qubes input   { policy drop; }
-#chain ip6 qubes output  { policy drop; }
-
-insert rule ip  qubes custom-forward oifgroup 1 drop
+flush chain ip  qubes custom-forward
+flush chain ip6 qubes custom-forward
 insert rule ip  qubes custom-forward iifgroup 1 drop
-insert rule ip6 qubes custom-forward oifgroup 1 drop
 insert rule ip6 qubes custom-forward iifgroup 1 drop
+insert rule ip  qubes custom-forward oifgroup 1 drop
+insert rule ip6 qubes custom-forward oifgroup 1 drop
 
-## Accept forward traffic between dowstream vif+ (group 2) and VPN (group 9)
-#insert rule ip  qubes custom-forward iifgroup 2 oifgroup 9 accept
-#insert rule ip  qubes custom-forward iifgroup 9 oifgroup 2 accept
-#insert rule ip6 qubes custom-forward iifgroup 2 oifgroup 9 accept
-#insert rule ip6 qubes custom-forward iifgroup 9 oifgroup 2 accept
-
-## Drop ICMP
 insert rule ip  qubes custom-input      meta l4proto icmp drop
 insert rule ip6 qubes custom-input      meta l4proto icmp drop
 insert rule ip  qubes output oifgroup 1 meta l4proto icmp drop
 insert rule ip6 qubes output oifgroup 1 meta l4proto icmp drop
-
-## Allow traffic from the "qvpn" group to the uplink interface (eth0);
-## Our VPN client will run with group "qvpn".
-#insert rule ip  qubes output oifname "lo"            accept
-#insert rule ip  qubes output oifgroup 1 skgid "qvpn" accept
-#insert rule ip6 qubes output oifname "lo"            accept
-#insert rule ip6 qubes output oifgroup 1 skgid "qvpn" accept
