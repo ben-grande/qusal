@@ -19,8 +19,8 @@ prefs:
 - audiovm: ""
 features:
 - set:
-  - default-menu-items: "system-config-printer.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
-  - menu-items: "system-config-printer.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+  - default-menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+  - menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -54,7 +54,7 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "system-config-printer.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+  - menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -87,7 +87,7 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "system-config-printer.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+  - menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -119,7 +119,7 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
-  - menu-items: "system-config-printer.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
+  - menu-items: "system-config-printer.desktop simple-scan.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes.start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
