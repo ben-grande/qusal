@@ -65,7 +65,7 @@ sudo qubesctl --skip-dom0 --targets=tpl-sys-print state.apply sys-print.install-
 
 On the client template:
 ```sh
-sudo qubesctl --skip-dom0 --targets=tpl-QUBE -print state.apply sys-print.install-client
+sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-print.install-client
 ```
 
 The client qube requires the split Print service to be enabled:

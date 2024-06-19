@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - sys-print.install
 
-"{{ slsdotpath }}-installed":
+"{{ slsdotpath }}-installed-driver-all":
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
