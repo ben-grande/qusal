@@ -60,7 +60,8 @@ vendor="${QUSAL_VENDOR:-"Benjamin Grande"}"
 packager="${QUSAL_PACKAGER:-"Benjamin Grande"}"
 url="${QUSAL_URL:-"https://github.com/ben-grande/qusal"}"
 bug_url="${QUSAL_BUGURL:-"https://github.com/ben-grande/qusal/issues"}"
-version="1.0"
+# shellcheck disable=SC2094
+read -r version <version
 
 project="${group}-${name}"
 project_dir="salt/${name}"

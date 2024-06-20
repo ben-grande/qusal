@@ -1,0 +1,73 @@
+## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+git:
+  baseurl: https://github.com
+  prefix: ben-grande/
+  branch: main
+  maintainers:
+    - DF3834875B65758713D92E91A475969DE4E371E3
+
+backend-vmm: xen
+debug: true
+verbose: true
+qubes-release: r4.2
+timeout: 3600
+
+skip-git-fetch: false
+fetch-versions-only: false
+
+distributions:
+  - host-fc37
+
+components:
+  - builder-rpm:
+      branch: main
+      packages: false
+      url: https://github.com/QubesOS/qubes-builder-rpm
+      maintainers:
+        - 0064428F455451B3EBE78A7F063938BA42CFA724
+  - qusal:
+      verification-mode: less-secure-signed-commits-sufficient
+      maintainers:
+        - DF3834875B65758713D92E91A475969DE4E371E3
+
+executor:
+  type: qubes
+  options:
+    dispvm: "dom0"
+
+stages:
+  - fetch
+  - pre:
+      executor:
+        type: local
+  - prep
+  - build
+  - post:
+      executor:
+        type: local
+  - verify
+  - sign:
+      executor:
+        type: local
+  - publish:
+      executor:
+        type: local
+  - upload:
+      executor:
+        type: local
+
+gpg-client: gpg
+
+sign-key:
+  rpm:
+    - DF3834875B65758713D92E91A475969DE4E371E3
+
+# repository-publish:
+#   components: current
+
+# repository-upload-remote-host:
+#   rpm: user@yum.domain.org:/some/path

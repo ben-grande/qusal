@@ -7,6 +7,10 @@ Files: README.md */README.md docs/* .github/ISSUE_TEMPLATE/*
 Copyright: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
 
+Files: version
+Copyright: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+License: CC0-1.0
+
 Files: salt/electrum/files/client/keys/*
 Copyright: SomberNight/ghost43 <somber.night@protonmail.com>
            Stephan Oeste <stephan@oeste.de>
