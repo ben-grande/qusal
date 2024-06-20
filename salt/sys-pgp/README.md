@@ -59,8 +59,8 @@ qubes.Gpg2 * @anyvm @anyvm   deny
 
 ## Usage
 
-Consult [upstream documentation](https://github.com/ben-grande/qubes-app-linux-split-gpg2) on
-how to use split-gpg2.
+Consult [upstream documentation](https://github.com/QubesOS/qubes-app-linux-split-gpg2)
+on how to use split-gpg2.
 
 Save your PGP keys to `sys-pgp`, using isolated GnuPG home directory per qube
 at `~/.gnupg/split-gpg/<QUBE>`.
