@@ -74,20 +74,26 @@ qvm-features QUBE service.print-setup 1
 
 ## Access Control
 
-_Default policy_: `ask` `all` requests requesting to use the
-`qusal.Print` RPC service.
+**_Default policy_** (qusal.Print RPC service):
+
+- Clients with tag `print-client` are `allowed` to call servers with tag
+  `print-server`, defaulting to `sys-print`.
+- `All` clients can `ask` servers with tag `print-server`, defaulting to
+  `sys-print`.
 
 `Asking` can spawn multiple requests depending on the client, usage of `allow`
 is recommended for trusted clients.
 
-Allow access to the specified printing agent based on the qube tag:
-```qrexecpolicy
-qusal.Print * @tag:print-client @default allow target=sys-print
+Add the tag `print-client` to the qube requesting the print content:
+```sh
+qvm-tags QUBE add print-client
 ```
 
-Always recommended to end with an explicit deny rule:
+As the call will default to `sys-print`, you can enforce the use of
+`disp-sys-print` via policy and not any other qube:
 ```qrexecpolicy
-qusal.Print * @anyvm @anyvm deny
+qusal.Print * @tag:print-client @default allow target=disp-sys-print
+qusal.Print * @tag:print-client @anyvm   deny
 ```
 
 ## Usage
