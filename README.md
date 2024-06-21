@@ -11,13 +11,6 @@ and will be introduced in the meantime. You've been warned.
 
 * [Description](#description)
 * [Installation](#installation)
-  * [Prerequisites](#prerequisites)
-  * [DomU Installation](#domu-installation)
-  * [Dom0 Installation](#dom0-installation)
-* [Update](#update)
-  * [DomU Update](#domu-update)
-  * [Dom0 Update with Git](#dom0-update-with-git)
-  * [Dom0 Update by literally copying the git repository](#dom0-update-by-literally-copying-the-git-repository)
 * [Usage](#usage)
 * [Contribute](#contribute)
 * [Donate](#donate)
@@ -31,15 +24,16 @@ and will be introduced in the meantime. You've been warned.
 ## Description
 
 Qusal is a Free and Open Source security-focused project that provides
-SaltStack Formulas for Qubes OS users to complete various daily tasks, such
-as web browsing, video-calls, remote administration, coding, network tunnels
-and much more, which are easy to install and maintains low attack surface.
+SaltStack Formulas for [Qubes OS](https://www.qubes-os.org) users to complete
+various daily tasks, such as web browsing, video-calls, remote administration,
+coding, network tunnels and much more, which are easy to install and maintains
+low attack surface.
 
 We not only provide a single solution for each project, but also provides
-alternative when they differ, such as for networking, you could use a VPN,
-DNS Sink-hole, Mirage Unikernel or the standard Qubes Firewall for managing
-the network chain and the connections the clients connected to these NetVMs
-are allowed to make.
+alternative when they differ, such as for networking, you could use a VPN, DNS
+Sink-hole, Mirage Unikernel or the standard Qubes Firewall for managing the
+network chain and the connections the clients connected to these NetVMs are
+allowed to make.
 
 Here are some of the Global Preferences we can manage:
 
@@ -50,208 +44,45 @@ Here are some of the Global Preferences we can manage:
 - **management_dispvm**: dvm-mgmt
 - **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
 
-To learn more about how we make decisions, take a look at our
-[design document](docs/DESIGN.md).
-
-To troubleshoot issues, read our
-[troubleshooting document](docs/TROUBLESHOOTING.md).
-
 ## Installation
 
-### Prerequisites
-
-You current setup needs to fulfill the following requisites:
-
-- Qubes OS R4.2
-- Internet connection
-
-### DomU Installation
-
-1.  Install `git` in the qube, if it is an AppVM, install it it's the
-    TemplateVM and restart the AppVM.
-
-2.  Clone the repository (if you made a fork, fork the submodule(s) before
-    clone and use your remote repository instead, the submodules will also be
-    from your fork).
-    ```sh
-    git clone --recurse-submodules https://github.com/ben-grande/qusal.git
-    ```
-
-3.  Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D93E91A475969DE4E371E3.asc)
-    to your text editor and save the file to `/home/user/ben-code.asc`.
-
-### Dom0 Installation
-
-Before copying anything to Dom0, read [Qubes OS warning about consequences of
-this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
-
-1.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
-    `CHANGEME` for the desired valued):
-    ```sh
-    qube="CHANGEME" # qube name where you downloaded the repository
-    file="CHANGEME" # path to the repository in the qube
-
-    qvm-run --pass-io --localcmd="UPDATES_MAX_FILES=10000
-      /usr/libexec/qubes/qfile-dom0-unpacker user
-      ~/QubesIncoming/${qube}/qusal" \
-      "${qube}" /usr/lib/qubes/qfile-agent "${file}"
-    ```
-
-2.  Pass the maintainer's key from the qube to Dom0:
-    ```sh
-    qvm-run --pass-io "${qube}" -- "cat /home/user/ben-code.asc" | tee /tmp/ben-code.asc
-    ```
-
-3.  Verify that the key fingerprint matches
-    `DF38 3487 5B65 7587 13D9  2E91 A475 969D E4E3 71E3`. You can use
-    Sequoia-PGP or GnuPG for the fingerprint verification:
-    ```sh
-    gpg --show-keys /tmp/ben-code.asc
-    # or
-    #sq inspect ben-code.asc
-    ```
-
-4.  Import the verified key to your keyring:
-    ```sh
-    gpg --import /tmp/ben-code.asc
-    ```
-
-5.  Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
-    and expect a good signature, be surprised otherwise:
-    ```sh
-    git verify-commit HEAD
-    git submodule foreach git verify-commit HEAD
-    ```
-
-6.  Copy the project to the Salt directories:
-    ```sh
-    ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
-    ```
-
-## Update
-
-To update, you can copy the repository again to dom0 as instructed in the
-[installation](#installation) section above or you can use easier methods
-demonstrated below.
-
-### DomU Update
-
-Update the repository state in your DomU:
-```sh
-git -C ~/src/qusal fetch --recurse-submodules
-```
-
-### Dom0 Update with Git
-
-This method is more secure than literally copying the whole directory of the
-repository to dom0 but the setup is more involved. Requires some familiarity
-with the sys-git formula.
-
-1.  Install the [sys-git formula](salt/sys-git/README.md) and push the
-    repository to the git server.
-
-2.  Install `git` on Dom0, allow the Qrexec protocol to work in submodules and
-    clone the repository to `~/src/qusal` (only has to be run once):
-    ```sh
-    mkdir -p ~/src
-    sudo qubesctl state.apply sys-git.install-client
-    git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
-    ```
-
-3. Next updates will be pulling instead of cloning:
-    ```sh
-    git -C ~/src/qusal pull --recurse-submodules
-    git -C ~/src/qusal submodule update --merge
-    ```
-
-4.  Verify the commit or tag signature and expect a good signature, be
-    surprised otherwise (signature verification on submodules is skipped if
-    checking out but not merging):
-    ```sh
-    git verify-commit HEAD
-    git submodule foreach git verify-commit HEAD
-    ```
-
-5.  Copy the project to the Salt directories:
-    ```
-    ~/src/qusal/scripts/setup.sh
-    ```
-
-### Dom0 Update by literally copying the git repository
-
-This method is similar to the installation method, but easier to type. This
-method is less secure than Git over Qrexec because it copies the whole
-repository, including the `.git` directory which holds files that are not
-tracked by git. It would be easier to distrust the downloader qube if the
-project had a signed archive. The `.git/info/exclude` can exclude modified
-files from being tracked and signature verification won't catch it.
-
-1.  Install the helpers scripts and git on Dom0 (only has to be run once):
-    ```sh
-    sudo qubesctl state.apply dom0.install-helpers
-    sudo qubes-dom0-update git
-    ```
-
-2.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
-    `CHANGEME` for the desired valued):
-    ```sh
-    qube="CHANGEME" # qube name where you downloaded the repository
-    file="CHANGEME" # path to the repository in the qube
-
-    rm -rf ~/QubesIncoming/"${qube}"/qusal
-    UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
-    ```
-
-3.  Verify the commit or tag signature and expect a good signature, be
-    surprised otherwise:
-    ```sh
-    git verify-commit HEAD
-    git submodule foreach git verify-commit HEAD
-    ```
-
-4.  Copy the project to the Salt directories:
-    ```sh
-    ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
-    ```
+See the [installation instructions](docs/INSTALL.md).
 
 ## Usage
 
-Qusal is now installed. Please read the README.md of each project in the
-[salt](salt/) directory for further information on how to install the desired
-package. If you are unsure how to start, get some ideas from our
-[bootstrap guide](docs/BOOTSTRAP.md).
+After installing Qusal, please read the README.md of each project in the
+[salt](salt/) directory you desire install. If you are unsure how to start,
+get some ideas from our [bootstrap guide](docs/BOOTSTRAP.md).
 
 The intended behavior is to enforce the state of qubes and their services. If
-you modify the qubes and their services and apply the state again,
-conflicting configurations will be overwritten. To enforce your state, write
-a SaltFile to specify the desired state and call it after the ones provided
-by this project.
+you modify the qubes and their services and apply the state again, conflicting
+configurations will be overwritten. To enforce your state, write a SaltFile to
+specify the desired state and call it after the ones provided by this project.
 
 If you want to edit the access control of any service, you
 should always use the Qrexec policy at `/etc/qubes/policy.d/30-user.policy`,
 as this file will take precedence over the packaged policies.
 
 Please note that when you allow more Qrexec calls than the default shipped by
-Qubes OS, you are increasing the attack surface of the target, normally
-to a valuable qube that can hold secrets or pristine data. A compromise of
-the client qube can extend to the server, therefore configure the
-installation according to your threat model.
+Qubes OS, you are increasing the attack surface of the target, normally to a
+valuable qube that can hold secrets or pristine data. A compromise of the
+client qube can extend to the server, therefore configure the installation
+according to your threat model.
+
+To troubleshoot issues, read our
+[troubleshooting document](docs/TROUBLESHOOT.md).
 
 ## Contribute
 
-There are several ways to contribute to this project. Spread the word, help
-on user support, review opened issues, fix typos, implement new features,
-donations.
-
-Please take a look at our [contribution guidelines](docs/CONTRIBUTING.md)
-before contributing code or to the documentation, it holds important
-information on how the project is structured, why some design decisions were
-made and what can be improved.
+See the [contribution instructions](docs/CONTRIBUTE.md).
 
 ## Donate
 
 This project can only survive through donations. If you like what we have
 done, please consider donating. [Contact us](#contact) for donation address.
+Please note that donations are gratuitous, there is not obligation from the
+maintainers to provide the donor with support, help with bugs, features or
+answering questions, if there was, it would not be a donation, but a payment.
 
 This project depends on Qubes OS, consider donating to
 [upstream](https://qubes-os.org/donate/).
@@ -266,8 +97,8 @@ the open so anyone can search for past issues.
 
 ### Paid Support
 
-Paid consultation services can be provided.
-Request a quote [from us](#contact).
+Paid consultation services can be provided. Request a quote
+[from us](#contact).
 
 ## Contact
 
@@ -286,8 +117,8 @@ contributing to Qubes OS SaltStack formulas. Honorable mention(s):
 This project is [REUSE-compliant](https://reuse.software). It is difficult to
 list all licenses and copyrights and keep them up-to-date here.
 
-The easiest way to get the copyright and license of the project with the reuse
-tool:
+The easiest way to get the copyright and license of the project is with the
+reuse tool:
 ```sh
 reuse spdx
 ```

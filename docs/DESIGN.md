@@ -195,7 +195,7 @@ Xen or with Qrexec. If something is not required, we remove it.
 
 ### Qrexec call and policy
 
-1.  Don't use `*` for source and destination, use `@anyvm` instead
+1.  Must not use `*` for source and destination, use `@anyvm` instead
 2.  Target qube for policies must be `@default`. It allows for the real target
     to be set by Dom0 via the `target=` redirection parameter, instead of
     having to modify the client to target a different server via

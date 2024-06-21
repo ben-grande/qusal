@@ -19,7 +19,7 @@ This guide is an introduction to the use of SaltStack in Qusal. It is in no
 way anything other than that, it is not a beginner's instructional guide to
 the use of Salt in Qubes OS or any other project, although it may share some
 similarities. It is not meant to substitute our other guidelines,
-[contribution](CONTRIBUTING.md) and [design](DESIGN.md) rules still apply.
+[contribution](CONTRIBUTE.md) and [design](DESIGN.md) rules still apply.
 
 If you just want to understand SaltStack, upstream provides an
 [excellent tutorial](https://docs.saltproject.io/en/getstarted/system/index.html),
@@ -250,4 +250,4 @@ these are the common mistakes that you may commit. Use an editor that:
 - Lints your file at will or when saving it;
 
 For further debugging information on Qusal, read our
-[troubleshooting guide](TROUBLESHOOTING.md).
+[troubleshooting guide](TROUBLESHOOT.md).
