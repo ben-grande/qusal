@@ -29,7 +29,7 @@ include:
     - require:
       - pkg: "{{ slsdotpath }}-installed"
     - name: /etc/apt/sources.list
-    - regex: "^\s*deb"
+    - regex: ^\s*deb
     - ignore_missing: True
 
 {% endif %}
