@@ -13,26 +13,27 @@
 # Python bytecode interferes when updates occur and restart is not done.
 %undefine __brp_python_bytecompile
 
-Name:           @PROJECT@
-Version:        @VERSION@
+Name:           qusal-debian-xfce
+Version:        0.0.1
 Release:        1%{?dist}
-Summary:        @SUMMARY@
+Summary:        Debian Xfce Template in Qubes OS
 
-Group:          @GROUP@
-Packager:       @PACKAGER@
-Vendor:         @VENDOR@
-License:        @LICENSE@
-URL:            @URL@
-BugURL:         @BUG_URL@
+Group:          qusal
+Packager:       Ben Grande
+Vendor:         Ben Grande
+License:        AGPL-3.0-or-later
+URL:            https://github.com/ben-grande/qusal
+BugURL:         https://github.com/ben-grande/qusal/issues
 Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 Requires:       qubes-mgmt-salt
 Requires:       qubes-mgmt-salt-dom0
-@REQUIRES@
+Requires:       qusal-utils
+
 
 %description
-@DESCRIPTION@
+Creates the Debian Xfce Template as well as a Disposable Template based on it.
 
 %prep
 %setup -q
@@ -42,13 +43,13 @@ Requires:       qubes-mgmt-salt-dom0
 %install
 rm -rf %{buildroot}
 install -m 755 -d \
-  %{buildroot}@FILE_ROOTS@ \
+  %{buildroot}/srv/salt/qusal \
   %{buildroot}%{_docdir}/%{name} \
   %{buildroot}%{_defaultlicensedir}/%{name}
 install -m 644 %{name}/LICENSES/* %{buildroot}%{_defaultlicensedir}/%{name}/
 install -m 644 %{name}/README.md %{buildroot}%{_docdir}/%{name}/
 rm -rv %{name}/LICENSES %{name}/README.md
-cp -rv %{name} %{buildroot}@FILE_ROOTS@/%{name}
+cp -rv %{name} %{buildroot}/srv/salt/qusal/%{name}
 
 %check
 
@@ -57,37 +58,54 @@ cp -rv %{name} %{buildroot}@FILE_ROOTS@/%{name}
 %post
 if test "$1" = "1"; then
   ## Install
-  @POST_INSTALL@
+  qubesctl state.apply debian-xfce.create
+  qubesctl --skip-dom0 --targets=debian-12-xfce state.apply debian-xfce.install
 elif test "$1" = "2"; then
   ## Upgrade
-  @POST_UPGRADE@
+  true
 fi
 
 %preun
 if test "$1" = "0"; then
   ## Uninstall
-  @PREUN_UNINSTALL@
+  true
 elif test "$1" = "1"; then
   ## Upgrade
-  @PREUN_UPGRADE@
+  true
 fi
 
 %postun
 if test "$1" = "0"; then
   ## Uninstall
-  @POSTUN_UNINSTALL@
+  true
 elif test "$1" = "1"; then
   ## Upgrade
-  @POSTUN_UPGRADE@
+  true
 fi
 
 %files
 %defattr(-,root,root,-)
 %license %{_defaultlicensedir}/%{name}/*
 %doc %{_docdir}/%{name}/README.md
-%dir @FILE_ROOTS@/%{name}
-@FILE_ROOTS@/%{name}/*
+%dir /srv/salt/qusal/%{name}
+/srv/salt/qusal/%{name}/*
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
-@CHANGELOG@
+* Wed Jun 12 2024 Ben Grande <ben.grande.b@gmail.com> - fc22726
+- feat: build and sign RPM packages
+
+* Mon Mar 18 2024 Ben Grande <ben.grande.b@gmail.com> - f9ead06
+- fix: remove extraneous package repository updates
+
+* Fri Feb 23 2024 Ben Grande <ben.grande.b@gmail.com> - 5605ec7
+- doc: prefix qubesctl with sudo
+
+* Mon Jan 29 2024 Ben Grande <ben.grande.b@gmail.com> - 6efcc1d
+- chore: copyright update
+
+* Sat Jan 20 2024 Ben Grande <ben.grande.b@gmail.com> - 422b01e
+- feat: remove audiovm setting when unnecessary
+
+* Fri Jan 12 2024 Ben Grande <ben.grande.b@gmail.com> - 5502103
+- fix: separate template formula per flavor

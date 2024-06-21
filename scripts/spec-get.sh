@@ -53,15 +53,14 @@ if test "${key}" = "branch"; then
   branch="$(git branch --show-current)"
 fi
 
-group="qusal"
+toplevel="$(git rev-parse --show-toplevel)"
+group="${toplevel##*/}"
 block_max_chars group "${group}" 70
 file_roots="/srv/salt/${group}"
-vendor="${QUSAL_VENDOR:-"Benjamin Grande"}"
-packager="${QUSAL_PACKAGER:-"Benjamin Grande"}"
-url="${QUSAL_URL:-"https://github.com/ben-grande/qusal"}"
-bug_url="${QUSAL_BUGURL:-"https://github.com/ben-grande/qusal/issues"}"
-# shellcheck disable=SC2094
-read -r version <version
+vendor="${SPEC_VENDOR:-"$(git config --get user.name)"}"
+packager="${SPEC_PACKAGER:-"${vendor}"}"
+url="${SPEC_URL:-"https://github.com/ben-grande/qusal"}"
+bug_url="${SPEC_BUGURL:-"${url}/issues"}"
 
 project="${group}-${name}"
 project_dir="salt/${name}"
@@ -71,6 +70,8 @@ if ! test -d "${project_dir}"; then
   exit 1
 fi
 
+# shellcheck disable=SC2094
+read -r version <"${project_dir}/version"
 readme="${project_dir}/README.md"
 if ! test -f "${readme}"; then
   echo "Project ${name} does not have README.md" >&2

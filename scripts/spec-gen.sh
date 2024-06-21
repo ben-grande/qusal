@@ -11,10 +11,17 @@ usage(){
 }
 
 ## Escape multiline strings for sed.
-escaped_key(){
-  echo "${1}" | sed ':a;N;$!ba;s/\n/\\n  /g' | sed 's/\$/\\$/'
+escape_key(){
+  key_type="${1}"
+  key_indent="  "
+  if test "${key_type}" = "scriptlet"; then
+    echo "${2}" | sed ':a;N;$!ba;s/\n/\\n  /g' | sed 's/\$/\\$/'
+  elif test "${key_type}" = "text"; then
+    echo "${2}" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/\$/\\$/'
+  else
+    return 1
+  fi
 }
-
 
 # get_scriptlet scriptlet-action
 # [pre|post]-[install|upgrade], [pre|post]un-[uninstall|upgrade]
@@ -28,7 +35,7 @@ get_scriptlet(){
     echo true
     return 0
   fi
-  escaped_key "${scriptlet}"
+  escape_key scriptlet "${scriptlet}"
 }
 
 get_spec(){
@@ -37,6 +44,15 @@ get_spec(){
 
 gen_spec(){
   project="${1}"
+  ignored="$(git ls-files --exclude-standard --others --ignored)"
+  untracked="$(git ls-files --exclude-standard --others)"
+  unwanted="$(printf %s"${ignored}\n${untracked}\n" \
+              | grep "^salt/\S\+/README.md" | cut -d "/" -f2 | sort -u)"
+
+  if echo "${unwanted}" | grep -q "^${project}$"; then
+    echo "warn: skipping spec generation of untracked formula: ${project}" >&2
+    return 0
+  fi
 
   ## Test if a standard option works without error.
   get_spec name >/dev/null
@@ -44,8 +60,27 @@ gen_spec(){
   group="$(get_spec group)"
   template="rpm_spec/template/template.spec"
   target="rpm_spec/${group}-${project}.spec"
+  intended_target="${target}"
+  if test "${2-}" = "test"; then
+    tmpdir="$(mktemp -d)"
+    target="${tmpdir}/${group}-${project}.spec"
+    trap 'rm -rf -- "${tmpdir}"' EXIT INT HUP QUIT ABRT
+  fi
 
   readme="$(get_spec readme)"
+
+  project_name="$(get_spec project)"
+  version="$(get_spec version)"
+  license="$(get_spec license)"
+  vendor="$(get_spec vendor)"
+  packager="$(get_spec packager)"
+  url="$(get_spec url)"
+  bug_url="$(get_spec bug_url)"
+  requires="$(get_spec requires)"
+  summary="$(get_spec summary)"
+  description="$(escape_key text "$(get_spec description)")"
+  file_roots="$(get_spec file_roots)"
+  changelog="$(get_spec changelog)"
 
   pre_install="$(get_scriptlet pre-install)"
   pre_upgrade="$(get_scriptlet pre-upgrade)"
@@ -56,10 +91,6 @@ gen_spec(){
   postun_uninstall="$(get_scriptlet postun-uninstall)"
   postun_upgrade="$(get_scriptlet postun-upgrade)"
 
-  version="$(get_spec version)"
-  changelog="$(get_spec changelog)"
-  requires="$(get_spec requires)"
-
   sed \
     -e "s/@PRE_INSTALL@/${pre_install}/" \
     -e "s/@PRE_UPGRADE@/${pre_upgrade}/" \
@@ -69,17 +100,34 @@ gen_spec(){
     -e "s/@PREUN_UPGRADE@/${preun_upgrade}/" \
     -e "s/@POSTUN_UNINSTALL@/${postun_uninstall}/" \
     -e "s/@POSTUN_UPGRADE@/${postun_upgrade}/" \
+    -e "s|@FILE_ROOTS@|${file_roots}|" \
+    -e "s/@PROJECT@/${project_name}/" \
     -e "s/@VERSION@/${version}/" \
-    -e "s/@PROJECT@/${project}/" \
+    -e "s/@SUMMARY@/${summary}/" \
+    -e "s/@GROUP@/${group}/" \
+    -e "s/@PACKAGER@/${packager}/" \
+    -e "s/@VENDOR@/${vendor}/" \
+    -e "s/@LICENSE@/${license}/" \
+    -e "s|@BUG_URL@|${bug_url}|" \
+    -e "s|@URL@|${url}|" \
+    -e "s|@DESCRIPTION@|${description}|" \
     -e "/@CHANGELOG@/d" \
     "${template}" | tee "${target}" >/dev/null
 
   requires_key=""
   for r in $(printf %s"${requires}" | tr " " "\n" | sort -u); do
-    requires_key="${requires_key}\nRequires:       ${group}-${r}"
+    requires_key="${requires_key:-}Requires:       ${group}-${r}\n"
   done
   sed -i "s/@REQUIRES@/${requires_key}/" "${target}" >/dev/null
   echo "${changelog}" | tee -a "${target}" >/dev/null
+
+  if test "${2-}" = "test"; then
+    if ! cmp -s "${target}" "${intended_target}"; then
+      echo "${0##*/}: error: File ${intended_target} is not up to date" >&2
+      echo "${0##*/}: error: Update the spec with: ${0##/*} ${project}" >&2
+      exit 1
+    fi
+  fi
 }
 
 case "${1-}" in
@@ -88,8 +136,14 @@ esac
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)"
+./scripts/requires-program.sh vim
 
 spec_get="./scripts/spec-get.sh"
+
+if test "${2-}" = "test"; then
+  gen_spec "${1}" test
+  exit
+fi
 
 if test -z "${1-}"; then
   # shellcheck disable=SC2046

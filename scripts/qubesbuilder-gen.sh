@@ -17,8 +17,8 @@ if test "${1-}" = "test"; then
   target="${tmpdir}/.qubesbuilder"
   trap 'rm -rf -- "${tmpdir}"' EXIT INT HUP QUIT ABRT
 fi
-ignored="$(git ls-files --exclude-standard --others --ignored)"
-untracked="$(git ls-files --exclude-standard --others)"
+ignored="$(git ls-files --exclude-standard --others --ignored salt/)"
+untracked="$(git ls-files --exclude-standard --others salt/)"
 unwanted="$(printf %s"${ignored}\n${untracked}\n" | grep "^salt/\S\+/README.md" \
             | cut -d "/" -f2 | sort -u)"
 group="$(./scripts/spec-get.sh dom0 group)"
@@ -38,7 +38,7 @@ echo "${projects}" | tee -a "${target}" >/dev/null
 if test "${1-}" = "test"; then
   if ! cmp -s "${target}" "${intended_target}"; then
     echo "${0##*/}: error: File ${intended_target} is not up to date" >&2
-    echo "${0##*/}: error: Please run '${0##/*}' to update the file" >&2
+    echo "${0##*/}: error: Update the builder file with: ${0##/*}" >&2
     exit 1
   fi
 fi

@@ -50,3 +50,12 @@ repos:
         entry: scripts/qubesbuilder-gen.sh test
         language: script
         description: Check if .qubesbuilder is up to date
+
+# TODO: generate temporary spec and compare against staged one.
+#       - id: spec-gen
+#         name: spec-gen
+#         language: script
+#         entry: scripts/spec-gen.sh test
+#         args: [test]
+#         # pass_filenames: true
+#         description: Check if RPM SPEC files are up to date
