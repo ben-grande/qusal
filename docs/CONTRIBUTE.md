@@ -5,35 +5,60 @@ Qusal contribution guidelines.
 ## Table of Contents
 
 * [Respect](#respect)
-* [Environment](#environment)
-  * [Requirements](#requirements)
-  * [RPM Spec](#rpm-spec)
-  * [Lint](#lint)
-* [Where to start](#where-to-start)
+* [Starters](#starters)
+* [Requirements](#requirements)
+* [Issues](#issues)
+* [Lint](#lint)
 
 ## Respect
 
 Be respectful towards peers.
 
-## Environment
+## Starters
 
-You will need to setup you development environment before you start
-contributing.
+There are several ways to contribute to this project. Spread the word, help on
+user support, review opened issues, fix typos, implement new features,
+donations. Technical knowledge is not always required, if you already
+understood a problem, give other users your time by linking the solution to
+them.
 
-### Requirements
+Please read this document and every document linking from here entirely before
+contributing code or to the documentation. It holds important information on
+how the project is structured, why some design decisions were made and what
+can be improved.
 
-The following are the packages you need to install:
+By skipping the read, there is a high change your contribution does not
+conform to our guidelines and project design, therefore it is going to be
+rejected. The only exception is a change of guidelines, but this is reserved
+for users that has a history of contributing to the project, not for starters.
+
+If you want to understand how Qusal uses Salt features, read our
+[Salt guide](SALT.md).
+
+To grasp how the project is structured, why some design decisions were
+made and what can be improved, see the [design guide](DESIGN.md).
+
+Experiment with some formulas, read them, understand what is being done.
+
+
+## Requirements
+
+For an automatic setup, use the [dev formula](../salt/dev), else, install the
+packages below depending on the task:
 
 General:
+
 - git
 
 For writing:
+
 - editorconfig
 - editorconfig plugin for your editor
 - vim, [vim-jinja](https://github.com/ben-grande/vim-jinja),
   [vim-salt](https://github.com/ben-grande/vim-salt) (recommended)
 
 For linting:
+
 - pre-commit
 - gitlint
 - salt-lint
@@ -41,6 +66,7 @@ For linting:
 - reuse
 
 For building RPMs:
+
 - sed (GNU sed)
 - dnf
 - dnf-plugins-core (dnf builddep)
@@ -48,20 +74,18 @@ For building RPMs:
 - rpmlint
 - rpmautospec (only available in Fedora)
 
-### RPM Spec
+## Issues
 
-Reference material:
+See open issues and search for the word `TODO` in the repository files.
 
-- [docs.fedoraproject.org/en-US/packaging-guidelines/](https://docs.fedoraproject.org/en-US/packaging-guidelines/)
-- [rpm-software-management.github.io](https://rpm-software-management.github.io/rpm/manual/spec.html)
-- [rpm-packaging-guide.github.io](https://rpm-packaging-guide.github.io/)
-- [rpm-guide.readthedocs.io](https://rpm-guide.readthedocs.io/en/latest/rpm-guide.html)
-- [ftp.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html](http://ftp.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html)
+Look at the labels `help wanted` and `good first issue` in the issue tracking
+system to get started.
 
-### Lint
+## Lint
 
 Lint before you commit, please... else you will have to fix after the PR has
-already been sent.
+already been sent, the maintainer has already read and both parties loses
+time.
 
 Install the local hooks:
 ```sh
@@ -73,9 +97,3 @@ To run pre-commit linters:
 ```sh
 pre-commit run
 ```
-
-## Where to start
-
-See open issues and search for the word `TODO` in the repository files.
-
-If you want to understand how Qusal uses Salt features, read our [Salt guide](SALT.md).
