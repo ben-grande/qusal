@@ -6,6 +6,9 @@
 Description=Dynamically write repository definitions for use of apt-cacher-ng
 After=qubes-misc-post.service
 After=qubes-sysinit.service
+## Run before Qrexec call (Salt, user on terminal, automatic update check)
+## tries to update the package index.
+Before=qubes-qrexec-agent.service
 Before=qubes-update-check.service
 
 [Service]

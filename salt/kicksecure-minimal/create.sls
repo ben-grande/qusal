@@ -54,8 +54,5 @@ features:
   - appmenus-dispvm
 - set:
   - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
-tags:
-- add:
-  - updatevm-sys-cacher
 {%- endload %}
 {{ load(defaults) }}
