@@ -50,6 +50,12 @@ sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.conf
 ```
 <!-- pkg:end:post-install -->
 
+If you plan to write for a long time and analyze logs on the builder qube, it
+is recommended to install some development goodies:
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply qubes-builder.install-dev
+```
+
 ## Access Control
 
 The policy is based on `qubes-builderv2/rpc/50-qubesbuilder.policy`.
