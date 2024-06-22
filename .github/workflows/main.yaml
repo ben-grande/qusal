@@ -46,7 +46,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v5
       - uses: pre-commit/action@v3.0.1
-
+        env:
+          SPEC_VENDOR: Github Actions
       - name: Lint commits
         # yamllint disable-line rule:line-length
         run: |

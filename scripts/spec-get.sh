@@ -62,6 +62,14 @@ packager="${SPEC_PACKAGER:-"${vendor}"}"
 url="${SPEC_URL:-"https://github.com/ben-grande/qusal"}"
 bug_url="${SPEC_BUGURL:-"${url}/issues"}"
 
+if test -z "${group}" || test -z "${vendor}" || test -z "${packager}" \
+  || test -z "${url}" || test -z "${bug_url}"
+then
+  echo "At least one empty var: group, vendor, packager, url, bug_url" >&2
+  exit 1
+fi
+
+
 project="${group}-${name}"
 project_dir="salt/${name}"
 
