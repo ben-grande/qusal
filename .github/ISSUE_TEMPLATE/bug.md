@@ -10,6 +10,7 @@ assignees: ''
 
 I confirm that I have read the following resources:
 
+- [How to troubleshoot Qusal](https://github.com/ben-grande/qusal/blob/main/docs/TROUBLESHOOT.md)
 - [How to ask questions The Smart Way](http://catb.org/esr/faqs/smart-questions.html)
 - [Writing the perfect question](https://codeblog.jonskeet.uk/2010/08/29/writing-the-perfect-question/)
 - [Question checklist](https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/)
