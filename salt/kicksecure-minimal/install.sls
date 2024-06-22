@@ -11,7 +11,6 @@ https://www.kicksecure.com/wiki/Debian
 include:
   - kicksecure-minimal.install-repo
   - utils.tools.common.update
-  - sys-cacher.install-client
   - utils.tools.zsh
 
 "{{ slsdotpath }}-installed":
