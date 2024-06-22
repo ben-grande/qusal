@@ -1,3 +1,4 @@
+# yamllint disable-line rule:line-length
 # SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -35,8 +36,11 @@ jobs:
         # yamllint disable-line rule:line-length
         run: sudo apt-get install -y python3-dev python3-pip shellcheck reuse
       # gitlint is available on Debian but Ubuntu has an older version.
+      - name: Remove externally managed python environment flag
+        # yamllint disable-line rule:line-length
+        run: sudo dpkg-divert --rename --add /usr/lib/$(py3versions -d)/EXTERNALLY-MANAGED
       - name: Install pip packages
-        run: pip3 install --break-system-packages salt-lint gitlint
+        run: pip3 install salt-lint gitlint
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
