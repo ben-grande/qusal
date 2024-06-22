@@ -45,10 +45,12 @@ repos:
         pass_filenames: true
         description: Lint Git commits
 
-      - id: qubesbuilder
-        name: qubesbuilder
-        entry: scripts/qubesbuilder-gen.sh test
+      - id: qubesbuilder-gen
+        name: qubesbuilder-gen
+        entry: scripts/qubesbuilder-gen.sh
+        args: [test]
         language: script
+        pass_filenames: false
         description: Check if .qubesbuilder is up to date
 
 # TODO: generate temporary spec and compare against staged one.
