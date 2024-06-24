@@ -22,7 +22,6 @@ on it.
 sudo qubesctl top.enable kicksecure-minimal
 sudo qubesctl --targets=kicksecure-17-minimal state.apply
 sudo qubesctl top.disable kicksecure-minimal
-sudo qubesctl state.apply kicksecure-minimal.prefs
 ```
 
 - State:
@@ -30,7 +29,6 @@ sudo qubesctl state.apply kicksecure-minimal.prefs
 ```sh
 sudo qubesctl state.apply kicksecure-minimal.create
 sudo qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install
-sudo qubesctl state.apply kicksecure-minimal.prefs
 ```
 <!-- pkg:end:post-install -->
 

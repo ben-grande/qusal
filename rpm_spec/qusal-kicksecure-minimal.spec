@@ -71,7 +71,6 @@ if test "$1" = "1"; then
   ## Install
   qubesctl state.apply kicksecure-minimal.create
   qubesctl --skip-dom0 --targets=kicksecure-17-minimal state.apply kicksecure-minimal.install
-  qubesctl state.apply kicksecure-minimal.prefs
 elif test "$1" = "2"; then
   ## Upgrade
   true
@@ -104,6 +103,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 630641f
+- fix: do not change kicksecure kernel by default
+
 * Sat Jun 22 2024 Ben Grande <ben.grande.b@gmail.com> - a6194e0
 - fix: remove cacher tag from Kicksecure template
 
