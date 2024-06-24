@@ -113,7 +113,7 @@ features:
 "{{ slsdotpath }}-shutdown-template":
   qvm.shutdown:
     - require:
-      - qvm: "{{ slsdotpath }}-set-management_dispvm-to-default"
+      - cmd: "{{ slsdotpath }}-install-salt-deps":
     - name: tpl-{{ slsdotpath }}
     - flags:
       - force
