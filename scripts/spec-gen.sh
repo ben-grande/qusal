@@ -13,7 +13,6 @@ usage(){
 ## Escape multiline strings for sed.
 escape_key(){
   key_type="${1}"
-  key_indent="  "
   if test "${key_type}" = "scriptlet"; then
     echo "${2}" | sed ':a;N;$!ba;s/\n/\\n  /g' | sed 's/\$/\\$/'
   elif test "${key_type}" = "text"; then
@@ -44,10 +43,6 @@ get_spec(){
 
 gen_spec(){
   project="${1}"
-  ignored="$(git ls-files --exclude-standard --others --ignored)"
-  untracked="$(git ls-files --exclude-standard --others)"
-  unwanted="$(printf %s"${ignored}\n${untracked}\n" \
-              | grep "^salt/\S\+/README.md" | cut -d "/" -f2 | sort -u)"
 
   if echo "${unwanted}" | grep -q "^${project}$"; then
     echo "warn: skipping spec generation of untracked formula: ${project}" >&2
@@ -139,9 +134,13 @@ esac
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)"
-./scripts/requires-program.sh vim
 
 spec_get="./scripts/spec-get.sh"
+
+ignored="$(git ls-files --exclude-standard --others --ignored salt/)"
+untracked="$(git ls-files --exclude-standard --others salt/)"
+unwanted="$(printf %s"${ignored}\n${untracked}\n" \
+            | grep "^salt/\S\+/README.md" | cut -d "/" -f2 | sort -u)"
 
 if test "${2-}" = "test"; then
   gen_spec "${1}" test

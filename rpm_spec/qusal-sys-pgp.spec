@@ -66,7 +66,10 @@ for license in $(echo "%{license_csv}" | tr "," " "); do
 done
 
 install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rf salt/%{project}/LICENSES salt/%{project}/README.md
+rm -rf \
+  salt/%{project}/LICENSES \
+  salt/%{project}/README.md
+  salt/%{project}/.*
 cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
@@ -108,6 +111,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - beaf07d
+- fix: include shell profile sourcer
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

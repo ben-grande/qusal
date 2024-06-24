@@ -74,7 +74,10 @@ for license in $(echo "%{license_csv}" | tr "," " "); do
 done
 
 install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rf salt/%{project}/LICENSES salt/%{project}/README.md
+rm -rf \
+  salt/%{project}/LICENSES \
+  salt/%{project}/README.md
+  salt/%{project}/.*
 cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
@@ -117,6 +120,12 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - d0ed3a8
+- fix: repository dir uses debug directory
+
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - c7fb371
+- fix: reference Salt dependency installation state
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 620fa10
 - fix: shutdown template before install state
 

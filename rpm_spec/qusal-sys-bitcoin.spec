@@ -89,7 +89,10 @@ for license in $(echo "%{license_csv}" | tr "," " "); do
 done
 
 install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rf salt/%{project}/LICENSES salt/%{project}/README.md
+rm -rf \
+  salt/%{project}/LICENSES \
+  salt/%{project}/README.md
+  salt/%{project}/.*
 cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
