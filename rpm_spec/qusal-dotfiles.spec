@@ -115,6 +115,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - e279113
+- fix: build RPM contained in spec definitions
+
 * Thu Jun 20 2024 Ben Grande <ben.grande.b@gmail.com> - 0e2bb5b
 - fix: update dotfiles module
 

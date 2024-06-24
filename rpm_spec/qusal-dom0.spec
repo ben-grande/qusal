@@ -104,6 +104,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - e9801c8
+- feat: helper to show mgmt property information
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

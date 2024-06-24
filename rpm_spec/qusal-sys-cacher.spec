@@ -127,6 +127,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - ab1438f
+- fix: change Launchpad repository to HTTPS domain
+
 * Sat Jun 22 2024 Ben Grande <ben.grande.b@gmail.com> - a6194e0
 - fix: remove cacher tag from Kicksecure template
 
@@ -273,6 +276,3 @@ fi
 
 * Tue Nov 14 2023 Ben Grande <ben.grande.b@gmail.com> - 41c5418
 - fix: cacher shuting down on long running updates
-
-* Mon Nov 13 2023 Ben Grande <ben.grande.b@gmail.com> - 963e72c
-- chore: Fix unman copyright contact

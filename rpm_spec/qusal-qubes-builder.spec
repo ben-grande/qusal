@@ -117,6 +117,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 620fa10
+- fix: shutdown template before install state
+
 * Sat Jun 22 2024 Ben Grande <ben.grande.b@gmail.com> - 4276358
 - feat: add development goodies to Qubes Builder
 
