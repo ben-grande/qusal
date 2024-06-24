@@ -2,24 +2,25 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+%define project         @NAME@
+%define license_csv     @LICENSE_CSV@
 ## Reproducibility.
 %define source_date_epoch_from_changelog 1
 %define use_source_date_epoch_as_buildtime 1
 %define clamp_mtime_to_source_date_epoch 1
-# Changelog is trimmed according to current date, not last date from changelog.
+## Changelog is trimmed according to current date, not last date from changelog.
 %define _changelog_trimtime 0
 %define _changelog_trimage 0
 %global _buildhost %{name}
-# Python bytecode interferes when updates occur and restart is not done.
+## Python bytecode interferes when updates occur and restart is not done.
 %undefine __brp_python_bytecompile
 
 Name:           @PROJECT@
 Version:        @VERSION@
 Release:        1%{?dist}
 Summary:        @SUMMARY@
-
 Group:          @GROUP@
-Packager:       @PACKAGER@
+Packager:       %{?_packager}%{!?_packager:@PACKAGER@}
 Vendor:         @VENDOR@
 License:        @LICENSE@
 URL:            @URL@
@@ -39,20 +40,28 @@ Requires:       qubes-mgmt-salt-dom0
 
 %build
 
+%check
+
+%pre
+
 %install
 rm -rf %{buildroot}
 install -m 755 -d \
-  %{buildroot}@FILE_ROOTS@ \
+  %{buildroot}/srv/salt/qusal \
   %{buildroot}%{_docdir}/%{name} \
   %{buildroot}%{_defaultlicensedir}/%{name}
-install -m 644 %{name}/LICENSES/* %{buildroot}%{_defaultlicensedir}/%{name}/
-install -m 644 %{name}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rv %{name}/LICENSES %{name}/README.md
-cp -rv %{name} %{buildroot}@FILE_ROOTS@/%{name}
 
-%check
+for license in $(echo "%{license_csv}" | tr "," " "); do
+  license_dir="LICENSES"
+  if test -d "salt/%{project}/LICENSES"; then
+    license_dir="salt/%{project}/LICENSES"
+  fi
+  install -m 644 "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
+done
 
-%dnl %pre
+install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
+rm -rf salt/%{project}/LICENSES salt/%{project}/README.md
+cp -rv salt/%{project} %{buildroot}@FILE_ROOTS@/%{name}
 
 %post
 if test "$1" = "1"; then

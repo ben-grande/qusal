@@ -2,24 +2,25 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+%define project         dotfiles
+%define license_csv     AGPL-3.0-or-later,BSD-2-Clause,CC-BY-SA-3.0,CC-BY-SA-4.0,GFDL-1.3-or-later,GPL-2.0-only,GPL-3.0-only,GPL-3.0-or-later,MIT,Vim
 ## Reproducibility.
 %define source_date_epoch_from_changelog 1
 %define use_source_date_epoch_as_buildtime 1
 %define clamp_mtime_to_source_date_epoch 1
-# Changelog is trimmed according to current date, not last date from changelog.
+## Changelog is trimmed according to current date, not last date from changelog.
 %define _changelog_trimtime 0
 %define _changelog_trimage 0
 %global _buildhost %{name}
-# Python bytecode interferes when updates occur and restart is not done.
+## Python bytecode interferes when updates occur and restart is not done.
 %undefine __brp_python_bytecompile
 
 Name:           qusal-dotfiles
 Version:        0.0.1
 Release:        1%{?dist}
 Summary:        Ben Grande's Dotfiles
-
 Group:          qusal
-Packager:       Ben Grande
+Packager:       %{?_packager}%{!?_packager:Ben Grande <ben.grande.b@gmail.com>}
 Vendor:         Ben Grande
 License:        AGPL-3.0-or-later AND BSD-2-Clause AND CC-BY-SA-3.0 AND CC-BY-SA-4.0 AND GFDL-1.3-or-later AND GPL-2.0-only AND GPL-3.0-only AND GPL-3.0-or-later AND MIT AND Vim
 URL:            https://github.com/ben-grande/qusal
@@ -55,20 +56,28 @@ Configuration and scripts targeting:
 
 %build
 
+%check
+
+%pre
+
 %install
 rm -rf %{buildroot}
 install -m 755 -d \
   %{buildroot}/srv/salt/qusal \
   %{buildroot}%{_docdir}/%{name} \
   %{buildroot}%{_defaultlicensedir}/%{name}
-install -m 644 %{name}/LICENSES/* %{buildroot}%{_defaultlicensedir}/%{name}/
-install -m 644 %{name}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rv %{name}/LICENSES %{name}/README.md
-cp -rv %{name} %{buildroot}/srv/salt/qusal/%{name}
 
-%check
+for license in $(echo "%{license_csv}" | tr "," " "); do
+  license_dir="LICENSES"
+  if test -d "salt/%{project}/LICENSES"; then
+    license_dir="salt/%{project}/LICENSES"
+  fi
+  install -m 644 "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
+done
 
-%dnl %pre
+install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
+rm -rf salt/%{project}/LICENSES salt/%{project}/README.md
+cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
 if test "$1" = "1"; then

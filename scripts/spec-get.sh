@@ -58,7 +58,7 @@ group="${toplevel##*/}"
 block_max_chars group "${group}" 70
 file_roots="/srv/salt/${group}"
 vendor="${SPEC_VENDOR:-"$(git config --get user.name)"}"
-packager="${SPEC_PACKAGER:-"${vendor}"}"
+packager="${SPEC_PACKAGER:-"${vendor} <$(git config --get user.email)>"}"
 url="${SPEC_URL:-"https://github.com/ben-grande/qusal"}"
 bug_url="${SPEC_BUGURL:-"${url}/issues"}"
 

@@ -1,8 +1,9 @@
-## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
+
 git:
   baseurl: https://github.com
   prefix: ben-grande/
@@ -10,6 +11,8 @@ git:
   maintainers:
     - DF3834875B65758713D92E91A475969DE4E371E3
 
+key-dirs:
+  - ../qusal/keys/
 backend-vmm: xen
 debug: true
 verbose: true
@@ -66,8 +69,9 @@ sign-key:
   rpm:
     - DF3834875B65758713D92E91A475969DE4E371E3
 
-# repository-publish:
-#   components: current
+#repository-publish:
+#  components: current-testing
 
-# repository-upload-remote-host:
-#   rpm: user@yum.domain.org:/some/path
+#repository-upload-remote-host:
+#  rpm: user@yum.qubes-os.org:/some/path
+#  deb: user@deb.qubes-os.org:/another/path

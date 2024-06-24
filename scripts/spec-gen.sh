@@ -72,6 +72,7 @@ gen_spec(){
   project_name="$(get_spec project)"
   version="$(get_spec version)"
   license="$(get_spec license)"
+  license_csv="$(get_spec license_csv)"
   vendor="$(get_spec vendor)"
   packager="$(get_spec packager)"
   url="$(get_spec url)"
@@ -101,6 +102,7 @@ gen_spec(){
     -e "s/@POSTUN_UNINSTALL@/${postun_uninstall}/" \
     -e "s/@POSTUN_UPGRADE@/${postun_upgrade}/" \
     -e "s|@FILE_ROOTS@|${file_roots}|" \
+    -e "s/@NAME@/${project}/" \
     -e "s/@PROJECT@/${project_name}/" \
     -e "s/@VERSION@/${version}/" \
     -e "s/@SUMMARY@/${summary}/" \
@@ -108,6 +110,7 @@ gen_spec(){
     -e "s/@PACKAGER@/${packager}/" \
     -e "s/@VENDOR@/${vendor}/" \
     -e "s/@LICENSE@/${license}/" \
+    -e "s/@LICENSE_CSV@/${license_csv}/" \
     -e "s|@BUG_URL@|${bug_url}|" \
     -e "s|@URL@|${url}|" \
     -e "s|@DESCRIPTION@|${description}|" \

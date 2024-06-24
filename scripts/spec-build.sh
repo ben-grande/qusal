@@ -34,15 +34,9 @@ build_rpm(){
     "${build_dir}/BUILD/${group}-${project}/LICENSES/" \
     "${build_dir}/SOURCES/${group}-${project}/LICENSES"
 
-  cp -r "salt/${project}/"* "${build_dir}/BUILD/${group}-${project}/"
-  cp -r "salt/${project}/"* "${build_dir}/SOURCES/${group}-${project}/"
-  for license in $(echo "${license_csv}" | tr "," " "); do
-    license_dir="LICENSES"
-    if test -d "salt/${project}/LICENSES"; then
-      license_dir="salt/${project}/LICENSES"
-    fi
-    cp "${license_dir}/${license}.txt" "${build_dir}/BUILD/${group}-${project}/LICENSES/"
-  done
+  ## TODO: generate tarball to sources.
+  cp -r . "${build_dir}/BUILD/${group}-${project}/"
+  cp -r . "${build_dir}/SOURCES/${group}-${project}/"
 
   ## TODO: use qubes-builderv2 with mock or qubes executor
   rpmbuild -ba --quiet --clean -- "${spec}"
