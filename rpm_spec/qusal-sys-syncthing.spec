@@ -71,7 +71,7 @@ done
 install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
 rm -rf \
   salt/%{project}/LICENSES \
-  salt/%{project}/README.md
+  salt/%{project}/README.md \
   salt/%{project}/.*
 cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
@@ -121,6 +121,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 22e2a2e
+- chore: add copyright to systemd services
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

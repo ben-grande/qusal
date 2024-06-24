@@ -78,7 +78,7 @@ done
 install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
 rm -rf \
   salt/%{project}/LICENSES \
-  salt/%{project}/README.md
+  salt/%{project}/README.md \
   salt/%{project}/.*
 cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
