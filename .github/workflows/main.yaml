@@ -48,6 +48,7 @@ jobs:
       - uses: pre-commit/action@v3.0.1
         env:
           SPEC_VENDOR: Github Actions
+          SPEC_PACKAGER: Github Actions
       - name: Lint commits
         # yamllint disable-line rule:line-length
         run: |
