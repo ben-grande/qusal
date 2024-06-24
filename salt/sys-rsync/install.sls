@@ -18,7 +18,6 @@ include:
     - skip_suggestions: True
     - pkgs:
       - rsync
-      - socat
       - man-db
 
 "{{ slsdotpath }}-stop-rsync":
@@ -42,14 +41,22 @@ include:
     - group: root
     - makedirs: True
 
-"{{ slsdotpath }}-set-rpc-services":
-  file.recurse:
-    - name: /etc/qubes-rpc/
-    - source: salt://{{ slsdotpath }}/files/server/rpc/
-    - dir_mode: '0755'
-    - file_mode: '0755'
+"{{ slsdotpath }}-rpc":
+  file.symlink:
+    - name: /etc/qubes-rpc/qusal.Rsync
+    - target: /dev/tcp/127.0.0.1/873
     - user: root
     - group: root
+    - force: True
+    - makedirs: True
+
+"{{ slsdotpath }}-rpc-config":
+  file.symlink:
+    - name: /etc/qubes/rpc-config/qusal.Rsync
+    - target: /etc/qubes/rpc-config/qubes.ConnectTCP
+    - user: root
+    - group: root
+    - force: True
     - makedirs: True
 
 {% endif -%}

@@ -26,18 +26,26 @@ include:
       - qubes-core-agent-networking
       - syncthing
       - jq
-      - socat
       - qubes-core-agent-thunar
       - thunar
       - man-db
 
-"{{ slsdotpath }}-rpc-service":
-  file.managed:
+"{{ slsdotpath }}-rpc":
+  file.symlink:
     - name: /etc/qubes-rpc/qusal.Syncthing
-    - source: salt://{{ slsdotpath }}/files/server/rpc/qusal.Syncthing
+    - target: /dev/tcp/127.0.0.1/22000
     - user: root
     - group: root
-    - mode: '0755'
+    - force: True
+    - makedirs: True
+
+"{{ slsdotpath }}-rpc-config":
+  file.symlink:
+    - name: /etc/qubes/rpc-config/qusal.Syncthing
+    - target: /etc/qubes/rpc-config/qubes.ConnectTCP
+    - user: root
+    - group: root
+    - force: True
     - makedirs: True
 
 "{{ slsdotpath }}-mask-syncthing":

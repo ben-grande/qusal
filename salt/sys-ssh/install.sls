@@ -18,7 +18,6 @@ include:
     - skip_suggestions: True
     - pkgs:
       - openssh-server
-      - socat
       - man-db
 
 "{{ slsdotpath }}-stop-ssh":
@@ -33,14 +32,22 @@ include:
   service.masked:
     - name: ssh
 
-"{{ slsdotpath }}-set-rpc-services":
-  file.recurse:
-    - name: /etc/qubes-rpc/
-    - source: salt://{{ slsdotpath }}/files/server/rpc/
-    - dir_mode: '0755'
-    - file_mode: '0755'
+"{{ slsdotpath }}-rpc":
+  file.symlink:
+    - name: /etc/qubes-rpc/qusal.Ssh
+    - target: /dev/tcp/127.0.0.1/22
     - user: root
     - group: root
+    - force: True
+    - makedirs: True
+
+"{{ slsdotpath }}-rpc-config":
+  file.symlink:
+    - name: /etc/qubes/rpc-config/qusal.Ssh
+    - target: /etc/qubes/rpc-config/qubes.ConnectTCP
+    - user: root
+    - group: root
+    - force: True
     - makedirs: True
 
 "{{ slsdotpath }}-sshd-config":

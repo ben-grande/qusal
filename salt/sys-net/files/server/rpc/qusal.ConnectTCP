@@ -34,4 +34,4 @@ if test "${#port}" -gt 5 || test "${port}" -gt 65535; then
   exit 1
 fi
 
-exec socat - "TCP:${host}:${port}"
+exec socat STDIO "TCP:${host}:${port}"

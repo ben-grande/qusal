@@ -43,12 +43,21 @@ include:
       - user
 
 "{{ slsdotpath }}-rpc":
-  file.managed:
+  file.symlink:
     - name: /etc/qubes-rpc/qusal.Print
-    - source: salt://{{ slsdotpath }}/files/server/rpc/qusal.Print
-    - mode: '0755'
+    - target: /dev/tcp/127.0.0.1/631
     - user: root
     - group: root
+    - force: True
+    - makedirs: True
+
+"{{ slsdotpath }}-rpc-config":
+  file.symlink:
+    - name: /etc/qubes/rpc-config/qusal.Print
+    - target: /etc/qubes/rpc-config/qubes.ConnectTCP
+    - user: root
+    - group: root
+    - force: True
     - makedirs: True
 
 "{{ slsdotpath }}-bind-dirs":
