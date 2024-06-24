@@ -65,7 +65,7 @@ include:
     - require:
       - cmd: "{{ slsdotpath }}-import-keys"
     - name: https://github.com/QubesOS/qubes-builderv2.git
-    - target: /tmp/qubes-builderv2
+    - target: /home/user/src/qubes-builderv2
     - user: user
 
 "{{ slsdotpath }}-git-clone-infrastructure-mirrors":
