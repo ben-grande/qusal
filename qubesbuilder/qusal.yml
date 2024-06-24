@@ -4,6 +4,9 @@
 
 ---
 
+include:
+  - qusal-cache.yml
+
 git:
   baseurl: https://github.com
   prefix: ben-grande/
