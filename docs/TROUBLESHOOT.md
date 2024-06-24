@@ -7,6 +7,7 @@ Qusal troubleshooting guidelines.
 * [Detect if your issue was already opened](#detect-if-your-issue-was-already-opened)
 * [Qrexec client shows Request refused](#qrexec-client-shows-request-refused)
 * [Salt wrapper qubesctl command fails](#salt-wrapper-qubesctl-command-fails)
+* [Get Salt management information](#get-salt-management-information)
 
 ## Detect if your issue was already opened
 
@@ -68,4 +69,17 @@ Ending the Salt call with `-l debug` argument gives the most detailed output
 (may contain private information):
 ```
 sudo qubesctl state.apply pkg.uptodate -l debug
+```
+
+## Get Salt management information
+
+Depending on the operating system of the `management_dispvm`, Salt can fail.
+Let's gather some information about it.
+
+Get information about the global `management_dispvm` and the same property of
+a specific qube. In this example we use `tpl-qubes-builder`, substitute for
+the qube being managed:
+```sh
+sudo qubesctl state.apply dom0.helpers
+qvm-mgmt tpl-qubes-builder
 ```

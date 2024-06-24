@@ -1,0 +1,46 @@
+#!/bin/sh
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+usage(){
+  echo "Usage: ${0##*/} QUBE" >&2
+  exit "${1:-1}"
+}
+
+get_qube_feat(){
+  qube="${1}"
+  qvm-features "${qube}" \
+    | grep -e os-distribution -e os-version -e template-release \
+           -e template-release -e template-name
+}
+
+case "${1-}" in
+  -h|--?help) usage 0;;
+  -*|"") usage 1;;
+  *) wanted_qube="${1}";;
+esac
+
+mgmt="$(qubes-prefs management_dispvm)"
+echo "Global management_dispvm qube: ${mgmt}"
+tpl_mgmt="$(qvm-prefs "${mgmt}" template)"
+echo "Global management_dispvm template: ${tpl_mgmt}"
+echo "Global management_dispvm template features:"
+get_qube_feat "${tpl_mgmt}"
+
+if ! qvm-check -q -- "${wanted_qube}"; then
+  echo "error: qube '${wanted_qube}' does not exist" >&2
+  exit 1
+fi
+echo "Wanted qube: ${wanted_qube}"
+wanted_mgmt="$(qvm-prefs "${wanted_qube}" management_dispvm)"
+echo "Global management_dispvm qube: ${wanted_mgmt}"
+if test "${wanted_mgmt}" = "${mgmt}"; then
+  exit
+fi
+wanted_tpl_mgmt="$(qvm-prefs "${wanted_mgmt}" template)"
+echo "Global management_dispvm template: ${wanted_tpl_mgmt}"
+echo "Global management_dispvm template features:"
+get_qube_feat "${wanted_tpl_mgmt}"

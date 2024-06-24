@@ -29,8 +29,12 @@ invalid.
 
 ### Software version
 <!--
-You must specify as much information as possible in this category.
-You can also specify the base commit of the project.
+You must specify as much information as possible in this category. The
+commands shown below are the minimum.
+Share the base commit of the project:
+  $ git rev-parse HEAD
+Share information about the Salt management qube structure:
+  https://github.com/ben-grande/qusal/blob/main/docs/TROUBLESHOOT.md#get-salt-management-information
 -->
 
 
@@ -57,7 +61,7 @@ settings manually, this should also be mentioned.
 
 ### Expected behavior
 <!--
-What where you expecting to have happened? Why where you expecting that?
+What where you expecting to have happened? Why were you expecting that?
 -->
 
 

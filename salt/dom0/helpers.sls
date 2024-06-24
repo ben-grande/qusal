@@ -35,4 +35,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - group: root
     - makedirs: True
 
+"{{ slsdotpath }}-mgmt-debug-helper":
+  file.managed:
+    - name: /usr/local/bin/qvm-mgmt
+    - source: salt://{{ slsdotpath }}/files/bin/qvm-mgmt
+    - mode: "0755"
+    - user: root
+    - group: root
+    - makedirs: True
+
 {% endif -%}
