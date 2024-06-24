@@ -106,3 +106,14 @@ features:
     - name: salt-patch.sh
     - source: salt://fedora-minimal/files/admin/bin/salt-patch.sh
     - args: tpl-{{ slsdotpath }}
+
+## TODO: Remove when template with patch reaches upstream or updates enforce
+## salt-deps to be installed.
+## https://github.com/QubesOS/qubes-issues/issues/8806
+"{{ slsdotpath }}-shutdown-template":
+  qvm.shutdown:
+    - require:
+      - qvm: "{{ slsdotpath }}-set-management_dispvm-to-default"
+    - name: tpl-{{ slsdotpath }}
+    - flags:
+      - force
