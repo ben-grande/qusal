@@ -83,26 +83,22 @@ qubes.UpdatesProxy * dev @anyvm   deny
 
 ### Report Page and Maintenance Tasks
 
+The APT-Cacher-NG WebUI address is `http://127.0.0.1:8082/acng-report.html`
+
+If you want to view statistics or manage the server through a GUI, open
+`sys-cacher` or `sys-cacher-browser` desktop file `cacher-browser.desktop`
+from the app menu. Addresses starting with `http` or `https` will be redirected
+to `sys-cacher-browser`.
+
 The report page is available from `sys-cacher` and `sys-cacher-browser` at
-`http://127.0.0.1:8082/acng-report.html` and any other client qube that has
-`sys-cacher` as it's update qube. This is apt-cacher-ng limitation and is bad
-security wise, every client has administrative access to the cacher qube.  You
-should add the following to the end of `sys-cacher` rc.local:
+and any other client qube that has `sys-cacher` as it's update qube. This is
+apt-cacher-ng limitation and is bad security wise, every client has
+administrative access to the cacher qube.  You should add the following to the
+end of `sys-cacher` rc.local:
 ```sh
 echo "AdminAuth: username:password" | tee /etc/qusal-apt-cacher-ng/zzz_security.conf
 ```
 Where username and password are HTTP Auth strings.
-
-If you want to view statistics or manage the server through a GUI, open
-`sys-cacher` or `sys-cacher-browser` desktop file `cacher-browser.desktop`
-from Dom0. Addresses starting with `http` or `https` will be redirected
-to `sys-cacher-browser`.
-
-The browser separation from the server is to avoid browsing malicious sites
-and exposing the browser to direct network on the same machine the server is
-running. The browser qube is offline and only has access to the admin
-interface. In other words, it has control over the server functions, if the
-browser is compromised, it can compromise the server.
 
 ### Connect to the cacher via IP instead of Qrexec
 

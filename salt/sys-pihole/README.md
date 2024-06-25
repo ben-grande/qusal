@@ -61,27 +61,16 @@ sudo qubesctl state.apply sys-pihole.prefs
 
 ### Web interface
 
-Pi-hole will be installed with these default settings:
+If you want to view statistics or manage the server through a GUI, open
+`sys-pihole` or `sys-pihole-browser` desktop file `pihole-browser.desktop`
+from the app menu. Addresses starting with `http` or `https` will be
+redirected to `sys-pihole-browser`.
+
+Pi-hole will be installed with the following settings:
 
 - The DNS provider is Quad9 (filtered, DNSSEC)
 - Steven Black's Unified Hosts List is included
 - Query logging is enabled to show everything.
-
-You can change the settings via the admin interface:
-
-- URL: http://localhost/admin
-- There is no password (access allowed only through localhost)
-
-If you want to view statistics or manage the server through a GUI, open
-`sys-pihole` or `sys-pihole-browser` desktop file `pihole-browser.desktop`
-from Dom0. Addresses starting with `http` or `https` will be redirected
-to `sys-pihole-browser`.
-
-The browser separation from the server is to avoid browsing malicious sites
-and exposing the browser to direct network on the same machine the server is
-running. The browser qube is offline and only has access to the admin
-interface. In other words, it has control over the server functions, if the
-browser is compromised, it can compromise the server.
 
 ### Torified Pi-Hole
 

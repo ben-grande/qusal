@@ -74,22 +74,15 @@ qusal.Syncthing  *  SOURCE  @default allow target=DESTINATION default_target=DEF
 
 ## Usage
 
-The Syncthing address is `http://127.0.0.1:8384`.
+The Syncthing WebUI address is `http://127.0.0.1:8384`.
 
 If you want to view statistics or manage the server through a GUI, open
 `sys-syncthing` or `sys-syncthing-browser` desktop file
-`syncthing-browser.desktop` from Dom0 or run `syncthing -browser-only` from
-`sys-syncthing`. Addresses starting with `http` or `https` will be redirected
-to `sys-syncthing-browser`.
+`syncthing-browser.desktop` from the app menu. Addresses starting with `http`
+or `https` will be redirected to `sys-syncthing-browser`.
 
-The browser separation from the server is to avoid browsing malicious sites
-and exposing the browser to direct network on the same machine the server is
-running. The browser qube is offline and only has access to the admin
-interface. In other words, it has control over the server functions, if the
-browser is compromised, it can compromise the server.
-
-To use the service, from the client, add a Remote Device, and copy the
-`DeviceID` from the server qube. On the `Advanced` tab, under `Addresses`,
+To use the service, from the client, add a `Remote Device`, and copy the
+`Device ID` from the server qube, on the `Advanced` tab, under `Addresses`,
 change `dynamic` to `tcp://127.0.0.1:22001`
 
 If the sender qube has no netvm set, under `Settings`, disable `Enable NAT
@@ -97,9 +90,9 @@ traversal`, `Local Discovery`, `Global Discovery`, and `Enable Relaying`
 
 ## Debugging
 
-If sys-net has more than one network card the first external interface will
-be used by default.
-If this is incorrect, you must change it manually. In Dom0 run:
+If sys-net has more than one network card the first external interface will be
+used by default.  If this is incorrect, you must change it manually. In Dom0
+run:
 ```sh
 qvm-port-forward -a del -q sys-syncthing -n udp -p 22000
 qvm-port-forward -a del -q sys-syncthing -n tcp -p 22000

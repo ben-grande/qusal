@@ -14,10 +14,11 @@ Qusal design document.
     * [Qube naming](#qube-naming)
     * [Qube label](#qube-label)
     * [Qube menu](#qube-menu)
-    * [Qube features](#qube-features)
+  * [Qube features](#qube-features)
   * [Qube connections](#qube-connections)
   * [Qrexec call and policy](#qrexec-call-and-policy)
   * [Qrexec socket services](#qrexec-socket-services)
+* [Browser isolation from the managed service](#browser-isolation-from-the-managed-service)
 
 ## Goal
 
@@ -256,3 +257,16 @@ Rules for client RPC call:
   `rc.local`;
 - Use of `socat` and `qvm-connect-tcp` is permitted for UDS and for
   instructional use as it is very short.
+
+## Browser isolation from the managed service
+
+Some projects have daemons and can be managed through a browser. The CLI is
+not suitable for everybody and sometimes it can be incomplete on GUI focused
+applications. Implement browser separation from the server to avoid browsing
+malicious sites and exposing the browser to direct network on the same machine
+the server is running. The browser qube is offline and only has access to the
+admin interface. In other words, it has control over the server functions, if
+the browser is compromised, it can compromise the server.
+
+Some projects that uses this enhancement are `sys-pihole`, `sys-syncthing` and
+`sys-cacher`.
