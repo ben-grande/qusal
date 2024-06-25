@@ -26,8 +26,8 @@ sudo qubesctl top.disable ansible
 ```sh
 sudo qubesctl state.apply ansible.create
 sudo qubesctl --skip-dom0 --targets=tpl-ansible state.apply ansible.install
-sudo qubesctl --skip-dom0 --targets=ansible state.apply ansible.configure,zsh.touch-zshrc
-sudo qubesctl --skip-dom0 --targets=ansible-minion state.apply ansible.configure-minion,zsh.touch-zshrc
+sudo qubesctl --skip-dom0 --targets=ansible state.apply ansible.configure
+sudo qubesctl --skip-dom0 --targets=ansible-minion state.apply ansible.configure-minion
 ```
 <!-- pkg:end:post-install -->
 
