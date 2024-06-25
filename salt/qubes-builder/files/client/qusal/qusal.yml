@@ -15,7 +15,7 @@ git:
     - DF3834875B65758713D92E91A475969DE4E371E3
 
 key-dirs:
-  - ../qusal/keys/
+  - ../qusal-builder/keys/
 backend-vmm: xen
 debug: true
 verbose: true

@@ -57,6 +57,10 @@ Copyright: The Qubes OS Project <https://www.qubes-os.org>
            Simon Gaiser <simon@invisiblethingslab.com>
 License: CC0-1.0
 
+Files: salt/qubes-builder/files/client/qusal/keys/*
+Copyright: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+License: CC0-1.0
+
 Files: salt/kicksecure-minimal/files/template/ld.so.preload
 Copyright: 2014 Patrick Schleizer <adrelanos@kicksecure.com>
 License: CC0-1.0

@@ -56,6 +56,11 @@ is recommended to install some development goodies:
 sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply qubes-builder.install-dev
 ```
 
+If you plan on building Qusal packages (Development only):
+```sh
+sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.configure-qusal
+```
+
 ## Access Control
 
 The policy is based on `qubes-builderv2/rpc/50-qubesbuilder.policy`.
@@ -94,3 +99,19 @@ executor:
 ```
 Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
+
+### Build Qusal
+
+**Warning**: development only.
+
+You can easily build Qusal as a default configuration is provided.
+
+Place only the following in `builder.yml`:
+```yaml
+include:
+  - ../qusal-builder/qusal.yml
+```
+
+To run the `sign` state, you will need to change the configuration option
+`sign-key:rpm:KEY` to your key fingerprint as well as import the same key to
+the default GnuPG home directory `~/.gnupg`.
