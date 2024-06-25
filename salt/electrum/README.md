@@ -88,7 +88,7 @@ socat TCP4-LISTEN:50002,reuseaddr,fork,bind=127.0.0.1 TCP:192.168.2.10:50002 &
 In the qube `electrum`, add the `qvm-connect-tcp` command to the file
 `/rw/config/rc.local`:
 ```sh
-qvm-connnect-tcp ::50002
+qvm-connect-tcp ::50002
 ```
 
 In the qube `electrum`, run as the user `user` the electrum configuration

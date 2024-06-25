@@ -12,7 +12,7 @@ include:
   - utils.tools.common.update
 {% endif -%}
 
-"{{ slsdotpath }}-installed":
+"{{ slsdotpath }}-client-installed":
   pkg.installed:
     {% if grains['os_family']|lower == 'debian' -%}
     - require:
@@ -22,38 +22,42 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
-      - socat
       - syncthing
+      - jq
       - man-db
 
-{% set pkg = {
-    'Debian': {
-      'pkg': ['libpam-systemd'],
-    },
-    'RedHat': {
-      'pkg': ['systemd-pam'],
-    },
-}.get(grains.os_family) -%}
-
-"{{ slsdotpath }}-installed-os-specific":
-  pkg.installed:
-    - require:
-      - sls: utils.tools.common.update
-    - install_recommends: False
-    - skip_suggestions: True
-    - pkgs: {{ pkg.pkg|sequence|yaml }}
-
-"{{ slsdotpath }}-set-systemd-qubes-syncthing-forwarder.service":
-  file.managed:
-    - name: /usr/lib/systemd/system/qubes-syncthing-forwarder.service
-    - source: salt://{{ slsdotpath }}/files/client/systemd/qubes-syncthing-forwarder.service
+"{{ slsdotpath }}-client-systemd":
+  file.recurse:
+    - name: /usr/lib/systemd/system/
+    - source: salt://{{ slsdotpath }}/files/client/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
     - user: root
     - group: root
-    - mode: '0755'
     - makedirs: True
 
-"{{ slsdotpath }}-enable-qubes-syncthing":
+"{{ slsdotpath }}-client-systemd-enable-qusal-syncthing-forwarder.socket":
   service.enabled:
-    - name: qubes-syncthing.service
+    - name: qusal-syncthing-forwarder.socket
+
+"{{ slsdotpath }}-server-systemd":
+  file.recurse:
+    - name: /usr/lib/systemd/system/
+    - source: salt://{{ slsdotpath }}/files/server/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-unmask-syncthing@user":
+  service.unmasked:
+    - name: syncthing@user.service
+    - runtime: False
+
+"{{ slsdotpath }}-enable-syncthing@user":
+  service.enabled:
+    - name: syncthing@user.service
+
 
 {% endif -%}

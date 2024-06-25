@@ -18,6 +18,15 @@ include:
     - group: root
     - makedirs: True
 
+"{{ slsdotpath }}-browser-systemd-services":
+  file.recurse:
+    - name: /rw/config/systemd/
+    - source: salt://{{ slsdotpath }}/files/browser/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
 
 "{{ slsdotpath }}-browser-desktop-application":
   file.managed:

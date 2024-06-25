@@ -69,12 +69,10 @@ stages:
 gpg-client: gpg
 
 sign-key:
-  rpm:
-    - DF3834875B65758713D92E91A475969DE4E371E3
+  rpm: DF3834875B65758713D92E91A475969DE4E371E3
 
-#repository-publish:
-#  components: current-testing
+repository-publish:
+  components: current-testing
 
-#repository-upload-remote-host:
-#  rpm: user@yum.qubes-os.org:/some/path
-#  deb: user@deb.qubes-os.org:/another/path
+# repository-upload-remote-host:
+#   rpm: user@yum.example.org:/some/path

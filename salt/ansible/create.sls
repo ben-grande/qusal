@@ -46,6 +46,8 @@ prefs:
 features:
 - set:
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+- enable:
+  - service.ssh-client
 - disable:
   - service.cups
   - service.cups-browsed
@@ -73,6 +75,9 @@ prefs:
 features:
 - set:
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+- enable:
+  - servicevm
+  - service.ssh-server
 - disable:
   - service.cups
   - service.cups-browsed

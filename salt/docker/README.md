@@ -14,10 +14,12 @@ Setup docker in Qubes OS with the Docker repository.
 
 ## Installation
 
+TODO: remove installation steps or provide a docker qube.
+
 - Top
 ```sh
 sudo qubesctl top.enable docker
-sudo qubesctl --targets=tpl-qubes-builder,qubes-builder state.apply
+sudo qubesctl --targets=tpl-qubes-builder state.apply
 sudo qubesctl top.disable docker
 ```
 
@@ -25,9 +27,14 @@ sudo qubesctl top.disable docker
 <!-- pkg:begin:post-install -->
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply docker.install
-sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply docker.configure
 ```
 <!-- pkg:end:post-install -->
+
+Enable the Docker and/or Podman service for qubes that will use it:
+```sh
+qvm-features QUBE service.docker 1
+qvm-features QUBE service.podman 1
+```
 
 ## Usage
 

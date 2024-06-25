@@ -24,7 +24,7 @@ if test "${#untrusted_agent}" -gt 128; then
 fi
 
 agent="${untrusted_agent}"
-socket="/tmp/qubes-ssh-agent/${agent}.sock"
+socket="/tmp/qusal-ssh-agent/${agent}.sock"
 
 qvm-ssh-agent add "${agent}" >/dev/null
 exec socat STDIO UNIX-CLIENT:"${socket}"

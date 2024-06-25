@@ -56,6 +56,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.syncthing-server
 - disable:
   - service.cups
   - service.cups-browsed
@@ -83,6 +84,8 @@ prefs:
 - autostart: False
 - include_in_backups: False
 features:
+- enable:
+  - service.syncthing-browser
 - disable:
   - service.cups
   - service.cups-browsed

@@ -14,8 +14,10 @@ Qusal design document.
     * [Qube naming](#qube-naming)
     * [Qube label](#qube-label)
     * [Qube menu](#qube-menu)
+    * [Qube features](#qube-features)
   * [Qube connections](#qube-connections)
   * [Qrexec call and policy](#qrexec-call-and-policy)
+  * [Qrexec socket services](#qrexec-socket-services)
 
 ## Goal
 
@@ -167,6 +169,21 @@ building software is risky, the user trying to open a file manager on a qube
 that doesn't have one is less risky but for the user the behavior is
 unexpected.
 
+### Qube features
+
+Control daemons using Qubes Services. It is much better to control services
+this way as we can declare during the creation of qubes instead of having to
+add a state to run a script during boot to unmask and start a specific
+service. The method below is most of the times combined with `systemd.unit`
+`ConditionPathExists=` to enable the service conditionally.
+
+- Server's service name must match the syntax: `service-server` (example:
+  `rsync-server`, `syncthing-server`);
+- Client's service name must match the syntax: `service-client` (example:
+  `ssh-client`;
+- Local program's service name must match the syntax: `service` (example:
+  `docker`, `podman`.
+
 ### Qube connections
 
 There are several ways a qube can connect to another, either directly with
@@ -202,3 +219,40 @@ Xen or with Qrexec. If something is not required, we remove it.
     `qrexec-client-vm`.
 3.  Target qube for client script must default to `@default`, but other targets
     must be allowed via parameters.
+
+### Qrexec socket services
+
+Native Qrexec TCP sockets `/dev/tcp` using `qubes.ConnectTCP` are very handy
+to connect to a port of a qube. The downside of using `qubes.ConnectTCP`
+directly is the user doesn't want or need to know in which port the client
+wants to connect in the server. We will refer to Unix Domains Sockets as
+`UDS`.
+
+Using `qusal.Service`, such as `qusal.Rsync`, `qusal.Syncthing`, `qusal.Ssh`
+has the following advantages:
+
+- Usability: User recognizes the call per service name;
+- Extensibility: Allows extending functionality for arguments added in the
+  future, no need to migrate user policy from `qubes.ConnectTCP`;
+  is not necessary;
+
+Rules for server RPC service:
+
+- Symlink `qubes.ConnectTCP` to `qusal.Service` if connecting to a local port;
+- Use `qubes.ConnectTCP` directly when the user won't manage the policy for
+  the wanted call, such as `sys-syncthing-browser`, where it happens that only
+  this qube will access the admin interface of `sys-syncthing`;
+- Use `socat` to connect to remote hosts or UDS with path defined by the
+  service argument.
+
+Rules for client RPC call:
+
+- Use `systemd.socket` units, it does not require `socat`, it is not
+  restricted to the use of `qubes.ConnectTCP` called by `qvm-connect-tcp`, the
+  service can be properly logged and status verified by a service manager
+  instead of forking socat to the background with a `rc.local` script and
+  finally, can be controlled by Qubes Services to enable or disable the unit
+  with `ConditionPathExists=` instead of doing if-else statements in
+  `rc.local`;
+- Use of `socat` and `qvm-connect-tcp` is permitted for UDS and for
+  instructional use as it is very short.

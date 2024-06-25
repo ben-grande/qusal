@@ -20,16 +20,22 @@ include:
       - rsync
       - man-db
 
-"{{ slsdotpath }}-stop-rsync":
-  service.dead:
+"{{ slsdotpath }}-systemd":
+  file.recurse:
+    - name: /usr/lib/systemd/system/
+    - source: salt://{{ slsdotpath }}/files/server/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-unmask-rsync":
+  service.unmasked:
     - name: rsync
 
-"{{ slsdotpath }}-disable-rsync":
-  service.disabled:
-    - name: rsync
-
-"{{ slsdotpath }}-mask-rsync":
-  service.masked:
+"{{ slsdotpath }}-enable-rsync":
+  service.enabled:
     - name: rsync
 
 "{{ slsdotpath }}-set-rsyncd.conf":

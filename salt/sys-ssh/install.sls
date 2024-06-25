@@ -20,16 +20,21 @@ include:
       - openssh-server
       - man-db
 
-"{{ slsdotpath }}-stop-ssh":
-  service.dead:
+"{{ slsdotpath }}-ssh-systemd-service":
+  file.managed:
+    - name: /usr/lib/systemd/system/ssh.service.d/50_qusal.conf
+    - source: salt://{{ slsdotpath }}/files/server/systemd/ssh.service.d/50_qusal.conf
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-unmask-ssh":
+  service.unmasked:
     - name: ssh
 
-"{{ slsdotpath }}-disable-ssh":
-  service.disabled:
-    - name: ssh
-
-"{{ slsdotpath }}-mask-ssh":
-  service.masked:
+"{{ slsdotpath }}-enable-ssh":
+  service.enabled:
     - name: ssh
 
 "{{ slsdotpath }}-rpc":
@@ -52,9 +57,9 @@ include:
 
 "{{ slsdotpath }}-sshd-config":
   file.managed:
-    - name: /etc/ssh/sshd_config.d/{{ slsdotpath }}.conf
-    - source: salt://{{ slsdotpath }}/files/server/sshd_config.d/{{ slsdotpath }}.conf
-    - mode: '0755'
+    - name: /etc/ssh/sshd_config.d/50-qusal-{{ slsdotpath }}.conf
+    - source: salt://{{ slsdotpath }}/files/server/sshd_config.d/50-qusal-{{ slsdotpath }}.conf
+    - mode: '0644'
     - user: root
     - group: root
     - makedirs: True

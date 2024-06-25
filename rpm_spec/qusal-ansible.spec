@@ -30,7 +30,9 @@ BuildArch:      noarch
 
 Requires:       qubes-mgmt-salt
 Requires:       qubes-mgmt-salt-dom0
+Requires:       qusal-dotfiles
 Requires:       qusal-ssh
+Requires:       qusal-sys-ssh
 Requires:       qusal-utils
 
 
@@ -73,8 +75,6 @@ if test "$1" = "1"; then
   ## Install
   qubesctl state.apply ansible.create
   qubesctl --skip-dom0 --targets=tpl-ansible state.apply ansible.install
-  qubesctl --skip-dom0 --targets=ansible state.apply ansible.configure,zsh.touch-zshrc
-  qubesctl --skip-dom0 --targets=ansible-minion state.apply ansible.configure-minion,zsh.touch-zshrc
 elif test "$1" = "2"; then
   ## Upgrade
   true
@@ -107,6 +107,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 3880a35
+- fix: ansible references legacy zsh state
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - ab1438f
 - fix: change Launchpad repository to HTTPS domain
 

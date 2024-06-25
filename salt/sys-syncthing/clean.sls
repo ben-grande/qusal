@@ -11,5 +11,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     - flags:
       - force
 
+"{{ slsdotpath }}-stop-syncthing-from-starting":
+  qvm.features:
+    - name: {{ slsdotpath }}
+    - disable:
+      - service.syncthing-server
+
 {% from 'utils/macros/policy.sls' import policy_unset with context -%}
 {{ policy_unset(sls_path, '80') }}

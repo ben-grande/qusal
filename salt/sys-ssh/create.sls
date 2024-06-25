@@ -41,6 +41,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.ssh-server
 - disable:
   - service.cups
   - service.cups-browsed

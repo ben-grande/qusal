@@ -28,6 +28,15 @@ include:
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
+"{{ slsdotpath }}-ssh-config":
+  file.managed:
+    - name: /etc/ssh/ssh_config.d/50-qusal-{{ slsdotpath }}.conf
+    - source: salt://{{ slsdotpath }}/files/client/ssh_config.d/50-qusal-{{ slsdotpath }}.conf
+    - mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
 "{{ slsdotpath }}-client-systemd":
   file.recurse:
     - name: /usr/lib/systemd/system/
@@ -38,8 +47,8 @@ include:
     - group: root
     - makedirs: True
 
-"{{ slsdotpath }}-client-systemd-start-qubes-ssh-forwarder.socket":
+"{{ slsdotpath }}-client-systemd-start-qusal-ssh-forwarder.socket":
   service.enabled:
-    - name: qubes-ssh-forwarder.socket
+    - name: qusal-ssh-forwarder.socket
 
 {% endif -%}

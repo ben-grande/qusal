@@ -41,6 +41,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.rsync-server
 - disable:
   - service.cups
   - service.cups-browsed

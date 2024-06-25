@@ -37,6 +37,9 @@ prefs:
 - autostart: False
 - include_in_backups: True
 features:
+- enable:
+  - service.docker
+  - service.podman
 - disable:
   - service.cups
   - service.cups-browsed

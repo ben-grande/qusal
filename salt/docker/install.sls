@@ -52,4 +52,22 @@ include:
     - addusers:
       - user
 
+"{{ slsdotpath }}-systemd":
+  file.recurse:
+    - name: /usr/lib/systemd/system/
+    - source: salt://{{ slsdotpath }}/files/client/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-unmask-docker":
+  service.unmasked:
+    - name: docker
+
+"{{ slsdotpath }}-enable-docker":
+  service.enabled:
+    - name: docker
+
 {% endif -%}

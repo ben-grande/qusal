@@ -30,7 +30,6 @@ BuildArch:      noarch
 
 Requires:       qubes-mgmt-salt
 Requires:       qubes-mgmt-salt-dom0
-Requires:       qusal-dev
 Requires:       qusal-sys-ssh-agent
 Requires:       qusal-utils
 
@@ -83,7 +82,6 @@ if test "$1" = "1"; then
   ## Install
   qubesctl state.apply sys-ssh.create
   qubesctl --skip-dom0 --targets=tpl-sys-ssh state.apply sys-ssh.install
-  qubesctl --skip-dom0 --targets=sys-ssh state.apply sys-ssh.configure
 elif test "$1" = "2"; then
   ## Upgrade
   true
@@ -116,6 +114,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 4facf45
+- feat: use native TCP socket with Qrexec
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 22e2a2e
 - chore: add copyright to systemd services
 

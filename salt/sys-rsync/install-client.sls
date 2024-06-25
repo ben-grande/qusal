@@ -30,8 +30,8 @@ include:
     - group: root
     - makedirs: True
 
-"{{ slsdotpath }}-client-systemd-start-qubes-rsync-forwarder.socket":
+"{{ slsdotpath }}-client-systemd-enable-qusal-rsync-forwarder.socket":
   service.enabled:
-    - name: qubes-rsync-forwarder.socket
+    - name: qusal-rsync-forwarder.socket
 
 {% endif -%}

@@ -81,7 +81,7 @@ sudo qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configur
 
 Add the tag `bitcoin-client` to the client and install in the client template:
 ```sh
-sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-bitcoin.install-client
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-bitcoin.install-client
 ```
 
 
@@ -212,11 +212,11 @@ In the Electrum Server qubes or any Bitcoin Client, `sys-electrumx`,
 `/rw/config/rc.local`:
 ```sh
 ## RPC
-qvm-connnect-tcp ::8332
+qvm-connect-tcp ::8332
 ## P2P (ElectRS)
-qvm-connnect-tcp ::8333
+qvm-connect-tcp ::8333
 ## ZMQPubHashBlock (Fulcrum)
-qvm-connnect-tcp ::8433
+qvm-connect-tcp ::8433
 ```
 
 Still in the Electrum Server qube, you will have to add the RPC authentication

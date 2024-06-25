@@ -18,25 +18,26 @@ include:
     - pkgs:
       - qubes-core-agent-networking
       - qubes-core-agent-passwordless-root
-      - dnf-plugins-core
       - createrepo_c
       - debootstrap
       - devscripts
+      - dnf-plugins-core
       - dpkg-dev
       - git
       - mock
       - pbuilder
-      - which
       - perl-Digest-MD5
       - perl-Digest-SHA
+      - pykickstart
+      - python3-debian
       - python3-pyyaml
       - python3-sh
+      - reprepro
       - rpm-build
       - rpmdevtools
-      - wget2
-      - python3-debian
-      - reprepro
       - systemd-udev
+      - wget2
+      - which
 
 "{{ slsdotpath }}-qubes-executor-add-user-to-mock-group":
   group.present:

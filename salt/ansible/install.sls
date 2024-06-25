@@ -9,7 +9,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - .install-repo
   - utils.tools.common.update
-  - utils.tools.zsh
+  - dotfiles.copy-sh
+  - dotfiles.copy-x11
+  - sys-ssh.install
+  - sys-ssh.install-client
   - ssh.install
 
 "{{ slsdotpath }}-installed":
@@ -26,7 +29,6 @@ include:
       - ansible-lint
       - python3-argcomplete
       - python3-jmespath
-      - openssh-server
       - qubes-core-agent-passwordless-root
       - bash-completion
       - man-db
@@ -47,21 +49,5 @@ include:
     - install_recommends: False
     - skip_suggestions: True
     - pkgs: {{ pkg.pkg|sequence|yaml }}
-
-"{{ slsdotpath }}-ssh-config":
-  file.managed:
-    - name: /etc/ssh/ssh_config.d/99-ssh-ansible.conf
-    - source: salt://{{ slsdotpath }}/files/server/99-ssh-ansible.conf
-    - mode: '0644'
-    - user: root
-    - group: root
-
-"{{ slsdotpath }}-sshd-config":
-  file.managed:
-    - name: /etc/ssh/sshd_config.d/99-sshd-ansible.conf
-    - source: salt://{{ slsdotpath }}/files/client/99-sshd-ansible.conf
-    - mode: '0644'
-    - user: root
-    - group: root
 
 {% endif -%}

@@ -61,11 +61,13 @@ prefs:
 - label: gray
 - audiovm: ""
 - memory: 400
-- maxmem: 800
+- maxmem: 1000
 - vcpus: 1
 - default_dispvm: dvm-{{ slsdotpath }}
 features:
 - enable:
+  - service.docker
+  - service.podman
   - service.split-gpg2-client
 - disable:
   - service.cups
@@ -113,7 +115,7 @@ features:
 "{{ slsdotpath }}-shutdown-template":
   qvm.shutdown:
     - require:
-      - cmd: "{{ slsdotpath }}-install-salt-deps":
+      - cmd: "{{ slsdotpath }}-install-salt-deps"
     - name: tpl-{{ slsdotpath }}
     - flags:
       - force

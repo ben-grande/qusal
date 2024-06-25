@@ -7,5 +7,3 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 base:
   'tpl-qubes-builder':
     - docker.install
-  'qubes-builder':
-    - docker.configure

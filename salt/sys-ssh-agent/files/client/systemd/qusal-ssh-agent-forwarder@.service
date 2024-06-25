@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Forward SSH Agent %i over Qrexec
+
+[Service]
+User=user
+Group=user
+Type=simple
+UMask=0177
+ExecStartPre=/usr/bin/mkdir -m 700 -p %T/%p
+ExecStartPre=/usr/bin/ssh-agent -a %T/%p/%i.sock
+ExecStart=/usr/bin/socat UNIX-LISTEN:"%T/%p/%i.sock,unlink-early,reuseaddr,fork" EXEC:"qrexec-client-vm -- @default qusal.SshAgent+%i"
+
+[Install]
+WantedBy=default.target

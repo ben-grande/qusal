@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[Unit]
+Description=Forward Syncthing Admin Panel connection over Qrexec
+
+[Service]
+ExecStart=/usr/bin/qrexec-client-vm @default qubes.ConnectTCP+8384
+StandardInput=socket
+StandardOutput=inherit

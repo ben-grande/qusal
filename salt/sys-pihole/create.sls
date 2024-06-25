@@ -78,6 +78,8 @@ prefs:
 - maxmem: 600
 - include_in_backups: False
 features:
+- enable:
+  - service.http-client
 - disable:
   - service.cups
   - service.cups-browsed

@@ -150,7 +150,7 @@ Or you can manually add the key to the agent which are not located under the
 `~/.ssh/identities.d` directory so they aren't automatically added (substitute
 AGENT, SECS, and LIFE for their appropriate values):
 ```sh
-SSH_AUTH_SOCK="/run/user/1000/qubes-ssh-agent/<AGENT>.sock" ssh-add -t <SECS> -f <FILE>
+SSH_AUTH_SOCK="/run/user/1000/qusal-ssh-agent/<AGENT>.sock" ssh-add -t <SECS> -f <FILE>
 ```
 
 #### Reload agent
@@ -177,17 +177,17 @@ qvm-ssh-agent ls <AGENT>
 Enable and start the connection to the SSH Agent via Qrexec for specified
 `<AGENT>`:
 ```sh
-sudo systemctl --no-block restart qubes-ssh-agent-forwarder@<AGENT>.service
-sudo systemctl --no-block restart qubes-ssh-agent-forwarder@personal.service
+sudo systemctl --no-block restart qusal-ssh-agent-forwarder@<AGENT>.service
+sudo systemctl --no-block restart qusal-ssh-agent-forwarder@personal.service
 ```
 You can start the service on boot if you place the above line
 `/rw/config/rc.local` of the client.
 
-The ssh-agent socket will be at `/tmp/qubes-ssh-agent-forwarder/<AGENT>.sock`.
+The ssh-agent socket will be at `/tmp/qusal-ssh-agent-forwarder/<AGENT>.sock`.
 
 You can test the connection is working with:
 ```sh
-SSH_AUTH_SOCK="/tmp/qubes-ssh-agent-forwarder/personal.sock" ssh-add -l
+SSH_AUTH_SOCK="/tmp/qusal-ssh-agent-forwarder/personal.sock" ssh-add -l
 ```
 
 #### Single agent per client
@@ -196,8 +196,8 @@ You might want to set the `SSH_AUTH_SOCK` and `SSH_AGENT_PID` environment
 variables to point to the `work` agent so every connection will use the same
 agent:
 ```sh
-echo 'export SSH_AUTH_SOCK=/tmp/qubes-ssh-agent-forwarder/work.sock;
-SSH_AGENT_PID="$(pgrep -f "/tmp/qubes-ssh-agent-forwarder/work.sock")";
+echo 'export SSH_AUTH_SOCK=/tmp/qusal-ssh-agent-forwarder/work.sock;
+SSH_AGENT_PID="$(pgrep -f "/tmp/qusal-ssh-agent-forwarder/work.sock")";
 ' | tee -a ~/.profile
 ```
 
@@ -210,19 +210,19 @@ the `IdentityAgent` option.
 
 You can control the SSH agent via SSH command-line option:
 ```sh
-ssh -o IdentityAgent=/tmp/qubes-ssh-agent-forwarder/personal.sock personal-site.com
-ssh -o IdentityAgent=/tmp/qubes-ssh-agent-forwarder/work.sock work-site.com
+ssh -o IdentityAgent=/tmp/qusal-ssh-agent-forwarder/personal.sock personal-site.com
+ssh -o IdentityAgent=/tmp/qusal-ssh-agent-forwarder/work.sock work-site.com
 ```
 You can control the SSH agent via SSH configuration:
 ```sshconfig
 Host personal
-        IdentityAgent /tmp/qubes-ssh-agent-forwarder/personal.sock
+        IdentityAgent /tmp/qusal-ssh-agent-forwarder/personal.sock
         ...
 Host work
-        IdentityAgent /tmp/qubes-ssh-agent-forwarder/work.sock
+        IdentityAgent /tmp/qusal-ssh-agent-forwarder/work.sock
         ...
 ```
 
 ## Credits
 
-- [Unman](https://github.com/unman/qubes-ssh-agent)
+- [Unman](https://github.com/unman/qusal-ssh-agent)

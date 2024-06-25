@@ -2,5 +2,5 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-qubes.ConnectTCP  +22  {{ sls_path }}  @default  allow target={{ sls_path }}-minion
+qusal.Ssh  *  {{ sls_path }}  @default  allow target={{ sls_path }}-minion
 ## vim:ft=qrexecpolicy

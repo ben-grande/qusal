@@ -26,28 +26,13 @@ sudo qubesctl top.disable ansible
 ```sh
 sudo qubesctl state.apply ansible.create
 sudo qubesctl --skip-dom0 --targets=tpl-ansible state.apply ansible.install
-sudo qubesctl --skip-dom0 --targets=ansible state.apply ansible.configure
-sudo qubesctl --skip-dom0 --targets=ansible-minion state.apply ansible.configure-minion
 ```
 <!-- pkg:end:post-install -->
 
 ## Usage
 
-Configure the control node `ansible`:
-```sh
-ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ansible
-qvm-copy ~/.ssh/id_ansible.pub
-```
-Select `ansible-minion` as the target qube for the copy operation.
-
-Configure the minion `ansible-minion`:
-```sh
-mkdir -m 0700 ~/.ssh
-cat ~/QubesIncoming/ansible/id_ansible.pub >> ~/.ssh/authorized_keys
-```
-
-From the control node `ansible`, test connection to the minion
+From the control node `ansible`, test connection to the managed node
 `ansible-minion`:
 ```sh
-ssh minion
+ssh -p 1840 user@127.0.0.1
 ```

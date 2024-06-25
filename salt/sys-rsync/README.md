@@ -49,7 +49,7 @@ sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-rsync.install-clien
 
 The client qube requires the Rsync forwarder service to be enabled:
 ```
-qvm-features QUBE service.rsync-setup 1
+qvm-features QUBE service.rsync-client 1
 ```
 
 ## Access Control

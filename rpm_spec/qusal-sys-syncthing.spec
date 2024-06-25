@@ -96,7 +96,6 @@ if test "$1" = "0"; then
   ## Uninstall
   qvm-port-forward -a del -q sys-syncthing -n tcp -p 22000
   qvm-port-forward -a del -q sys-syncthing -n udp -p 22000
-  qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
   qubesctl state.apply sys-syncthing.clean
 elif test "$1" = "1"; then
   ## Upgrade
@@ -121,6 +120,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 4facf45
+- feat: use native TCP socket with Qrexec
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 22e2a2e
 - chore: add copyright to systemd services
 

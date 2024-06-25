@@ -66,21 +66,21 @@ qvm-prefs QUBE audiovm disp-sys-usb
 
 Install the proxy on the client template:
 ```sh
-sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-proxy
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-usb.install-client-proxy
 ```
 
 #### Client cryptsetup installation
 
 If the client requires decrypting a device, install on the client template:
 ```sh
-sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-cryptsetup
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-usb.install-client-cryptsetup
 ```
 
 #### Client CTAP installation
 
 If the client requires a CTAP device, install on the client template:
 ```sh
-sudo qubesctl --skip-dom0 --targets=tpl-QUBE state.apply sys-usb.install-client-fido
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-usb.install-client-fido
 ```
 And enable the CTAP Proxy service for the client qubes:
 ```sh

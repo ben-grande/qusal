@@ -114,6 +114,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 4facf45
+- feat: use native TCP socket with Qrexec
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

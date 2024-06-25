@@ -30,26 +30,24 @@ include:
       ## Minimal template dependencies
       - qubes-core-agent-networking
       - qubes-core-agent-passwordless-root
-      ## Undocumented Infraestructure Mirrors dependencies
-      - python3-lxml
-      ## Undocumented Builder dependencies
-      - python3-click
       ## Dependencies: https://github.com/QubesOS/qubes-builderv2#dependencies
       - asciidoc
       - createrepo_c
       - devscripts
       - m4
-      - mktorrent
       - mock
       - openssl
       - pacman
       - podman
+      - python3-click
       - python3-docker
       - python3-jinja2-cli
+      - python3-lxml
       - python3-packaging
       - python3-pathspec
       - python3-podman
       - python3-pyyaml
+      - rb_libtorrent-examples
       - reprepro
       - rpm
       - rpm-sign

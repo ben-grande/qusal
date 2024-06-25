@@ -15,6 +15,7 @@ if ! command -v git >/dev/null; then
   die "Command not found: git"
 fi
 
+## TODO: subdirectory? dir+repo
 untrusted_repo="${QREXEC_SERVICE_ARGUMENT}"
 
 if test -z "${untrusted_repo}"; then

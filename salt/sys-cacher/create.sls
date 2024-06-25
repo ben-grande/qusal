@@ -57,7 +57,7 @@ features:
 - enable:
   - servicevm
   - service.crond
-  - service.apt-cacher-ng
+  - service.acng-server
 - disable:
   - service.cups
   - service.cups-browsed
@@ -87,6 +87,8 @@ prefs:
 - autostart: False
 - include_in_backups: False
 features:
+- enable:
+  - service.acng-browser
 - disable:
   - service.cups
   - service.cups-browsed

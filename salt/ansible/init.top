@@ -10,7 +10,3 @@ base:
     - ansible.create
   'tpl-ansible':
     - ansible.install
-  'ansible':
-    - ansible.configure
-  'ansible-minion':
-    - ansible.configure-minion

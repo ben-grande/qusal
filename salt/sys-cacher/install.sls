@@ -37,25 +37,14 @@ include:
   service.enabled:
     - name: apt-cacher-ng
 
-## TODO: legacy: remove after some weeks for user to have time to upgrade
-"{{ slsdotpath }}-mask-qubes-apt-cacher-ng":
-  service.masked:
-    - name: qubes-apt-cacher-ng
-    - runtime: False
-
-## TODO: legacy: remove after some weeks for user to have time to upgrade
-"{{ slsdotpath }}-disable-qubes-apt-cacher-ng":
-  service.disabled:
-    - name: qubes-apt-cacher-ng
-
 "{{ slsdotpath }}-create-qubes-cacher-config-dir":
   file.directory:
-    - name: /etc/qubes-apt-cacher-ng
+    - name: /etc/qusal-apt-cacher-ng
     - mode: '0755'
 
 "{{ slsdotpath }}-copy-package-config-to-qubes-cacher-config":
   cmd.run:
-    - name: cp -rp /etc/apt-cacher-ng/* /etc/qubes-apt-cacher-ng
+    - name: cp -rp /etc/apt-cacher-ng/* /etc/qusal-apt-cacher-ng
 
 "{{ slsdotpath }}-systemd-service":
   file.managed:
@@ -68,12 +57,12 @@ include:
 
 "{{ slsdotpath }}-update-deb_mirrors.gz":
   cmd.run:
-    - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/qubes-apt-cacher-ng/deb_mirrors.gz
+    - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/qusal-apt-cacher-ng/deb_mirrors.gz
     - runas: root
 
 "{{ slsdotpath }}-update-conf":
   file.recurse:
-    - name: /etc/qubes-apt-cacher-ng/
+    - name: /etc/qusal-apt-cacher-ng/
     - source: salt://{{ slsdotpath }}/files/server/conf/
     - file_mode: "0644"
     - group: root

@@ -7,11 +7,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' %}
 
-"{{ slsdotpath }}-browser-auto-tcp-connect":
+"{{ slsdotpath }}-browser-rc.local":
   file.managed:
     - name: /rw/config/rc.local.d/50-sys-pihole.rc
     - source: salt://{{ slsdotpath }}/files/browser/rc.local.d/50-sys-pihole.rc
     - mode: '0755'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-browser-systemd-services":
+  file.recurse:
+    - name: /rw/config/systemd/
+    - source: salt://{{ slsdotpath }}/files/browser/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
     - user: root
     - group: root
     - makedirs: True

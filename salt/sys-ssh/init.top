@@ -10,5 +10,3 @@ base:
     - sys-ssh.create
   'tpl-sys-ssh':
     - sys-ssh.install
-  'sys-ssh':
-    - sys-ssh.configure

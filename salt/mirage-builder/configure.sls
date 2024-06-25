@@ -13,7 +13,6 @@ include:
   - dotfiles.copy-sh
   - dotfiles.copy-ssh
   - dotfiles.copy-git
-  - docker.configure
 
 "{{ slsdotpath }}-opam-completion-and-hooks":
   file.managed:

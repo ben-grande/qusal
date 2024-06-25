@@ -27,4 +27,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 "{{ slsdotpath }}-uninstall-client-systemd-service":
   file.absent:
-    - name: /usr/lib/systemd/system/qubes-apt-cacher-ng-repo.service
+    - name: /usr/lib/systemd/system/qusal-apt-cacher-ng-repo.service

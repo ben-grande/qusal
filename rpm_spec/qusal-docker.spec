@@ -72,7 +72,6 @@ cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 if test "$1" = "1"; then
   ## Install
   qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply docker.install
-  qubesctl --skip-dom0 --targets=qubes-builder state.apply docker.configure
 elif test "$1" = "2"; then
   ## Upgrade
   true

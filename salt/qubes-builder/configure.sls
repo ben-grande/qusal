@@ -13,7 +13,6 @@ include:
   - dotfiles.copy-sh
   - dotfiles.copy-ssh
   - dotfiles.copy-x11
-  - docker.configure
 
 "{{ slsdotpath }}-makedir-src":
   file.directory:

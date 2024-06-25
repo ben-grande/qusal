@@ -39,7 +39,6 @@ sudo qubesctl top.disable sys-ssh
 ```sh
 sudo qubesctl state.apply sys-ssh.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-ssh state.apply sys-ssh.install
-sudo qubesctl --skip-dom0 --targets=sys-ssh state.apply sys-ssh.configure
 ```
 <!-- pkg:end:post-install -->
 
@@ -50,7 +49,7 @@ sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh.install-client
 
 The client qube requires the SSH forwarder service to be enabled:
 ```
-qvm-features QUBE service.ssh-setup 1
+qvm-features QUBE service.ssh-client 1
 ```
 
 ## Access Control

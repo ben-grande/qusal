@@ -26,9 +26,26 @@ include:
       - qubes-core-agent-networking
       - syncthing
       - jq
-      - qubes-core-agent-thunar
-      - thunar
       - man-db
+
+"{{ slsdotpath }}-systemd":
+  file.recurse:
+    - name: /usr/lib/systemd/system/
+    - source: salt://{{ slsdotpath }}/files/server/systemd/
+    - dir_mode: '0755'
+    - file_mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-unmask-syncthing@user":
+  service.unmasked:
+    - name: syncthing@user.service
+    - runtime: False
+
+"{{ slsdotpath }}-enable-syncthing@user":
+  service.enabled:
+    - name: syncthing@user.service
 
 "{{ slsdotpath }}-rpc":
   file.symlink:
@@ -47,11 +64,6 @@ include:
     - group: root
     - force: True
     - makedirs: True
-
-"{{ slsdotpath }}-mask-syncthing":
-  service.masked:
-    - name: syncthing@user.service
-    - runtime: False
 
 "{{ slsdotpath }}-desktop-application-browser":
   file.managed:

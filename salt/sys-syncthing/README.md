@@ -52,9 +52,11 @@ Install Syncthing on the client template:
 sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-syncthing.install-client
 ```
 
-The client qube requires the split Syncthing service to be enabled:
+The client qube requires the split Syncthing and the Syncthing Daemon service
+to be enabled:
 ```sh
-qvm-features QUBE service.syncthing-setup 1
+qvm-features QUBE service.syncthing-client 1
+qvm-features QUBE service.syncthing-server 1
 ```
 
 ## Access Control
@@ -87,8 +89,8 @@ interface. In other words, it has control over the server functions, if the
 browser is compromised, it can compromise the server.
 
 To use the service, from the client, add a Remote Device, and copy the
-`DeviceID` from the server qube. On the Advanced tab, under Addresses, change
-`dynamic` to `tcp://127.0.0.1:22001`
+`DeviceID` from the server qube. On the `Advanced` tab, under `Addresses`,
+change `dynamic` to `tcp://127.0.0.1:22001`
 
 If the sender qube has no netvm set, under `Settings`, disable `Enable NAT
 traversal`, `Local Discovery`, `Global Discovery`, and `Enable Relaying`
@@ -119,7 +121,6 @@ Uninstallation procedure:
 ```sh
 qvm-port-forward -a del -q sys-syncthing -n tcp -p 22000
 qvm-port-forward -a del -q sys-syncthing -n udp -p 22000
-sudo qubesctl --skip-dom0 --targets=sys-syncthing state.apply sys-syncthing.cancel
 sudo qubesctl state.apply sys-syncthing.clean
 ```
 <!-- pkg:end:preun-uninstall -->
