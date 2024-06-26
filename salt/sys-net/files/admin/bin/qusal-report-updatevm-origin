@@ -1,0 +1,21 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+set -eu
+
+updatevm="$(qubes-prefs updatevm)"
+updatevm_class="$(qvm-prefs "${updatevm}" klass)"
+proxy_target=""
+case "${updatevm_class}" in
+  StandaloneVM) proxy_target="${updatevm}";;
+  AppVM) proxy_target="$(qvm-prefs "${updatevm}" template)";;
+  DispVM)
+    proxy_target="$(qvm-prefs "$(qvm-prefs "${updatevm}" template)" template)"
+    ;;
+esac
+if test -n "${proxy_target}"; then
+  echo "${proxy_target}"
+fi

@@ -14,3 +14,6 @@ base:
     - dev.configure-dvm
   'dev':
     - dev.configure
+  '(I@qubes:type:template or I@qubes:type:standalone) and (G@kernel:Linux or G@kernel:*BSD)':
+    - match: compound
+    - sys-net.install-proxy

@@ -6,6 +6,7 @@ Development environment in Qubes OS.
 
 * [Description](#description)
 * [Installation](#installation)
+* [Access Control](#access-control)
 * [Usage](#usage)
 
 ## Description
@@ -22,6 +23,10 @@ allows.
 sudo qubesctl top.enable dev
 sudo qubesctl --targets=tpl-dev,dvm-dev,dev state.apply
 sudo qubesctl top.disable dev
+proxy_target="$(qusal-report-updatevm-origin)"
+if test -n "${proxy_target}"; then
+  sudo qubesctl --skip-dom0 --targets="${proxy_target}" state.apply sys-net.install-proxy
+fi
 ```
 
 - State
@@ -31,8 +36,34 @@ sudo qubesctl state.apply dev.create
 sudo qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install
 sudo qubesctl --skip-dom0 --targets=dvm-dev state.apply dev.configure-dvm
 sudo qubesctl --skip-dom0 --targets=dev state.apply dev.configure
+proxy_target="$(qusal-report-updatevm-origin)"
+if test -n "${proxy_target}"; then
+  sudo qubesctl --skip-dom0 --targets="${proxy_target}" state.apply sys-net.install-proxy
+fi
 ```
 <!-- pkg:end:post-install -->
+
+The installation will make the Qusal TCP Proxy available in the `updatevm`
+(after it is restarted in case it is template based). If you want to have the
+proxy available on a `netvm` that is not deployed by Qusal, install the Qusal
+TCP proxy on the templates of your `netvm`:
+```sh
+sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-net.install-proxy
+```
+
+Remember to restart the `netvms` after the proxy installation for the changes
+to take effect.
+
+## Access Control
+
+_Default policy_: `denies` `all` qubes from calling `qusal.ConnectTCP`
+
+Allow qube `dev` to `connect` to `github.com:22` via `disp-sys-net` but not to
+any other host or via any other qube:
+```qrexecpolicy
+qusal.ConnectTCP +github.com+22 dev @default allow target=disp-sys-net
+qusal.ConnectTCP *              dev @anyvm   deny
+```
 
 ## Usage
 

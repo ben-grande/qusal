@@ -10,6 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
+  - .show-updatevm-origin
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
