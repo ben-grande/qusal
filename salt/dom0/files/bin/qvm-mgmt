@@ -14,7 +14,8 @@ get_qube_feat(){
   qube="${1}"
   qvm-features "${qube}" \
     | grep -e os-distribution -e os-version -e template-release \
-           -e template-release -e template-name
+           -e template-release -e template-name \
+    | tr -s " " | sed "s/ /: /;s/^/  /"
 }
 
 case "${1-}" in
@@ -24,23 +25,48 @@ case "${1-}" in
 esac
 
 mgmt="$(qubes-prefs management_dispvm)"
-echo "Global management_dispvm qube: ${mgmt}"
+echo "GLOBAL"
+echo "management_dispvm: ${mgmt}"
 tpl_mgmt="$(qvm-prefs "${mgmt}" template)"
-echo "Global management_dispvm template: ${tpl_mgmt}"
-echo "Global management_dispvm template features:"
+echo "management_dispvm template: ${tpl_mgmt}"
+echo "management_dispvm template features:"
 get_qube_feat "${tpl_mgmt}"
 
 if ! qvm-check -q -- "${wanted_qube}"; then
   echo "error: qube '${wanted_qube}' does not exist" >&2
   exit 1
 fi
-echo "Wanted qube: ${wanted_qube}"
+echo ""
+echo "WANTED"
+echo "qube: ${wanted_qube}"
+class="$(qvm-prefs "${wanted_qube}" klass)"
+echo "class: ${class}"
+case "${class}" in
+  AppVM)
+    tpl_wanted_qube="$(qvm-prefs "${wanted_qube}" template)"
+    echo "template: ${tpl_wanted_qube}"
+    echo "template features:"
+    get_qube_feat "${tpl_wanted_qube}"
+    ;;
+  DispVM)
+    dvm_wanted_qube="$(qvm-prefs "${wanted_qube}" template)"
+    echo "disposable template: ${dvm_wanted_qube}"
+    tpl_wanted_qube="$(qvm-prefs "${dvm_wanted_qube}" template)"
+    echo "template: ${tpl_wanted_qube}"
+    echo "template features:"
+    get_qube_feat "${tpl_wanted_qube}"
+    ;;
+  AdminVM) ;;
+  StandaloneVM|TemplateVM)
+    get_qube_feat "${wanted_qube}"
+    ;;
+esac
 wanted_mgmt="$(qvm-prefs "${wanted_qube}" management_dispvm)"
-echo "Global management_dispvm qube: ${wanted_mgmt}"
+echo "${wanted_qube} management_dispvm: ${wanted_mgmt}"
 if test "${wanted_mgmt}" = "${mgmt}"; then
   exit
 fi
 wanted_tpl_mgmt="$(qvm-prefs "${wanted_mgmt}" template)"
-echo "Global management_dispvm template: ${wanted_tpl_mgmt}"
-echo "Global management_dispvm template features:"
+echo "${wanted_qube} management_dispvm template: ${wanted_tpl_mgmt}"
+echo "${wanted_qube} management_dispvm template features:"
 get_qube_feat "${wanted_tpl_mgmt}"
