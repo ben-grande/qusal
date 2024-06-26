@@ -70,7 +70,14 @@ Every project should have a README.md with at least the following sections:
 - Usage; and
 - Credits (if sourced).
 
-### File naming
+#### Access Control
+
+- It must document default policy and RPC services the user can or should
+  edit.
+- It must not document RPC services of other formulas unless the resolution of
+  the rule is `deny`.
+
+### State file naming
 
 1.  Every State file `.sls` must have a Top file `.top`. This ensures that
     every state can be applied with top.
@@ -78,7 +85,8 @@ Every project should have a README.md with at least the following sections:
     by enabling a single top file.
 3.  State file naming must be common between the projects, it helps understand
     the project as if it was any other.
-4.  File name must use `-` as separator, not `_`.
+4.  File name must use `-` as separator, not `_` (unless it is required by the
+    language, such as python).
 
 ### State ID
 
