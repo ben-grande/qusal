@@ -26,8 +26,8 @@ matter in some circumstances, in those cases, it is noted in this page.
   - [dom0](../salt/dom0/README.md)
   - [debian-minimal](../salt/debian-minimal/README.md)
   - [fedora-minimal](../salt/fedora-minimal/README.md)
-  - [sys-cacher](../salt/sys-cacher/README.md)
   - [mgmt](../salt/mgmt/README.md)
+  - [sys-cacher](../salt/sys-cacher/README.md)
 
 ## Optional
 
@@ -61,7 +61,7 @@ matter in some circumstances, in those cases, it is noted in this page.
 
 ### Files
 
-Passwords and TOTP:
+- Passwords and TOTP:
   - [vault](../salt/vault/README.md)
 
 - Multimedia:
