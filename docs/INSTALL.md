@@ -12,6 +12,9 @@ Qusal install and update guide.
   * [DomU Update](#domu-update)
   * [Dom0 Update with Git](#dom0-update-with-git)
   * [Dom0 Update by literally copying the git repository](#dom0-update-by-literally-copying-the-git-repository)
+* [Template upgrade](#template-upgrade)
+  * [Clean install](#clean-install)
+  * [Upgrade a template in-place](#upgrade-a-template-in-place)
 
 ## Installation
 
@@ -170,3 +173,40 @@ files from being tracked and signature verification won't catch it.
     ```sh
     ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
     ```
+
+## Template upgrade
+
+Template upgrade refers to template major releases upgrade.
+
+### Clean install
+
+As we use Salt, doing clean installs are easy. Unfortunately QubesOS does not
+provided a CLI program to rename qubes.
+
+1. Open `Qube Manager`, select the template you want to upgrade and rename it
+   adding the suffix `-old`. The `Qube Manager` will change the `template`
+   preference of qubes based on the chosen template.
+2. Rerun the formulas that targeted the chosen template.
+3. If the formula fails, use `Qubes Template Switcher` to set the `-old`
+   template to be used by the qubes managed by that specific formula.
+3. Repeat for every template that needs to be upgraded.
+
+### Upgrade a template in-place
+
+This method is discouraged as it leads to different results compared to
+installing a new template. Fixes done upstream by Qubes OS to the build system
+of templates, such as package list, cannot be backported to old templates. In
+other words, in-place upgrades leads to a different environment compared to
+installing a new template.
+
+One advantage of this method is when dealing with a StandaloneVM, as important
+data can be present in the root volume, in-place upgrades are easier for this
+qube class instead of doing a migration of specific folders and files to the
+new qube.
+
+1. If you still want to do upgrade in-place, refer to upstream guides, for
+   [Debian](https://www.qubes-os.org/doc/templates/debian/in-place-upgrade)
+   and
+   [Fedora](https://www.qubes-os.org/doc/templates/fedora/in-place-upgrade).
+2. Rerun the formulas that targeted the chosen template.
+3. Repeat for every template that needs to be upgraded.
