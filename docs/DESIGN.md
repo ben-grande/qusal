@@ -8,7 +8,8 @@ Qusal design document.
 * [Documentation](#documentation)
 * [Format](#format)
   * [Readme](#readme)
-  * [File naming](#file-naming)
+    * [Access Control](#access-control)
+  * [State file naming](#state-file-naming)
   * [State ID](#state-id)
   * [Qube preferences](#qube-preferences)
     * [Qube naming](#qube-naming)
@@ -18,7 +19,12 @@ Qusal design document.
   * [Qube connections](#qube-connections)
   * [Qrexec call and policy](#qrexec-call-and-policy)
   * [Qrexec socket services](#qrexec-socket-services)
-* [Browser isolation from the managed service](#browser-isolation-from-the-managed-service)
+* [Features](#features)
+  * [Browser isolation from the managed service](#browser-isolation-from-the-managed-service)
+* [Release new version](#release-new-version)
+  * [Qubes OS major release upgrade](#qubes-os-major-release-upgrade)
+  * [Template major release upgrade](#template-major-release-upgrade)
+  * [Archive or Build from source major release upgrade](#archive-or-build-from-source-major-release-upgrade)
 
 ## Goal
 
@@ -266,7 +272,9 @@ Rules for client RPC call:
 - Use of `socat` and `qvm-connect-tcp` is permitted for UDS and for
   instructional use as it is very short.
 
-## Browser isolation from the managed service
+## Features
+
+### Browser isolation from the managed service
 
 Some projects have daemons and can be managed through a browser. The CLI is
 not suitable for everybody and sometimes it can be incomplete on GUI focused
@@ -278,3 +286,54 @@ the browser is compromised, it can compromise the server.
 
 Some projects that uses this enhancement are `sys-pihole`, `sys-syncthing` and
 `sys-cacher`.
+
+
+## Release new version
+
+The following sections instruct how a contributor or maintainer can deploy qu
+
+### Qubes OS major release upgrade
+
+Qubes OS major releases might come with changes that can impact the project.
+
+1. Subscribe to the
+   [qubes-announce](https://www.qubes-os.org/support/#qubes-announce) mailing
+   list to receive notification of new Qubes OS releases.
+2. Keep up changelogs, especially notices of deprecation, new packages being
+   added or modifications to those packages that affects our states.
+3. Install the new Qubes OS version.
+4. Install all formulas.
+5. Change the supported or minimum required version of Qubes OS.
+
+### Template major release upgrade
+
+1. Subscribe to the
+   [qubes-announce](https://www.qubes-os.org/support/#qubes-announce) mailing
+   list to receive notifications of new templates.
+2. Install the new template version.
+3. Clone template to a new testing name of your choice.
+4. Install all formulas on the testing template and see which states failed.
+   Most of the times, the state will fail due to a change in package name
+   (occurs when package has version in the name) or a deprecation of a
+   package.
+5. Check if there are new packages that are useful to each specified formula.
+   The best way is to see the `Recommends` and `Suggests` fields of the main
+   package that is installed.
+6. Install all formulas as instructed in each of their documents.
+7. Change the version of the base template.
+
+### Archive or Build from source major release upgrade
+
+Some projects might use archives for lack of a better alternative. Dealing
+with them can be troublesome. Prefer packages from repositories when possible.
+
+1. Subscribe to the vendor release announcement mailing list or RSS to receive
+   notifications of new versions.
+2. Read the changelog, breaking changes and new features might be present.
+3. Clone the qube that uses the archive to a new testing name of your choice.
+4. Install the new archive version on the testing qube. Regarding breaking
+   changes, most projects implement a migration on the next restart of the
+   daemon that rebuilds a database index for example, if they don't, deal with
+   it. For new features, check if they should be added to the default
+   installation.
+5. Change the version of the archive, git tag or commit.
