@@ -27,6 +27,15 @@ include:
       - curl
       - man-db
 
+"{{ slsdotpath }}-bind-dirs":
+  file.managed:
+    - name: /etc/qubes-bind-dirs.d/50-{{ slsdotpath }}.conf
+    - source: salt://{{ slsdotpath }}/files/server/qubes-bind-dirs.d/50-{{ slsdotpath }}.conf
+    - user: root
+    - group: root
+    - mode: '0644'
+    - makedirs: True
+
 "{{ slsdotpath }}-systemd-service":
   file.managed:
     - name: /usr/lib/systemd/system/wg-quick@wireguard.service.d/50_qusal.conf
