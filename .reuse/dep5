@@ -69,8 +69,16 @@ Files: salt/ansible/files/repo/*
 Copyright: 2014 Ansible, Inc. <https://ansible.com>
 License: CC0-1.0
 
-Files: salt/browser/files/repo/*
+Files: salt/browser/files/repo/chrome*
 Copyright: 2007 Google Inc. <linux-packages-keymaster@google.com>
+License: CC0-1.0
+
+Files: salt/browser/files/repo/mozilla*
+Copyright: 2021 Google Inc. <artifact-registry-repository-signer@google.com>
+License: CC0-1.0
+
+Files: salt/browser/files/repo/mullvad*
+Copyright: 2016 Mullvad VPN AB <admin@mullvad.net>
 License: CC0-1.0
 
 Files: salt/docker/files/repo/*

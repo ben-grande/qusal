@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://repository.mullvad.net/deb/stable
+Suites: bookworm
+Components: main
+Signed-by: /usr/share/keyrings/mullvad.asc
+# vim:ft=debsources

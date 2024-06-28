@@ -17,7 +17,7 @@ disposable qube. If you want to save your session, you can also clone the
 template and create app qubes.
 
 Default browser to install is Chromium, but you can choose to install Chrome,
-Firefox-ESR, W3M or Lynx.
+Firefox, Firefox-ESR, Mullvad-Browser, W3M or Lynx.
 
 ## Installation
 
@@ -63,6 +63,12 @@ sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-fire
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox-esr
 ```
+
+- Mullvad-Browser:
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-mullvad-browser
+```
+
 
 - W3M:
 ```sh

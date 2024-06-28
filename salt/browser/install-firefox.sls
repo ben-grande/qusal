@@ -12,6 +12,9 @@ include:
 
 "{{ slsdotpath }}-installed-firefox":
   pkg.installed:
+    - require:
+      - sls: {{ slsdotpath }}.install-common
+      - sls: {{ slsdotpath }}.install-firefox-repo
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:

@@ -1,0 +1,8 @@
+[mullvad-stable]
+name=Mullvad VPN
+baseurl=https://repository.mullvad.net/rpm/stable/$basearch
+type=rpm
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mullvad
+# vim: ft=toml

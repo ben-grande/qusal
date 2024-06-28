@@ -16,6 +16,9 @@ include:
 
 "{{ slsdotpath }}-installed-chrome":
   pkg.installed:
+    - require:
+      - sls: {{ slsdotpath }}.install-common
+      - sls: {{ slsdotpath }}.install-chrome-repo
     - install_recommends: False
     - skip_suggestions: True
     - pkgs:
