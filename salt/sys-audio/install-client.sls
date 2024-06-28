@@ -20,17 +20,17 @@ include:
     - skip_suggestions: True
     - pkgs:
       - pipewire-qubes
-      - pipewire-pulse
-      - pipewire-libcamera
       - wireplumber
       - rtkit
 
 {% set pkg = {
     'Debian': {
-      'pkg': ['dbus-user-session', 'libpam-systemd'],
+      'pkg': ['dbus-user-session', 'libpam-systemd', 'pipewire-pulse',
+              'pipewire-libcamera'],
     },
     'RedHat': {
-      'pkg': ['dbus', 'systemd-pam'],
+      'pkg': ['dbus', 'systemd-pam', 'pipewire-pulseaudio',
+              'pipewire-plugin-libcamera'],
     },
 }.get(grains.os_family) -%}
 

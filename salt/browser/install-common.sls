@@ -21,8 +21,23 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - qubes-core-agent-thunar
-      - thunar
       - zenity
-      - libgdk-pixbuf2.0-bin
+
+{% set pkg = {
+  'Debian': {
+    'pkg': ['thunar', 'libgdk-pixbuf2.0-bin'],
+  },
+  'RedHat': {
+    'pkg': ['Thunar', 'gdk-pixbuf2'],
+  },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-common-os-specific":
+  pkg.installed:
+    - require:
+      - sls: utils.tools.common.update
+    - install_recommends: False
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}
