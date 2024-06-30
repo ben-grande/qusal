@@ -42,7 +42,7 @@ sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder,tpl-dev state.apply sys-pg
 
 The client qube requires the split GPG client service to be enabled:
 ```sh
-qvm-features QUBE service.split-gpg2-client
+qvm-features QUBE service.split-gpg2-client 1
 ```
 
 ## Access Control
