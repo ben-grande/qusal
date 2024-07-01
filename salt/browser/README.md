@@ -66,7 +66,7 @@ sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-fire
 
 - Mullvad-Browser:
 ```sh
-sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-mullvad-browser
+sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-mullvad
 ```
 
 
