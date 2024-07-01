@@ -27,14 +27,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
       - name: Block commits made using the GitHub WebUI
-        if: failure()
-        uses: peter-evans/close-pull@v3
-        with:
-          # yamllint disable-line rule:line-length
-          comment: 'Automatically closing this PR due to submitter not reading the contribution guidelines and using GitHub WebUI to commit. Please fix the issues and open a new PR after you have read the contribution guidelines.'
-          delete-branch: false
+        id: check_committer
         run: |
           if test "${{ github.event_name}}" = "pull_request"
           then
@@ -51,6 +45,14 @@ jobs:
             committer="$(git show -s --format=%cn ${base}..${head})"
           fi
           if echo "${committer}" | grep -q "^GitHub$"; then
+            echo "committer_gitweb=true" >> $GITHUB_OUTPUT
             echo "Commit was made using the GitHub WebUI" >&2
             exit 1
           fi
+      - name: Block commits made using the GitHub WebUI
+        if: steps.check_committer.outputs.committer_gitweb == "true"
+        uses: peter-evans/close-pull@v3
+        with:
+          # yamllint disable-line rule:line-length
+          comment: 'Automatically closing this PR due to submitter not reading the contribution guidelines and using GitHub WebUI to commit. Please fix the issues and open a new PR after you have read the contribution guidelines.'
+          delete-branch: false
