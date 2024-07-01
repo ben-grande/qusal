@@ -14,10 +14,6 @@ on:
       - reopened
       - synchronize
 
-concurrency:
-  group: ci-${{ github.ref }}-1
-  cancel-in-progress: true
-
 jobs:
   lint:
     strategy:
@@ -47,10 +43,9 @@ jobs:
           if echo "${committer}" | grep -q "^GitHub$"; then
             echo "committer_gitweb=true" >> $GITHUB_OUTPUT
             echo "Commit was made using the GitHub WebUI" >&2
-            exit 1
           fi
       - name: Block commits made using the GitHub WebUI
-        if: steps.check_committer.outputs.committer_gitweb == "true"
+        if: steps.check_committer.outputs.committer_gitweb == 'true'
         uses: peter-evans/close-pull@v3
         with:
           # yamllint disable-line rule:line-length
