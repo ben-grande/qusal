@@ -3,7 +3,7 @@ Upstream-Name: qusal
 Upstream-Contact: Benjamin Grande M. S. <ben.grande.b@gmail.com>
 Source: https://github.com/ben-grande/qusal
 
-Files: README.md */README.md docs/* .github/*_TEMPLATE/*
+Files: README.md */README.md docs/* .github/*_TEMPLATE/* .github/*.md
 Copyright: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 License: CC-BY-SA-4.0
 
