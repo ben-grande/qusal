@@ -15,7 +15,10 @@ on:
       - synchronize
 
 jobs:
-  lint:
+  reject-pr:
+    permissions:
+      contents: read
+      pull-requests: write
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
