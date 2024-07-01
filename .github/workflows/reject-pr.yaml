@@ -1,0 +1,56 @@
+# yamllint disable-line rule:line-length
+# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+---
+name: Reject pull requests of user's that don't read the contribution guidelines
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+concurrency:
+  group: ci-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+      - name: Block commits made using the GitHub WebUI
+        if: failure()
+        uses: peter-evans/close-pull@v3
+        with:
+          # yamllint disable-line rule:line-length
+          comment: 'Automatically closing this PR due to submitter not reading the contribution guidelines and using GitHub WebUI to commit. Please fix the issues and open a new PR after you have read the contribution guidelines.'
+          delete-branch: false
+        run: |
+          if test "${{ github.event_name}}" = "pull_request"
+          then
+            base="${{ github.event.pull_request.base.sha }}"
+            head="${{ github.event.pull_request.head.sha }}"
+          else
+            base="${{ github.event.before }}"
+            head="${{ github.event.after }}"
+          fi
+          if test "${base}" = "${head}" || test -z "${base}"
+          then
+            committer="$(git show -s --format=%cn ${head})"
+          else
+            committer="$(git show -s --format=%cn ${base}..${head})"
+          fi
+          if echo "${committer}" | grep -q "^GitHub$"; then
+            echo "Commit was made using the GitHub WebUI" >&2
+            exit 1
+          fi

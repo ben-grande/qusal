@@ -6,7 +6,7 @@ Qusal contribution guidelines.
 
 * [Respect](#respect)
 * [Starters](#starters)
-* [Requirements](#requirements)
+* [Environment](#environment)
 * [Issues](#issues)
 * [Lint](#lint)
 
@@ -40,8 +40,10 @@ made and what can be improved, see the [design guide](DESIGN.md).
 
 Experiment with some formulas, read them, understand what is being done.
 
+## Environment
 
-## Requirements
+Setting up your environment is mandatory. Commits made using the Github Web
+interface will be rejected.
 
 For an automatic setup, use the [dev formula](../salt/dev), else, install the
 packages below depending on the task:
