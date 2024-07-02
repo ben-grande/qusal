@@ -9,8 +9,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - utils.tools.common.update
   - .home-cleanup
-  - .install-python-tools
-  - .install-salt-tools
   - dotfiles.copy-all
   - utils.tools.zsh
   - sys-pgp.install-client
@@ -27,8 +25,6 @@ include:
       ## Necessary
       - qubes-core-agent-passwordless-root
       - ca-certificates
-      - git
-      - gnupg2
       ## Usability
       - tmux
       - xclip
@@ -49,18 +45,14 @@ include:
       - gitlint
       - pylint
       - yamllint
-      # git-send-email
-      - git-email
-      - libemail-valid-perl
-      - libmailtools-perl
-      - libauthen-sasl-perl
 
+## Debian doesn't have: salt-lint
 {% set pkg = {
     'Debian': {
       'pkg': ['shellcheck', 'vim-nox', 'fd-find'],
     },
     'RedHat': {
-      'pkg': ['passwd', 'fd-find', 'ShellCheck', 'vim-enhanced'],
+      'pkg': ['ShellCheck', 'vim-enhanced', 'fd-find', 'salt-lint', 'passwd'],
     },
 }.get(grains.os_family) -%}
 

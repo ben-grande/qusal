@@ -43,6 +43,11 @@ fi
 ```
 <!-- pkg:end:post-install -->
 
+If you want some Python goodies, you can install them:
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install-python-tools
+```
+
 The installation will make the Qusal TCP Proxy available in the `updatevm`
 (after it is restarted in case it is template based). If you want to have the
 proxy available on a `netvm` that is not deployed by Qusal, install the Qusal
