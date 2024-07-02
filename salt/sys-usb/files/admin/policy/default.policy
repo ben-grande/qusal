@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# vim:ft=qrexecpolicy foldmethod=expr foldexpr=getline(v\:lnum)=~'^##!'?'>1'\:'=':
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
@@ -63,14 +62,18 @@ policy.RegisterArgument +u2f.Authenticate @anyvm     @anyvm deny
 ##! Audio
 {# Keep in sync with sys-audio policy #}
 {% set audiovm = 'disp-' ~ sls_path %}
+admin.vm.device.usb.Available * @tag:audiovm sys-usb allow target=dom0
 admin.vm.device.usb.Available * @tag:audiovm @tag:usbvm allow target=dom0
 admin.vm.device.usb.Available * @tag:audiovm @anyvm deny
 
 admin.vm.device.mic.Available * @tag:audiovm @adminvm allow target=dom0
 admin.vm.device.mic.Available * @anyvm @anyvm deny
 
-admin.Events * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
-admin.Events * @tag:audiovm   @adminvm allow target=dom0
+admin.Events *                @tag:audiovm   @adminvm allow target=dom0
+admin.Events +domain-start    {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.Events +domain-stopped  {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.Events +domain-shutdown {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.Events +connection-established {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
 admin.Events * @tag:audiovm   @anyvm deny
 
 admin.vm.CurrentState * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
@@ -80,15 +83,6 @@ admin.vm.CurrentState * @tag:audiovm @anyvm deny
 admin.vm.List * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
 admin.vm.List * @tag:audiovm   @adminvm allow target=dom0
 admin.vm.List * @tag:audiovm   @anyvm deny
-
-admin.vm.property.Get +audiovm {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
-admin.vm.property.Get +audiovm @anyvm @tag:audiovm-{{ audiovm }} deny
-
-admin.vm.property.Get +stubdom_xid {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
-admin.vm.property.Get +stubdom_xid @anyvm @tag:audiovm-{{ audiovm }} deny
-
-admin.vm.property.Get +xid {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
-admin.vm.property.Get +xid @anyvm @tag:audiovm-{{ audiovm }} deny
 
 admin.vm.feature.CheckWithTemplate +audio {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
 admin.vm.feature.CheckWithTemplate +audio @anyvm @tag:audiovm-{{ audiovm }} deny
@@ -102,5 +96,16 @@ admin.vm.feature.CheckWithTemplate +audio-model @anyvm @tag:audiovm-{{ audiovm }
 admin.vm.feature.CheckWithTemplate +supported-service.pipewire {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
 admin.vm.feature.CheckWithTemplate +supported-service.pipewire @anyvm @tag:audiovm-{{ audiovm }} deny
 
-admin.vm.property.GetAll * {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +audiovm {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +audiovm @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.property.Get +stubdom_xid {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +stubdom_xid @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.property.Get +xid {{ audiovm }} @tag:audiovm-{{ audiovm }} allow target=dom0
+admin.vm.property.Get +xid @anyvm @tag:audiovm-{{ audiovm }} deny
+
+admin.vm.property.GetAll * {{ audiovm }} @tag:audiovm-{{ audiovm }} deny notify=no
 admin.vm.property.GetAll * @anyvm @tag:audiovm-{{ audiovm }} deny
+
+# vim:ft=qrexecpolicy foldmethod=expr foldexpr=getline(v\:lnum)=~'^##!'?'>1'\:'=':

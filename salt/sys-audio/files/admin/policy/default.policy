@@ -8,7 +8,6 @@
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
 {% set audiovm = 'disp-' ~ sls_path %}
-## Literal name 'sys-usb' in case user has not installed via our formula.
 admin.vm.device.usb.Available * @tag:audiovm sys-usb allow target=dom0
 admin.vm.device.usb.Available * @tag:audiovm @tag:usbvm allow target=dom0
 admin.vm.device.usb.Available * @tag:audiovm @anyvm deny
@@ -54,4 +53,5 @@ admin.vm.property.Get +xid @anyvm @tag:audiovm-{{ audiovm }} deny
 
 admin.vm.property.GetAll * {{ audiovm }} @tag:audiovm-{{ audiovm }} deny notify=no
 admin.vm.property.GetAll * @anyvm @tag:audiovm-{{ audiovm }} deny
-## vim:ft=qrexecpolicy
+
+# vim:ft=qrexecpolicy
