@@ -22,4 +22,14 @@ include:
       - libspa-0.2-bluetooth
       - firmware-iwlwifi
 
+"{{ slsdotpath }}-user-systemd":
+  file.recurse:
+    - name: /usr/lib/systemd/user/
+    - source: salt://{{ slsdotpath }}/files/server/systemd-user/
+    - dir_mode: '0755'
+    - file_mode: '0644'
+    - user: root
+    - group: root
+    - makedirs: True
+
 {% endif -%}
