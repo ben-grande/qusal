@@ -29,7 +29,7 @@ get_scriptlet(){
   scriptlet="$1"
   scriptlet="$(sed -n \
     "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" \
-    "${readme}" | sed '/^```.*/d;/^<\!-- pkg:/d;s/^sudo //')"
+    "${readme}" | sed '/^```.*/d;/^\S*$/d;/^<\!-- pkg:/d;s/^sudo //')"
   if test -z "${scriptlet}"; then
     echo true
     return 0

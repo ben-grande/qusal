@@ -4,13 +4,13 @@ SSH over Qrexec in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Access Control](#access-control)
-* [Usage](#usage)
-  * [Server](#server)
-  * [Client](#client)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Access Control](#access-control)
+*   [Usage](#usage)
+    *   [Server](#server)
+    *   [Client](#client)
+*   [Credits](#credits)
 
 ## Description
 
@@ -27,28 +27,34 @@ server qube directly.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-ssh
 sudo qubesctl --targets=tpl-sys-ssh,sys-ssh state.apply
 sudo qubesctl top.disable sys-ssh
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-ssh.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-ssh state.apply sys-ssh.install
 ```
+
 <!-- pkg:end:post-install -->
 
 Install on the client template:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-ssh.install-client
 ```
 
 The client qube requires the SSH forwarder service to be enabled:
-```
+
+```sh
 qvm-features QUBE service.ssh-client 1
 ```
 
@@ -60,6 +66,7 @@ policy `asks` if you want to connect with the `sys-ssh` qube.
 If you want to `allow` SSH between qubes, insert in you user policy
 file `/etc/qubes/policy.d/30-user.policy` to allow the service using the
 following format:
+
 ```qrexecpolicy
 qusal.Ssh   * SOURCE @default allow target=TARGET
 ```
@@ -85,6 +92,7 @@ The SSH connection is available with the socket `localhost:1840`.
 
 From the client, mount the server `/home/user` directory as a SSH File System
 in the client `/home/user/sshfs` directory:
+
 ```sh
 mkdir ~/sshfs
 sshfs -p 1840 localhost:/home/user /home/user/sshfs
@@ -92,4 +100,4 @@ sshfs -p 1840 localhost:/home/user /home/user/sshfs
 
 ## Credits
 
-- [Unman](https://github.com/unman/qubes-sync)
+*   [Unman](https://github.com/unman/qubes-sync)

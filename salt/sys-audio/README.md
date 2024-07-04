@@ -4,17 +4,17 @@ Audio operations in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Audio control](#audio-control)
-  * [Client switched it's AudioVM](#client-switched-its-audiovm)
-  * [Client started before it's AudioVM](#client-started-before-its-audiovm)
-  * [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
-  * [How to use USB devices](#how-to-use-usb-devices)
-  * [How to use Bluetooth](#how-to-use-bluetooth)
-    * [How to make the Bluetooth icon appear in the system tray](#how-to-make-the-bluetooth-icon-appear-in-the-system-tray)
-    * [How to attach the Bluetooth controller to the AudioVM persistently](#how-to-attach-the-bluetooth-controller-to-the-audiovm-persistently)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+    *   [Audio control](#audio-control)
+    *   [Client switched it's AudioVM](#client-switched-its-audiovm)
+    *   [Client started before it's AudioVM](#client-started-before-its-audiovm)
+    *   [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
+    *   [How to use USB devices](#how-to-use-usb-devices)
+    *   [How to use Bluetooth](#how-to-use-bluetooth)
+        *   [How to make the Bluetooth icon appear in the system tray](#how-to-make-the-bluetooth-icon-appear-in-the-system-tray)
+        *   [How to attach the Bluetooth controller to the AudioVM persistently](#how-to-attach-the-bluetooth-controller-to-the-audiovm-persistently)
 
 ## Description
 
@@ -25,28 +25,34 @@ the necessary packages for bluetooth with the provided state.
 
 ## Installation
 
-- Top
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-audio
 sudo qubesctl --targets=tpl-sys-audio,dvm-sys-audio state.apply
 sudo qubesctl top.disable sys-audio
 ```
 
-- State
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-audio.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install
 sudo qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
 ```
+
 <!-- pkg:end:post-install -->
 
 If you want to autostart the AudioVM on boot, you may run:
+
 ```sh
 sudo qubesctl state.apply sys-audio.autostart
 ```
 
 If you need Bluetooth support, install the dependencies:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-bluetooth
 ```
@@ -61,8 +67,8 @@ to control the volume via the volume icon that appears on the system tray.
 
 Audio control basics:
 
-- Left click toggles the volume; and
-- Scrolling the mouse from left to right changes the volume;
+*   Left click toggles the volume; and
+*   Scrolling the mouse from left to right changes the volume;
 
 For more advanced features, right click the icon and click on `Open Mixer` or
 `Prefences`. For greater control, use the command `amixer`.
@@ -76,6 +82,7 @@ will need to restart the client qube until [upstream issue is fixed](https://git
 
 Audio will not automatically connect if the AudioVM starts after the client.
 To connect the client to audio server, restart the client's Pipewire service:
+
 ```sh
 systemctl --user restart pipewire
 ```
@@ -86,9 +93,9 @@ If you shutdown a client qube with a device attached, such as a microphone or
 speaker, normal operation to attach the device to the same or any other qube
 will fail. To be able to use the device again:
 
-- Restart the AudioVM `disp-sys-audio`;
-- Restart the audio client; and
-- Attach the device to the audio client.
+*   Restart the AudioVM `disp-sys-audio`;
+*   Restart the audio client; and
+*   Attach the device to the audio client.
 
 ### How to use USB devices
 
@@ -117,22 +124,26 @@ controller from the USB qube to the Audio qube, but this would decrease your
 system security.
 
 First, start the qube holding the USB stack:
+
 ```sh
 qvm-start disp-sys-usb
 ```
 
 Identify you Bluetooth controller:
-```
+
+```sh
 qvm-usb list disp-sys-usb
 ```
 
 If you haven't identified the device, run `lsusb` in the USB stack server:
+
 ```sh
 qvm-run -p disp-sys-usb -- lsusb
 ```
 
 Permanently attach the Bluetooth controller to the AudioVM (change `DEVID` for
 the one you identified above):
+
 ```sh
 qvm-usb attach --persistent disp-sys-audio disp-sys-usb:DEVID
 ```

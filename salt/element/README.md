@@ -4,9 +4,9 @@ Element Matrix client installation in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -15,7 +15,8 @@ Matrix account.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable element
 sudo qubesctl --targets=tpl-element state.apply
@@ -23,13 +24,16 @@ sudo qubesctl top.disable element
 sudo qubesctl state.apply element.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply element.create
 sudo qubesctl --skip-dom0 --targets=tpl-element state.apply element.install
 sudo qubesctl state.apply element.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

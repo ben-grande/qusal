@@ -4,11 +4,11 @@ Qusal contribution guidelines.
 
 ## Table of Contents
 
-* [Respect](#respect)
-* [Starters](#starters)
-* [Environment](#environment)
-* [Issues](#issues)
-* [Lint](#lint)
+*   [Respect](#respect)
+*   [Starters](#starters)
+*   [Environment](#environment)
+*   [Issues](#issues)
+*   [Lint](#lint)
 
 ## Respect
 
@@ -50,31 +50,32 @@ packages below depending on the task:
 
 General:
 
-- git
+*   git
 
 For writing:
 
-- editorconfig
-- editorconfig plugin for your editor
-- vim, [vim-jinja](https://github.com/ben-grande/vim-jinja),
-  [vim-salt](https://github.com/ben-grande/vim-salt) (recommended)
+*   editorconfig
+*   editorconfig plugin for your editor
+*   vim, [vim-jinja](https://github.com/ben-grande/vim-jinja),
+    [vim-salt](https://github.com/ben-grande/vim-salt) (recommended)
 
 For linting:
 
-- pre-commit
-- gitlint
-- salt-lint
-- shellcheck
-- reuse
+*   gitlint
+*   markdownlint (ruby-mdl)
+*   pre-commit
+*   reuse
+*   salt-lint
+*   shellcheck
 
 For building RPMs:
 
-- sed (GNU sed)
-- dnf
-- dnf-plugins-core (dnf builddep)
-- rpm
-- rpmlint
-- rpmautospec (only available in Fedora)
+*   sed (GNU sed)
+*   dnf
+*   dnf-plugins-core (dnf builddep)
+*   rpm
+*   rpmlint
+*   rpmautospec (only available in Fedora)
 
 ## Issues
 
@@ -90,12 +91,14 @@ already been sent, the maintainer has already read and both parties loses
 time.
 
 Install the local hooks:
+
 ```sh
 pre-commit install
 gitlint install-hook
 ```
 
 To run pre-commit linters:
+
 ```sh
 pre-commit run
 ```

@@ -9,17 +9,17 @@ and will be introduced in the meantime. You've been warned.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Contribute](#contribute)
-* [Donate](#donate)
-* [Support](#support)
-  * [Free Support](#free-support)
-  * [Paid Support](#paid-support)
-* [Contact](#contact)
-* [Credits](#credits)
-* [Legal](#legal)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+*   [Contribute](#contribute)
+*   [Donate](#donate)
+*   [Support](#support)
+    *   [Free Support](#free-support)
+    *   [Paid Support](#paid-support)
+*   [Contact](#contact)
+*   [Credits](#credits)
+*   [Legal](#legal)
 
 ## Description
 
@@ -37,12 +37,12 @@ allowed to make.
 
 Here are some of the Global Preferences we can manage:
 
-- **clockvm**: disp-sys-net, sys-net
-- **default_audiovm**: disp-sys-audio
-- **default_dispvm**: dvm-reader
-- **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
-- **management_dispvm**: dvm-mgmt
-- **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
+*   **clockvm**: disp-sys-net, sys-net
+*   **default_audiovm**: disp-sys-audio
+*   **default_dispvm**: dvm-reader
+*   **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
+*   **management_dispvm**: dvm-mgmt
+*   **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
 
 ## Installation
 
@@ -104,7 +104,7 @@ Paid consultation services can be provided. Request a quote
 
 You must not contact for [free support](#free-support).
 
-- [E-mail](https://github.com/ben-grande/ben-grande)
+*   [E-mail](https://github.com/ben-grande/ben-grande)
 
 ## Credits
 
@@ -119,6 +119,7 @@ list all licenses and copyrights and keep them up-to-date here.
 
 The easiest way to get the copyright and license of the project is with the
 reuse tool:
+
 ```sh
 reuse spdx
 ```

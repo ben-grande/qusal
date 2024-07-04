@@ -4,9 +4,9 @@ Firewall in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -28,7 +28,8 @@ using, such as Debian or Fedora. Before starting, turn on `sys-firewall-old`
 or yours `default_netvm` and check if DNS is working, after that, proceed with
 the installation.
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-firewall
 sudo qubesctl --targets=tpl-sys-firewall state.apply
@@ -36,16 +37,20 @@ sudo qubesctl top.disable sys-firewall
 sudo qubesctl state.apply sys-firewall.prefs-disp
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-firewall.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-firewall state.apply sys-firewall.install
 sudo qubesctl state.apply sys-firewall.prefs-disp
 ```
+
 <!-- pkg:end:post-install -->
 
 Alternatively, if you prefer to have an app qube as the firewall:
+
 ```sh
 sudo qubesctl state.apply sys-firewall.prefs
 ```

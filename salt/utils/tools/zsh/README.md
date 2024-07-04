@@ -4,9 +4,9 @@ Zsh environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -15,19 +15,23 @@ warnings.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable utils.tools.zsh
 sudo qubesctl --targets=TARGET state.apply
 sudo qubesctl top.disable utils.tools.zsh
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=TEMPLATEVMS state.apply utils.tools.zsh.change-shell
 sudo qubesctl --skip-dom0 --targets=APPVMS state.apply utils.tools.zsh.touch-zshrc
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

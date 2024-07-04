@@ -4,22 +4,22 @@ Mail operations in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Security](#security)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Fetcher](#fetcher)
-    * [fdm Configuration](#fdm-configuration)
-    * [mpop Configuration](#mpop-configuration)
-    * [OfflineIMAP Configuration](#offlineimap-configuration)
-    * [Send Inbox to Reader Qube](#send-inbox-to-reader-qube)
-  * [Reader](#reader)
-    * [Mutt Configuration](#mutt-configuration)
-    * [Send Queue to Sender Qube](#send-queue-to-sender-qube)
-  * [Sender](#sender)
-    * [msmtp Configuration](#msmtp-configuration)
-    * [Send emails to SMTP server](#send-emails-to-smtp-server)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Security](#security)
+*   [Installation](#installation)
+*   [Usage](#usage)
+    *   [Fetcher](#fetcher)
+        *   [fdm Configuration](#fdm-configuration)
+        *   [mpop Configuration](#mpop-configuration)
+        *   [OfflineIMAP Configuration](#offlineimap-configuration)
+        *   [Send Inbox to Reader Qube](#send-inbox-to-reader-qube)
+    *   [Reader](#reader)
+        *   [Mutt Configuration](#mutt-configuration)
+        *   [Send Queue to Sender Qube](#send-queue-to-sender-qube)
+    *   [Sender](#sender)
+        *   [msmtp Configuration](#msmtp-configuration)
+        *   [Send emails to SMTP server](#send-emails-to-smtp-server)
+*   [Credits](#credits)
 
 ## Description
 
@@ -74,7 +74,8 @@ exploitation, as `msmtp` still needs to parse the mail to be sent.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable mail reader
 sudo qubesctl --targets=tpl-mail-fetcher,tpl-mail-reader,tpl-mail-sender,dvm-mail-fetcher,mail-reader,dvm-mail-sender,tpl-reader state.apply
@@ -82,8 +83,10 @@ sudo qubesctl top.disable mail reader
 sudo qubesctl state.apply mail.appmenus,reader.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply mail.create
 sudo qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
@@ -95,6 +98,7 @@ sudo qubesctl --skip-dom0 --targets=mail-reader state.apply mail.configure-reade
 sudo qubesctl --skip-dom0 --targets=dvm-mail-sender state.apply mail.configure-sender
 sudo qubesctl state.apply mail.appmenus,reader.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -108,9 +112,9 @@ or/and `IMAP` server and `SMTP` server, respectively.
 
 Steps overview:
 
-1. Receive mail via the `mail-fetcher` and transfer mail to `mail-reader`.
-2. Read and compose mail from `mail-reader` and transfer to `mail-sender`.
-3. Send queued mails from `mail-sender` to remote mail server.
+1.  Receive mail via the `mail-fetcher` and transfer mail to `mail-reader`.
+2.  Read and compose mail from `mail-reader` and transfer to `mail-sender`.
+3.  Send queued mails from `mail-sender` to remote mail server.
 
 ### Fetcher
 
@@ -124,26 +128,31 @@ mails will be done in `disp-mail-fetcher`.
 #### fdm Configuration
 
 Copy example configuration file to where the program can read automatically:
+
 ```sh
 cp ~/.fdm.conf.example ~/.fdm.conf
 ```
 
 Edit the configuration according to your needs:
+
 ```sh
 editor ~/.fdm.conf
 ```
 
 Check the connection is working:
+
 ```sh
 fdm -kv poll
 ```
 
 Fetch mail:
+
 ```sh
 fdm -kv fetch
 ```
 
 If the fetch was successful, enable the fetch scheduler:
+
 ```sh
 systemctl --user enable fdm.timer
 systemctl --user start  fdm.timer
@@ -155,26 +164,31 @@ Copy `~/.mpoprc.example` to `~/.mpoprc` and edit the configuration
 according to your needs.
 
 Copy example configuration file to where the program can read automatically:
+
 ```sh
 cp ~/.mporc.example ~/.mpoprc
 ```
 
 Edit the configuration according to your needs:
+
 ```sh
 editor ~/.mpoprc
 ```
 
 Check the connection is working:
+
 ```sh
 mpop --debug --auth-only
 ```
 
 Fetch mail:
+
 ```sh
 mpop
 ```
 
 If the fetch was successful, enable the fetch scheduler:
+
 ```sh
 systemctl --user enable mpop.timer
 systemctl --user start  mpop.timer
@@ -187,6 +201,7 @@ TODO: difficult to exemplify as the folders are user and provider specific.
 #### Send Inbox to Reader Qube
 
 Send the inbox to the reader:
+
 ```sh
 qusal-send-inbox
 ```
@@ -217,6 +232,7 @@ Samples for the aforementioned files can be found at `~/.config/mutt/sample`.
 #### Send Queue to Sender Qube
 
 Send the queued mail to the sender:
+
 ```sh
 qusal-send-mail
 ```
@@ -231,16 +247,19 @@ mails are done in `disp-mail-sender`.
 #### msmtp Configuration
 
 Copy example configuration file to where the program can read automatically:
+
 ```sh
 cp ~/.msmtprc.example ~/.msmtprc
 ```
 
 Edit the configuration according to your needs:
+
 ```sh
 editor ~/.msmtprc
 ```
 
 Test the connection to the SMTP server:
+
 ```sh
 msmtp --serverinfo
 ```
@@ -248,15 +267,17 @@ msmtp --serverinfo
 #### Send emails to SMTP server
 
 List the queued mails:
+
 ```sh
 msmtp-queue -d
 ```
 
 Send selected mails from the queue to the SMTP server:
+
 ```sh
 msmtp-queue -R
 ```
 
 ## Credits
 
-- [Unman](https://github.com/unman/notes/blob/master/SplitMutt.md)
+*   [Unman](https://github.com/unman/notes/blob/master/SplitMutt.md)

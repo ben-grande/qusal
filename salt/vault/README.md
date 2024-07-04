@@ -4,9 +4,9 @@ Vault environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -16,7 +16,8 @@ keys.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable vault
 sudo qubesctl --targets=tpl-vault state.apply
@@ -24,13 +25,16 @@ sudo qubesctl top.disable vault
 sudo qubesctl state.apply vault.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply vault.create
 sudo qubesctl --skip-dom0 --targets=tpl-vault state.apply vault.install
 sudo qubesctl state.apply vault.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

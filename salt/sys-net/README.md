@@ -4,10 +4,10 @@ PCI handler of network devices in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Access control](#access-control)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Access control](#access-control)
+*   [Usage](#usage)
 
 ## Description
 
@@ -30,7 +30,8 @@ back, just set `sys-net` template to the full template you are using, such as
 Debian or Fedora. Before starting, turn on the `default_netvm` and check if
 DNS is working, after that, proceed with the installation.
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-net
 sudo qubesctl --targets=tpl-sys-net state.apply
@@ -38,21 +39,26 @@ sudo qubesctl top.disable sys-net
 sudo qubesctl state.apply sys-net.prefs-disp
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-net.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install
 sudo qubesctl state.apply sys-net.prefs-disp
 ```
+
 <!-- pkg:end:post-install -->
 
 If you need to debug a net qube, install some helper tools:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-sys-net state.apply sys-net.install-debug
 ```
 
 If you prefer to have an app qube as the net qube:
+
 ```sh
 sudo qubesctl state.apply sys-net.prefs
 ```
@@ -68,6 +74,7 @@ As every call is denied by default, you need to add rules to you Qrexec policy
 for a call to occur. Some examples are represented below.
 
 Qube `dev` can ask to connect to `github.com:22` from `disp-sys-net`:
+
 ```qrexecpolicy
 qusal.ConnectTCP +github.com+22 dev @default ask target=disp-sys-net
 qusal.ConnectTCP *              dev @anyvm   deny

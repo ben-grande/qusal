@@ -4,8 +4,8 @@ Utilities library for Qusal.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Usage](#usage)
 
 ## Description
 

@@ -7,11 +7,10 @@
 # shellcheck disable=SC2086
 set -eu
 
-command -v salt-lint >/dev/null ||
-  { printf >&2 "Missing program: salt-lint\n"; exit 1; }
 command -v git >/dev/null ||
   { printf "Missing program: git\n" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)" || exit 1
+./scripts/requires-program.sh salt-lint
 
 possible_conf="${PWD}/.salt-lint"
 conf=""
@@ -28,7 +27,7 @@ if test -n "${1-}"; then
   files=""
   for f in "$@"; do
     test -f "$f" || continue
-    extension="$(echo "$f" | awk -F '.' '{print $NF}')"
+    extension="${f##*.}"
     case "$extension" in
       top|sls) files="$files $f";;
       *) continue;;

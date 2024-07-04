@@ -4,13 +4,13 @@ Rsync over Qrexec in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Access Control](#access-control)
-* [Usage](#usage)
-  * [Server](#server)
-  * [Client](#client)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Access Control](#access-control)
+*   [Usage](#usage)
+    *   [Server](#server)
+    *   [Client](#client)
+*   [Credits](#credits)
 
 ## Description
 
@@ -26,29 +26,35 @@ the user.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-rsync
 sudo qubesctl --targets=tpl-sys-rsync,sys-rsync state.apply
 sudo qubesctl top.disable sys-rsync
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-rsync.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-rsync state.apply sys-rsync.install
 sudo qubesctl --skip-dom0 --targets=sys-rsync state.apply sys-rsync.configure
 ```
+
 <!-- pkg:end:post-install -->
 
 Install on the client template:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-rsync.install-client
 ```
 
 The client qube requires the Rsync forwarder service to be enabled:
-```
+
+```sh
 qvm-features QUBE service.rsync-client 1
 ```
 
@@ -60,6 +66,7 @@ default policy `asks` if you want to connect with the `sys-rsync` qube.
 If you want to `allow` Rsync between qubes, insert in you user policy file
 `/etc/qubes/policy.d/30-user.policy` to allow the service using the following
 format:
+
 ```qrexecpolicy
 qusal.Rsync * SOURCE @default allow target=TARGET
 ```
@@ -88,15 +95,17 @@ folders on each server qube.
 The Rsync connection is available with the socket `localhost:1839`.
 
 Rsync the server `shared` read/write directory:
+
 ```sh
 rsync --port=1839 localhost::shared /LOCAL/PATH/TO/RSYNC
 ```
 
 Rsync the server `archive` read-only directory:
+
 ```sh
 rsync --port=1839 localhost::archive /LOCAL/PATH/TO/RSYNC
 ```
 
 ## Credits
 
-- [Unman](https://github.com/unman/qubes-sync)
+*   [Unman](https://github.com/unman/qubes-sync)

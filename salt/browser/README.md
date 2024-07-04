@@ -4,10 +4,10 @@ Browser environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-  * [Choose your browser](#choose-your-browser)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+    *   [Choose your browser](#choose-your-browser)
+*   [Usage](#usage)
 
 ## Description
 
@@ -21,7 +21,8 @@ Firefox, Firefox-ESR, Mullvad-Browser, W3M or Lynx.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable browser
 sudo qubesctl --targets=tpl-browser,dvm-browser state.apply
@@ -29,14 +30,17 @@ sudo qubesctl top.disable browser
 sudo qubesctl state.apply browser.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply browser.create
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install
 sudo qubesctl --skip-dom0 --targets=dvm-browser state.apply browser.configure
 sudo qubesctl state.apply browser.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ### Choose your browser
@@ -44,43 +48,50 @@ sudo qubesctl state.apply browser.appmenus
 Instead of running the state `browser.install`, you can select which browser
 to install:
 
-- Chromium:
+*   Chromium:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chromium
 ```
 
-- Chrome:
+*   Chrome:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-chrome
 ```
 
-- Firefox:
+*   Firefox:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox
 ```
 
-- Firefox-ESR:
+*   Firefox-ESR:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-firefox-esr
 ```
 
-- Mullvad-Browser:
+*   Mullvad-Browser:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-mullvad
 ```
 
+*   W3M:
 
-- W3M:
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-w3m
 ```
 
-- Lynx:
+*   Lynx:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-browser state.apply browser.install-lynx
 ```
 
 Do not forget to sync the `appmenus`:
+
 ```sh
 sudo qubesctl state.apply browser.appmenus
 ```
@@ -96,6 +107,7 @@ If you want to use a permanent browser session, create an app qube based on
 If you are forwarding URLs from other qubes via `qvm-open-in-(d)vm`, you might
 want to set your preferred browser as the default browser in `tpl-browser`
 targeting the desired desktop file:
+
 ```sh
 xdg-settings set default-web-browser firefox-esr.desktop
 ```

@@ -4,9 +4,9 @@ Mirage Builder environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -21,20 +21,24 @@ are done through the web interface, they have GitHub Web-Flow signature. This
 is the best verification we can get for Mirage Firewall. If you don't trust
 the hosting provider however, don't install this package.
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable mirage-builder
 sudo qubesctl --targets=tpl-mirage-builder,mirage-builder state.apply
 sudo qubesctl top.disable mirage-builder
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply mirage-builder.create
 sudo qubesctl --skip-dom0 --targets=tpl-mirage-builder state.apply mirage-builder.install
 sudo qubesctl --skip-dom0 --targets=mirage-builder state.apply mirage-builder.configure
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -46,6 +50,7 @@ source](https://github.com/mirage/qubes-mirage-firewall#build-from-source).
 If you plan to build without docker, the hooks and completion scripts are
 already being sourced by your shell profile. Because of this, when calling
 `opam-init`, use it together with the option `--no-setup`:
+
 ```sh
 opam init --no-setup
 ```

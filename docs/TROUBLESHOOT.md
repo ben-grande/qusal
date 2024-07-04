@@ -4,10 +4,10 @@ Qusal troubleshooting guidelines.
 
 ## Table of Contents
 
-* [Detect if your issue was already opened](#detect-if-your-issue-was-already-opened)
-* [Qrexec client shows Request refused](#qrexec-client-shows-request-refused)
-* [Salt wrapper qubesctl command fails](#salt-wrapper-qubesctl-command-fails)
-* [Get Salt management information](#get-salt-management-information)
+*   [Detect if your issue was already opened](#detect-if-your-issue-was-already-opened)
+*   [Qrexec client shows Request refused](#qrexec-client-shows-request-refused)
+*   [Salt wrapper qubesctl command fails](#salt-wrapper-qubesctl-command-fails)
+*   [Get Salt management information](#get-salt-management-information)
 
 ## Detect if your issue was already opened
 
@@ -24,9 +24,9 @@ typo in the configuration.
 
 Therefore, it is recommended to:
 
-- Check if there is a rule for the service you want to call that would either
-  result in `ask` or `allow`; and
-- Check again and again if you made a typo in the policy.
+*   Check if there is a rule for the service you want to call that would
+    either result in `ask` or `allow`; and
+*   Check again and again if you made a typo in the policy.
 
 The examples below will use the qube `dev` and the RPC service `qubes.GetDate`
 and other common Qrexec RPC services as an example, substitute them with the
@@ -34,23 +34,27 @@ qube and service you intend to use, such as qube `code` and service
 `qusal.GitInit`.
 
 On `dom0`, watch the Qrexec policy logs:
+
 ```sh
 sudo journalctl -fu qubes-qrexec-policy-daemon | cut -d " " -f 7-
 ```
 
 If you ave many simultaneous calls being shown, get on the important ones:
+
 ```sh
 sudo journalctl -fu qubes-qrexec-policy-daemon | cut -d " " -f 7- \
   | grep -e qubes.GetDate -e qubes.Filecopy
 ```
 
 You can emulate the call from `dom0`:
+
 ```sh
 qrexec-policy dev @default qubes.GetDate
 ```
 
 On the qube making the call, run the `qrexec-client-vm` command directly
 rather than using a wrapper around it:
+
 ```sh
 qrexec-client-vm @default qubes.GetDate
 ```
@@ -61,13 +65,15 @@ The Salt Project has [troubleshooting](https://docs.saltproject.io/en/latest/top
 page for a variety of problems you may encounter.
 
 A nice summary of the states can be seen with the `--show-output` argument:
-```
+
+```sh
 sudo qubesctl --show-output state.apply pkg.uptodate
 ```
 
 Ending the Salt call with `-l debug` argument gives the most detailed output
 (may contain private information):
-```
+
+```sh
 sudo qubesctl state.apply pkg.uptodate -l debug
 ```
 
@@ -79,6 +85,7 @@ Let's gather some information about it.
 Get information about the global `management_dispvm` and the same property of
 a specific qube. In this example we use `tpl-qubes-builder`, substitute for
 the qube being managed:
+
 ```sh
 sudo qubesctl state.apply dom0.helpers
 qvm-mgmt tpl-qubes-builder

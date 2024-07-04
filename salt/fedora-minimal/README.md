@@ -4,10 +4,9 @@ Fedora Minimal Template in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -16,7 +15,8 @@ it.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable fedora-minimal
 sudo qubesctl --targets=fedora-40-minimal state.apply
@@ -24,13 +24,16 @@ sudo qubesctl top.disable fedora-minimal
 sudo qubesctl state.apply fedora-minimal.prefs
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply fedora-minimal.create
 sudo qubesctl --skip-dom0 --targets=fedora-40-minimal state.apply fedora-minimal.install
 sudo qubesctl state.apply fedora-minimal.prefs
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

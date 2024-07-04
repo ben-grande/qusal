@@ -4,17 +4,17 @@ Qusal install and update guide.
 
 ## Table of Contents
 
-* [Installation](#installation)
-  * [Prerequisites](#prerequisites)
-  * [DomU Installation](#domu-installation)
-  * [Dom0 Installation](#dom0-installation)
-* [Update](#update)
-  * [DomU Update](#domu-update)
-  * [Dom0 Update with Git](#dom0-update-with-git)
-  * [Dom0 Update by literally copying the git repository](#dom0-update-by-literally-copying-the-git-repository)
-* [Template upgrade](#template-upgrade)
-  * [Clean install](#clean-install)
-  * [Upgrade a template in-place](#upgrade-a-template-in-place)
+*   [Installation](#installation)
+    *   [Prerequisites](#prerequisites)
+    *   [DomU Installation](#domu-installation)
+    *   [Dom0 Installation](#dom0-installation)
+*   [Update](#update)
+    *   [DomU Update](#domu-update)
+    *   [Dom0 Update with Git](#dom0-update-with-git)
+    *   [Dom0 Update by literally copying the git repository](#dom0-update-by-literally-copying-the-git-repository)
+*   [Template upgrade](#template-upgrade)
+    *   [Clean install](#clean-install)
+    *   [Upgrade a template in-place](#upgrade-a-template-in-place)
 
 ## Installation
 
@@ -22,8 +22,8 @@ Qusal install and update guide.
 
 You current setup needs to fulfill the following requisites:
 
-- Qubes OS R4.2
-- Internet connection
+*   Qubes OS R4.2
+*   Internet connection
 
 ### DomU Installation
 
@@ -33,6 +33,7 @@ You current setup needs to fulfill the following requisites:
 2.  Clone the repository (if you made a fork, fork the submodule(s) before
     clone and use your remote repository instead, the submodules will also be
     from your fork).
+
     ```sh
     git clone --recurse-submodules https://github.com/ben-grande/qusal.git
     ```
@@ -47,6 +48,7 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 
 1.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
     `CHANGEME` for the desired valued):
+
     ```sh
     qube="CHANGEME" # qube name where you downloaded the repository
     file="CHANGEME" # path to the repository in the qube
@@ -58,6 +60,7 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
     ```
 
 2.  Pass the maintainer's key from the qube to Dom0:
+
     ```sh
     qvm-run --pass-io "${qube}" -- "cat /home/user/ben-code.asc" | tee /tmp/ben-code.asc
     ```
@@ -65,6 +68,7 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 3.  Verify that the key fingerprint matches
     `DF38 3487 5B65 7587 13D9  2E91 A475 969D E4E3 71E3`. You can use
     Sequoia-PGP or GnuPG for the fingerprint verification:
+
     ```sh
     gpg --show-keys /tmp/ben-code.asc
     # or
@@ -72,18 +76,21 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
     ```
 
 4.  Import the verified key to your keyring:
+
     ```sh
     gpg --import /tmp/ben-code.asc
     ```
 
 5.  Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
     and expect a good signature, be surprised otherwise:
+
     ```sh
     git verify-commit HEAD
     git submodule foreach git verify-commit HEAD
     ```
 
 6.  Copy the project to the Salt directories:
+
     ```sh
     ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
     ```
@@ -97,6 +104,7 @@ demonstrated below.
 ### DomU Update
 
 Update the repository state in your DomU:
+
 ```sh
 git -C ~/src/qusal fetch --recurse-submodules
 ```
@@ -112,13 +120,15 @@ with the sys-git formula.
 
 2.  Install `git` on Dom0, allow the Qrexec protocol to work in submodules and
     clone the repository to `~/src/qusal` (only has to be run once):
+
     ```sh
     mkdir -p ~/src
     sudo qubesctl state.apply sys-git.install-client
     git clone --recurse-submodules qrexec://@default/qusal.git ~/src/qusal
     ```
 
-3. Next updates will be pulling instead of cloning:
+3.  Next updates will be pulling instead of cloning:
+
     ```sh
     git -C ~/src/qusal pull --recurse-submodules
     git -C ~/src/qusal submodule update --merge
@@ -127,12 +137,14 @@ with the sys-git formula.
 4.  Verify the commit or tag signature and expect a good signature, be
     surprised otherwise (signature verification on submodules is skipped if
     checking out but not merging):
+
     ```sh
     git verify-commit HEAD
     git submodule foreach git verify-commit HEAD
     ```
 
 5.  Copy the project to the Salt directories:
+
     ```
     ~/src/qusal/scripts/setup.sh
     ```
@@ -147,6 +159,7 @@ project had a signed archive. The `.git/info/exclude` can exclude modified
 files from being tracked and signature verification won't catch it.
 
 1.  Install the helpers scripts and git on Dom0 (only has to be run once):
+
     ```sh
     sudo qubesctl state.apply dom0.install-helpers
     sudo qubes-dom0-update git
@@ -154,6 +167,7 @@ files from being tracked and signature verification won't catch it.
 
 2.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
     `CHANGEME` for the desired valued):
+
     ```sh
     qube="CHANGEME" # qube name where you downloaded the repository
     file="CHANGEME" # path to the repository in the qube
@@ -164,12 +178,14 @@ files from being tracked and signature verification won't catch it.
 
 3.  Verify the commit or tag signature and expect a good signature, be
     surprised otherwise:
+
     ```sh
     git verify-commit HEAD
     git submodule foreach git verify-commit HEAD
     ```
 
 4.  Copy the project to the Salt directories:
+
     ```sh
     ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
     ```
@@ -183,13 +199,13 @@ Template upgrade refers to template major releases upgrade.
 As we use Salt, doing clean installs are easy. Unfortunately QubesOS does not
 provided a CLI program to rename qubes.
 
-1. Open `Qube Manager`, select the template you want to upgrade and rename it
-   adding the suffix `-old`. The `Qube Manager` will change the `template`
-   preference of qubes based on the chosen template.
-2. Rerun the formulas that targeted the chosen template.
-3. If the formula fails, use `Qubes Template Switcher` to set the `-old`
-   template to be used by the qubes managed by that specific formula.
-3. Repeat for every template that needs to be upgraded.
+1.  Open `Qube Manager`, select the template you want to upgrade and rename it
+    adding the suffix `-old`. The `Qube Manager` will change the `template`
+    preference of qubes based on the chosen template.
+2.  Rerun the formulas that targeted the chosen template.
+3.  If the formula fails, use `Qubes Template Switcher` to set the `-old`
+    template to be used by the qubes managed by that specific formula.
+4.  Repeat for every template that needs to be upgraded.
 
 ### Upgrade a template in-place
 
@@ -204,9 +220,9 @@ data can be present in the root volume, in-place upgrades are easier for this
 qube class instead of doing a migration of specific folders and files to the
 new qube.
 
-1. If you still want to do upgrade in-place, refer to upstream guides, for
-   [Debian](https://www.qubes-os.org/doc/templates/debian/in-place-upgrade)
-   and
-   [Fedora](https://www.qubes-os.org/doc/templates/fedora/in-place-upgrade).
-2. Rerun the formulas that targeted the chosen template.
-3. Repeat for every template that needs to be upgraded.
+1.  If you still want to do upgrade in-place, refer to upstream guides, for
+    [Debian](https://www.qubes-os.org/doc/templates/debian/in-place-upgrade)
+    and
+    [Fedora](https://www.qubes-os.org/doc/templates/fedora/in-place-upgrade).
+2.  Rerun the formulas that targeted the chosen template.
+3.  Repeat for every template that needs to be upgraded.

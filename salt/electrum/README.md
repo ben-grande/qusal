@@ -4,14 +4,14 @@ Electrum Bitcoin Wallet in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Connect your cold wallet to a trusted server](#connect-your-cold-wallet-to-a-trusted-server)
-  * [Connect your cold wallet to an untrusted server](#connect-your-cold-wallet-to-an-untrusted-server)
-  * [Recommendations for cryptographic operations](#recommendations-for-cryptographic-operations)
-  * [Cold wallet terminology](#cold-wallet-terminology)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+    *   [Connect your cold wallet to a trusted server](#connect-your-cold-wallet-to-a-trusted-server)
+    *   [Connect your cold wallet to an untrusted server](#connect-your-cold-wallet-to-an-untrusted-server)
+    *   [Recommendations for cryptographic operations](#recommendations-for-cryptographic-operations)
+    *   [Cold wallet terminology](#cold-wallet-terminology)
+*   [Credits](#credits)
 
 ## Description
 
@@ -31,7 +31,8 @@ usage from ever connecting to the internet.
 
 ## Installation
 
-- Top
+*   Top:
+
 ```sh
 sudo qubesctl top.enable electrum
 sudo qubesctl --targets=tpl-electrum-builder,tpl-electrum,disp-electrum-builder,electrum,electrum-hot state.apply
@@ -39,8 +40,10 @@ sudo qubesctl top.disable electrum
 sudo qubesctl state.apply electrum.appmenus
 ```
 
-- State
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply electrum.create
 sudo qubesctl --skip-dom0 --targets=tpl-electrum-builder state.apply electrum.install-builder
@@ -50,6 +53,7 @@ sudo qubesctl --skip-dom0 --targets=electrum state.apply electrum.configure
 sudo qubesctl --skip-dom0 --targets=electrum-hot state.apply electrum.configure-hot
 sudo qubesctl state.apply electrum.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -75,24 +79,28 @@ our netvm qube is named `sys-net`.
 
 In the qube `dom0`, allow `electrum` to connect to `sys-net` port
 `50002` via Qrexec Policy in the file `/etc/qubes/policy.d/30-user.policy`:
+
 ```qrexecpolicy
 qubes.ConnectTCP +50002 electrum @default allow target=sys-net
 ```
 
 In the qube `sys-net`, add the `socat` command to the file
 `/rw/config/rc.local`:
+
 ```sh
 socat TCP4-LISTEN:50002,reuseaddr,fork,bind=127.0.0.1 TCP:192.168.2.10:50002 &
 ```
 
 In the qube `electrum`, add the `qvm-connect-tcp` command to the file
 `/rw/config/rc.local`:
+
 ```sh
 qvm-connect-tcp ::50002
 ```
 
 In the qube `electrum`, run as the user `user` the electrum configuration
 commands:
+
 ```sh
 electrum --offline setconfig auto_connect false
 electrum --offline setconfig oneserver true
@@ -100,6 +108,7 @@ electrum --offline setconfig server 127.0.0.1:50002
 ```
 
 If you used a plain-text port, no SSL:
+
 ```sh
 electrum --offline setconfig server 127.0.0.1:50001:t
 ```
@@ -198,4 +207,4 @@ have more security, not the one you "fell" more secure.
 
 ## Credits
 
-- [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)
+*   [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)

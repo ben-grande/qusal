@@ -4,13 +4,14 @@ Setup Qubes OS Builder V2 in Qubes OS itself.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Access Control](#access-control)
-* [Usage](#usage)
-  * [Pulling new commits](#pulling-new-commits)
-  * [Add PGP public key to qubes-builder GPG home directory](#add-pgp-public-key-to-qubes-builder-gpg-home-directory)
-  * [Builder configuration](#builder-configuration)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Access Control](#access-control)
+*   [Usage](#usage)
+    *   [Pulling new commits](#pulling-new-commits)
+    *   [Add PGP public key to qubes-builder GPG home directory](#add-pgp-public-key-to-qubes-builder-gpg-home-directory)
+    *   [Builder configuration](#builder-configuration)
+    *   [Build Qusal](#build-qusal)
 
 ## Description
 
@@ -43,7 +44,8 @@ need to `reset` the user changes and to do a clean `pull` that wouldn't fail.
 After you've pulled the commit including the `.gitmodules` once, future
 installations won't have this issue.
 
-- Top
+*   Top:
+
 ```sh
 sudo qubesctl top.enable qubes-builder
 sudo qubesctl --targets=tpl-qubes-builder,dvm-qubes-builder,qubes-builder state.apply
@@ -51,8 +53,10 @@ sudo qubesctl top.disable qubes-builder
 sudo qubesctl state.apply qubes-builder.prefs
 ```
 
-- State
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply qubes-builder.create
 sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply qubes-builder.install
@@ -60,15 +64,18 @@ sudo qubesctl state.apply qubes-builder.prefs
 sudo qubesctl --skip-dom0 --targets=dvm-qubes-builder state.apply qubes-builder.configure-qubes-executor
 sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.configure
 ```
+
 <!-- pkg:end:post-install -->
 
 If you plan to write for a long time and analyze logs on the builder qube, it
 is recommended to install some development goodies:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply qubes-builder.install-dev
 ```
 
 If you plan on building Qusal packages (Development only):
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.configure-qusal
 ```
@@ -89,12 +96,14 @@ need to pull new commits from time to time, their signature will be
 automatically verified before merging them to your git index.
 
 Pull `qubes-builderv2` commits:
+
 ```sh
 git pull
 ```
 
 Initialize and merge submodules:
-```
+
+```sh
 git submodule update --init
 git submodule update --merge
 ```
@@ -103,6 +112,7 @@ git submodule update --merge
 
 If you need to pull commits signed by someone with a key not deployed by
 default, import their key to the GPG home directory of qubes-builder:
+
 ```sh
 gpg-qubes-builder --import /path/to/key
 ```
@@ -111,6 +121,7 @@ gpg-qubes-builder --import /path/to/key
 
 When using the Qubes Executor, configure the `builder.yml` `dispvm` option to
 either `dom0` or `dvm-qubes-builder`:
+
 ```yaml
 include:
   - example-configs/desired-config.yml
@@ -123,6 +134,7 @@ executor:
 
 gpg-client: gpg
 ```
+
 Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
 
@@ -135,6 +147,7 @@ Setting the `gpg-client` explicitly to enforce the use of `split-gpg2`.
 You can easily build Qusal as a default configuration is provided.
 
 Place only the following in `builder.yml`:
+
 ```yaml
 include:
   - ../qusal-builder/qusal.yml

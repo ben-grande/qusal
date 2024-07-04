@@ -4,14 +4,14 @@ Qusal SaltStack development guide.
 
 ## Table of Contents
 
-* [What this guide is](#what-this-guide-is)
-* [Resources](#resources)
-* [Minion Configuration](#minion-configuration)
-* [Jinja](#jinja)
-* [Targetting Minions](#targetting-minions)
-* [Idempotence](#idempotence)
-* [Examples](#examples)
-* [Troubleshooting](#troubleshooting)
+*   [What this guide is](#what-this-guide-is)
+*   [Resources](#resources)
+*   [Minion Configuration](#minion-configuration)
+*   [Jinja](#jinja)
+*   [Targetting Minions](#targetting-minions)
+*   [Idempotence](#idempotence)
+*   [Examples](#examples)
+*   [Troubleshooting](#troubleshooting)
 
 ## What this guide is
 
@@ -97,9 +97,9 @@ been done, changed or not.
 
 The `cmd` state might still be needed in some circumstances:
 
-- When Qubes OS does not provide a module;
-- When SaltStack does provide a module; and
-- When SaltStack module does not meet all requirements.
+*   When Qubes OS does not provide a module;
+*   When SaltStack does provide a module; and
+*   When SaltStack module does not meet all requirements.
 
 ## Examples
 
@@ -111,6 +111,7 @@ make sure to install Qusal before, it is required to create the base
 templates, do Jinja imports and run Jinja macros.
 
 `create-keys.sls`:
+
 ```salt
 {# Use Qubes OS Jinja Template to create qubes using 'qvm.vm' #}
 {% from "qvm/template.jinja" import load %}
@@ -165,6 +166,7 @@ features:
 ```
 
 `install-keys.sls`:
+
 ```salt
 {# Avoid applying the state by mistake to dom0 #}
 {% if grains['nodename'] != 'dom0' %}
@@ -213,6 +215,7 @@ keys-installed-os-specific:
 ```
 
 `appmenus-keys.sls`:
+
 ```salt
 {# From our Jinja template sync-appmenus, import 'sync_appmenus' macro #}
 {% from 'utils/macros/sync-appmenus.sls' import sync_appmenus %}
@@ -223,16 +226,19 @@ keys-installed-os-specific:
 After you have created the states above, copy them to Dom0 in `/srv/salt`.
 
 Create the qube:
+
 ```sh
 sudo qubesctl state.apply create-keys
 ```
 
 Install packages in the qube template:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-keys state.apply install-keys
 ```
 
 Make the application menus appear after the requirements are installed:
+
 ```sh
 sudo qubesctl state.apply appmenus-keys
 ```
@@ -245,9 +251,9 @@ Qusal macros. The above examples are based on our [vault formula](../salt/vault)
 You may face some [YAML idiosyncrasies](https://docs.saltproject.io/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html),
 these are the common mistakes that you may commit. Use an editor that:
 
-- Shows when tabs have been used instead of spaces;
-- Highlights syntax for Salt, Jinja, Python, YAML and Shellscript; and
-- Lints your file at will or when saving it;
+*   Shows when tabs have been used instead of spaces;
+*   Highlights syntax for Salt, Jinja, Python, YAML and Shellscript; and
+*   Lints your file at will or when saving it;
 
 For further debugging information on Qusal, read our
 [troubleshooting guide](TROUBLESHOOT.md).

@@ -4,10 +4,10 @@ Dom0 environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-  * [Choose your Dom0 environment](#choose-your-dom0-environment)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+    *   [Choose your Dom0 environment](#choose-your-dom0-environment)
+*   [Usage](#usage)
 
 ## Description
 
@@ -16,7 +16,8 @@ etc.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable dom0
 sudo qubesctl state.apply
@@ -24,20 +25,25 @@ sudo qubesctl top.disable dom0
 sudo qubesctl --skip-dom0 --templates --standalones state.apply update.qubes-vm
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply dom0
 sudo qubesctl --skip-dom0 --templates --standalones state.apply update.qubes-vm
 ```
+
 <!-- pkg:end:post-install -->
 
 If you need to develop in Dom0, install some goodies (bare bones):
+
 ```sh
 sudo qubesctl state.apply dom0.install-dev
 ```
 
 To forward ports from qubes to the external world:
+
 ```sh
 sudo qubesctl state.apply dom0.port-forward
 ```
@@ -46,12 +52,14 @@ sudo qubesctl state.apply dom0.port-forward
 
 Instead of running the state `dom0`, you can select which states to apply:
 
-- Window Manager i3:
+*   Window Manager i3:
+
 ```sh
 sudo qubesctl state.apply dom0.desktop-i3,dom0.desktop-i3-settings
 ```
 
-- Window Manager AwesomeWM:
+*   Window Manager AwesomeWM:
+
 ```sh
 sudo qubesctl state.apply dom0.desktop-awesome
 ```

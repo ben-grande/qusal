@@ -1,6 +1,6 @@
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
 repos:
@@ -21,6 +21,13 @@ repos:
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
+
+      - id: markdown-lint
+        name: markdown-lint
+        entry: scripts/markdown-lint.sh
+        language: script
+        pass_filenames: true
+        description: Lint markdown files
 
       - id: salt-lint
         name: salt-lint

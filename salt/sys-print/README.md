@@ -4,14 +4,14 @@ Printer environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Security](#security)
-* [Installation](#installation)
-* [Access Control](#access-control)
-* [Usage](#usage)
-  * [Add a printer](#add-a-printer)
-  * [Print](#print)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Security](#security)
+*   [Installation](#installation)
+*   [Access Control](#access-control)
+*   [Usage](#usage)
+    *   [Add a printer](#add-a-printer)
+    *   [Print](#print)
+*   [Credits](#credits)
 
 ## Description
 
@@ -40,7 +40,8 @@ qube that has access to the printer.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-print
 sudo qubesctl --targets=tpl-sys-print state.apply
@@ -48,26 +49,32 @@ sudo qubesctl top.disable sys-print
 sudo qubesctl state.apply sys-print.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-print.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-print state.apply sys-print.install
 sudo qubesctl state.apply sys-print.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 If you want to install all printer drivers:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-sys-print state.apply sys-print.install-driver-all
 ```
 
 On the client template:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-print.install-client
 ```
 
 The client qube requires the split Print service to be enabled:
+
 ```sh
 qvm-features QUBE service.print-client 1
 ```
@@ -76,21 +83,23 @@ qvm-features QUBE service.print-client 1
 
 **_Default policy_** (qusal.Print RPC service):
 
-- Clients with tag `print-client` are `allowed` to call servers with tag
-  `print-server`, defaulting to `sys-print`.
-- `All` clients can `ask` servers with tag `print-server`, defaulting to
-  `sys-print`.
+*   Clients with tag `print-client` are `allowed` to call servers with tag
+    `print-server`, defaulting to `sys-print`.
+*   `All` clients can `ask` servers with tag `print-server`, defaulting to
+    `sys-print`.
 
 `Asking` can spawn multiple requests depending on the client, usage of `allow`
 is recommended for trusted clients.
 
 Add the tag `print-client` to the qube requesting the print content:
+
 ```sh
 qvm-tags QUBE add print-client
 ```
 
 As the call will default to `sys-print`, you can enforce the use of
 `disp-sys-print` via policy and not any other qube:
+
 ```qrexecpolicy
 qusal.Print * @tag:print-client @default allow target=disp-sys-print
 qusal.Print * @tag:print-client @anyvm   deny
@@ -105,6 +114,7 @@ connect over the network or USB. If you do not want to save printing
 configuration, use `disp-sys-print`.
 
 On `sys-print` or `disp-sys-print`, add your printer:
+
 ```sh
 system-config-printer
 ```
@@ -116,4 +126,4 @@ browser and target the desired printer.
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/main/sys-print)
+*   [Unman](https://github.com/unman/shaker/tree/main/sys-print)

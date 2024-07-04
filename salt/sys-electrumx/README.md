@@ -4,10 +4,10 @@ ElectrumX in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+*   [Credits](#credits)
 
 ## Description
 
@@ -26,7 +26,8 @@ At least `200GB` of disk space is required.
 
 This formula depends on [sys-bitcoin](../sys-bitcoin/README.md).
 
-- Top
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-electrumx
 sudo qubesctl --targets=tpl-electrumx-builder,tpl-sys-electrumx,disp-electrumx-builder,sys-electrumx state.apply
@@ -34,8 +35,10 @@ sudo qubesctl top.disable sys-electrumx
 sudo qubesctl state.apply sys-electrumx.appmenus
 ```
 
-- State
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-electrumx.create
 sudo qubesctl --skip-dom0 --targets=tpl-electrumx-builder state.apply sys-electrumx.install-builder
@@ -44,6 +47,7 @@ sudo qubesctl --skip-dom0 --targets=disp-electrumx-builder state.apply sys-elect
 sudo qubesctl --skip-dom0 --targets=sys-electrumx state.apply sys-electrumx.configure
 sudo qubesctl state.apply sys-electrumx.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -61,4 +65,4 @@ ElectrumX server.
 
 ## Credits
 
-- [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)
+*   [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)

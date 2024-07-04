@@ -4,9 +4,9 @@ Signal messaging app in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -14,7 +14,8 @@ Install Signal Desktop and creates an app qube named "signal".
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable signal
 sudo qubesctl --targets=tpl-signal,signal state.appply
@@ -22,14 +23,17 @@ sudo qubesctl top.disable signal
 sudo qubesctl state.apply signal.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply signal.create
 sudo qubesctl --skip-dom0 --targets=tpl-signal state.apply signal.install
 sudo qubesctl --skip-dom0 --targets=signal state.apply signal.configure
 sudo qubesctl state.apply signal.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

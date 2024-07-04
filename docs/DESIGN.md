@@ -4,27 +4,27 @@ Qusal design document.
 
 ## Table of Contents
 
-* [Goal](#goal)
-* [Documentation](#documentation)
-* [Format](#format)
-  * [Readme](#readme)
-    * [Access Control](#access-control)
-  * [State file naming](#state-file-naming)
-  * [State ID](#state-id)
-  * [Qube preferences](#qube-preferences)
-    * [Qube naming](#qube-naming)
-    * [Qube label](#qube-label)
-    * [Qube menu](#qube-menu)
-  * [Qube features](#qube-features)
-  * [Qube connections](#qube-connections)
-  * [Qrexec call and policy](#qrexec-call-and-policy)
-  * [Qrexec socket services](#qrexec-socket-services)
-* [Features](#features)
-  * [Browser isolation from the managed service](#browser-isolation-from-the-managed-service)
-* [Release new version](#release-new-version)
-  * [Qubes OS major release upgrade](#qubes-os-major-release-upgrade)
-  * [Template major release upgrade](#template-major-release-upgrade)
-  * [Archive or Build from source major release upgrade](#archive-or-build-from-source-major-release-upgrade)
+*   [Goal](#goal)
+*   [Documentation](#documentation)
+*   [Format](#format)
+    *   [Readme](#readme)
+        *   [Access Control](#access-control)
+    *   [State file naming](#state-file-naming)
+    *   [State ID](#state-id)
+    *   [Qube preferences](#qube-preferences)
+        *   [Qube naming](#qube-naming)
+        *   [Qube label](#qube-label)
+        *   [Qube menu](#qube-menu)
+    *   [Qube features](#qube-features)
+    *   [Qube connections](#qube-connections)
+    *   [Qrexec call and policy](#qrexec-call-and-policy)
+    *   [Qrexec socket services](#qrexec-socket-services)
+*   [Features](#features)
+    *   [Browser isolation from the managed service](#browser-isolation-from-the-managed-service)
+*   [Release new version](#release-new-version)
+    *   [Qubes OS major release upgrade](#qubes-os-major-release-upgrade)
+    *   [Template major release upgrade](#template-major-release-upgrade)
+    *   [Archive or Build from source major release upgrade](#archive-or-build-from-source-major-release-upgrade)
 
 ## Goal
 
@@ -55,7 +55,8 @@ provided via extra states that needs to be installed per the user discretion.
 Markdown code must follow
 [Google's Markdown style guide](https://google.github.io/styleguide/docguide/style.html).
 Any discrepancies with Google's style guide must be fixed or documented here
-with clear motive.
+with clear motive. Although some of Google's style guide is optional, we
+enforce some for stylistic purpose via documentation lint tools.
 
 Documentation must not duplicate itself, but reference one another.
 Reproducing instructions that can be found in upstream documentation is
@@ -69,19 +70,19 @@ modify the documentation constantly to keep up with upstream.
 
 Every project should have a README.md with at least the following sections:
 
-- Table of Contents;
-- Description;
-- Installation;
-- Access Control (if Qrexec policy changed);
-- Usage; and
-- Credits (if sourced).
+*   Table of Contents;
+*   Description;
+*   Installation;
+*   Access Control (if Qrexec policy changed);
+*   Usage; and
+*   Credits (if sourced).
 
 #### Access Control
 
-- It must document default policy and RPC services the user can or should
-  edit.
-- It must not document RPC services of other formulas unless the resolution of
-  the rule is `deny`.
+*   It must document default policy and RPC services the user can or should
+    edit.
+*   It must not document RPC services of other formulas unless the resolution
+    of the rule is `deny`.
 
 ### State file naming
 
@@ -98,8 +99,8 @@ Every project should have a README.md with at least the following sections:
 
 1.  State IDs must use `-` as separator, not `_`. The underline is allowed in
     case the features it is changing has underline, such as `default_netvm`.
-2.  State IDs must always have the project ID, thus allowing to target multiple
-    states to the same minion from different projects without having
+2.  State IDs must always have the project ID, thus allowing to target
+    multiple states to the same minion from different projects without having
     conflicting IDs.
 
 ### Qube preferences
@@ -110,12 +111,12 @@ We differ from upstream especially by placing the `dvm` part as the prefix of
 DispVM Templates. This is to easy parsing when the qube type is the first
 part of its name and no exceptions.
 
-- **TemplateVM**: `tpl-NAME`
-- **StandaloneVM**: `NAME`
-- **AppVM**: `NAME`
-- **DispVM**: `disp-NAME`
-- **DispVM Template (AppVM)**: `dvm-NAME`
-- **Service qubes (not a class)**: `sys-NAME`
+*   **TemplateVM**: `tpl-NAME`
+*   **StandaloneVM**: `NAME`
+*   **AppVM**: `NAME`
+*   **DispVM**: `disp-NAME`
+*   **DispVM Template (AppVM)**: `dvm-NAME`
+*   **Service qubes (not a class)**: `sys-NAME`
 
 We recommend that for user created qubes, use the domain in the prefix of the
 qube. An AppVM for personal banking will be named `personal-banking`, an
@@ -131,44 +132,44 @@ the same as you trust your vault. The following method tries to fix this
 problem, domain name is in the prefix of the qube, the label is solely
 related to trustworthiness of the data it is dealing with.
 
--   **Black**:
-    -   **Trust**: Ultimate.
-    -   **Description**: You must trust Dom0, Templates, Vaults, Management
+*   **Black**:
+    *   **Trust**: Ultimate.
+    *   **Description**: You must trust Dom0, Templates, Vaults, Management
         qubes, these qubes control your system and hold valuable information.
-    -   **Examples**: dom0, tpl-ssh, vault, dvm-mgmt.
--   **Gray**:
-    -   **Trust**: Fully.
-    -   **Description**: Trusted storage with extra RPC services that allow
+    *   **Examples**: dom0, tpl-ssh, vault, dvm-mgmt.
+*   **Gray**:
+    *   **Trust**: Fully.
+    *   **Description**: Trusted storage with extra RPC services that allow
         certain operations to be made by the client and executed on the server
         or may build components for other qubes.
-    -   **Examples**: sys-cacher, sys-git, sys-pgp, sys-ssh-agent, qubes-builder.
--   **Purple**:
-  -   **Trust**: Very much.
-  -   **Description**: Has the ability to manager remote servers via encrypted
-      connections and depend on authorization provided by another qube.
-      Examples: ansible, dev, ssh, terraform.
--   **Blue**:
-  -   **Trust**: Much.
-  -   **Description**: TODO
-  -   **Examples**: TODO
--   **Green**:
-    -   **Trust**: Trusted.
-    -   **Description**: TODO
-    -   **Examples**: TODO
--   **Yellow**:
-    -   **Trust**: Relatively trusted.
-    -   **Description**: TODO
-    -   **Examples**: TODO
--   **Orange**:
-    -   **Trust**: Slight.
-    -   **Description**: Controls the network flow of data to the client,
+    *   **Examples**: sys-cacher, sys-git, sys-pgp, sys-ssh-agent, qubes-builder.
+*   **Purple**:
+    *   **Trust**: Very much.
+    *   **Description**: Has the ability to manager remote servers via encrypted
+        connections and depend on authorization provided by another qube.
+        Examples: ansible, dev, ssh, terraform.
+*   **Blue**:
+    *   **Trust**: Much.
+    *   **Description**: TODO
+    *   **Examples**: TODO
+*   **Green**:
+    *   **Trust**: Trusted.
+    *   **Description**: TODO
+    *   **Examples**: TODO
+*   **Yellow**:
+    *   **Trust**: Relatively trusted.
+    *   **Description**: TODO
+    *   **Examples**: TODO
+*   **Orange**:
+    *   **Trust**: Slight.
+    *   **Description**: Controls the network flow of data to the client,
         normally a firewall.
-    -   **Examples**: sys-firewall, sys-vpn, sys-pihole.
--   **Red**:
-    -   **Trust**: Untrusted.
-    -   **Description**: Holds untrusted data (PCI devices, untrusted
+    *   **Examples**: sys-firewall, sys-vpn, sys-pihole.
+*   **Red**:
+    *   **Trust**: Untrusted.
+    *   **Description**: Holds untrusted data (PCI devices, untrusted
         programs, disposables for opening untrusted files or web pages).
-    -   **Examples**: sys-net, sys-usb, dvm-browser.
+    *   **Examples**: sys-net, sys-usb, dvm-browser.
 
 #### Qube menu
 
@@ -192,38 +193,39 @@ add a state to run a script during boot to unmask and start a specific
 service. The method below is most of the times combined with `systemd.unit`
 `ConditionPathExists=` to enable the service conditionally.
 
-- Server's service name must match the syntax: `service-server` (example:
-  `rsync-server`, `syncthing-server`);
-- Client's service name must match the syntax: `service-client` (example:
-  `ssh-client`;
-- Local program's service name must match the syntax: `service` (example:
-  `docker`, `podman`.
+*   Server's service name must match the syntax: `service-server` (example:
+    `rsync-server`, `syncthing-server`);
+*   Client's service name must match the syntax: `service-client` (example:
+    `ssh-client`;
+*   Local program's service name must match the syntax: `service` (example:
+    `docker`, `podman`.
 
 ### Qube connections
 
 There are several ways a qube can connect to another, either directly with
 Xen or with Qrexec. If something is not required, we remove it.
 
--   `template` is always required:
-    -   When required, must be set to the custom-made template;
-    -   When not possible to use, prefer StandaloneVMs instead.
--   `audiovm` is rarely required on the majority of the projects:
-  -   When required, set it to `"*default*"` to honor the global preferences.
-  -   When not required, must be set to None;
--   `netvm` is required on a lot of projects.
-  -   When required, must not be managed to honor the global preferences. If
-      it requires a custom networking scheme, the state must make sure that
-      the netvm exists;
-  -   When not required, must be set to None.
--   `default_dispvm` is nice to have:
-  -  When required, must guarantee that the network follows the same chain as
-     the calling qube in the default configuration;
-  -  When not required, must be set to None.
--   `management_dispvm` is always required:
-  -   When required, should not be managed to honor the global preferences,
+*   `template` is always required:
+    *   When required, must be set to the custom-made template;
+    *   When not possible to use, prefer StandaloneVMs instead.
+*   `audiovm` is rarely required on the majority of the projects:
+    *   When required, set it to `"*default*"` to honor the global
+        preferences.
+    *   When not required, must be set to None;
+*   `netvm` is required on a lot of projects.
+    *   When required, must not be managed to honor the global preferences. If
+        it requires a custom networking scheme, the state must make sure that
+        the netvm exists;
+    *   When not required, must be set to None.
+*   `default_dispvm` is nice to have:
+    *   When required, must guarantee that the network follows the same chain
+        as the calling qube in the default configuration;
+    *   When not required, must be set to None.
+*   `management_dispvm` is always required:
+    *   When required, should not be managed to honor the global preferences,
       but it can make sense to set a custom management qube for debugging.
-  -   When not required, such as on qubes that don't work through Salt, don't
-      touch it, it doesn't increase attack surface.
+    *   When not required, such as on qubes that don't work through Salt,
+        don't touch it, it doesn't increase attack surface.
 
 ### Qrexec call and policy
 
@@ -232,8 +234,8 @@ Xen or with Qrexec. If something is not required, we remove it.
     to be set by Dom0 via the `target=` redirection parameter, instead of
     having to modify the client to target a different server via
     `qrexec-client-vm`.
-3.  Target qube for client script must default to `@default`, but other targets
-    must be allowed via parameters.
+3.  Target qube for client script must default to `@default`, but other
+    targets must be allowed via parameters.
 
 ### Qrexec socket services
 
@@ -246,31 +248,32 @@ wants to connect in the server. We will refer to Unix Domains Sockets as
 Using `qusal.Service`, such as `qusal.Rsync`, `qusal.Syncthing`, `qusal.Ssh`
 has the following advantages:
 
-- Usability: User recognizes the call per service name;
-- Extensibility: Allows extending functionality for arguments added in the
-  future, no need to migrate user policy from `qubes.ConnectTCP`;
-  is not necessary;
+*   Usability: User recognizes the call per service name;
+*   Extensibility: Allows extending functionality for arguments added in the
+    future, no need to migrate user policy from `qubes.ConnectTCP`; is not
+    necessary;
 
 Rules for server RPC service:
 
-- Symlink `qubes.ConnectTCP` to `qusal.Service` if connecting to a local port;
-- Use `qubes.ConnectTCP` directly when the user won't manage the policy for
-  the wanted call, such as `sys-syncthing-browser`, where it happens that only
-  this qube will access the admin interface of `sys-syncthing`;
-- Use `socat` to connect to remote hosts or UDS with path defined by the
-  service argument.
+*   Symlink `qubes.ConnectTCP` to `qusal.Service` if connecting to a local
+    port;
+*   Use `qubes.ConnectTCP` directly when the user won't manage the policy for
+    the wanted call, such as `sys-syncthing-browser`, where it happens that
+    only this qube will access the admin interface of `sys-syncthing`;
+*   Use `socat` to connect to remote hosts or UDS with path defined by the
+    service argument.
 
 Rules for client RPC call:
 
-- Use `systemd.socket` units, it does not require `socat`, it is not
-  restricted to the use of `qubes.ConnectTCP` called by `qvm-connect-tcp`, the
-  service can be properly logged and status verified by a service manager
-  instead of forking socat to the background with a `rc.local` script and
-  finally, can be controlled by Qubes Services to enable or disable the unit
-  with `ConditionPathExists=` instead of doing if-else statements in
-  `rc.local`;
-- Use of `socat` and `qvm-connect-tcp` is permitted for UDS and for
-  instructional use as it is very short.
+*   Use `systemd.socket` units, it does not require `socat`, it is not
+    restricted to the use of `qubes.ConnectTCP` called by `qvm-connect-tcp`,
+    the service can be properly logged and status verified by a service
+    manager instead of forking socat to the background with a `rc.local`
+    script and finally, can be controlled by Qubes Services to enable or
+    disable the unit with `ConditionPathExists=` instead of doing if-else
+    statements in `rc.local`;
+*   Use of `socat` and `qvm-connect-tcp` is permitted for UDS and for
+    instructional use as it is very short.
 
 ## Features
 
@@ -287,7 +290,6 @@ the browser is compromised, it can compromise the server.
 Some projects that uses this enhancement are `sys-pihole`, `sys-syncthing` and
 `sys-cacher`.
 
-
 ## Release new version
 
 The following sections instruct how a contributor or maintainer can deploy qu
@@ -296,44 +298,44 @@ The following sections instruct how a contributor or maintainer can deploy qu
 
 Qubes OS major releases might come with changes that can impact the project.
 
-1. Subscribe to the
-   [qubes-announce](https://www.qubes-os.org/support/#qubes-announce) mailing
-   list to receive notification of new Qubes OS releases.
-2. Keep up changelogs, especially notices of deprecation, new packages being
-   added or modifications to those packages that affects our states.
-3. Install the new Qubes OS version.
-4. Install all formulas.
-5. Change the supported or minimum required version of Qubes OS.
+1.  Subscribe to the
+    [qubes-announce](https://www.qubes-os.org/support/#qubes-announce) mailing
+    list to receive notification of new Qubes OS releases.
+2.  Keep up changelogs, especially notices of deprecation, new packages being
+    added or modifications to those packages that affects our states.
+3.  Install the new Qubes OS version.
+4.  Install all formulas.
+5.  Change the supported or minimum required version of Qubes OS.
 
 ### Template major release upgrade
 
-1. Subscribe to the
-   [qubes-announce](https://www.qubes-os.org/support/#qubes-announce) mailing
-   list to receive notifications of new templates.
-2. Install the new template version.
-3. Clone template to a new testing name of your choice.
-4. Install all formulas on the testing template and see which states failed.
-   Most of the times, the state will fail due to a change in package name
-   (occurs when package has version in the name) or a deprecation of a
-   package.
-5. Check if there are new packages that are useful to each specified formula.
-   The best way is to see the `Recommends` and `Suggests` fields of the main
-   package that is installed.
-6. Install all formulas as instructed in each of their documents.
-7. Change the version of the base template.
+1.  Subscribe to the
+    [qubes-announce](https://www.qubes-os.org/support/#qubes-announce) mailing
+    list to receive notifications of new templates.
+2.  Install the new template version.
+3.  Clone template to a new testing name of your choice.
+4.  Install all formulas on the testing template and see which states failed.
+    Most of the times, the state will fail due to a change in package name
+    (occurs when package has version in the name) or a deprecation of a
+    package.
+5.  Check if there are new packages that are useful to each specified formula.
+    The best way is to see the `Recommends` and `Suggests` fields of the main
+    package that is installed.
+6.  Install all formulas as instructed in each of their documents.
+7.  Change the version of the base template.
 
 ### Archive or Build from source major release upgrade
 
 Some projects might use archives for lack of a better alternative. Dealing
 with them can be troublesome. Prefer packages from repositories when possible.
 
-1. Subscribe to the vendor release announcement mailing list or RSS to receive
-   notifications of new versions.
-2. Read the changelog, breaking changes and new features might be present.
-3. Clone the qube that uses the archive to a new testing name of your choice.
-4. Install the new archive version on the testing qube. Regarding breaking
-   changes, most projects implement a migration on the next restart of the
-   daemon that rebuilds a database index for example, if they don't, deal with
-   it. For new features, check if they should be added to the default
-   installation.
-5. Change the version of the archive, git tag or commit.
+1.  Subscribe to the vendor release announcement mailing list or RSS to
+    receive notifications of new versions.
+2.  Read the changelog, breaking changes and new features might be present.
+3.  Clone the qube that uses the archive to a new testing name of your choice.
+4.  Install the new archive version on the testing qube. Regarding breaking
+    changes, most projects implement a migration on the next restart of the
+    daemon that rebuilds a database index for example, if they don't, deal
+    with it. For new features, check if they should be added to the default
+    installation.
+5.  Change the version of the archive, git tag or commit.

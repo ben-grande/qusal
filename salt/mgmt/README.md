@@ -4,9 +4,9 @@ Management environment in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -16,7 +16,8 @@ of a qube or for Salt Management on DomUs.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable mgmt
 sudo qubesctl --targets=tpl-mgmt state.apply
@@ -24,13 +25,16 @@ sudo qubesctl top.disable mgmt
 sudo qubesctl state.apply mgmt.prefs
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply mgmt.create
 sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
 sudo qubesctl state.apply mgmt.prefs
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

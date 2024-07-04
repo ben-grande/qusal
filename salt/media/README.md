@@ -4,10 +4,10 @@ Media opener through disposables in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+*   [Credits](#credits)
 
 ## Description
 
@@ -16,20 +16,24 @@ files in a named disposable "disp-media" via MIME configuration.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable media
 sudo qubesctl --targets=tpl-media,media state.apply
 sudo qubesctl top.disable media
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply media.create
 sudo qubesctl --skip-dom0 --targets=tpl-media state.apply media.install
 sudo qubesctl --skip-dom0 --targets=media state.apply media.configure
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -47,4 +51,4 @@ You can personalize `mpv` by editing `$XDG_CONFIG_HOME/mpv/mpv.conf`.
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/main/multimedia)
+*   [Unman](https://github.com/unman/shaker/tree/main/multimedia)

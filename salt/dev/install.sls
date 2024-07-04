@@ -45,6 +45,7 @@ include:
       - gitlint
       - pylint
       - yamllint
+      - markdowlint
 
 ## Debian doesn't have: salt-lint
 {% set pkg = {

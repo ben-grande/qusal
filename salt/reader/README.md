@@ -4,10 +4,10 @@ Reader environment as the default_dispvm in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+*   [Credits](#credits)
 
 ## Description
 
@@ -18,7 +18,8 @@ necessary packages will be installed in the template.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable reader
 sudo qubesctl --targets=tpl-reader,dvm-reader state.apply
@@ -26,14 +27,17 @@ sudo qubesctl top.disable reader
 sudo qubesctl state.apply reader.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply reader.create
 sudo qubesctl --skip-dom0 --targets=tpl-reader state.apply reader.install
 sudo qubesctl --skip-dom0 --targets=dvm-reader state.apply reader.configure
 sudo qubesctl state.apply reader.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -49,4 +53,4 @@ you want before the disposable makes a connection.
 
 ## Credits
 
-- [Unman](https://github.com/unman/shaker/tree/main/reader)
+*   [Unman](https://github.com/unman/shaker/tree/main/reader)

@@ -4,9 +4,9 @@ Debian Minimal Template in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -15,19 +15,23 @@ it.
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable debian-minimal
 sudo qubesctl --targets=debian-12-minimal state.apply
 sudo qubesctl top.disable debian-minimal
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply debian-minimal.create
 sudo qubesctl --skip-dom0 --targets=debian-12-minimal state.apply debian-minimal.install
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

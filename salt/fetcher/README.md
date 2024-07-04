@@ -4,9 +4,9 @@ Fetch publicly accessible files over the internet in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
 
 ## Description
 
@@ -21,20 +21,24 @@ Supported protocols: DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS,
 
 ## Installation
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable fetcher
 sudo qubesctl --targets=tpl-fetcher,dvm-fetcher state.apply
 sudo qubesctl top.disable fetcher
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply fetcher.create
 sudo qubesctl --skip-dom0 --targets=tpl-fetcher state.apply fetcher.install
 sudo qubesctl --skip-dom0 --targets=dvm-fetcher state.apply fetcher.configure-dvm
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage

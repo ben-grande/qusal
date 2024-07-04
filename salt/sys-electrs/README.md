@@ -4,10 +4,10 @@ Electrs in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+*   [Credits](#credits)
 
 ## Description
 
@@ -26,7 +26,8 @@ At least `200GB` of disk space is required.
 
 This formula depends on [sys-bitcoin](../sys-bitcoin/README.md).
 
-- Top:
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-electrs
 sudo qubesctl --targets=tpl-electrs-builder,tpl-sys-electrs,disp-electrs-builder,sys-electrs state.apply
@@ -34,8 +35,10 @@ sudo qubesctl top.disable sys-electrs
 sudo qubesctl state.apply sys-electrs.appmenus
 ```
 
-- State:
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-electrs.create
 sudo qubesctl --skip-dom0 --targets=tpl-electrs-builder state.apply sys-electrs.install-builder
@@ -44,6 +47,7 @@ sudo qubesctl --skip-dom0 --targets=disp-electrs-builder state.apply sys-electrs
 sudo qubesctl --skip-dom0 --targets=sys-electrs state.apply sys-electrs.configure
 sudo qubesctl state.apply sys-electrs.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 ## Usage
@@ -58,4 +62,4 @@ file, else Electrs will fail to start.
 
 ## Credits
 
-- [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)
+*   [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)

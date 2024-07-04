@@ -4,17 +4,17 @@ Bitcoin Core in Qubes OS.
 
 ## Table of Contents
 
-* [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Custom daemon parameters](#custom-daemon-parameters)
-  * [Bitcoin Core GUI](#bitcoin-core-gui)
-  * [Connect to a remote Bitcoin RPC](#connect-to-a-remote-bitcoin-rpc)
-    * [Evaluation of remote Bitcoin RPC](#evaluation-of-remote-bitcoin-rpc)
-    * [Configure the remote node](#configure-the-remote-node)
-    * [Connect the qube to the remote node](#connect-the-qube-to-the-remote-node)
-  * [Database on external drive](#database-on-external-drive)
-* [Credits](#credits)
+*   [Description](#description)
+*   [Installation](#installation)
+*   [Usage](#usage)
+    *   [Custom daemon parameters](#custom-daemon-parameters)
+    *   [Bitcoin Core GUI](#bitcoin-core-gui)
+    *   [Connect to a remote Bitcoin RPC](#connect-to-a-remote-bitcoin-rpc)
+        *   [Evaluation of remote Bitcoin RPC](#evaluation-of-remote-bitcoin-rpc)
+        *   [Configure the remote node](#configure-the-remote-node)
+        *   [Connect the qube to the remote node](#connect-the-qube-to-the-remote-node)
+    *   [Database on external drive](#database-on-external-drive)
+*   [Credits](#credits)
 
 ## Description
 
@@ -46,7 +46,8 @@ At least `1TB` of disk space is required. At block `829054` (2024-02-05),
 
 ## Installation
 
-- Top
+*   Top:
+
 ```sh
 sudo qubesctl top.enable sys-bitcoin
 sudo qubesctl --targets=sys-bitcoin-gateway,tpl-sys-bitcoin,disp-sys-bitcoin-builder,sys-bitcoin,bitcoin state.apply
@@ -54,8 +55,10 @@ sudo qubesctl top.disable sys-bitcoin
 sudo qubesctl state.apply sys-bitcoin.appmenus
 ```
 
-- State
+*   State:
+
 <!-- pkg:begin:post-install -->
+
 ```sh
 sudo qubesctl state.apply sys-bitcoin.create
 sudo qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway
@@ -65,38 +68,41 @@ sudo qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configur
 sudo qubesctl --skip-dom0 --targets=bitcoin state.apply sys-bitcoin.configure-client
 sudo qubesctl state.apply sys-bitcoin.appmenus
 ```
+
 <!-- pkg:end:post-install -->
 
 If you prefer to build from source (will take approximately 1 hour to build):
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=tpl-sys-bitcoin state.apply sys-bitcoin.install-source
 sudo qubesctl --skip-dom0 --targets=disp-bitcoin-builder state.apply sys-bitcoin.configure-builder-source
 ```
 
 If you want to relay blocks (listening node):
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway-listen
 sudo qubesctl --skip-dom0 --targets=sys-bitcoin state.apply sys-bitcoin.configure-listen
 ```
 
 Add the tag `bitcoin-client` to the client and install in the client template:
+
 ```sh
 sudo qubesctl --skip-dom0 --targets=TEMPLATE state.apply sys-bitcoin.install-client
 ```
-
 
 ## Usage
 
 The qube `sys-bitcoin` can:
 
-- Index the Bitcoin blockchain connecting to peers over Tor;
-- Connect to a remote Bitcoin RPC reachable over Tor; and
-- Broadcast transactions over Tor.
+*   Index the Bitcoin blockchain connecting to peers over Tor;
+*   Connect to a remote Bitcoin RPC reachable over Tor; and
+*   Broadcast transactions over Tor.
 
 The qube `bitcoin` can:
 
-- Create wallet addresses; and
-- Sign transactions.
+*   Create wallet addresses; and
+*   Sign transactions.
 
 ### Custom daemon parameters
 
@@ -110,6 +116,7 @@ used to rescan old wallet and is incompatible to serve any Electrum Server.
 
 You can enable pruning in `/home/user/.bitcoin/conf.d/bitcoin.conf.local` by
 specifying how many `MiB` of block files to retain:
+
 ```cfg
 prune=550
 ```
@@ -119,6 +126,7 @@ reduce the used memory, as it is not necessary anymore to have a large cache.
 As the bitcoind option `dbcache` is dynamic allocated per the qube memory,
 you just need to reduce the memory available to the `sys-bitcoin` qube. From
 `dom0`, run:
+
 ```sh
 qvm-prefs sys-bitcoin memory 1000
 ```
@@ -137,22 +145,22 @@ interface for the Bitcoin Core Wallet.
 
 You may wish to connect to a remote Bitcoin node with RPC available to:
 
-- Lower disk space usage and to lower resource consumption by not having
-  multiple Bitcoin blockchains;
-- Avoid changing  scripts and configurations that expect the connection to be
-  working on `127.0.0.1:8332`, such as the Qrexec policy for connecting
-  Bitcoind RPC to the Electrum Servers.
+*   Lower disk space usage and to lower resource consumption by not having
+    multiple Bitcoin blockchains;
+*   Avoid changing  scripts and configurations that expect the connection to
+    be working on `127.0.0.1:8332`, such as the Qrexec policy for connecting
+    Bitcoind RPC to the Electrum Servers.
 
 But there are huge disadvantages to this method:
 
-- [Bitcoin Core RPC does not have transport encryption](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.12.0.md#rpc-ssl-support-dropped).
-  Therefore, this method is advised against unless you know how to enable
-  transport encryption to connect to your Bitcoin RPC. If you run bitcoind on
-  `sys-bitcoin`, you do not have to worry about transport encryption as
-  communication is done securely via Qrexec.
-- Bitcoin configuration cannot be changed remotely, therefore adding RPC
-  Authentication for clients such as Electrum Servers have to be done
-  manually.
+*   [Bitcoin Core RPC does not have transport encryption](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.12.0.md#rpc-ssl-support-dropped).
+    Therefore, this method is advised against unless you know how to enable
+    transport encryption to connect to your Bitcoin RPC. If you run bitcoind
+    on `sys-bitcoin`, you do not have to worry about transport encryption as
+    communication is done securely via Qrexec.
+*   Bitcoin configuration cannot be changed remotely, therefore adding RPC
+    Authentication for clients such as Electrum Servers have to be done
+    manually.
 
 The remote bitcoind setup is difficult to fit all user needs and requires you
 to change a remote node we have no control over the configuration, therefore,
@@ -162,16 +170,17 @@ it is intended for advanced users only.
 
 On the remote node:
 
-- You must set in the node's `bitcoin.conf`, the following options to bind to
-  the external interface: `rpcbind`, `bind` (Electrs),
-  `whitelist=download@<ADDR>` (ElectRS), `zmqpubhashblock` (Fulcrum) and allow
-  connections of the external IP of your upstream netvm via `rpcallowip`.
-- Open the configured ports of the previous settings in the firewall to be
-  reachable by the Qubes system.
-- Generate RPC credentials (see `bitcoin/share/rpcauth/rpcauth.py`), add
-  `rpcauth=` option to `bitcoin.conf` and save the `user` and `password` for
-  later.
-- Restart bitcoind to apply the configuration changes.
+*   You must set in the node's `bitcoin.conf`, the following options to bind
+    to the external interface: `rpcbind`, `bind` (Electrs),
+    `whitelist=download@<ADDR>` (ElectRS), `zmqpubhashblock` (Fulcrum) and
+    allow connections of the external IP of your upstream netvm via
+    `rpcallowip`.
+*   Open the configured ports of the previous settings in the firewall to be
+    reachable by the Qubes system.
+*   Generate RPC credentials (see `bitcoin/share/rpcauth/rpcauth.py`), add
+    `rpcauth=` option to `bitcoin.conf` and save the `user` and `password` for
+    later.
+*   Restart bitcoind to apply the configuration changes.
 
 #### Connect the qube to the remote node
 
@@ -186,6 +195,7 @@ P2P port `8333`, ZMQPUBHASHBLOCK port `8433`.
 
 In `dom0`, create the user Qrexec policy to target the qube `sys-net` in
 `/etc/qubes/policy.d/30-user.policy`:
+
 ```qrexecpolicy
 ## Getting Auth doesn't work with remote node.
 qusal.BitcoinAuthGet * @anyvm @anyvm   deny
@@ -198,6 +208,7 @@ qubes.ConnectTCP *     @tag:bitcoin-client @anyvm   deny
 
 In the qube `sys-net`, add the `socat` command (only the ones you need) to the
 file `/rw/config/rc.local`:
+
 ```sh
 ## RPC
 socat TCP-LISTEN:8332,reuseaddr,fork,bind=127.0.0.1 TCP:192.168.2.10:8332 &
@@ -210,6 +221,7 @@ socat TCP-LISTEN:8433,reuseaddr,fork,bind=127.0.0.1 TCP:192.168.2.10:8433 &
 In the Electrum Server qubes or any Bitcoin Client, `sys-electrumx`,
 `sys-electrs`, `sys-fulcrum`, add the `qvm-connect-tcp` command to the file
 `/rw/config/rc.local`:
+
 ```sh
 ## RPC
 qvm-connect-tcp ::8332
@@ -236,4 +248,4 @@ If you have done this, please share a guide.
 
 ## Credits
 
-- [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)
+*   [qubenix](https://github.com/qubenix/qubes-whonix-bitcoin)
