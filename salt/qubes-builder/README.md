@@ -31,6 +31,18 @@ Qubes Executor lacking some dependencies on Debian such as
 builder qube was Debian based, the executor qube still needs to be a Fedora
 template.
 
+<!-- TODO: remove after 1 month: 2024-08-4 -->
+If installation fails on non existent qubes-infrastructure-mirrors directory
+during the `qubes-builder.configure` state, please
+[manually pull new commits](#Pulling new commits) and then run the state
+again. This issue will occur to everyone that ran the same state before
+`2024-07-01`, due to [submodule addition](https://github.com/QubesOS/qubes-builderv2/commit/bc6d9a9954d985d2be3ec76ce86d44fea13d345b).
+Qusal maintainer decision is not to handle such issue automatically as it
+can lead to data loss in case user does manual changes, the installation would
+need to `reset` the user changes and to do a clean `pull` that wouldn't fail.
+After you've pulled the commit including the `.gitmodules` once, future
+installations won't have this issue.
+
 - Top
 ```sh
 sudo qubesctl top.enable qubes-builder
@@ -76,13 +88,25 @@ The installation will clone the repository but not pull new commits. You will
 need to pull new commits from time to time, their signature will be
 automatically verified before merging them to your git index.
 
+Pull `qubes-builderv2` commits:
+```sh
+git pull
+```
+
+Initialize and merge submodules:
+```
+git submodule update --init
+git submodule update --merge
+```
+
 ### Add PGP public key to qubes-builder GPG home directory
 
 If you need to pull commits signed by someone with a key not deployed by
 default, import their key to the GPG home directory of qubes-builder:
 ```sh
-gpg --homedir "$HOME/.gnupg/qubes-builder" --import KEY
+gpg-qubes-builder --import /path/to/key
 ```
+
 ### Builder configuration
 
 When using the Qubes Executor, configure the `builder.yml` `dispvm` option to
@@ -96,9 +120,13 @@ executor:
   options:
     dispvm: "dom0"
     #dispvm: "dvm-qubes-builder"
+
+gpg-client: gpg
 ```
 Setting the Disposable VM  to Dom0 works because it will use the
 `default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
+
+Setting the `gpg-client` explicitly to enforce the use of `split-gpg2`.
 
 ### Build Qusal
 
