@@ -12,6 +12,8 @@ command -v git >/dev/null ||
 cd "$(git rev-parse --show-toplevel)" || exit 1
 ./scripts/requires-program.sh mdl
 
+extra_files_rules="~MD002,~MD012,~MD022,~MD032,~MD041"
+
 find_tool="find"
 if command -v fd; then
   find_tool="fd"
@@ -21,21 +23,40 @@ fi
 
 if test -n "${1-}"; then
   files=""
+  extra_files=""
   for f in "$@"; do
     test -f "$f" || continue
     extension="${f##*.}"
     case "$extension" in
-      md) files="$files $f";;
-      *) continue;;
+      md)
+        case "${f}" in
+          .github/*) extra_files="$extra_files $f"; continue;;
+        esac
+        files="$files $f";;
+      *)
+        continue
+        ;;
     esac
   done
+  if test -n "${extra_files}"; then
+    mdl --rules ${extra_files_rules} ${extra_files}
+  fi
   test -n "$files" || exit 0
   exec mdl ${files}
 fi
 
 case "${find_tool}" in
-  fd|fdfind) files="$(${find_tool} . --extension=md)";;
-  find) files="$(find minion.d/ -type f -name "*.md")";;
+  fd|fdfind)
+    files="$(${find_tool} . --hidden --exclude .github --type=f --extension=md)"
+    extra_files="$(${find_tool} . --hidden --type=f --extension=md .github)"
+    ;;
+  find)
+    files="$(find . -not -path './.github/*' -type f -name "*.md")"
+    extra_files="$(find .github -type f -name "*.md")"
+    ;;
 esac
 
+if test -n "${extra_files}"; then
+  mdl --rules ${extra_files_rules} ${extra_files}
+fi
 exec mdl ${files}
