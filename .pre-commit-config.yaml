@@ -14,8 +14,8 @@ repos:
         pass_filenames: true
         description: Prohibit Unicode
 
-      - id: reuse
-        name: reuse
+      - id: reuse-lint
+        name: reuse-lint
         entry: reuse
         args: [lint]
         language: python
@@ -29,6 +29,13 @@ repos:
         pass_filenames: true
         description: Lint markdown files
 
+      - id: python-lint
+        name: python-lint
+        entry: scripts/python-lint.sh
+        language: script
+        pass_filenames: true
+        description: Lint python files
+
       - id: salt-lint
         name: salt-lint
         entry: scripts/salt-lint.sh
@@ -36,21 +43,12 @@ repos:
         pass_filenames: true
         description: Lint Salt files
 
-      - id: shellcheck
-        name: shellcheck
+      - id: shell-lint
+        name: shell-lint
         entry: scripts/shell-lint.sh
         language: script
         pass_filenames: true
         description: Lint Shellscripts
-
-      - id: gitlint
-        name: gitlint
-        language: python
-        entry: gitlint
-        args: [--staged, --msg-filename]
-        stages: [commit-msg]
-        pass_filenames: true
-        description: Lint Git commits
 
       - id: qubesbuilder-gen
         name: qubesbuilder-gen
@@ -68,3 +66,12 @@ repos:
 #         args: [test]
 #         # pass_filenames: true
 #         description: Check if RPM SPEC files are up to date
+
+      - id: git-lint
+        name: git-lint
+        language: python
+        entry: gitlint
+        args: [--staged, --msg-filename]
+        stages: [commit-msg]
+        pass_filenames: true
+        description: Lint Git commits

@@ -6,22 +6,18 @@
 
 """list-extra-tag - List qubes that can be tagged for cacher"""
 
-import qubesadmin
-import qubesadmin.vm
+import qubesadmin  # pylint: disable=import-error
+import qubesadmin.vm  # pylint: disable=import-error
 
-def main():
-    """main"""
-    wanted_domains = ['debian', 'fedora', 'arch']
-    ## TODO: remove after https://github.com/QubesOS/qubes-core-agent-linux/pull/504
-    wanted_domains_extra = wanted_domains + ['kali', 'kicksecure', 'parrot',
-                            'ubuntu', 'linuxmint', 'blackarch']
+def main():  # pylint: disable=missing-function-docstring
+    wanted_domains = ['debian', 'fedora', 'arch', 'ubuntu', 'kicksecure']
     domains = [
         vm.name
         for vm in qubesadmin.Qubes().domains
         if vm.klass == "TemplateVM"
             and "whonix-updatevm" not in vm.tags
             and (vm.features.get("os-distribution-like") in wanted_domains
-                or vm.features.get("os-distribution") in wanted_domains_extra)
+                or vm.features.get("os-distribution") in wanted_domains)
     ]
     print("\n".join(domains))
 

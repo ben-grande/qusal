@@ -6,15 +6,11 @@
 
 """list-extra-tag - List qubes tagged for cacher incorrectly"""
 
-import qubesadmin
-import qubesadmin.vm
+import qubesadmin  # pylint: disable=import-error
+import qubesadmin.vm  # pylint: disable=import-error
 
-def main():
-    """main"""
-    wanted_domains = ['debian', 'fedora', 'arch']
-    ## TODO: remove after https://github.com/QubesOS/qubes-core-agent-linux/pull/504
-    wanted_domains_extra = wanted_domains + ['kali', 'kicksecure', 'parrot',
-                            'ubuntu', 'linuxmint', 'blackarch']
+def main():  # pylint: disable=missing-function-docstring
+    wanted_domains = ['debian', 'fedora', 'arch', 'ubuntu', 'kicksecure']
     domains = [
         vm.name
         for vm in qubesadmin.Qubes().domains
@@ -22,7 +18,7 @@ def main():
             and vm.features.check_with_template("os-distribution-like")
                 not in wanted_domains
             and vm.features.check_with_template("os-distribution")
-                not in wanted_domains_extra
+                not in wanted_domains
     ]
     print("\n".join(domains))
 

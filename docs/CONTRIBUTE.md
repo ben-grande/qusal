@@ -61,10 +61,11 @@ For writing:
 
 For linting:
 
-*   gitlint
-*   markdownlint (ruby-mdl)
 *   pre-commit
+*   gitlint
+*   pylint
 *   reuse
+*   ruby-mdl (markdownlint)
 *   salt-lint
 *   shellcheck
 
