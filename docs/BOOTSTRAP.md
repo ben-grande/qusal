@@ -43,6 +43,7 @@ matter in some circumstances, in those cases, it is noted in this page.
     *   [sys-mirage-firewall](../salt/sys-mirage-firewall/README.md)
     *   [sys-pihole](../salt/sys-pihole/README.md)
     *   [sys-wireguard](../salt/sys-wireguard/README.md)
+    *   [sys-tailscale](../salt/sys-tailscale/README.md)
 
 *   Web browser and file retriever:
     *   [browser](../salt/browser/README.md)
