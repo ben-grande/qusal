@@ -31,6 +31,16 @@ system_conf="/etc/wireguard/wireguard.conf"
 
 qvm-run "$qube" -- "test -f ${user_conf}" || {
   echo "File '${user_conf}' was not found" >&2
+  if qvm-check -q --running -- "$qube" >/dev/null 2>&1; then
+    qvm-pause --verbose -- "$qube"
+  fi
+  echo "Firewalling $qube to drop all connections"
+  qvm-firewall --verbose -- "$qube" reset
+  qvm-firewall --verbose -- "$qube" del --rule-no 0
+  qvm-firewall --verbose -- "$qube" add drop
+  if qvm-check -q --paused -- "$qube" >/dev/null 2>&1; then
+    qvm-unpause --verbose -- "$qube"
+  fi
   exit 1
 }
 

@@ -53,3 +53,5 @@ if test -n "${dns}"; then
     set_nft_dnat "${dns_secondary_ipv}" tcp "${dns_secondary}"
   fi
 fi
+
+ln -sf /run/resolvconf/resolv.conf /etc/resolv.conf
