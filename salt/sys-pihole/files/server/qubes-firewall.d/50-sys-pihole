@@ -9,10 +9,10 @@ add chain ip6 qubes dnat-dns { type nat hook prerouting priority dstnat; policy 
 
 flush chain ip  qubes dnat-dns
 flush chain ip6 qubes dnat-dns
-insert rule ip  qubes dnat-dns iifname "vif*" tcp dport 53 dnat to 127.0.0.1
-insert rule ip  qubes dnat-dns iifname "vif*" udp dport 53 dnat to 127.0.0.1
-insert rule ip6 qubes dnat-dns iifname "vif*" tcp dport 53 dnat to ::1
-insert rule ip6 qubes dnat-dns iifname "vif*" udp dport 53 dnat to ::1
+insert rule ip  qubes dnat-dns iifgroup 2 tcp dport 53 dnat to 127.0.0.1
+insert rule ip  qubes dnat-dns iifgroup 2 udp dport 53 dnat to 127.0.0.1
+insert rule ip6 qubes dnat-dns iifgroup 2 tcp dport 53 dnat to ::1
+insert rule ip6 qubes dnat-dns iifgroup 2 udp dport 53 dnat to ::1
 
 flush chain ip  qubes custom-forward
 flush chain ip6 qubes custom-forward
@@ -24,12 +24,12 @@ insert rule ip6 qubes custom-forward udp dport 53 drop
 flush chain ip  qubes custom-input
 flush chain ip6 qubes custom-input
 ## Admin Web Interface
-insert rule ip  qubes custom-input iifname != "lo" tcp dport 80 drop
-insert rule ip  qubes custom-input iifname != "lo" udp dport 80 drop
-insert rule ip6 qubes custom-input iifname != "lo" tcp dport 80 drop
-insert rule ip6 qubes custom-input iifname != "lo" udp dport 80 drop
+insert rule ip  qubes custom-input iifgroup != 0 tcp dport 80 drop
+insert rule ip  qubes custom-input iifgroup != 0 udp dport 80 drop
+insert rule ip6 qubes custom-input iifgroup != 0 tcp dport 80 drop
+insert rule ip6 qubes custom-input iifgroup != 0 udp dport 80 drop
 ## DNS
-insert rule ip  qubes custom-input iifname "vif*" tcp dport 53 accept
-insert rule ip  qubes custom-input iifname "vif*" udp dport 53 accept
-insert rule ip6 qubes custom-input iifname "vif*" tcp dport 53 accept
-insert rule ip6 qubes custom-input iifname "vif*" udp dport 53 accept
+insert rule ip  qubes custom-input iifgroup 2 tcp dport 53 accept
+insert rule ip  qubes custom-input iifgroup 2 udp dport 53 accept
+insert rule ip6 qubes custom-input iifgroup 2 tcp dport 53 accept
+insert rule ip6 qubes custom-input iifgroup 2 udp dport 53 accept
