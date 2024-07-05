@@ -45,8 +45,9 @@ include:
       - gitlint
       - pylint
       - yamllint
-      - markdowlint
+      - ruby-mdl
 
+## Fedora doesn't have: ruby-mdl (markdownlint, mdl)
 ## Debian doesn't have: salt-lint
 {% set pkg = {
     'Debian': {
