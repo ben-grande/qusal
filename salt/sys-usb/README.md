@@ -124,9 +124,7 @@ Bluetooth and Camera are normally integrated in laptops, but they still are
 USB devices internally. They will be held by `(disp-)sys-usb` or
 `(disp-)sys-net`, else `dom0`.
 
-Built-in microphones on the other hand, are directly attached to `dom0`.
-
-To use these devices, there are two options:
+To use these devices, evaluate the following options:
 
 1.  Attaching the device (USB passthrough) to the audio client:
     *   Advantages:

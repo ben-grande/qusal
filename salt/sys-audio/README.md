@@ -8,8 +8,6 @@ Audio operations in Qubes OS.
 *   [Installation](#installation)
 *   [Usage](#usage)
     *   [Audio control](#audio-control)
-    *   [Client switched it's AudioVM](#client-switched-its-audiovm)
-    *   [Client started before it's AudioVM](#client-started-before-its-audiovm)
     *   [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
     *   [How to use USB devices](#how-to-use-usb-devices)
     *   [How to use Bluetooth](#how-to-use-bluetooth)
@@ -62,8 +60,9 @@ sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-
 ### Audio control
 
 The qube `disp-sys-audio` will be used for audio capabilities for speakers
-and microphone, with builtin modules, Jack port or Bluetooth. You are be able
-to control the volume via the volume icon that appears on the system tray.
+and microphones, with builtin modules, Jack port, USB or Bluetooth. You are be
+able to control the volume via the volume icon that appears on the system
+tray.
 
 Audio control basics:
 
@@ -71,21 +70,7 @@ Audio control basics:
 *   Scrolling the mouse from left to right changes the volume;
 
 For more advanced features, right click the icon and click on `Open Mixer` or
-`Prefences`. For greater control, use the command `amixer`.
-
-### Client switched it's AudioVM
-
-If the client has already started when you decided to switch the AudioVM, you
-will need to restart the client qube until [upstream issue is fixed](https://github.com/QubesOS/qubes-issues/issues/8975).
-
-### Client started before it's AudioVM
-
-Audio will not automatically connect if the AudioVM starts after the client.
-To connect the client to audio server, restart the client's Pipewire service:
-
-```sh
-systemctl --user restart pipewire
-```
+`Preferences`. For greater control, use the command `amixer`.
 
 ### Client turned off with a device attached
 
@@ -99,7 +84,15 @@ will fail. To be able to use the device again:
 
 ### How to use USB devices
 
-Please refer to the [usage of sys-usb](../sys-usb/README.md#usage).
+It is possible to connect USB devices to `disp-sys-audio`, just attach the
+devices to the AudioVM. Note that attached devices don't take precedence over
+built-in audio. To choose which playback and recording device a qube should
+use, on `disp-sys-audio`, from the application menu, click on `Volume Control`
+or from the terminal, run `pavucontrol`. Select the `Playback` and `Recording`
+tab, find your client qube and select the wanted device.
+
+For more information, please refer to the
+[usage of sys-usb](../sys-usb/README.md#usage).
 
 ### How to use Bluetooth
 
@@ -122,6 +115,9 @@ Note that if you attach the device persistently, the AudioVM will
 without first starting the backend holding the USB stack. You can move the
 controller from the USB qube to the Audio qube, but this would decrease your
 system security.
+
+It may be easier to
+[use the USB qube as the AudioVM instead](../sys-usb/README.md#usage).
 
 First, start the qube holding the USB stack:
 
