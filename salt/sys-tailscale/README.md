@@ -43,7 +43,13 @@ qvm-features QUBE service.tailscale 1
 ## Usage
 
 Authenticate to your Tailnet by following the upstream instructions to
-[generate an auth key](https://tailscale.com/kb/1085/auth-keys#generate-an-auth-key).
+[generate an auth key](https://tailscale.com/kb/1085/auth-keys#generate-an-auth-key)
+for use in automated setups. For interactive setups, get the authorization
+link from the following command:
+
+```sh
+sudo tailscale up
+```
 
 On the Tailscale web interface, authorize the new device.
 
