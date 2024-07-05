@@ -105,6 +105,10 @@ Files: salt/sys-syncthing/files/repo/*
 Copyright: 2014 The Syncthing Project <release@syncthing.net>
 License: CC0-1.0
 
+Files: salt/sys-tailscale/files/repo/*
+Copyright: 2020 Tailscale Inc. <info@tailscale.com>
+License: CC0-1.0
+
 Files: salt/terraform/files/repo/*
 Copyright: 2023 HashiCorp Inc. <security+packaging@hashicorp.com>
 License: CC0-1.0

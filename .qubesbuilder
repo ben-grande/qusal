@@ -48,6 +48,7 @@ host:
       - rpm_spec/qusal-sys-ssh.spec
       - rpm_spec/qusal-sys-ssh-agent.spec
       - rpm_spec/qusal-sys-syncthing.spec
+      - rpm_spec/qusal-sys-tailscale.spec
       - rpm_spec/qusal-sys-usb.spec
       - rpm_spec/qusal-sys-wireguard.spec
       - rpm_spec/qusal-terraform.spec

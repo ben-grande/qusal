@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://pkgs.tailscale.com/stable/debian
+Suites: bookworm
+Components: main
+Signed-by: /usr/share/keyrings/tailscale.asc
+# vim: ft=debsources
