@@ -45,7 +45,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-python@v5
-      - uses: pre-commit/action@v3.0.1
+      - uses: pre-commit/action@v3
         env:
           SPEC_VENDOR: Github Actions
           SPEC_PACKAGER: Github Actions
