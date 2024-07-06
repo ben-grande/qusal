@@ -8,8 +8,7 @@
 
 set -eu
 
-command -v git >/dev/null ||
-  { printf "Missing program: git\n" >&2; exit 1; }
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
 files=""

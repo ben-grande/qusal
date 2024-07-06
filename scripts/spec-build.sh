@@ -16,7 +16,6 @@ build_rpm(){
   project="${1}"
   group="$(${spec_get} "${project}" group)"
   version="$(${spec_get} "${project}" version)"
-  license_csv="$(${spec_get} "${project}" license_csv)"
   spec="rpm_spec/${group}-${project}.spec"
 
   "${spec_gen}" "${project}"
@@ -52,7 +51,7 @@ build_rpm(){
     tmp_file="${dbpath}/${key_id}.asc"
     "${gpg}" --export --armor "${key_id}" | tee "${tmp_file}" >/dev/null
     rpmkeys --dbpath="${dbpath}" --import "${tmp_file}"
-    ## TODO: target only the latest relase
+    ## TODO: target only the latest release
     rpmkeys --dbpath="${dbpath}" --checksig --verbose \
       -- "${rpm_basename}"*"${rpm_suffix}"
   fi

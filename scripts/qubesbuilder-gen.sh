@@ -15,6 +15,7 @@ intended_target="${target}"
 if test "${1-}" = "test"; then
   tmpdir="$(mktemp -d)"
   target="${tmpdir}/.qubesbuilder"
+  # shellcheck disable=SC2154
   trap 'ec="$?"; rm -rf -- "${tmpdir}"; exit "$ec"' EXIT INT HUP QUIT ABRT
 fi
 ignored="$(git ls-files --exclude-standard --others --ignored salt/)"

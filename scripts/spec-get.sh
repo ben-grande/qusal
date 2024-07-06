@@ -41,7 +41,7 @@ case "${1-}" in
   *) key="${1}"; shift;;
 esac
 if test -z "${key##* }"; then
-  echo "Key is emtpy: ${key}" >&2
+  echo "Key is empty: ${key}" >&2
   exit 1
 fi
 

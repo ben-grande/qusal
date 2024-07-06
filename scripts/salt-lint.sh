@@ -7,21 +7,14 @@
 # shellcheck disable=SC2086
 set -eu
 
-command -v git >/dev/null ||
-  { printf "Missing program: git\n" >&2; exit 1; }
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)" || exit 1
 ./scripts/requires-program.sh salt-lint
 
+find_tool="$(./scripts/best-program.sh fd fdfind find)"
 possible_conf="${PWD}/.salt-lint"
 conf=""
 test -f "${possible_conf}" && conf="-c ${possible_conf}"
-
-find_tool="find"
-if command -v fd; then
-  find_tool="fd"
-elif command -v fdfind >/dev/null; then
-  find_tool="fdfind"
-fi
 
 if test -n "${1-}"; then
   files=""

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## SPDX-FileCopyrightText: 2013-2018 Will Thames will@thames.id.au
+## SPDX-FileCopyrightText: 2013 - 2018 Will Thames will@thames.id.au
 ## SPDX-FileCopyrightText: 2018 Ansible by Red Hat
 ## SPDX-FileCopyrightText: 2020 - 2023 Warpnet B.V.
 ## SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
@@ -12,16 +12,10 @@
 # shellcheck disable=SC2086
 set -eu
 
-command -v git >/dev/null ||
-  { printf "Missing program: git\n" >&2; exit 1; }
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
-find_tool="find"
-if command -v fd; then
-  find_tool="fd"
-elif command -v fdfind >/dev/null; then
-  find_tool="fdfind"
-fi
+find_tool="$(./scripts/best-program.sh fd fdfind find)"
 
 case "${find_tool}" in
   fd|fdfind) files="$(${find_tool} . minion.d/ --extension=conf) $(${find_tool} . salt/ --max-depth=2 --type=f --extension=sls)";;
