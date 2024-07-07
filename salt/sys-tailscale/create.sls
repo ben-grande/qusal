@@ -52,6 +52,3 @@ features:
   - service.cups-browsed
 {%- endload %}
 {{ load(defaults) }}
-
-{% from 'utils/macros/policy.sls' import policy_set with context -%}
-{{ policy_set(sls_path, '80') }}
