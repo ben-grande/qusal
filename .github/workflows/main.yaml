@@ -34,12 +34,12 @@ jobs:
         run: sudo apt-get -y update
       - name: Install OS packages
         # yamllint disable-line rule:line-length
-        run: sudo apt-get install -y $(cat dev-deps-debian.txt)
+        run: sudo apt-get install -y $(cat dependencies/debian.txt)
       - name: Remove externally managed python environment flag
         # yamllint disable-line rule:line-length
         run: sudo dpkg-divert --rename --add /usr/lib/$(py3versions -d)/EXTERNALLY-MANAGED
       - name: Install pip packages
-        run: pip3 install $(cat dev-deps-pip.txt)
+        run: pip3 install $(cat dependencies/pip.txt)
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -48,6 +48,9 @@ jobs:
         env:
           SPEC_VENDOR: Github Actions
           SPEC_PACKAGER: Github Actions
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - name: Run Editorconfig Checker
+        run: editorconfig-checker
       - name: Lint commits
         # yamllint disable-line rule:line-length
         run: |
