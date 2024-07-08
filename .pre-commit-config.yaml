@@ -35,7 +35,7 @@ repos:
         language: script
         pass_filenames: true
         files: \.md$
-        description: Lint markdown files
+        description: Lint Markdown files
 
       - id: python-lint
         name: python-lint
@@ -43,14 +43,14 @@ repos:
         language: script
         pass_filenames: true
         files: \.py$
-        description: Lint python files
+        description: Lint Python files
 
       - id: salt-lint
         name: salt-lint
         entry: scripts/salt-lint.sh
         language: script
         pass_filenames: true
-        files: \.(sls|top)$
+        files: (^minion.d/.*.conf|\.(sls|top))$
         description: Lint Salt files
 
       - id: yaml-lint

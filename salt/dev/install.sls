@@ -46,6 +46,7 @@ include:
       - pylint
       - yamllint
       - ruby-mdl
+      - codespell
 
 ## Fedora doesn't have: ruby-mdl (markdownlint, mdl)
 ## Debian doesn't have: salt-lint

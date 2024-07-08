@@ -161,7 +161,7 @@ while with the offline one, you sign them. Sharing data between the qubes can
 be done with `qvm-copy` and the process of combining a watching-only and a
 cold wallet is explained in the [Electrum wiki](https://electrum.readthedocs.io/en/latest/coldstorage.html).
 
-Apart from the fact that most people loose Bitcoin by loosing their private
+Apart from the fact that most people loose Bitcoin by losing their private
 keys, being phished, using modified or outdated Bitcoin Node versions, the
 difficult part of securing your private key on a separate domain compared to
 the domain that can broadcast the transaction, is the trust you must assign to

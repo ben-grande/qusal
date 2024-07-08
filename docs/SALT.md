@@ -8,7 +8,7 @@ Qusal SaltStack development guide.
 *   [Resources](#resources)
 *   [Minion Configuration](#minion-configuration)
 *   [Jinja](#jinja)
-*   [Targetting Minions](#targetting-minions)
+*   [Targeting Minions](#targeting-minions)
 *   [Idempotence](#idempotence)
 *   [Examples](#examples)
 *   [Troubleshooting](#troubleshooting)
@@ -68,17 +68,17 @@ We use [Jinja includes and imports](../salt/debian-minimal/template.jinja) and
 configuration, thus avoiding code duplication, allowing us to apply a state
 always the same way between files in the same or different projects.
 
-## Targetting Minions
+## Targeting Minions
 
 You can target minions in two ways, with a [top file](https://docs.saltproject.io/en/latest/ref/states/top.html)
 or specifying the states on the command-line.
 
 We use [top files](../salt/sys-git/init.top) to be able to execute a state in
-multiple qubes in a single call, with the powers of advanced minion
-targetting, we can [match properties of a qube](../salt/debian/install.top) to
+multiple qubes in a single call, with the powers of advanced minion targeting,
+we can [match properties of a qube](../salt/debian/install.top) to
 apply the state depending on its name, its type and many other settings, by
-specifying the minion minion IDs in a list, globbing per name, PCRE matching
-a minion ID and many other match types.
+specifying the minion minion IDs in a list, globbing per name, PCRE matching a
+minion ID and many other match types.
 
 ## Idempotence
 
@@ -126,9 +126,9 @@ templates, do Jinja imports and run Jinja macros.
 name: keys
 {# Enforce qube settings #}
 force: True
-{# Only run this state if the requirements are executed succesfully #}
+{# Only run this state if the requirements are executed successfully #}
 require:
-  {# Ensure succesfull 'qvm.clone' run to create 'tpl-keys-clone'
+  {# Ensure successful 'qvm.clone' run to create 'tpl-keys-clone'
      This module was executed in the 'clone_template' macro #}
   - qvm: tpl-keys-clone
 {# If qube does not exist, create it with the specified settings #}

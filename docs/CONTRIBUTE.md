@@ -48,35 +48,21 @@ interface will be rejected.
 For an automatic setup, use the [dev formula](../salt/dev), else, install the
 packages below depending on the task:
 
-General:
-
-*   git
-
 For writing:
 
 *   editorconfig
-*   editorconfig plugin for your editor
+*   vim-editorconfig or the plugin for your editor
 *   vim, [vim-jinja](https://github.com/ben-grande/vim-jinja),
     [vim-salt](https://github.com/ben-grande/vim-salt) (recommended)
 
-For linting:
+For committing and linting:
 
-*   pre-commit
-*   gitlint
-*   pylint
-*   reuse
-*   ruby-mdl (markdownlint)
-*   salt-lint
-*   shellcheck
+*   [dependencies/debian.txt](../dependencies/debian.txt)
+*   [dependencies/pip.txt](../dependencies/pip.txt)
 
 For building RPMs:
 
-*   sed (GNU sed)
-*   dnf
-*   dnf-plugins-core (dnf builddep)
-*   rpm
-*   rpmlint
-*   rpmautospec (only available in Fedora)
+*   [dependencies/rpm.txt](../dependencies/rpm.txt)
 
 ## Issues
 

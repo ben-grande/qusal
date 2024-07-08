@@ -16,7 +16,7 @@ Qusal bootstrap strategy.
 With so many packages, you may be wondering, how to bootstrap a new system?
 Well, the answer depends on your goal.
 
-Bellow you will find a list sorted by task, which have projects that can help
+Below you will find a list sorted by task, which have projects that can help
 you accomplish your mission. The order of which the formulas are applied can
 matter in some circumstances, in those cases, it is noted in this page.
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -12,7 +12,7 @@ cd "$(git rev-parse --show-toplevel)" || exit 1
 ./scripts/requires-program.sh salt-lint
 
 find_tool="$(./scripts/best-program.sh fd fdfind find)"
-possible_conf="${PWD}/.salt-lint"
+possible_conf="${PWD}/.salt-lint.yaml"
 conf=""
 test -f "${possible_conf}" && conf="-c ${possible_conf}"
 

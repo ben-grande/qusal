@@ -33,7 +33,7 @@ number of key pairs, which are used by different qubes.
 
 A centralized SSH server is very useful not only for keeping your private keys
 safe, but also for keeping your workflow organized. You can delete qubes that
-are SSH clients without loosing access to your remote server, because the
+are SSH clients without losing access to your remote server, because the
 authentication keys are on the sys-ssh-agent server, your client qube should
 only hold the SSH configuration, which can be reconstructed.
 

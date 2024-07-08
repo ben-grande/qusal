@@ -67,6 +67,7 @@ page for a variety of problems you may encounter.
 A nice summary of the states can be seen with the `--show-output` argument:
 
 ```sh
+// cSpell:disable
 sudo qubesctl --show-output state.apply pkg.uptodate
 ```
 

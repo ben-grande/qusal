@@ -12,11 +12,11 @@ usage(){
   echo "Usage: ${0##*/} [ls|add] <AGENT>
   ls: list agent(s)
   add: add keys to agent(s)
-  reload: reload/readd keys from agent(s)
+  reload: reload/re-add keys from agent(s)
 Example:
   ${0##*/} ls work      # list the work agent keys
   ${0##*/} add work     # add keys to the work agent
-  ${0##*/} reload work  # reload/readd keys from the work agent"
+  ${0##*/} reload work  # reload/re-add keys from the work agent"
   exit 1
 }
 

@@ -3,7 +3,7 @@
 ## SPDX-FileCopyrightText: 2013 - 2018 Will Thames will@thames.id.au
 ## SPDX-FileCopyrightText: 2018 Ansible by Red Hat
 ## SPDX-FileCopyrightText: 2020 - 2023 Warpnet B.V.
-## SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
