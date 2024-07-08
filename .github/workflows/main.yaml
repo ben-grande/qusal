@@ -35,13 +35,17 @@ jobs:
           fetch-depth: 0
           submodules: recursive
       - uses: actions/setup-python@v5
-      - name: Show environment
-        run: env
       - name: Update package list
         run: sudo apt-get update -y
       - name: Install OS packages
         # yamllint disable-line rule:line-length
         run: sudo apt-get install -y $(cat dependencies/debian.txt)
+      - name: Show how licenses are rendered order
+        run: |
+          reuse --root salt/dom0 lint || true
+          ./scripts/spec-get.sh dom0 license
+          ./scripts/spec-get.sh dom0 license_csv
+          ./scripts/spec-gen.sh test dom0
       - name: Remove externally managed python environment flag
         # yamllint disable-line rule:line-length
         run: sudo dpkg-divert --rename --add /usr/lib/$(py3versions -d)/EXTERNALLY-MANAGED
