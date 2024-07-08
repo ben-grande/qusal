@@ -41,9 +41,9 @@ packages, so that you need only download a package once and fetch locally the
 next time you want to upgrade your system packages.
 
 When you install this package, qubes will be tagged with "updatevm-sys-cacher"
-and they will be altered to use the proxy by default. When there is "https://"
+and they will be altered to use the proxy by default. When there is <https://>
 in your repository definitions, the entries will be changed in the templates
-from to "http://HTTPS///". This is so that the request to the proxy is plain
+from to <http://HTTPS///>. This is so that the request to the proxy is plain
 text, and the proxy will then make the request via https.
 
 This change will be done automatically for every template that exists and is
@@ -52,9 +52,9 @@ those templates will not be cached.
 
 The caching proxy supports:
 
-- Debian and derivatives (but not Whonix)
-- Fedora and derivatives
-- Arch Linux and derivatives
+*   Debian and derivatives (but not Whonix)
+*   Fedora and derivatives
+*   Arch Linux and derivatives
 
 %prep
 %setup -q
@@ -130,6 +130,24 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Sat Jul 06 2024 Ben Grande <ben.grande.b@gmail.com> - 8604887
+- feat: unify cacher tag list to a single script
+
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - 1425cda
+- fix: cache Mullvad packages
+
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - d457302
+- feat: lint python files
+
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - d316999
+- doc: add browser isolation feature to design guide
+
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 9c28068
+- refactor: prefer systemd sockets over socat
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - ab1438f
 - fix: change Launchpad repository to HTTPS domain
 
@@ -261,21 +279,3 @@ fi
 
 * Wed Dec 20 2023 Ben Grande <ben.grande.b@gmail.com> - d3ae662
 - fix: cacher client installation indentation
-
-* Wed Dec 20 2023 Ben Grande <ben.grande.b@gmail.com> - a78b90e
-- fix: better output for cacher tag assignment
-
-* Tue Dec 19 2023 Ben Grande <ben.grande.b@gmail.com> - 71d22c5
-- refactor: reorder states to avoid race condition
-
-* Tue Dec 19 2023 Ben Grande <ben.grande.b@gmail.com> - b4d142b
-- refactor: move appended states to drop-in rc.local
-
-* Tue Dec 19 2023 Ben Grande <ben.grande.b@gmail.com> - e670d02
-- fix: skip client setup on cacher initialization
-
-* Tue Nov 21 2023 Ben Grande <ben.grande.b@gmail.com> - ec2dab3
-- fix: stop modifying distribution package files
-
-* Tue Nov 14 2023 Ben Grande <ben.grande.b@gmail.com> - 41c5418
-- fix: cacher shuting down on long running updates

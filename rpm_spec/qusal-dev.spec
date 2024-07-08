@@ -32,6 +32,7 @@ Requires:       qubes-mgmt-salt
 Requires:       qubes-mgmt-salt-dom0
 Requires:       qusal-dotfiles
 Requires:       qusal-sys-git
+Requires:       qusal-sys-net
 Requires:       qusal-sys-pgp
 Requires:       qusal-sys-ssh-agent
 Requires:       qusal-utils
@@ -81,6 +82,8 @@ if test "$1" = "1"; then
   qubesctl --skip-dom0 --targets=tpl-dev state.apply dev.install
   qubesctl --skip-dom0 --targets=dvm-dev state.apply dev.configure-dvm
   qubesctl --skip-dom0 --targets=dev state.apply dev.configure
+  if test -n "${proxy_target}"; then
+    sudo qubesctl --skip-dom0 --targets="${proxy_target}" state.apply sys-net.install-proxy
 elif test "$1" = "2"; then
   ## Upgrade
   true
@@ -113,6 +116,18 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - 34d2943
+- fix: correct markdown lint package name
+
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Tue Jul 02 2024 Ben Grande <ben.grande.b@gmail.com> - 06af125
+- feat: clean dev installation
+
+* Wed Jun 26 2024 Ben Grande <ben.grande.b@gmail.com> - eb3a8ab
+- feat: install Qusal TCP Proxy on updatevm's origin
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

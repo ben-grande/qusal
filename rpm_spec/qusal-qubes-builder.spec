@@ -120,6 +120,18 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 91cf478
+- fix: use mirrors metalink as a submodule
+
+* Wed Jun 26 2024 Ben Grande <ben.grande.b@gmail.com> - 4a72a48
+- feat: deploy Qusal Builder configuration
+
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 9c28068
+- refactor: prefer systemd sockets over socat
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - d0ed3a8
 - fix: repository dir uses debug directory
 

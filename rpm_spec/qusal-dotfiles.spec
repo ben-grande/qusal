@@ -18,7 +18,7 @@
 Name:           qusal-dotfiles
 Version:        0.0.1
 Release:        1%{?dist}
-Summary:        Ben Grande's Dotfiles
+Summary:        Dotfiles
 Group:          qusal
 Packager:       %{?_packager}%{!?_packager:Ben Grande <ben.grande.b@gmail.com>}
 Vendor:         Ben Grande
@@ -35,21 +35,21 @@ Requires:       qubes-mgmt-salt-dom0
 %description
 Configuration and scripts targeting:
 
--   Usability:
-    -   Vi keybindings for application movement
-    -   Emacs keybindings for command-line editing
-    -   XDG Specification to not clutter $HOME
--   Portability:
-    -   POSIX compliant code
-    -   Drop-in configuration files
-    -   Tested in Qubes OS Dom0, Debian, Fedora, OpenBSD
--   Tasks:
-    -   GUI: x11, gtk
-    -   SCM: git, tig, git-shell
-    -   Keys: gpg, ssh
-    -   Networking: curl, urlview, wget, w3m
-    -   Productivity: tmux, vim
-    -   Shell: sh, bash, zsh, less, dircolors
+*   Usability:
+    *   Vi keybindings for application movement
+    *   Emacs keybindings for command-line editing
+    *   XDG Specification to not clutter $HOME
+*   Portability:
+    *   POSIX compliant code
+    *   Drop-in configuration files
+    *   Tested in Qubes OS Dom0, Debian, Fedora, OpenBSD
+*   Tasks:
+    *   GUI: x11, gtk
+    *   SCM: git, tig, git-shell
+    *   Keys: gpg, ssh
+    *   Networking: curl, urlview, wget, w3m
+    *   Productivity: tmux, vim
+    *   Shell: sh, bash, zsh, less, dircolors
 
 %prep
 %setup -q
@@ -118,6 +118,12 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 88d9ba5
+- fix: update dotfiles module
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - e279113
 - fix: build RPM contained in spec definitions
 

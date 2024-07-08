@@ -106,6 +106,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - 15711c9
 - fix: do not change kicksecure kernel by default
 

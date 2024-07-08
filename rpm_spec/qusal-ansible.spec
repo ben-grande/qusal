@@ -107,6 +107,12 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 9c28068
+- refactor: prefer systemd sockets over socat
+
 * Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 3880a35
 - fix: ansible references legacy zsh state
 

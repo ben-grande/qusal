@@ -111,6 +111,12 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Sun Jun 30 2024 Ben Grande <ben.grande.b@gmail.com> - 54b07fb
+- doc: example to enable split-gpg2-client service
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - beaf07d
 - fix: include shell profile sourcer
 

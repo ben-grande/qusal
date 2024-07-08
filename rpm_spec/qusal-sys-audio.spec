@@ -110,6 +110,21 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - a9ca2f0
+- doc: inform how to use USB audio in disp-sys-audio
+
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Tue Jul 02 2024 Ben Grande <ben.grande.b@gmail.com> - 9320c3f
+- feat: disable OBEX Bluetooth file transfer method
+
+* Tue Jul 02 2024 Ben Grande <ben.grande.b@gmail.com> - 422ec06
+- fix: sync Qrexec audio policies
+
+* Fri Jun 28 2024 Ben Grande <ben.grande.b@gmail.com> - 077b21d
+- feat: support browser installation on Fedora
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

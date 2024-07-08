@@ -114,6 +114,12 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Wed Jun 26 2024 Ben Grande <ben.grande.b@gmail.com> - eb3a8ab
+- feat: install Qusal TCP Proxy on updatevm's origin
+
 * Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 4facf45
 - feat: use native TCP socket with Qrexec
 

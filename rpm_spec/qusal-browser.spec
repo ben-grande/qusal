@@ -43,7 +43,7 @@ disposable qube. If you want to save your session, you can also clone the
 template and create app qubes.
 
 Default browser to install is Chromium, but you can choose to install Chrome,
-Firefox-ESR, W3M or Lynx.
+Firefox, Firefox-ESR, Mullvad-Browser, W3M or Lynx.
 
 %prep
 %setup -q
@@ -115,6 +115,18 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Mon Jul 01 2024 c0mmando <103726157+c0mmando@users.noreply.github.com> - 41c2100
+- fix: remove typo in mullvad-browser install state
+
+* Fri Jun 28 2024 Ben Grande <ben.grande.b@gmail.com> - 077b21d
+- feat: support browser installation on Fedora
+
+* Fri Jun 28 2024 Ben Grande <ben.grande.b@gmail.com> - 72068e8
+- fix: add Mullvad Browser
+
 * Fri Jun 21 2024 Ben Grande <ben.grande.b@gmail.com> - c84dfea
 - fix: generate RPM Specs for Qubes Builder V2
 

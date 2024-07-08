@@ -119,6 +119,24 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Sun Jul 07 2024 Ben Grande <ben.grande.b@gmail.com> - ab044c1
+- feat: bump Pi-Hole version
+
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - 14b3896
+- feat: use ip interface group for faster evaluation
+
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Mon Jul 01 2024 Ben Grande <ben.grande.b@gmail.com> - 140b96b
+- fix: remove expired GitHub web-flow signing key
+
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - d316999
+- doc: add browser isolation feature to design guide
+
+* Tue Jun 25 2024 Ben Grande <ben.grande.b@gmail.com> - 9c28068
+- refactor: prefer systemd sockets over socat
+
 * Sat Jun 22 2024 Ben Grande <ben.grande.b@gmail.com> - f5528fe
 - fix: remove duplicated updates proxy feature
 

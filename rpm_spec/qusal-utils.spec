@@ -103,6 +103,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
 * Sat Jun 22 2024 Ben Grande <ben.grande.b@gmail.com> - a6194e0
 - fix: remove cacher tag from Kicksecure template
 

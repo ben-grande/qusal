@@ -107,6 +107,15 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
+- doc: lint markdown files
+
+* Fri Jun 28 2024 Ben Grande <ben.grande.b@gmail.com> - f903c0e
+- feat: get GUI user with salt modules
+
+* Wed Jun 26 2024 Ben Grande <ben.grande.b@gmail.com> - c2fc4b5
+- feat: show origin template features of any class
+
 * Mon Jun 24 2024 Ben Grande <ben.grande.b@gmail.com> - e9801c8
 - feat: helper to show mgmt property information
 

@@ -105,4 +105,11 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Sun Jul 07 2024 Ben Grande <ben.grande.b@gmail.com> - a2fff01
+- fix: remove unimplemented policy creation
 
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - b918478
+- doc: interactive Tailscale login command
+
+* Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - eed904c
+- feat: add Tailscale formula
