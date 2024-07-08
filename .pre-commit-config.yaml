@@ -69,25 +69,26 @@ repos:
         pass_filenames: false
         description: Check if .qubesbuilder is up to date
 
-        # TODO: generate temporary spec and compare against staged one.
-        # - id: spec-gen
-        #   name: spec-gen
-        #   language: script
-        #   entry: scripts/spec-gen.sh test
-        #   args: [test]
-        #   # pass_filenames: true
-        #   description: Check if RPM SPEC files are up to date
+      - id: spec-gen
+        name: spec-gen
+        language: script
+        entry: scripts/spec-gen.sh
+        args: [test]
+        pass_filenames: true
+        # yamllint disable rule:line-length
+        files: ^(rpm_spec/template/template.spec|salt/.*|scripts/spec-(get|gen)\.sh)$
+        description: Check if RPM SPEC files are up to date
 
-      - id: reuse-lint
-        name: reuse-lint
+      - id: license-lint
+        name: license-lint
         entry: reuse
         args: [lint]
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
 
-      - id: git-lint
-        name: git-lint
+      - id: commit-lint
+        name: commit-lint
         language: python
         entry: gitlint
         args: [--staged, --msg-filename]

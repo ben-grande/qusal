@@ -42,7 +42,11 @@ get_spec(){
 }
 
 gen_spec(){
-  project="${1}"
+  project="$(echo "${1}" | sed "s|salt/||;s|/.*||")"
+  if echo "${projects_seen}" | grep -qF " ${project} "; then
+    return
+  fi
+  projects_seen="${projects_seen} ${project} "
 
   if echo "${unwanted}" | grep -q "^${project}$"; then
     echo "warn: skipping spec generation of untracked formula: ${project}" >&2
@@ -66,8 +70,9 @@ gen_spec(){
 
   project_name="$(get_spec project)"
   version="$(get_spec version)"
-  license="$(get_spec license)"
   license_csv="$(get_spec license_csv)"
+  ## Ideally we would query the license, but it is a heavy call.
+  license="$(echo "${license_csv}" | sed "s/,/ AND /g")"
   vendor="$(get_spec vendor)"
   packager="$(get_spec packager)"
   url="$(get_spec url)"
@@ -121,9 +126,12 @@ gen_spec(){
 
   if test "${2-}" = "test"; then
     if ! cmp -s "${target}" "${intended_target}"; then
-      echo "${0##*/}: error: File ${intended_target} is not up to date" >&2
-      echo "${0##*/}: error: Update the spec with: ${0##/*} ${project}" >&2
-      exit 1
+      echo "error: ${intended_target} is not up to date" >&2
+      fail=1
+    else
+      if test -n "$(git diff --name-only "${intended_target}")"; then
+        echo "warn: ${intended_target} is up to date but it is not staged" >&2
+      fi
     fi
   fi
 }
@@ -142,16 +150,25 @@ untracked="$(git ls-files --exclude-standard --others salt/)"
 unwanted="$(printf %s"${ignored}\n${untracked}\n" \
             | grep "^salt/\S\+/README.md" | cut -d "/" -f2 | sort -u)"
 
-if test "${2-}" = "test"; then
-  gen_spec "${1}" test
-  exit
+fail=""
+gen_mode=""
+
+if test "${1-}" = "test"; then
+  gen_mode="test"
+  shift
 fi
 
-if test -z "${1-}"; then
+if echo "${@}" | grep -qE "(^scripts/| scripts/|/template.spec)" || test -z "${1-}"; then
   # shellcheck disable=SC2046
   set -- $(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
            | sort -d | tr "\n" " ")
 fi
+
+projects_seen=""
 for p in "$@"; do
-  gen_spec "${p}"
+  gen_spec "${p}" ${gen_mode}
 done
+
+if test "${fail}" = "1" && test "${gen_mode}" = "test"; then
+  exit 1
+fi
