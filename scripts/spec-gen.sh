@@ -127,6 +127,7 @@ gen_spec(){
   if test "${2-}" = "test"; then
     if ! cmp -s "${target}" "${intended_target}"; then
       echo "error: ${intended_target} is not up to date" >&2
+      diff --color=auto "${intended_target}" "${target}" || true
       fail=1
     else
       if test -n "$(git diff --name-only "${intended_target}")"; then
