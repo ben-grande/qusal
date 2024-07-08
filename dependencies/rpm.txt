@@ -1,0 +1,4 @@
+dnf
+dnf-plugins-core
+rpm
+rpmlint

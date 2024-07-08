@@ -1,0 +1,28 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+# shellcheck disable=SC2086
+set -eu
+
+command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+cd "$(git rev-parse --show-toplevel)" || exit 1
+./scripts/requires-program.sh yamllint
+
+if test -n "${1-}"; then
+  files=""
+  for f in "$@"; do
+    test -f "$f" || continue
+    extension="${f##*.}"
+    case "$extension" in
+      yaml|yml) files="$files $f";;
+      *) continue;;
+    esac
+  done
+  test -n "$files" || exit 0
+  exec yamllint ${files}
+fi
+
+exec yamllint .

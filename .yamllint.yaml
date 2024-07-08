@@ -11,8 +11,8 @@ ignore: |
 yaml-files:
   - '*.yaml'
   - '*.yml'
-  - .salt-lint
-  - .yamllint
+
+strict: true
 
 rules:
   empty-values:

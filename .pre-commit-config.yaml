@@ -1,3 +1,4 @@
+# yamllint disable-line rule:line-length
 # SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,6 +14,13 @@ repos:
         language: script
         pass_filenames: true
         description: Prohibit Unicode
+
+      - id: spell-lint
+        name: spell-lint
+        entry: scripts/spell-lint.sh
+        language: script
+        pass_filenames: true
+        description: Spellcheck files
 
       - id: shell-lint
         name: shell-lint
@@ -45,6 +53,14 @@ repos:
         files: \.(sls|top)$
         description: Lint Salt files
 
+      - id: yaml-lint
+        name: yaml-lint
+        entry: scripts/yaml-lint.sh
+        language: script
+        pass_filenames: true
+        files: \.(yaml|yml)$
+        description: Lint YAML files
+
       - id: qubesbuilder-gen
         name: qubesbuilder-gen
         entry: scripts/qubesbuilder-gen.sh
@@ -53,14 +69,14 @@ repos:
         pass_filenames: false
         description: Check if .qubesbuilder is up to date
 
-# TODO: generate temporary spec and compare against staged one.
-#       - id: spec-gen
-#         name: spec-gen
-#         language: script
-#         entry: scripts/spec-gen.sh test
-#         args: [test]
-#         # pass_filenames: true
-#         description: Check if RPM SPEC files are up to date
+        # TODO: generate temporary spec and compare against staged one.
+        # - id: spec-gen
+        #   name: spec-gen
+        #   language: script
+        #   entry: scripts/spec-gen.sh test
+        #   args: [test]
+        #   # pass_filenames: true
+        #   description: Check if RPM SPEC files are up to date
 
       - id: reuse-lint
         name: reuse-lint

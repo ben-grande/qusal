@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+# vim: ft=toml
+
+[codespell]
+skip = LICENSES,.git,*.asc,./rpm_spec/*-*.spec,*.muttrc,./salt/sys-cacher/files/server/conf/*_mirrors_*,./salt/dotfiles/files/vim/.config/vim/after/plugin/update-time.vim
+ignore-words-list = uptodate,iterm,doas
+ignore-regex = (nnoremap|bind)\b.*
