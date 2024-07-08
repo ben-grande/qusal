@@ -51,7 +51,9 @@ jobs:
           SPEC_PACKAGER: Ben Grande <ben.grande.b@gmail.com>
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - name: Run Editorconfig Checker
-        run: editorconfig-checker
+        run: |
+          editorconfig-checker
+          editorconfig-checker salt/dotfiles
       - name: Lint commits
         run: |
           if test "${{ github.event_name}}" = "pull_request"

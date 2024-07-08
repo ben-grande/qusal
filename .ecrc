@@ -3,7 +3,7 @@
   "Debug": false,
   "IgnoreDefaults": false,
   "NoColor": false,
-  "Exclude": ["LICENSES", "\\.asc$"],
+  "Exclude": ["LICENSES", "\\.asc$", "\\.reuse/dep5"],
   "SpacesAfterTabs": false,
   "Disable": {
     "EndOfLine": false,

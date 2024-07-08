@@ -12,12 +12,9 @@ insert_final_newline = true
 charset = utf-8
 end_of_line = lf
 
-[{.gitmodules,**/git/**/config}]
+[{.gitmodules,**/git/**/config,**/git/**/config.d/*,**/git/**/sample/*}]
 indent_style = tab
 indent_size = 8
 
 [*.{md,sh,yaml,yml,toml}]
 indent_size = 2
-
-[.reuse/dep5]
-indent_size = 1
