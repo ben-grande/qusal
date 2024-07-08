@@ -33,6 +33,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: recursive
       - uses: actions/setup-python@v5
       - name: Update package list
         run: sudo apt-get update -y
@@ -46,8 +47,8 @@ jobs:
         run: pip3 install $(cat dependencies/pip.txt)
       - uses: pre-commit/action@v3.0.1
         env:
-          SPEC_VENDOR: Github Actions
-          SPEC_PACKAGER: Github Actions
+          SPEC_VENDOR: Ben Grande
+          SPEC_PACKAGER: Ben Grande <ben.grande.b@gmail.com>
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - name: Run Editorconfig Checker
         run: editorconfig-checker
