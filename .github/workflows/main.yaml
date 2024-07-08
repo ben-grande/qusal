@@ -35,6 +35,8 @@ jobs:
           fetch-depth: 0
           submodules: recursive
       - uses: actions/setup-python@v5
+      - name: Show environment
+        run: env
       - name: Update package list
         run: sudo apt-get update -y
       - name: Install OS packages
