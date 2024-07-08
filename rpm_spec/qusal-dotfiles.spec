@@ -118,6 +118,12 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jul 08 2024 Ben Grande <ben.grande.b@gmail.com> - 28c298d
+- fix: add Python indentation to editorconfig
+
+* Mon Jul 08 2024 Ben Grande <ben.grande.b@gmail.com> - 10c0ea0
+- chore: editorconfig check
+
 * Mon Jul 08 2024 Ben Grande <ben.grande.b@gmail.com> - f60077f
 - doc: spell check
 
