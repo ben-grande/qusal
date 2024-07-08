@@ -72,7 +72,7 @@ gen_spec(){
   version="$(get_spec version)"
   license_csv="$(get_spec license_csv)"
   ## Ideally we would query the license, but it is a heavy call.
-  license="$(echo "${license_csv}" | sed "s/,/ AND /g")"
+  license="$(echo "${license_csv}" | sed "s/\,/ AND /g")"
   vendor="$(get_spec vendor)"
   packager="$(get_spec packager)"
   url="$(get_spec url)"

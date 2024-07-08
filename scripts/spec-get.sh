@@ -90,7 +90,7 @@ if test "${key}" = "license" || test "${key}" = "license_csv"; then
   license_csv="$(reuse --root "${project_dir}" lint |
     awk -F ':' '/^\* Used licenses:/{print $2}' | tr " " "\n" | sort -d |
     tr -s "\n" " " | tr -d " ")"
-  license="$(echo "${license_csv}" | sed "s/,/ AND /g")"
+  license="$(echo "${license_csv}" | sed "s/\,/ AND /g")"
 fi
 
 ## The macro %autochangelog prints logs of all projects and we separate a
