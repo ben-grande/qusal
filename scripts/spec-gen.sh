@@ -161,7 +161,7 @@ fi
 if echo "${@}" | grep -qE "(^scripts/| scripts/|/template.spec)" || test -z "${1-}"; then
   # shellcheck disable=SC2046
   set -- $(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
-           | sort -d | tr "\n" " ")
+            | sort -d | tr "\n" " ")
 fi
 
 projects_seen=""

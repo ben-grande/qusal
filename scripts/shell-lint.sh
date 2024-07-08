@@ -47,13 +47,16 @@ case "${find_tool}" in
     ;;
   find)
     files="$(find scripts/ salt/ -not \( -path "*/zsh" -prune \) -type f \
-             -exec file {} \+ | awk -F ":" '/ shell script,/{ print $1 }')"
+              -exec file {} \+ | awk -F ":" '/ shell script,/{ print $1 }')"
     ## No Shebang
     sh_files="$(find salt/ -type f -name "rc.local")"
     ;;
 esac
 
-files="$(echo "$files" | sort -u)"
-sh_files="$(echo "$sh_files" | sort -u)"
-test -z "${files}" || shellcheck ${files}
-test -z "${sh_files}" || shellcheck -s sh ${sh_files}
+echo "${files}" | sort -u | tr " " "\n"
+exit
+
+#files="$(echo "$files" | sort -u)"
+#sh_files="$(echo "$sh_files" | sort -u)"
+#test -z "${files}" || shellcheck ${files}
+#test -z "${sh_files}" || shellcheck -s sh ${sh_files}

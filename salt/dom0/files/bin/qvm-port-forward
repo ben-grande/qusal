@@ -105,13 +105,13 @@ forward() {
   unset dev
   ## TODO: Handle multiple interfaces in upstream.
   untrusted_dev="$(run_qube "${from_qube}" ip -4 route \
-                   | awk '/^default via /{print $5}' | head -1)"
+                    | awk '/^default via /{print $5}' | head -1)"
   validate_dev "${from_qube}" "${untrusted_dev}"
   dev="${untrusted_dev}"
 
   unset from_ip
   untrusted_from_ip="$(run_qube "${from_qube}" ip -4 -o addr show dev \
-                       "${dev}" | awk '{print $4}' | cut -d "/" -f 1)"
+                        "${dev}" | awk '{print $4}' | cut -d "/" -f 1)"
   validate_ipv4 "${from_qube}" "${untrusted_from_ip}"
   from_ip="${untrusted_from_ip}"
 
@@ -220,7 +220,7 @@ get_lan(){
   unset dev
   ## TODO: Handle multiple interfaces in upstream.
   untrusted_dev="$(run_qube "${qube}" ip -4 route \
-                   | awk '/^default via /{print $5}' | head -1)"
+                    | awk '/^default via /{print $5}' | head -1)"
   validate_dev "${qube}" "${untrusted_dev}"
   dev="${untrusted_dev}"
 

@@ -18,7 +18,7 @@ Install Signal Desktop and creates an app qube named "signal".
 
 ```sh
 sudo qubesctl top.enable signal
-sudo qubesctl --targets=tpl-signal,signal state.appply
+sudo qubesctl --targets=tpl-signal,signal state.apply
 sudo qubesctl top.disable signal
 sudo qubesctl state.apply signal.appmenus
 ```

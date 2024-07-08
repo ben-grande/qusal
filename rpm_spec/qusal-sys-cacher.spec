@@ -130,6 +130,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jul 08 2024 Ben Grande <ben.grande.b@gmail.com> - f60077f
+- doc: spell check
+
 * Sat Jul 06 2024 Ben Grande <ben.grande.b@gmail.com> - 8604887
 - feat: unify cacher tag list to a single script
 
@@ -276,6 +279,3 @@ fi
 
 * Wed Dec 20 2023 Ben Grande <ben.grande.b@gmail.com> - 38d98ec
 - fix: nft shebang and table names
-
-* Wed Dec 20 2023 Ben Grande <ben.grande.b@gmail.com> - d3ae662
-- fix: cacher client installation indentation

@@ -16,8 +16,8 @@ will be able to download from many protocol as long as the installed tools
 accepts them.
 
 Supported protocols: DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS,
- IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP,
- SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS, WSS, RSYNC, BitTorrent.
+IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP,
+SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS, WSS, RSYNC, BitTorrent.
 
 ## Installation
 

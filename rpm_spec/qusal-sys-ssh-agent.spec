@@ -120,6 +120,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jul 08 2024 Ben Grande <ben.grande.b@gmail.com> - f60077f
+- doc: spell check
+
 * Thu Jul 04 2024 Ben Grande <ben.grande.b@gmail.com> - 383c840
 - doc: lint markdown files
 

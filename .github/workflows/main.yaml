@@ -45,17 +45,13 @@ jobs:
       - name: Install pip packages
         run: pip3 install $(cat dependencies/pip.txt)
       - uses: pre-commit/action@v3.0.1
-        continue-on-error: true
         env:
           SPEC_VENDOR: Github Actions
           SPEC_PACKAGER: Github Actions
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - name: Run Editorconfig Checker
-        continue-on-error: true
         run: editorconfig-checker
       - name: Lint commits
-        continue-on-error: true
-        # yamllint disable-line rule:line-length
         run: |
           if test "${{ github.event_name}}" = "pull_request"
           then

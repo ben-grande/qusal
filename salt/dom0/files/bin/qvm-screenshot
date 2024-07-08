@@ -44,6 +44,7 @@ take_screenshot() {
 }
 
 print_help(){
+  # editorconfig-checker-disable
   echo "Usage: ${0##*/} [OPTIONS]
  -h, --help                  print this help message and exit
 Capture mode:
@@ -57,6 +58,7 @@ Development mode:
  -D, --dialog-cmd           dialog tool: kdialog, zenity
  -S, --screenshot-cmd       screenshot tool: maim, scrot, spectacle,
                              xfce4-screenshooter"
+  # editorconfig-checker-enable
   exit 1
 }
 
@@ -271,8 +273,8 @@ if test "${exit_required}" = "1"; then
 fi
 
 qube_list="$(qvm-ls --no-spinner --raw-data --fields=NAME,CLASS | \
-         awk -F "|" '$1 !~ /(^dvm-|-dvm$)/ &&
-                     $2 !~ /^(AdminVM|TemplateVM)$/{print $1}')"
+              awk -F "|" '$1 !~ /(^dvm-|-dvm$)/ &&
+                          $2 !~ /^(AdminVM|TemplateVM)$/{print $1}')"
 
 if test -z "${qube}"; then
   dialog_title="Select destination qube (Unix based):"

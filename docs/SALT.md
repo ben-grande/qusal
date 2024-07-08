@@ -128,8 +128,8 @@ name: keys
 force: True
 {# Only run this state if the requirements are executed successfully #}
 require:
-  {# Ensure successful 'qvm.clone' run to create 'tpl-keys-clone'
-     This module was executed in the 'clone_template' macro #}
+  {# Ensure successful 'qvm.clone' run to create 'tpl-keys-clone' #}
+  {# This module was executed in the 'clone_template' macro #}
   - qvm: tpl-keys-clone
 {# If qube does not exist, create it with the specified settings #}
 present:
@@ -157,7 +157,7 @@ features:
     - service.cups
   {# Set feature values, useful for string values #}
   - set:
-   {# Help GUI users find useful applications for this qube #}
+    {# Help GUI users find useful applications for this qube #}
     - menu-items: "org.keepassxc.KeepPassXC.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {# Stop loading to the 'defaults' variable #}
 {% endload %}

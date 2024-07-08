@@ -9,7 +9,7 @@ set -eu
 
 usage(){
   names="$(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
-           | sort -d | tr "\n" " ")"
+            | sort -d | tr "\n" " ")"
   echo "Usage: ${0##*/} <NAME> <KEY>"
   echo "Example: ${0##*/} qubes-builder description"
   echo "Names: ${names}"
@@ -105,9 +105,10 @@ if test "${key}" = "description"; then
 fi
 
 if test "${key}" = "summary"; then
-  summary="$(sed -n "/^# ${name}$/,/^## Table of Contents$/{
-                     /./!d; /^#/d; /^SPDX/d; /^<!--/d; /^-->/d; s/\.$//; p}" \
-             -- "${readme}")"
+  summary="$(sed -n -e \
+              "/^# ${name}$/,/^## Table of Contents$/{
+              /./!d; /^#/d; /^SPDX/d; /^<!--/d; /^-->/d; s/\.$//; p}" \
+              -- "${readme}")"
   block_max_chars summary "${summary}" 70
 fi
 

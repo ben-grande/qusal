@@ -22,7 +22,7 @@ fi
 files="$(echo "${files}" | sort -u)"
 # shellcheck disable=SC2086
 unicode_match="$(grep -oPrHn --exclude-dir=.git --exclude-dir=LICENSES \
-                 -e "[^\x00-\x7F]" -- ${files} || true)"
+                  -e "[^\x00-\x7F]" -- ${files} || true)"
 
 match_found=""
 if test -n "${unicode_match}"; then
