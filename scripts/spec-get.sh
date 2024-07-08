@@ -88,8 +88,8 @@ fi
 
 if test "${key}" = "license" || test "${key}" = "license_csv"; then
   license_csv="$(reuse --root "${project_dir}" lint |
-    awk -F ':' '/^\* Used licenses:/{print $2}' | tr " " "\n" | sort -d |
-    tr -s "\n" " " | tr -d " ")"
+    awk -F ':' '/^\* Used licenses:/{print $2}' | tr " " "\n" | tr -d "," |
+    sort -d | tr -s "\n" "," | sed "s/^\,//;s/\,$//")"
   license="$(echo "${license_csv}" | sed "s/\,/ AND /g")"
 fi
 
