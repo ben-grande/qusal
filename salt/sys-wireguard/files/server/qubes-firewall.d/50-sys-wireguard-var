@@ -21,7 +21,9 @@ set_nft_dnat(){
   ipv="${1}" # empty(4), 6
   proto="${2}" # tcp, udp
   dns_host="${3}"
-  set_nft "insert rule ip${ipv} qubes custom-dnat iifgroup 2 ${proto} dport 53 dnat to ${dns_host}"
+  rule_prefix="insert rule ip${ipv} qubes custom-dnat iifgroup 2 ${proto}"
+  rule_suffix="dport 53 dnat to ${dns_host}"
+  set_nft "${rule_prefix} ${rule_suffix}"
 }
 
 dns="$(grep -s "^\s*DNS\s*=\s*\S\+" "${wg_conf}" | sed "s/.*=//;s/ //g")"

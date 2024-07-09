@@ -14,7 +14,8 @@ bitcoin_pass="/home/user/.bitcoin/rpcclient.pass"
 user="${QREXEC_REMOTE_DOMAIN}"
 
 if ! systemctl is-active bitcoind >/dev/null 2>&1; then
-  echo "systemd service 'bitcoind' is not active, cannot add credentials with remote RPC" >&2
+  echo "systemd service 'bitcoind' is not active" >&2
+  echo "cannot add credentials with remote RPC" >&2
   exit 1
 fi
 

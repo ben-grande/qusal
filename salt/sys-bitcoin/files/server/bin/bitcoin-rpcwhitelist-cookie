@@ -8,7 +8,8 @@ set -eu
 conf="${HOME}/.bitcoin/conf.d/cookie.conf"
 
 if ! systemctl is-active bitcoind >/dev/null 2>&1; then
-  echo "systemd service 'bitcoind' is not active, remote RPC cannot add crendtials" >&2
+  echo "systemd service 'bitcoind' is inactive" >&2
+  echo "remote RPC can't add crendetials" >&2
   exit 1
 fi
 

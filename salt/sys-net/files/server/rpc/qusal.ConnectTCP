@@ -6,11 +6,11 @@
 
 ## How to use with SSH?
 ## On Dom0 Qrexec policy:
-##   qusal.ConnectTCP +domain.tld+22 sshclient @default ask default_target=sshproxy
+##   qusal.ConnectTCP +domain.tld+22 client @default ask default_target=proxy
 ## On Dom0, enable the "qusal-proxy-client" service for the client qube:
-##   qvm-features sshclient service.qusal-proxy-client 1
+##   qvm-features client service.qusal-proxy-client 1
 ## On the SSH Proxy server (netvm of your liking), install this RPC service.
-##   qubesctl --skip-dom0 --targets=sshproxy state.apply sys-net.install-proxy
+##   qubesctl --skip-dom0 --targets=proxy state.apply sys-net.install-proxy
 ## On the client ssh configuration:
 ##   Match Exec "test -f /var/run/qubes-service/qusal-proxy-client"
 ##           ProxyCommand qrexec-client-vm @default qusal.ConnectTCP+%h+%p

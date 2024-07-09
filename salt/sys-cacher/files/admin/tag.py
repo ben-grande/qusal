@@ -10,7 +10,7 @@ import argparse
 import qubesadmin  # pylint: disable=import-error
 import qubesadmin.vm  # pylint: disable=import-error
 
-def get_cacher_tagged_qubes(qubes, wanted_dist, extraneous=False):
+def get_clients(qubes, wanted_dist, extraneous=False):
     """Get qubes tagged for ACNG"""
     domains = []
     for qube in qubes.domains:  # pylint: disable=invalid-name
@@ -51,8 +51,7 @@ def main():  # pylint: disable=missing-function-docstring
 
     wanted_dist = ["debian", "fedora", "arch", "ubuntu", "kicksecure"]
     qubes = qubesadmin.Qubes()
-    domains = get_cacher_tagged_qubes(qubes, wanted_dist,
-                                      extraneous=args.extraneous)
+    domains = get_clients(qubes, wanted_dist, extraneous=args.extraneous)
     print("\n".join(domains))
 
 

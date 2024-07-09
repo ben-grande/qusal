@@ -12,7 +12,9 @@
 set -eu
 
 usage(){
-  echo "Usage: ${helper} <remote> [${scheme}://<authority>/<path>[?query=value][&other_query=value]]" >&2
+  url_format="${scheme}://<authority>/<path>"
+  url_format="${url_format}[?query=value][&other_query=value]"
+  echo "Usage: ${helper} <remote> [${url_format}]" >&2
 }
 
 die(){

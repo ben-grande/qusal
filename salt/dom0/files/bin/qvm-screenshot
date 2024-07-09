@@ -69,7 +69,8 @@ mkdir -p "${guivm_pictures_dir}" || exit 1
 
 current_date="$(date +"%Y-%m-%d-%H%M%S")"
 screenshot_basename="${current_date}.png"
-screenshot_file="${guivm_pictures_dir}/${screenshot_basename}"
+screenshot_file="${guivm_pictures_dir%*/}/${screenshot_basename}"
+qube_screenshot_file="${qube_pictures_dir}/${screenshot_basename}"
 screenshot_type_text=""
 screenshot_action_text=""
 screenshot_action_supplied=""
@@ -179,7 +180,8 @@ else
     screenshot_cmd="xfce4-screenshooter"
   fi
   if test -z "${screenshot_cmd}"; then
-    msg="screenshot programs not found: spectacle xfce4-screenshooter scrot maim"
+    msg="screenshot programs not found"
+    msg="${msg}: spectacle xfce4-screenshooter scrot maim"
     echo "[ERROR] ${msg}"
     case "${dialog_cmd}" in
       zenity) zenity --info --text "${msg}";;
@@ -217,7 +219,7 @@ case "${screenshot_type_text}" in
   *) echo "[ERROR] mode not selected"; exit 1;;
 esac
 
-if ! test -f "${guivm_pictures_dir}/${screenshot_basename}"; then
+if ! test -f "${screenshot_file}"; then
   msg="Screenshot was not saved in GuiVM"
   echo "[ERROR] ${msg}"
   case "${dialog_cmd}" in
@@ -228,7 +230,7 @@ if ! test -f "${guivm_pictures_dir}/${screenshot_basename}"; then
 fi
 
 if test "${screenshot_action_supplied}" != "1"; then
-  dialog_title="Saved to ${screenshot_basename}. What do you want to do with the screenshot?"
+  dialog_title="Saved to ${screenshot_file}. What do you want to do with it?"
   case "${dialog_cmd}" in
     zenity)
       screenshot_action_text="$(zenity --list --width=280 --height=210 \
@@ -314,10 +316,11 @@ if ! qvm-check -- "${qube}" >/dev/null 2>&1; then
 fi
 
 qvm-run "${qube}" -- "mkdir -p \"${qube_pictures_dir}\""
-qvm-run --pass-io "${qube}" -- "cat > \"${qube_pictures_dir}/${screenshot_basename}\"" < "${guivm_pictures_dir}/${screenshot_basename}"
+qvm-run --pass-io "${qube}" -- "cat > \"${qube_screenshot_file}\"" \
+  < "${screenshot_file}"
 
 if test ${file_move} = "1"; then
-  rm -f "${guivm_pictures_dir}/${screenshot_basename}"
+  rm -f "${screenshot_file}"
 fi
 
 if test "${file_manager}" = "1"; then

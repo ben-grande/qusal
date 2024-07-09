@@ -52,5 +52,9 @@ jobs:
         uses: peter-evans/close-pull@v3
         with:
           # yamllint disable-line rule:line-length
-          comment: 'Automatically closing this PR due to submitter not reading the contribution guidelines and using GitHub WebUI to commit. Please fix the issues and open a new PR after you have read the contribution guidelines.'
+          comment: >
+            Automatically closing this PR due to submitter not reading the
+            contribution guidelines and using GitHub WebUI to commit. Please
+            fix the issues and open a new PR after you have read the
+            contribution guidelines.
           delete-branch: false

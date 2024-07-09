@@ -18,8 +18,14 @@ cd "$(git rev-parse --show-toplevel)" || exit 1
 find_tool="$(./scripts/best-program.sh fd fdfind find)"
 
 case "${find_tool}" in
-  fd|fdfind) files="$(${find_tool} . minion.d/ --extension=conf) $(${find_tool} . salt/ --max-depth=2 --type=f --extension=sls)";;
-  find) files="$(find minion.d/ -type f -name "*.conf") $(find salt/ -maxdepth 2 -type f -name '*.sls')";;
+  fd|fdfind)
+    files="$(${find_tool} . minion.d/ --extension=conf)
+      $(${find_tool} . salt/ --max-depth=2 --type=f --extension=sls)"
+    ;;
+  find)
+    files="$(find minion.d/ -type f -name "*.conf")
+      $(find salt/ -maxdepth 2 -type f -name '*.sls')"
+    ;;
 esac
 
 ## 201 - Fix trailing whitespace:

@@ -27,8 +27,10 @@ escape_key(){
 ## Get scriptlet command, else fail safe.
 get_scriptlet(){
   scriptlet="$1"
+  scriptlet_begin="-- pkg:begin:${scriptlet} --"
+  scriptlet_end="-- pkg:end:${scriptlet} --"
   scriptlet="$(sed -n \
-    "/^<\!-- pkg:begin:${scriptlet} -->$/,/^<\!-- pkg:end:${scriptlet} -->$/p" \
+    "/^<\!${scriptlet_begin}>$/,/^<\!${scriptlet_end}>$/p" \
     "${readme}" | sed '/^```.*/d;/^\S*$/d;/^<\!-- pkg:/d;s/^sudo //')"
   if test -z "${scriptlet}"; then
     echo true
@@ -159,7 +161,9 @@ if test "${1-}" = "test"; then
   shift
 fi
 
-if echo "${@}" | grep -qE "(^scripts/| scripts/|/template.spec)" || test -z "${1-}"; then
+if echo "${@}" | grep -qE "(^scripts/| scripts/|/template.spec)" ||
+  test -z "${1-}"
+then
   # shellcheck disable=SC2046
   set -- $(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
             | sort -d | tr "\n" " ")

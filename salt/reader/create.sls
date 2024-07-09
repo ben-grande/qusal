@@ -48,8 +48,10 @@ features:
 - enable:
   - appmenus-dispvm
 - set:
+  # editorconfig-checker-disable
   - default-menu-items: "qusal-mullvad-browser.desktop org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-start.desktop libreoffice-base.desktop libreoffice-calc.desktop libreoffice-draw.desktop libreoffice-impress.desktop libreoffice-math.desktop libreoffice-startcenter.desktop libreoffice-writer.desktop org.gnome.Evince.desktop qubes-open-file-manager.desktop" # noqa: 204
   - menu-items: "qusal-mullvad-browser.desktop org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-start.desktop libreoffice-base.desktop libreoffice-calc.desktop libreoffice-draw.desktop libreoffice-impress.desktop libreoffice-math.desktop libreoffice-startcenter.desktop libreoffice-writer.desktop org.gnome.Evince.desktop qubes-open-file-manager.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
 

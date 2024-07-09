@@ -20,7 +20,8 @@ set -eu
 usage(){
   echo "Usage: ${0##*/} --i-like-danger <DEVICE>"
   echo "Example: ${0##*/} --i-like-danger 0000:00:1b.0"
-  echo "Warning: It is strongly discouraged to reattach PCI devices to dom0, especially if they don't support resetting!"
+  echo "Warning: Strongly discouraged to reattach PCI devices to dom0"
+  echo "Warning:  especially if it doesn't support resetting!"
   exit 1
 }
 

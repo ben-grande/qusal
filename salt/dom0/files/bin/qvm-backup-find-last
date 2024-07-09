@@ -9,7 +9,8 @@ set -eu
 list_backups(){
   ## Hide stderr to hide remote login connection messages (banners etc).
   # shellcheck disable=SC2086
-  ${qrun_cmd} "${qube}" -- "${cmd} ${find_cmd} 2>/dev/null"
+  qvm-run --filter-escape-chars --no-color-output --no-color-stderr \
+    --pass-io "${qube}" -- "${cmd} ${find_cmd} 2>/dev/null"
 }
 
 list_last_backup(){
@@ -35,7 +36,6 @@ cmd="${3-}"
 
 find_pattern="qubes-backup-*"
 find_cmd="find \"${path}\" -maxdepth 1 -type f -name \"${find_pattern}\""
-qrun_cmd="qvm-run --filter-escape-chars --no-color-output --no-color-stderr --pass-io"
 
 last_backup="$(list_last_backup)"
 if test -z "${last_backup}"; then

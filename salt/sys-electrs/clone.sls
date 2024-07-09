@@ -9,6 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {{ clone_template('debian-minimal', 'electrs-builder', include_create=False) }}
 
 {#
+# editorconfig-checker-disable
 TODO: Recheck: Cargo index fetch isis too big to be fetched over tor.
 Impossible to fetch Cargo index over tor as of Bookworm Cargo 1.65.
 Cargo >=1.68 does support "sparse" registry protocol,
@@ -36,4 +37,5 @@ Caused by:
 {#
 {{ clone_template(['debian-minimal', 'whonix-workstation'], sls_path) }}
 {{ clone_template('whonix-workstation', 'electrs-builder', include_create=False) }}
+# editorconfig-checker-enable
 #}

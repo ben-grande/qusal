@@ -13,7 +13,7 @@ usage(){
   echo "Usage: ${0##*/} <NAME> <KEY>"
   echo "Example: ${0##*/} qubes-builder description"
   echo "Names: ${names}"
-  echo "Keys: ${keys}"
+  echo "Keys: $(echo "${keys}" | tr "\n" " ")"
 }
 
 block_max_chars(){
@@ -21,13 +21,31 @@ block_max_chars(){
   char_value="${2}"
   less_than="${3}"
   if test "${#char_value}" -ge "${less_than}"; then
-    echo "Error: ${char_key} is too long. Must be less than ${less_than} chars." >&2
+    echo "Error: ${char_key} is too long. Must be <${less_than} chars." >&2
     echo "Key contents: ${char_value}" >&2
     exit 1
   fi
 }
 
-keys="name branch group file_roots requires packager vendor url bug_url version project project_dir changelog readme license_csv license description summary saltfiles"
+keys="name
+branch
+group
+file_roots
+requires
+packager
+vendor
+url
+bug_url
+version
+project
+project_dir
+changelog
+readme
+license_csv
+license
+description
+summary
+saltfiles"
 
 name=""
 key=""
@@ -97,7 +115,10 @@ fi
 ## project per directory. The disadvantage of the changelog below is it
 # #doesn't differentiate commits per version and release, but per commit id.
 if test "${key}" = "changelog"; then
-  changelog="$(TZ=UTC0 git log -n 50 --format=format:"* %cd %an <%ae> - %h%n- %s%n" --date=format:"%a %b %d %Y" -- "${project_dir}" | sed -re "s/^- +- */- /")"
+  changelog="$(TZ=UTC0 git log -n 50 \
+    --format=format:"* %cd %an <%ae> - %h%n- %s%n" \
+    --date=format:"%a %b %d %Y" -- "${project_dir}" | \
+    sed -re "s/^- +- */- /")"
 fi
 
 if test "${key}" = "description"; then
@@ -117,7 +138,9 @@ if test "${key}" = "saltfiles" || test "${key}" = "requires"; then
   saltfiles="$(find "${project_dir}" -maxdepth 1 -name "*.sls")"
   # shellcheck disable=SC2086
   if test -n "${saltfiles}"; then
-    requires="$(sed -n '/^include:$/,/^\s*$/p' -- ${saltfiles} | sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u | sed "s/- //")"
+    requires="$(sed -n '/^include:$/,/^\s*$/p' -- ${saltfiles} |
+      sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u |
+      sed "s/- //")"
     if grep -qrn "{%-\? from \('\|\"\)utils" ${saltfiles}; then
       if test -n "${requires}"; then
         requires="${requires} utils"

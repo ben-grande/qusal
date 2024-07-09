@@ -72,7 +72,10 @@ get_rule_handle(){
   qube="${1}"
   chain="${2}"
   rule="${3}"
-  run_qube "${qube}" "nft --handle --stateless list chain ip qubes ${chain} | tr -d '\"' | grep '^\s\+${rule} # handle ' | awk '{print \$NF}' | tr '\n' ' '" 2>/dev/null
+  run_qube "${qube}" -- \
+    "nft --handle --stateless list chain ip qubes ${chain} |
+    tr -d '\"' | grep '^\s\+${rule} # handle ' | awk '{print \$NF}' |
+    tr '\n' ' '" 2>/dev/null
 }
 
 delete_rule_handle(){
@@ -124,10 +127,15 @@ forward() {
   fi
 
   dnat_chain="custom-pf-${to_ip_escaped}"
-  dnat_rule="iifname ${dev} ip saddr ${lan_ip} ${proto} dport ${port} ct state established,related,new counter dnat to ${to_ip}"
+  dnat_rule="iifname ${dev} ip saddr ${lan_ip} ${proto} dport ${port} ct"
+  dnat_rule="${dnat_rule} state established,related,new counter dnat to"
+  dnat_rule="${dnat_rule} ${to_ip}"
   forward_chain="custom-forward"
-  forward_rule="iifname ${dev} ip saddr ${lan_ip} ip daddr ${to_ip} ${proto} dport ${port} ct state established,related,new counter accept"
-  full_rule="nft 'add chain ip qubes ${dnat_chain} { type nat hook prerouting priority filter +1; policy accept; }
+  forward_rule="iifname ${dev} ip saddr ${lan_ip} ip daddr ${to_ip} ${proto}"
+  forward_rule="${forward_rule} dport ${port} ct state"
+  forward_rule="${forward_rule} established,related,new counter accept"
+  dnat_policy="type nat hook prerouting priority filter +1; policy accept;"
+  full_rule="nft 'add chain ip qubes ${dnat_chain} { ${dnat_policy}
 add rule ip qubes ${dnat_chain} ${dnat_rule}
 add rule ip qubes ${forward_chain} ${forward_rule}'"
 
@@ -137,7 +145,8 @@ add rule ip qubes ${forward_chain} ${forward_rule}'"
     echo "info: ${from_qube}: deleting rules" >&2
     run_qube "${from_qube}" "rm -f ${hook}"
   else
-    echo "info: ${from_qube}: adding forward rule dev ${dev} saddr ${lan_ip} daddr ${to_ip}" >&2
+    msg="adding forward rule dev ${dev} saddr ${lan_ip} daddr ${to_ip}"
+    echo "info: ${from_qube}: ${msg}" >&2
     run_qube "${from_qube}" "${full_rule}"
 
     if test "${persistent}" = "1"; then
@@ -149,7 +158,9 @@ add rule ip qubes ${forward_chain} ${forward_rule}'"
 get_handle(){
   chain=\\\${1}
   rule=\\\${2}
-  nft --handle --stateless list chain ip qubes \\\${chain} | tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
+  nft --handle --stateless list chain ip qubes \\\${chain} | \\\
+    tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | \\\
+    awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
 }
 
 forward_handle=\\\$(get_handle ${forward_chain} \\\"${forward_rule}\\\")
@@ -169,7 +180,8 @@ fi
 ${full_rule}"
 
       create_net_dir "${from_qube}"
-      run_qube "${from_qube}" "echo \"${full_rule}\" | tee \"${hook}\" >/dev/null"
+      run_qube "${from_qube}" \
+        "echo \"${full_rule}\" | tee \"${hook}\" >/dev/null"
       run_qube "${from_qube}" "chmod +x ${hook}"
     fi
   fi
@@ -181,7 +193,8 @@ input() {
   hook="${hook_prefix}${to_ip}-${proto}-${port}.sh"
   create_net_dir "${qube}"
 
-  custom_input_rule="${proto} dport ${port} ip daddr ${to_ip} ct state new counter accept"
+  custom_input_rule="${proto} dport ${port} ip daddr ${to_ip} ct state new"
+  custom_input_rule="${custom_input_rule} counter accept"
   input_rule="nft add rule ip qubes custom-input ${custom_input_rule}"
 
   delete_rule "${qube}" "custom-input" "${custom_input_rule}"
@@ -196,7 +209,9 @@ input() {
 get_handle(){
   chain=\\\${1}
   rule=\\\${2}
-  nft --handle --stateless list chain ip qubes \\\${chain} | tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
+  nft --handle --stateless list chain ip qubes \\\${chain} | \\\
+    tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | \\\
+    awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
 }
 
 input_handle=\\\$(get_handle custom-input \\\"${custom_input_rule}\\\")
@@ -244,7 +259,7 @@ get_lan(){
 test_qvm_run(){
   qube="${1}"
   if ! run_qube "${qube}" echo "Test QUBESRPC" >/dev/null 2>&1; then
-    echo "error: ${qube}: service qubes.VMShell failed, use a different qube" >&2
+    echo "error: ${qube}: RPC qubes.VMShell failed, use a different qube" >&2
     exit 1
   fi
 }
@@ -267,7 +282,9 @@ recurse_netvms() {
 }
 
 usage() {
-  echo "Usage: ${0##*/} --action ACTION --qube QUBE --port PORT --proto PROTO [--persistent]
+  echo "Usage: ${0##*/} OPTIONS
+Option syntax:
+  --action ACTION --qube QUBE --port PORT --proto PROTO [--persistent]
 Options:
   -a, --action ACTION        add or delete a rule (add, del)
   -q, --qube QUBE            qube name which holds the service to be exposed
@@ -280,7 +297,7 @@ Example:
   ${0##*/} --action del --qube work --port 22 --proto tcp
   ${0##*/} --action del --qube work --port 444 --proto udp
 Note: Defaults to temporary rules
-Warn: Use of '--persistent' with disposable netvm saves the rule in the disposable template" >&2
+Warn: Persistent rules of disposable netvm are saved to its template" >&2
   exit 1
 }
 
@@ -322,7 +339,9 @@ hook_dir="/rw/config/network-hooks.d"
 hook_prefix="${hook_dir}/90-port-forward-"
 persistent=""
 
-if ! OPTS=$(getopt -o h,a:q:p:n:s --long help,action:,qube:,port:,proto:,persistent -n "${0}" -- "${@}"); then
+if ! OPTS=$(getopt -o h,a:q:p:n:s \
+  --long help,action:,qube:,port:,proto:,persistent -n "${0}" -- "${@}")
+then
   echo "An error occurred while parsing options." >&2
   exit 1
 fi

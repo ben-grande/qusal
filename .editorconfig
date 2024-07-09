@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,8 +16,24 @@ end_of_line = lf
 indent_style = tab
 indent_size = 8
 
-[*.{md,sh,yaml,yml,toml,json}]
+[*.{md,toml,json}]
 indent_size = 2
 
-[*.{py}]
+[*.{yaml,yml}]
+indent_size = 2
+max_line_length = 120
+
+[*.{sls,top,jinja}]
+max_line_length = 160
+
+[*.py]
 indent_size = 4
+max_line_length = 79
+
+[{*.{sh,bash,ksh,zsh,lessfilter,xinitrc,Xinitrc,xsession,Xsession,xsessionrc,Xsessionrc,xprofile,Xprofile},**/.config/{sh,bash,ksh,zsh}/**,**/git/shell/**,**/qubes-bind-dirs.d/**,**/lib-qubes-bind-dirs.d/**,**/rc.local.d/**,**/dom0/files/autostartart-scripts/**,**/git/template/hooks/**,**/git/files/client/git-core/**}]
+indent_size = 2
+## Impossible to be sure via file extension if it is a shell file.
+# /bin/.*
+# /rpc/.*
+# /network-hooks\.d/.*
+# /qubes-firewall\.d/.*

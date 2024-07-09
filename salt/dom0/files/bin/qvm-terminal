@@ -35,13 +35,13 @@ case "${1-}" in
     ## Try to run on focused window, if Dom0 is focused, it will prompt you to
     ## select a qube window.
     id="$(xdotool getwindowfocus)"
-    qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F '"' '{print $2}')"
+    qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F'"' '{print $2}')"
     if test -n "${qube}"; then
       exec qvm-run --service -- "${qube}" "qubes.StartApp+${service}"
     fi
     echo "Select a qube window ..."
     id="$(xdotool selectwindow)"
-    qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F '"' '{print $2}')"
+    qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F'"' '{print $2}')"
     if test -n "${qube}"; then
       qvm-run --service -- "${qube}" "qubes.StartApp+${service}"
     fi

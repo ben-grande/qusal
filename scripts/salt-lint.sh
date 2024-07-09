@@ -31,8 +31,15 @@ if test -n "${1-}"; then
 fi
 
 case "${find_tool}" in
-  fd|fdfind) files="$(${find_tool} . minion.d/ --extension=conf) $(${find_tool} . salt/ --max-depth=2 --type=f --extension=sls --extension=top | sort -d)";;
-  find) files="$(find minion.d/ -type f -name "*.conf") $(find salt/* -maxdepth 2 -type f \( -name '*.sls' -o -name '*.top' \) | sort -d)";;
+  fd|fdfind)
+    files="$(${find_tool} . minion.d/ --e  conf)
+    $(${find_tool} . salt/ -d 2 -t f -e sls -e top | sort -d)"
+    ;;
+  find)
+    files="$(find minion.d/ -type f -name "*.conf")
+    $(find salt/* -maxdepth 2 -type f \( -name '*.sls' -o -name '*.top' \) |
+      sort -d)"
+    ;;
 esac
 
 exec salt-lint ${conf} ${files}

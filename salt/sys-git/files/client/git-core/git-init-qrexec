@@ -11,14 +11,16 @@ case "${GIT_TRACE_HELPER:-}" in
 esac
 
 usage(){
-  echo "Usage: ${helper} [<qube>] [<repository>]"
-  echo "Note: qube defaults to '@default' and repository to the current repository"
+  echo "Usage: ${helper} [<qube>] [<repository>]" >&2
+  echo "Note: qube defaults to @default" >&2
+  echo "Note: repository defaults to current working repository" >&2
   exit 1
 }
 
 is_git_repo(){
   if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
-    echo "Error: Either run from inside a git repository or provide it as an argument" >&2
+    echo "Error: Current working directory is not in a git repository" >&2
+    echo "Error: Run from a repository or pass the name as an argument" >&2
     usage
   fi
 }
@@ -49,7 +51,8 @@ elif command -v qrexec-client >/dev/null; then
     die "Qube doesn't exist: '${authority}'"
   fi
   qvm-start --skip-if-running -- "${authority}"
-  exec qrexec-client -tT -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  rpc_cmd="DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  exec qrexec-client -tT -d "${authority}" -- "${rpc_cmd}"
 fi
 
 die "Qrexec programs not found: qrexec-client-vm, qrexec-client"

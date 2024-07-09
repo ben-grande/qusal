@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-cp -r /rw/config/systemd/qusal-acng-browser-forwarder* /usr/lib/systemd/system/
+cp -r /rw/config/systemd/qusal-acng-browser-forwarder* \
+  /usr/lib/systemd/system/
 systemctl daemon-reload
 systemctl --no-block restart qusal-acng-browser-forwarder.socket

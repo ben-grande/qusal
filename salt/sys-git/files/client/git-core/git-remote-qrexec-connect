@@ -76,8 +76,9 @@ elif command -v qrexec-client >/dev/null; then
     die "Qube doesn't exist: '${authority}'"
   fi
   qvm-start --skip-if-running -- "${authority}"
-  log "->" qrexec-client -T -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
-  exec qrexec-client -T -d "${authority}" -- "DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  rpc_cmd="DEFAULT:QUBESRPC ${rpc_cmd} dom0"
+  log "->" qrexec-client -T -d "${authority}" -- "${rpc_cmd}"
+  exec qrexec-client -T -d "${authority}" -- "${rpc_cmd}"
 fi
 
 die "Qrexec programs not found: qrexec-client-vm, qrexec-client"

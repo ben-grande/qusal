@@ -20,8 +20,10 @@ prefs:
 - maxmem: 2000
 features:
 - set:
+  # editorconfig-checker-disable
   - default-menu-items: "qusal-mullvad-browser.desktop org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
   - menu-items: "qusal-mullvad-browser.desktop org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 - disable:
   - service.tracker
   - service.evolution-data-server
@@ -52,6 +54,8 @@ features:
   - service.tracker
   - service.evolution-data-server
 - set:
+  # editorconfig-checker-disable
   - menu-items: "qusal-mullvad-browser.desktop org.mozilla.firefox.desktop firefox.desktop firefox-esr.desktop chromium.desktop google-chrome.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}

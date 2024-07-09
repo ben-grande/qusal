@@ -40,8 +40,8 @@ fi
 
 case "${find_tool}" in
   fd|fdfind)
-    files="$(${find_tool} . --hidden --exclude .github --type=f --extension=md)"
-    extra_files="$(${find_tool} . --hidden --type=f --extension=md .github)"
+    files="$(${find_tool} . -H -E .github -t f -e md)"
+    extra_files="$(${find_tool} . -H -t f -e md .github)"
     ;;
   find)
     files="$(find . -not -path './.github/*' -type f -name "*.md")"

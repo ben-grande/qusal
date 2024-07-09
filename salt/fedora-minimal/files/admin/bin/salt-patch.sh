@@ -11,6 +11,7 @@
 set -eu
 
 qube="${1}"
+dnf_min_install="dnf -q install --refresh -y --setopt=install_weak_deps=False"
+
 qvm-run --user=root --pass-io --filter-escape-chars --no-color-output \
-  --no-color-stderr "${qube}" -- \
-  "dnf --quiet install --refresh --assumeyes --setopt=install_weak_deps=False python3-urllib3"
+  --no-color-stderr "${qube}" -- "${dnf_min_install} python3-urllib3"

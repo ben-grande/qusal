@@ -28,9 +28,15 @@ repos:
         language: script
         pass_filenames: true
         # yamllint disable rule:line-length
-        files: (\.sh|/rc\.local\.d/.*\.rc|/bin/.*|/rpc/.*|/network-hooks\.d/.*|/qubes-firewall\.d/.*|/(lib-)?qubes-bind-dirs\.d/.*|/\.config/(sh|bash|zsh|less|x11|git/shell|git/template/hooks)/.*|/autostart-scripts/.*|/qvm-copy-dotfiles|/git-core/.*)
+        files: >-
+          (\.sh|/rc\.local\.d/.*\.rc|/bin/.*|/rpc/.*|/network-hooks\.d/.*|
+          /qubes-firewall\.d/.*|/(lib-)?qubes-bind-dirs\.d/.*|
+          /\.config/(sh|bash|zsh|less|x11|git/shell|git/template/hooks)/.*|
+          /autostart-scripts/.*|/qvm-copy-dotfiles|/git-core/.*)
         # yamllint disable rule:line-length
-        exclude: \.(policy|asc|txt|top|sls|jinja|toml|vim|py|muttrc|nft|md|spec|list|sources|repo|socket|timer|service|y(a)?ml)$
+        exclude: >-
+          \.(policy|asc|txt|top|sls|jinja|toml|vim|py|muttrc|nft|md|spec|
+          list|sources|repo|socket|timer|service|y(a)?ml)$
         description: Lint Shellscripts
 
       - id: markdown-lint
@@ -81,7 +87,9 @@ repos:
         args: [test]
         pass_filenames: true
         # yamllint disable rule:line-length
-        files: ^(rpm_spec/template/template.spec|salt/.*|scripts/spec-(get|gen)\.sh)$
+        files: >-
+          ^(rpm_spec/template/template.spec|salt/.*|
+          scripts/spec-(get|gen)\.sh)$
         description: Check if RPM SPEC files are up to date
 
       - id: license-lint

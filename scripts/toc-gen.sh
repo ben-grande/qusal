@@ -37,6 +37,7 @@ for f in "$@"; do
   ## This is fragile, the table of contents should have at least one block
   ## separated by an empty line before the nest heading, else it will delete
   ## the rest of the file.
-  vim -c 'norm zRgg' -c '/^## Table of Contents$' -c 'norm jd}k' -c ':GenTocGFM' -c 'norm ddgg' -c wq -- "${f}"
+  vim -c 'norm zRgg' -c '/^## Table of Contents$' -c 'norm jd}k' \
+      -c ':GenTocGFM' -c 'norm ddgg' -c wq -- "${f}"
   echo "Updated TOC in file: $f"
 done

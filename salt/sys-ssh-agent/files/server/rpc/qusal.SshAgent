@@ -1,21 +1,28 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 set -eu
 
+die(){
+  echo "error: ${1}" >&2
+  exit 1
+}
+
 untrusted_agent="$QREXEC_SERVICE_ARGUMENT"
 
 if test -z "${untrusted_agent}"; then
-  echo "Agent name is empty" >&2
-  exit 1
+  die "Agent name is empty"
 fi
 
 if ! (echo "${untrusted_agent}" | grep -q "^[A-Za-z0-9][A-Za-z0-9_.-]\+$")
 then
-  die "Forbidden characters in agent name. Allowed chars: letters, numbers, hyphen, underscore and dot. It cannot begin with hyphen, underscore or dot"
+  msg="Forbidden characters in agent name."
+  msg="${msg} Allowed chars: letters, numbers, hyphen, underscore and dot."
+  msg="${msg} Name cannot begin with hyphen, underscore or dot"
+  die "${msg}"
 fi
 
 ## Length arbitrarily set.

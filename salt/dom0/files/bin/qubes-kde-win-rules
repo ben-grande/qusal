@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -25,9 +25,11 @@ writeconf(){
   key="$2"
   value="$3"
 
-  group_id="$(grep -B1 -- "^Description=$group$" "$file" | head -1 | tr -d "[" | tr -d "]")"
+  group_id="$(grep -B1 -- "^Description=$group$" "$file" | head -1 |
+    tr -d "[" | tr -d "]")"
   if test -z "${group_id}"; then
-    highest_id="$(grep -- "\[[0-9]\+\]" "$file" | tr -d "[" | tr -d "]" | sort | tail -1)"
+    highest_id="$(grep -- "\[[0-9]\+\]" "$file" | tr -d "[" | tr -d "]" |
+      sort | tail -1)"
     if test -n "${highest_id}"; then
       group_id="$((highest_id+1))"
     else
@@ -54,7 +56,8 @@ writeconf_group(){
   fi
 
   ## Regex: https://doc.qt.io/qt-6/qregularexpression.html
-  writeconf "$chosen_group" title "^\\[(disp-|dvm-)?$chosen_group(-\\S+)?\\] .*"
+  writeconf "$chosen_group" title \
+    "^\\[(disp-|dvm-)?$chosen_group(-\\S+)?\\] .*"
   writeconf "$chosen_group" titlematch 3
   writeconf "$chosen_group" wmclass "$chosen_group"
   writeconf "$chosen_group" wmclasscomplete false
