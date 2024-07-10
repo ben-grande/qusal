@@ -6,8 +6,11 @@
 
 set -eu
 
-test "$(hostname)" = "dom0" || { echo "Must be run from dom0" >&2; exit 1; }
-test "$(id -u)" = "0" || exec sudo "${0}"
+# shellcheck disable=3028
+hostname="$(hostname)}"
+test "${hostname}" = "dom0" || { echo "Must be run from dom0" >&2; exit 1; }
+uid="$(id -u)"
+test "${uid}" = "0" || exec sudo "${0}"
 
 group="qusal"
 file_roots="/srv/salt/${group}"

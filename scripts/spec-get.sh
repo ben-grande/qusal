@@ -10,10 +10,11 @@ set -eu
 usage(){
   names="$(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
             | sort -d | tr "\n" " ")"
+  keys_trimmed="$(echo "${keys}" | tr "\n" " ")"
   echo "Usage: ${0##*/} <NAME> <KEY>"
   echo "Example: ${0##*/} qubes-builder description"
   echo "Names: ${names}"
-  echo "Keys: $(echo "${keys}" | tr "\n" " ")"
+  echo "Keys: ${keys_trimmed}"
 }
 
 block_max_chars(){
@@ -59,12 +60,14 @@ case "${1-}" in
   *) key="${1}"; shift;;
 esac
 if test -z "${key##* }"; then
-  echo "Key is empty: ${key}" >&2
+  echo "Key was not given" >&2
   exit 1
 fi
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 ./scripts/requires-program.sh reuse
 
 if test "${key}" = "branch"; then
@@ -163,7 +166,6 @@ if test "${key}" = "saltfiles" || test "${key}" = "requires"; then
 fi
 
 case "${key}" in
-  "") exit 1;;
   branch) echo "${branch}";;
   changelog) echo "${changelog}";;
   description) echo "${description}";;
@@ -183,4 +185,6 @@ case "${key}" in
   vendor) echo "${vendor}";;
   packager) echo "${packager}";;
   version) echo "${version}";;
+  "") exit 1;;
+  *) echo "Unsupported key" >&2; exit 1;;
 esac

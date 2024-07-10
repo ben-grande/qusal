@@ -8,6 +8,7 @@ set -eu
 
 case "${GIT_TRACE_HELPER:-}" in
   true|1) set -x;;
+  *) ;;
 esac
 
 usage(){
@@ -32,7 +33,11 @@ case "${1-}" in
   *) authority="${1}";;
 esac
 case "${2-}" in
-  "") is_git_repo; repo="$(basename "$(git rev-parse --show-toplevel)")";;
+  "")
+    is_git_repo
+    repo="$(git rev-parse --show-toplevel)"
+    repo="$(basename "${repo}")"
+    ;;
   *) repo="${2}";;
 esac
 

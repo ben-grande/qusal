@@ -10,7 +10,9 @@
 set -eu
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 ./scripts/requires-program.sh shellcheck file
 
 exit_code=0
@@ -23,53 +25,47 @@ show_long_lines(){
   fi
   awk -v color="${tty_stderr}" '
     BEGIN {
+      exit_code=0
       MAGENTA=""
       GREEN=""
       RESET=""
-      if (color == 1) {
+      if (color==1) {
         MAGENTA="\033[1;35m"
         GREEN="\033[1;32m"
         RESET="\033[0m"
       }
     }
     {
-    nlines++;
-    if (length > 78 && !/^\s*#.*(:\/\/|SPDX-)/) {
-      exit_code=1
-      prefix = MAGENTA FILENAME RESET ":" GREEN FNR RESET
-      print prefix ": line too long: " length " > 78" >"/dev/stderr"
-      if (nlines==NR) { if (exit_code==1) { exit 1; }; }
+      if (length($0)>78 && !/^\s*#.*(:\/\/|SPDX-)/) {
+        prefix = MAGENTA FILENAME RESET ":" GREEN FNR RESET
+        print prefix ": line too long: " length " > 78" >"/dev/stderr"
+        exit_code=1
+      }
     }
-    if (nlines==NR) { if (exit_code==1) { exit 1; }; }
-  }
-  ' "${@}" >&2
+    END {
+      if (exit_code==1) exit 1
+    }' "${@}"
 }
 
 if test -n "${1-}"; then
   files=""
-  sh_files=""
-  for f in "$@"; do
-    test -f "$f" || continue
+  for f in "${@}"; do
+    test -f "${f}" || continue
     case "${f}" in
       */zsh/*) continue;;
       *.yml|*.yaml|*.vim|*.sls|*.top|*.toml|*.timer|*.service|*.socket| \
       *.spec|*/config|*.txt|*/version|*.sources|*.asc|*.repo) continue;;
-      */rc.local) sh_files="$sh_files $f"; continue;;
-      *) files="$files $f"
+      *) files="${files} ${f}"
     esac
   done
-  files="$(file $files | awk -F ":" '/ shell script,/{ print $1 }')"
-  if test -z "$files" && test -z "$sh_files"; then
+  files="$(file ${files} | awk -F ":" '/ shell script,/{ print $1 }')"
+  if test -z "${files}"; then
     exit 0
   fi
-  if test -n "${files}" || test -n "${sh_files}"; then
-    show_long_lines ${files} ${sh_files} || exit_code=1
-  fi
   if test -n "${files}"; then
+    # shellcheck disable=SC2310
+    show_long_lines ${files} || exit_code=1
     shellcheck ${files} || exit_code=1
-  fi
-  if test -n "${sh_files}"; then
-    shellcheck -s sh ${sh_files} || exit_code=1
   fi
   exit "${exit_code}"
 fi
@@ -79,23 +75,17 @@ case "${find_tool}" in
     # shellcheck disable=2016,2215
     files="$(${find_tool} . scripts/ salt/ -H -E zsh -t f -X file |
       awk -F ":" '/ shell script,/{ print $1 }')"
-    ## No Shebang
-    sh_files="$(${find_tool} rc.local salt/ --type=f)"
     ;;
   find)
     files="$(find scripts/ salt/ -not \( -path "*/zsh" -prune \) -type f \
       -exec file {} \+ | awk -F ":" '/ shell script,/{ print $1 }')"
-    ## No Shebang
-    sh_files="$(find salt/ -type f -name "rc.local")"
     ;;
+  *) echo "Unsupported find tool" >&2; exit 1;;
 esac
 
-files="$(echo "$files" | sort -u)"
-sh_files="$(echo "$sh_files" | sort -u)"
+files="$(echo "${files}" | sort -u)"
 
-show_long_lines ${files} ${sh_files} || exit_code=1
+# shellcheck disable=SC2310
+show_long_lines ${files} || exit_code=1
 shellcheck ${files} || exit_code=1
-if test -n "$sh_files"; then
-  shellcheck -s sh ${sh_files} || exit_code=1
-fi
 exit "${exit_code}"

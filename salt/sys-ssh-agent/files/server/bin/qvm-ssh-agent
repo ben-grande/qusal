@@ -21,24 +21,24 @@ Example:
 }
 
 ls_agent(){
-  socket="/tmp/${service}/$agent.sock"
-  test -S "$socket" || return 1
-  agent="$(echo "$socket" | sed "s|.*${service}/||;s/\.sock//")"
-  echo "Agent: ($agent) $socket"
-  SSH_AUTH_SOCK="$socket" ssh-add -l || true
+  socket="/tmp/${service}/${agent}.sock"
+  test -S "${socket}" || return 1
+  agent="$(echo "${socket}" | sed "s|.*${service}/||;s/\.sock//")"
+  echo "Agent: (${agent}) ${socket}"
+  SSH_AUTH_SOCK="${socket}" ssh-add -l || true
 }
 
 add_agent(){
   # shellcheck disable=SC2174
   mkdir -m 0700 -p "/tmp/${service}"
-  dir="$HOME/.ssh/identities.d/${agent}"
-  if ! test -d "$dir"; then
-    echo "Directory not found: $dir" >&2
+  dir="${HOME}/.ssh/identities.d/${agent}"
+  if ! test -d "${dir}"; then
+    echo "Directory not found: ${dir}" >&2
     return 1
   fi
   dir="${dir##*/}"
   socket="/tmp/${service}/${dir}.sock"
-  if ! test -S "$socket"; then
+  if ! test -S "${socket}"; then
     reload_agent=1
     ssh-agent -a "/tmp/${service}/${agent}.sock"
   fi
@@ -46,20 +46,20 @@ add_agent(){
     return
   fi
   keys="$(grep -sl -- "-----BEGIN OPENSSH PRIVATE KEY-----" \
-          "$HOME/.ssh/identities.d/$dir"/* || true)"
-  if test -z "$keys"; then
-    echo "Directory has no key: $dir" >&2
+          "${HOME}/.ssh/identities.d/${dir}"/* || true)"
+  if test -z "${keys}"; then
+    echo "Directory has no key: ${dir}" >&2
     return 1
   fi
-  SSH_AUTH_SOCK="$socket" ssh-add -D 2>/dev/null || true
-  for k in $(printf '%s\n' "$keys"); do
-    test -f "$k" || continue
+  SSH_AUTH_SOCK="${socket}" ssh-add -D 2>/dev/null || true
+  for k in $(printf '%s\n' "${keys}"); do
+    test -f "${k}" || continue
     ssh_add_option=""
-    if test -f "$k.ssh-add-option"; then
-      ssh_add_option="$(cat "$k.ssh-add-option")"
+    if test -f "${k}.ssh-add-option"; then
+      ssh_add_option="$(cat "${k}.ssh-add-option")"
     fi
     # shellcheck disable=SC2086
-    SSH_AUTH_SOCK="$socket" ssh-add $ssh_add_option "$k"
+    SSH_AUTH_SOCK="${socket}" ssh-add ${ssh_add_option} "${k}"
   done
 }
 
@@ -68,7 +68,7 @@ action="${1-}"
 agent="${2-}"
 reload_agent=""
 
-case "$action" in
+case "${action}" in
   ls) ls_agent;;
   add) add_agent;;
   reload) reload_agent="1"; add_agent;;

@@ -14,6 +14,7 @@ usage(){
 
 case "${1-}" in
   ""|-h|--help) usage;;
+  *) ;;
 esac
 
 ## vim-markdown-toc deletes lines if they are folded, can't rely on its native
@@ -25,13 +26,13 @@ then
 fi
 
 
-for f in "$@"; do
-  if ! test -f "$f"; then
-    echo "Error: Not a regular file: $f" >&2
+for f in "${@}"; do
+  if ! test -f "${f}"; then
+    echo "Error: Not a regular file: ${f}" >&2
     exit 1
   fi
-  if ! grep -q "^## Table of Contents$" "$f"; then
-    echo "Could not find table of contents in file: $f, skipping" >&2
+  if ! grep -q "^## Table of Contents$" "${f}"; then
+    echo "Could not find table of contents in file: ${f}, skipping" >&2
     continue
   fi
   ## This is fragile, the table of contents should have at least one block
@@ -39,5 +40,5 @@ for f in "$@"; do
   ## the rest of the file.
   vim -c 'norm zRgg' -c '/^## Table of Contents$' -c 'norm jd}k' \
       -c ':GenTocGFM' -c 'norm ddgg' -c wq -- "${f}"
-  echo "Updated TOC in file: $f"
+  echo "Updated TOC in file: ${f}"
 done

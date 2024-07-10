@@ -59,10 +59,13 @@ build_rpm(){
 
 case "${1-}" in
   -h|--?help) usage;;
+  *) ;;
 esac
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 ./scripts/requires-program.sh dnf rpmlint rpmbuild rpmsign
 build_dir="${HOME}/rpmbuild"
 
@@ -79,11 +82,11 @@ spec_gen="./scripts/spec-gen.sh"
 spec_get="./scripts/spec-get.sh"
 
 if test -z "${1-}"; then
-  # shellcheck disable=SC2046
+  # shellcheck disable=SC2046,SC2312
   set -- $(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
             | sort -d | tr "\n" " ")
 fi
 counter=0
-for p in "$@"; do
+for p in "${@}"; do
   build_rpm "${p}"
 done

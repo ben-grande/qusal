@@ -21,19 +21,19 @@ case "${XDG_SESSION_DESKTOP:-}" in
 esac
 
 service="org.kde.ActivityManager"
-interface="$service.Activities"
+interface="${service}.Activities"
 path="/ActivityManager/Activities"
 signal="CurrentActivityChanged"
 
 dbus-monitor --profile \
-  "type=signal,path=$path,interface=$interface,member=$signal" | \
+  "type=signal,path=${path},interface=${interface},member=${signal}" | \
 while read -r _ _ _ _ _ path interface member; do
-  test "$member" = "$signal" || continue
-  id="$(qdbus "$service" "$path" "$interface.CurrentActivity")"
-  name="$(qdbus "$service" "$path" "$interface.ActivityName" "$id")"
+  test "${member}" = "${signal}" || continue
+  id="$(qdbus "${service}" "${path}" "${interface}.CurrentActivity")"
+  name="$(qdbus "${service}" "${path}" "${interface}.ActivityName" "${id}")"
   if command -v kdialog >/dev/null; then
-    kdialog --title "Activity: $name" --passivepopup "Switched Activities" 3
+    kdialog --title "Activity: ${name}" --passivepopup "Switched Activities" 3
   elif command -v notify-send >/dev/null; then
-    notify-send -u normal -t 3000 "Activity: $name" "Switched activities"
+    notify-send -u normal -t 3000 "Activity: ${name}" "Switched activities"
   fi
 done

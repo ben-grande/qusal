@@ -11,7 +11,8 @@ die(){
   exit 1
 }
 
-untrusted_agent="$QREXEC_SERVICE_ARGUMENT"
+# shellcheck disable=SC2154
+untrusted_agent="${QREXEC_SERVICE_ARGUMENT}"
 
 if test -z "${untrusted_agent}"; then
   die "Agent name is empty"

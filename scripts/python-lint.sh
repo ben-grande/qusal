@@ -8,29 +8,32 @@
 set -eu
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 ./scripts/requires-program.sh pylint
 
 find_tool="$(./scripts/best-program.sh fd fdfind find)"
 
 if test -n "${1-}"; then
   files=""
-  for f in "$@"; do
-    test -f "$f" || continue
+  for f in "${@}"; do
+    test -f "${f}" || continue
     extension="${f##*.}"
-    case "$extension" in
-      py) files="$files $f";;
+    case "${extension}" in
+      py) files="${files} ${f}";;
       *) continue
         ;;
     esac
   done
-  test -n "$files" || exit 0
+  test -n "${files}" || exit 0
   exec pylint ${files}
 fi
 
 case "${find_tool}" in
   fd|fdfind) files="$(${find_tool} . -H -t f -e py)";;
   find) files="$(find . -type f -name "*.py")";;
+  *) echo "Unsupported find tool" >&2; exit 1;;
 esac
 
 exec pylint ${files}

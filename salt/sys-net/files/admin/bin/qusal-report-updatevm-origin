@@ -13,8 +13,10 @@ case "${updatevm_class}" in
   StandaloneVM) proxy_target="${updatevm}";;
   AppVM) proxy_target="$(qvm-prefs "${updatevm}" template)";;
   DispVM)
-    proxy_target="$(qvm-prefs "$(qvm-prefs "${updatevm}" template)" template)"
+    proxy_target="$(qvm-prefs "${updatevm}" template)"
+    proxy_target="$(qvm-prefs "${proxy_target}" template)"
     ;;
+  *) echo "Unsupported qube class" >&2; exit 1;;
 esac
 if test -n "${proxy_target}"; then
   echo "${proxy_target}"

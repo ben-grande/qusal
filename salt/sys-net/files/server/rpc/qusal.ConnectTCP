@@ -17,6 +17,7 @@
 
 set -eu
 
+# shellcheck disable=SC2154
 arg="${QREXEC_SERVICE_ARGUMENT}"
 host="${arg%%+*}"
 port="${arg##*+}"

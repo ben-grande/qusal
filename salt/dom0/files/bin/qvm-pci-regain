@@ -34,7 +34,8 @@ case "${2-}" in
   *) device="${2}"
 esac
 
-test "$(id -u)" = "0" || exec sudo "${0}"
+uid="$(id -u)"
+test "${uid}" = "0" || exec sudo "${0}"
 
 echo "${device}" | tee /sys/bus/pci/drivers/pciback/unbind
 modalias="$(cat "/sys/bus/pci/devices/${device}/modalias")"

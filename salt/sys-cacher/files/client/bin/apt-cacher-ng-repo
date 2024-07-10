@@ -14,9 +14,9 @@
 ## beneficial as 'find' fails if file is not existent and sending all 'find'
 ## output to /dev/stderr is not great.
 ##
-## Assigning the repositories files to '$@' avoids having to parse their names
-## in case they contain spaces, newlines and other dangerous characters to the
-## shell, it is also an easy way to use an array for /bin/sh.
+## Assigning the repositories files to '${@}' avoids having to parse their
+## names in case they contain spaces, newlines and other dangerous characters
+## to the shell, it is also an easy way to use an array for /bin/sh.
 
 set -eu
 
@@ -183,6 +183,7 @@ EOF
           -e "s|^\s*#.*metalink\s*=|metalink=|w ${changes_file}" \
         {} \+ 2>/dev/null || true
         ;;
+      *) echo "Unsupported action" >&2; exit 1
     esac
 
   elif test -e /etc/debian_version && test ! -e /usr/share/whonix/marker; then
@@ -235,6 +236,7 @@ EOF
           -e "${list_expr}" -e "${sources_expr}" \
         {} \+
         ;;
+      *) echo "Unsupported action" >&2; exit 1
     esac
 
   elif test -e /etc/arch-release; then
@@ -246,11 +248,11 @@ EOF
       fi
       cat >/run/qubes/bin/pacman <<EOF
 #!/bin/sh
-exec env ALL_PROXY="${proxy_url}" /usr/bin/pacman "\$@"
+exec env ALL_PROXY="${proxy_url}" /usr/bin/pacman "\${@}"
 EOF
       chmod +x /run/qubes/bin/pacman
       cat >/etc/profile.d/qubes-proxy.sh << EOF
-export PATH=/run/qubes/bin:\$PATH
+export PATH=/run/qubes/bin:\${PATH}
 EOF
     else
       rm -f /run/qubes/bin/pacman /etc/profile.d/qubes-proxy.sh
@@ -287,6 +289,7 @@ EOF
           -e "${repo_regex}" \
         {} \+
         ;;
+      *) echo "Unsupported action" >&2; exit 1
     esac
 
   else
@@ -325,7 +328,8 @@ case "${1-}" in
   *) usage;;
 esac
 
-if test "$(id -u)" != "0"; then
+uid="$(id -u)"
+if test "${uid}" != "0"; then
   echo "Error: Permission denied, action requires root privileges."
   exit 1
 fi

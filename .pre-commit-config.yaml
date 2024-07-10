@@ -4,7 +4,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
+
+default_install_hook_types:
+  - pre-commit
+
 repos:
+
   - repo: local
     hooks:
 
@@ -99,12 +104,3 @@ repos:
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
-
-      - id: commit-lint
-        name: commit-lint
-        language: python
-        entry: gitlint
-        args: [--staged, --msg-filename]
-        stages: [commit-msg]
-        pass_filenames: true
-        description: Lint Git commits

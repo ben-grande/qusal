@@ -25,7 +25,8 @@ die(){
 
 log(){
   case "${GIT_TRACE_REMOTE_HELPER:-}" in
-    true|1) echo "${@}" >&2
+    true|1) echo "${@}" >&2;;
+    *) ;;
   esac
 }
 
@@ -164,7 +165,7 @@ capabilities="$(find_capabilities)"
 
 ## Communicate with the git-remote-helpers protocol.
 while read -r cmd arg; do
-  log "<- $cmd $arg"
+  log "<- ${cmd} ${arg}"
   case "${cmd}" in
     capabilities)
       for c in ${capabilities}; do log "-> ${c}"; done; log "->"

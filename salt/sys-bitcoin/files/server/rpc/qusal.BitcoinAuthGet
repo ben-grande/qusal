@@ -11,6 +11,7 @@ set -eu
 
 bitcoin_conf="/home/user/.bitcoin/conf.d/rpcauth.conf"
 bitcoin_pass="/home/user/.bitcoin/rpcclient.pass"
+# shellcheck disable=SC2154
 user="${QREXEC_REMOTE_DOMAIN}"
 
 if ! systemctl is-active bitcoind >/dev/null 2>&1; then

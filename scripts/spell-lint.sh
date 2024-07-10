@@ -8,22 +8,24 @@
 set -eu
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 ./scripts/requires-program.sh codespell
 
 if test -n "${1-}"; then
   files=""
-  for f in "$@"; do
-    test -f "$f" || continue
-    case "$f" in
+  for f in "${@}"; do
+    test -f "${f}" || continue
+    case "${f}" in
       *LICENSES/*|.git/*|*.asc|rpm_spec/*-*.spec|*.muttrc| \
       salt/sys-cacher/files/server/conf/*_mirrors_*|\
       salt/dotfiles/files/vim/.config/vim/after/plugin/update-time.vim)
         continue;;
-      *) files="$files $f";;
+      *) files="${files} ${f}";;
     esac
   done
-  test -n "$files" || exit 0
+  test -n "${files}" || exit 0
   exec codespell --check-filenames --check-hidden ${files}
 fi
 

@@ -7,7 +7,9 @@
 set -eu
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 ./scripts/requires-program.sh createrepo_c gpg
 
 key_id="$(git config --get user.signingKey)" || true
@@ -15,7 +17,7 @@ build_dir="${HOME}/rpmbuild"
 qubes_release="r4.2"
 repo="current"
 dist="fc37"
-yum_repo_root="$HOME/rpmrepo"
+yum_repo_root="${HOME}/rpmrepo"
 yum_repo="${yum_repo_root}/${qubes_release}/${repo}/host/${dist}"
 
 mkdir -p "${yum_repo}/rpm"
@@ -27,7 +29,7 @@ if test -d "${yum_repo}/repodata"; then
   createrepo_args="--update"
 fi
 # shellcheck disable=SC2086
-createrepo_c ${createrepo_args} --checksum sha512 "${yum_repo}"
+createrepo_c "${createrepo_args}" --checksum sha512 "${yum_repo}"
 
 if test -n "${key_id}"; then
   rm -f -- "${yum_repo}/repodata/repomd.xml.asc"

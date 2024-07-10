@@ -59,6 +59,7 @@ case "${class}" in
   StandaloneVM|TemplateVM)
     get_qube_feat "${wanted_qube}"
     ;;
+  *) echo "Unsupported qube class" >&2; exit 1;;
 esac
 wanted_mgmt="$(qvm-prefs "${wanted_qube}" management_dispvm)"
 echo "${wanted_qube} management_dispvm: ${wanted_mgmt}"

@@ -54,7 +54,7 @@ jobs:
         run: |
           editorconfig-checker
           editorconfig-checker salt/dotfiles
-      - name: Lint commits
+      - name: Lint commit messages
         run: |
           if test "${{ github.event_name}}" = "pull_request"
           then

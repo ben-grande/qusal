@@ -32,6 +32,7 @@ validate_handle(){
       echo "error: ${qube}: invalid handle" >&2
       exit 1
       ;;
+    *) ;;
   esac
 }
 
@@ -43,6 +44,7 @@ validate_ipv4(){
       echo "error: ${qube}: invalid IPv4 address" >&2
       exit 1
       ;;
+    *) ;;
   esac
 }
 
@@ -54,6 +56,7 @@ validate_ipv6(){
       echo "error: ${qube}: invalid IPv6 address" >&2
       exit 1
       ;;
+    *) ;;
   esac
 }
 
@@ -65,6 +68,7 @@ validate_dev(){
       echo "error: ${qube}: invalid device name" >&2
       exit 1
       ;;
+    *) ;;
   esac
 }
 
@@ -150,7 +154,8 @@ add rule ip qubes ${forward_chain} ${forward_rule}'"
     run_qube "${from_qube}" "${full_rule}"
 
     if test "${persistent}" = "1"; then
-      if test "$(qvm-prefs --get -- "${from_qube}" klass)" = "DispVM"; then
+      class="$(qvm-prefs --get -- "${from_qube}" klass)"
+      if test "${class}" = "DispVM"; then
         from_qube="$(qvm-prefs --get -- "${from_qube}" template)"
       fi
 
@@ -258,6 +263,7 @@ get_lan(){
 
 test_qvm_run(){
   qube="${1}"
+  # shellcheck disable=SC2310
   if ! run_qube "${qube}" echo "Test QUBESRPC" >/dev/null 2>&1; then
     echo "error: ${qube}: RPC qubes.VMShell failed, use a different qube" >&2
     exit 1
@@ -272,12 +278,14 @@ recurse_netvms() {
     case "${cmd}" in
       show-upstream) test_qvm_run "${rec_qube}";;
       apply-rules) forward "${rec_netvm}" "${rec_qube}";;
+      *) echo "Unsupported command passed to recurse_netvms()" >&2; exit 1;;
     esac
     recurse_netvms "${cmd}" "${rec_netvm}"
   fi
   case "${cmd}" in
     show-upstream) get_lan "${rec_qube}";;
     apply-rules) ;;
+    *) echo "Unsupported command passed to recurse_netvms()" >&2; exit 1;;
   esac
 }
 
@@ -358,6 +366,7 @@ while test "${#}" -gt "0"; do
     -n|--proto) proto="${2}"; shift;;
     -s|--persistent) persistent=1; shift;;
     -h|--help) usage;;
+    *) echo "Unsupported option" >&2; exit 1;;
   esac
   shift
 done

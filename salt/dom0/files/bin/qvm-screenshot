@@ -20,26 +20,31 @@ take_screenshot() {
       case "${screenshot_type}" in
         window) spectacle -a -o "${screenshot_file}";;
         fullscreen) spectacle -f -o "${screenshot_file}";;
+        *) echo "Unsupported screenshot type" >&2; exit 1;;
       esac
       ;;
     xfce4-screenshooter)
       case "${screenshot_type}" in
         window) xfce4-screenshooter -w -s "${screenshot_file}";;
         fullscreen) xfce4-screenshooter -f -s "${screenshot_file}";;
+        *) echo "Unsupported screenshot type" >&2; exit 1;;
       esac
       ;;
     scrot)
       case "${screenshot_type}" in
         window) scrot -s -b "${screenshot_file}";;
         fullscreen) scrot -b "${screenshot_file}";;
+        *) echo "Unsupported screenshot type" >&2; exit 1;;
       esac
       ;;
     maim)
       case "${screenshot_type}" in
         window) maim -s -o -u "${screenshot_file}";;
         fullscreen) maim -o -u "${screenshot_file}";;
+        *) echo "Unsupported screenshot type" >&2; exit 1;;
       esac
       ;;
+    *) echo "Unsupported screenshot tool" >&2; exit 1;;
   esac
 }
 
@@ -157,6 +162,7 @@ if test -n "${screenshot_cmd_wanted}"; then
     case "${dialog_cmd}" in
       zenity) zenity --info --text "${msg}";;
       kdialog) kdialog --msgbox "${msg}";;
+      *) echo "Unsupported dialog command" >&2; exit 1;;
     esac
     exit 1
   fi
@@ -186,6 +192,7 @@ else
     case "${dialog_cmd}" in
       zenity) zenity --info --text "${msg}";;
       kdialog) kdialog --msgbox "${msg}";;
+      *) echo "Unsupported dialog command" >&2; exit 1;;
     esac
     exit 1
   fi
@@ -210,6 +217,7 @@ if test -z "${screenshot_type_text}"; then
         "Fullscreen" "Fullscreen" off \
       )"
       ;;
+    *) echo "Unsupported dialog command" >&2; exit 1;;
   esac
 fi
 
@@ -225,6 +233,7 @@ if ! test -f "${screenshot_file}"; then
   case "${dialog_cmd}" in
     zenity) zenity --warning --text "${msg}";;
     kdialog) kdialog --sorry "${msg}";;
+    *) echo "Unsupported dialog command" >&2; exit 1;;
   esac
   exit 1
 fi
@@ -250,6 +259,7 @@ if test "${screenshot_action_supplied}" != "1"; then
         "Move file" "Move file" off
       )"
       ;;
+    *) echo "Unsupported dialog command" >&2; exit 1;;
   esac
 
   if test -z "${screenshot_action_text}"; then
@@ -293,6 +303,7 @@ if test -z "${qube}"; then
       # shellcheck disable=SC2086
       qube="$(kdialog --radiolist "${dialog_title}" ${qube_list})"
       ;;
+    *) echo "Unsupported dialog command" >&2; exit 1;;
   esac
   if test -z "${qube}"; then
     msg="qube was not selected"
@@ -300,6 +311,7 @@ if test -z "${qube}"; then
     case "${dialog_cmd}" in
       zenity) zenity --error --text "${msg}";;
       kdialog) kdialog --error "${msg}";;
+      *) echo "Unsupported dialog command" >&2; exit 1;;
     esac
     exit 1
   fi
@@ -311,6 +323,7 @@ if ! qvm-check -- "${qube}" >/dev/null 2>&1; then
   case "${dialog_cmd}" in
     zenity) zenity --error --text "${msg}";;
     kdialog) kdialog --error "${msg}";;
+    *) echo "Unsupported dialog command" >&2; exit 1;;
   esac
   exit 1
 fi
@@ -319,7 +332,7 @@ qvm-run "${qube}" -- "mkdir -p \"${qube_pictures_dir}\""
 qvm-run --pass-io "${qube}" -- "cat > \"${qube_screenshot_file}\"" \
   < "${screenshot_file}"
 
-if test ${file_move} = "1"; then
+if test "${file_move}" = "1"; then
   rm -f "${screenshot_file}"
 fi
 

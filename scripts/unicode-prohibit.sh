@@ -9,7 +9,9 @@
 set -eu
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)" || exit 1
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 
 files=""
 if test -n "${1-}"; then
@@ -30,6 +32,7 @@ if test -n "${unicode_match}"; then
     line_file="$(echo "${line}" | cut -d ":" -f1)"
     case "${line_file}" in
       git/*|LICENSES/*|.reuse/dep5|*.asc) continue;;
+      *) ;;
     esac
     line_number="$(echo "${line}" | cut -d ":" -f2)"
     line_unicode="$(echo "${line}" | cut -d ":" -f3 | od -A n -vt c)"

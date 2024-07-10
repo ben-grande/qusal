@@ -81,7 +81,8 @@ gen_spec(){
   bug_url="$(get_spec bug_url)"
   requires="$(get_spec requires)"
   summary="$(get_spec summary)"
-  description="$(escape_key text "$(get_spec description)")"
+  description="$(get_spec description)"
+  description="$(escape_key text "${description}")"
   file_roots="$(get_spec file_roots)"
   changelog="$(get_spec changelog)"
 
@@ -132,7 +133,8 @@ gen_spec(){
       diff --color=auto "${intended_target}" "${target}" || true
       fail=1
     else
-      if test -n "$(git diff --name-only "${intended_target}")"; then
+      unstaged_target="$(git diff --name-only "${intended_target}")" || true
+      if test -n "${unstaged_target}"; then
         echo "warn: ${intended_target} is up to date but it is not staged" >&2
       fi
     fi
@@ -141,13 +143,15 @@ gen_spec(){
 
 case "${1-}" in
   -h|--?help) usage; exit 1;;
+  *) ;;
 esac
 
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
-cd "$(git rev-parse --show-toplevel)"
+repo_toplevel="$(git rev-parse --show-toplevel)"
+test -d "${repo_toplevel}" || exit 1
+unset repo_toplevel
 
 spec_get="./scripts/spec-get.sh"
-
 ignored="$(git ls-files --exclude-standard --others --ignored salt/)"
 untracked="$(git ls-files --exclude-standard --others salt/)"
 unwanted="$(printf %s"${ignored}\n${untracked}\n" \
@@ -164,14 +168,14 @@ fi
 if echo "${@}" | grep -qE "(^scripts/| scripts/|/template.spec)" ||
   test -z "${1-}"
 then
-  # shellcheck disable=SC2046
+  # shellcheck disable=SC2046,SC2312
   set -- $(find salt/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
             | sort -d | tr "\n" " ")
 fi
 
 projects_seen=""
-for p in "$@"; do
-  gen_spec "${p}" ${gen_mode}
+for p in "${@}"; do
+  gen_spec "${p}" "${gen_mode}"
 done
 
 if test "${fail}" = "1" && test "${gen_mode}" = "test"; then

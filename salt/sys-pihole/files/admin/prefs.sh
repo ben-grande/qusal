@@ -13,9 +13,9 @@ for qube in $(qvm-ls --raw-data --fields=NAME,NETVM |
 do
   ## Avoid overwriting netvm to sys-pihole when instead it should use the
   ## default_netvm, so better to prevent overwriting user choices.
-  qvm-prefs "$qube" | grep -q "^netvm[[:space:]]\+D" && continue
+  qvm-prefs "${qube}" | grep -q "^netvm[[:space:]]\+D" && continue
   ## Set netvm for qubes that were using (disp-)sys-firewall to sys-pihole.
-  qvm-prefs "$qube" netvm sys-pihole
+  qvm-prefs "${qube}" netvm sys-pihole
 done
 
 exit 0

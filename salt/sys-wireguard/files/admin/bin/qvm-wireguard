@@ -7,7 +7,8 @@
 
 set -eu
 
-test "$(id -u)" = "0" || exec sudo "$0" "$@"
+uid="$(id -u)"
+test "${uid}" = "0" || exec sudo "$0" "${@}"
 
 usage(){
   echo "Usage: ${0##*/} [QUBE]"
@@ -21,34 +22,34 @@ case "${1-}" in
   *) qube="${1}";;
 esac
 
-if ! qvm-check -q -- "$qube" >/dev/null 2>&1; then
-  echo "Qube '$qube' doesn't exist" >&2
+if ! qvm-check -q -- "${qube}" >/dev/null 2>&1; then
+  echo "Qube '${qube}' doesn't exist" >&2
   usage 1
 fi
 
 user_conf="/home/user/wireguard.conf"
 system_conf="/etc/wireguard/wireguard.conf"
 
-qvm-run "$qube" -- "test -f ${user_conf}" || {
+qvm-run "${qube}" -- "test -f ${user_conf}" || {
   echo "File '${user_conf}' was not found" >&2
-  if qvm-check -q --running -- "$qube" >/dev/null 2>&1; then
-    qvm-pause --verbose -- "$qube"
+  if qvm-check -q --running -- "${qube}" >/dev/null 2>&1; then
+    qvm-pause --verbose -- "${qube}"
   fi
-  echo "Firewalling $qube to drop all connections"
-  qvm-firewall --verbose -- "$qube" reset
-  qvm-firewall --verbose -- "$qube" del --rule-no 0
-  qvm-firewall --verbose -- "$qube" add drop
-  if qvm-check -q --paused -- "$qube" >/dev/null 2>&1; then
-    qvm-unpause --verbose -- "$qube"
+  echo "Firewalling ${qube} to drop all connections"
+  qvm-firewall --verbose -- "${qube}" reset
+  qvm-firewall --verbose -- "${qube}" del --rule-no 0
+  qvm-firewall --verbose -- "${qube}" add drop
+  if qvm-check -q --paused -- "${qube}" >/dev/null 2>&1; then
+    qvm-unpause --verbose -- "${qube}"
   fi
   exit 1
 }
 
-qvm-run -u root "$qube" -- "cp ${user_conf} ${system_conf}"
+qvm-run -u root "${qube}" -- "cp ${user_conf} ${system_conf}"
 
 ## TOFU
 # shellcheck disable=SC2016
-endpoint="$(qvm-run -p -u root "$qube" -- awk '/Endpoint/{print $3}' \
+endpoint="$(qvm-run -p -u root "${qube}" -- awk '/Endpoint/{print $3}' \
   "${system_conf}")"
 if echo "${endpoint}" | grep -qF "["; then
   ip="${ip##[\[]}"
@@ -59,27 +60,27 @@ else
   port="${endpoint##*:}"
 fi
 
-if test -z "$ip" || test -z "$port";then
+if test -z "${ip}" || test -z "${port}";then
   echo "Endpoint (IP:Port) not found: ${system_conf}" >&2
   exit 1
 fi
 
-if qvm-check -q --running -- "$qube" >/dev/null 2>&1; then
-  qvm-pause --verbose -- "$qube"
+if qvm-check -q --running -- "${qube}" >/dev/null 2>&1; then
+  qvm-pause --verbose -- "${qube}"
 fi
 
-echo "Firewalling $qube to reach only '$ip:$port'"
-qvm-firewall --verbose -- "$qube" reset
-qvm-firewall --verbose -- "$qube" del --rule-no 0
-qvm-firewall --verbose -- "$qube" add accept dsthost="$ip" dstports="$port" \
-  proto=udp
-qvm-firewall --verbose -- "$qube" add accept dsthost="$ip" dstports="$port" \
-  proto=tcp
-qvm-firewall --verbose -- "$qube" add drop
+echo "Firewalling ${qube} to reach only '${ip}:${port}'"
+qvm-firewall --verbose -- "${qube}" reset
+qvm-firewall --verbose -- "${qube}" del --rule-no 0
+qvm-firewall --verbose -- "${qube}" add accept dsthost="${ip}" \
+  dstports="${port}" proto=udp
+qvm-firewall --verbose -- "${qube}" add accept dsthost="${ip}" \
+  dstports="${port}" proto=tcp
+qvm-firewall --verbose -- "${qube}" add drop
 
-if qvm-check -q --paused -- "$qube" >/dev/null 2>&1; then
-  qvm-unpause --verbose -- "$qube"
+if qvm-check -q --paused -- "${qube}" >/dev/null 2>&1; then
+  qvm-unpause --verbose -- "${qube}"
 fi
 
-qvm-run -u root "$qube" -- "systemctl restart wg-quick@wireguard"
-qvm-run -u root "$qube" -- "/rw/config/network-hooks.d/50-sys-wireguard"
+qvm-run -u root "${qube}" -- "systemctl restart wg-quick@wireguard"
+qvm-run -u root "${qube}" -- "/rw/config/network-hooks.d/50-sys-wireguard"

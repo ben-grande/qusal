@@ -16,6 +16,7 @@ if ! command -v git >/dev/null; then
 fi
 
 ## TODO: subdirectory? dir+repo
+# shellcheck disable=SC2154
 untrusted_repo="${QREXEC_SERVICE_ARGUMENT}"
 
 if test -z "${untrusted_repo}"; then
@@ -35,7 +36,7 @@ if test "${#untrusted_repo}" -gt 128; then
   die "Repository name is too long: ${#untrusted_repo}"
 fi
 
-base_path="$HOME/src"
+base_path="${HOME}/src"
 repo="${untrusted_repo}"
 
 case "${repo}" in
