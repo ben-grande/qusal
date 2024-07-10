@@ -13,9 +13,9 @@ repos:
   - repo: local
     hooks:
 
-      - id: unicode-prohibit
-        name: unicode-prohibit
-        entry: scripts/unicode-prohibit.sh
+      - id: unicode-lint
+        name: unicode-lint
+        entry: scripts/unicode-lint.sh
         language: script
         pass_filenames: true
         description: Prohibit Unicode
