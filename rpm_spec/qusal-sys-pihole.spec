@@ -119,6 +119,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Wed Jul 10 2024 Ben Grande <ben.grande.b@gmail.com> - 224312e
+- feat: enable all optional shellcheck validations
+
 * Sun Jul 07 2024 Ben Grande <ben.grande.b@gmail.com> - ab044c1
 - feat: bump Pi-Hole version
 
