@@ -24,4 +24,4 @@ jobs:
         with:
           fetch-depth: 0
       - name: Discover keys that are expired or close to expiration date
-        run: scripts/pgp-lint.sh $(find -type f -name "*.asc")
+        run: scripts/pgp-lint.sh
