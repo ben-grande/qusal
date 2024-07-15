@@ -106,6 +106,9 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Jul 15 2024 Ben Grande <ben.grande.b@gmail.com> - 409ac73
+- feat: add appmenus to audio applications
+
 * Fri Jul 05 2024 Ben Grande <ben.grande.b@gmail.com> - a9ca2f0
 - doc: inform how to use USB audio in disp-sys-audio
 

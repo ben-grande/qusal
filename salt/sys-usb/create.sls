@@ -31,8 +31,8 @@ prefs:
 features:
 - set:
   # editorconfig-checker-disable
-  - default-menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
-  - menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - default-menu-items: "com.github.wwmm.easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "com.github.wwmm.easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
   # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
@@ -68,7 +68,7 @@ features:
   - service.qubes-updates-proxy
 - set:
   # editorconfig-checker-disable
-  - menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "com.github.wwmm.easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
   # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
@@ -156,7 +156,7 @@ features:
   - service.qubes-updates-proxy
 - set:
   # editorconfig-checker-disable
-  - menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "com.github.wwmm.easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
   # editorconfig-checker-enable
 tags:
 - add:
