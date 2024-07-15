@@ -367,6 +367,7 @@ while test "${#}" -gt "0"; do
     -n|--proto) proto="${2}"; shift;;
     -s|--persistent) persistent=1; shift;;
     -h|--help) usage;;
+    --) break;;
     *) echo "Unsupported option" >&2; exit 1;;
   esac
   shift
