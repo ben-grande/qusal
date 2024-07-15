@@ -76,7 +76,7 @@ get_rule_handle(){
   qube="${1}"
   chain="${2}"
   rule="${3}"
-  run_qube "${qube}" -- \
+  run_qube "${qube}" \
     "nft --handle --stateless list chain ip qubes ${chain} |
     tr -d '\"' | grep '^\s\+${rule} # handle ' | awk '{print \$NF}' |
     tr '\n' ' '" 2>/dev/null
@@ -111,8 +111,8 @@ forward() {
 
   unset dev
   ## TODO: Handle multiple interfaces in upstream.
-  untrusted_dev="$(run_qube "${from_qube}" ip -4 route \
-                    | awk '/^default via /{print $5}' | head -1)"
+  untrusted_dev="$(run_qube "${from_qube}" ip -4 route | \
+                    awk '/^default via /{print $5}' | head -1)"
   validate_dev "${from_qube}" "${untrusted_dev}"
   dev="${untrusted_dev}"
 
@@ -139,7 +139,8 @@ forward() {
   forward_rule="${forward_rule} dport ${port} ct state"
   forward_rule="${forward_rule} established,related,new counter accept"
   dnat_policy="type nat hook prerouting priority filter +1; policy accept;"
-  full_rule="nft 'add chain ip qubes ${dnat_chain} { ${dnat_policy}
+  dnat_policy="{ ${dnat_policy} }"
+  full_rule="nft 'add chain ip qubes ${dnat_chain} ${dnat_policy}
 add rule ip qubes ${dnat_chain} ${dnat_rule}
 add rule ip qubes ${forward_chain} ${forward_rule}'"
 
@@ -239,8 +240,8 @@ get_lan(){
 
   unset dev
   ## TODO: Handle multiple interfaces in upstream.
-  untrusted_dev="$(run_qube "${qube}" ip -4 route \
-                    | awk '/^default via /{print $5}' | head -1)"
+  untrusted_dev="$(run_qube "${qube}" ip -4 route | \
+                    awk '/^default via /{print $5}' | head -1)"
   validate_dev "${qube}" "${untrusted_dev}"
   dev="${untrusted_dev}"
 
@@ -337,7 +338,7 @@ check_opt(){
     exit 1
   fi
 
-  if ! qvm-check "${target_qube}" >/dev/null 2>&1; then
+  if ! qvm-check -- "${target_qube}" >/dev/null 2>&1; then
     echo "error: qube '${target_qube}' not found." >&2
     exit 1
   fi
