@@ -78,6 +78,7 @@ if test "$1" = "1"; then
   qubesctl state.apply sys-audio.create
   qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install
   qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
+  qubesctl state.apply sys-audio.appmenus
 elif test "$1" = "2"; then
   ## Upgrade
   true

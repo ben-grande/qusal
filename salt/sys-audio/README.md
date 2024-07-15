@@ -9,7 +9,8 @@ Audio operations in Qubes OS.
 *   [Usage](#usage)
     *   [Audio control](#audio-control)
     *   [Client turned off with a device attached](#client-turned-off-with-a-device-attached)
-    *   [How to use USB devices](#how-to-use-usb-devices)
+    *   [How to managed audio input/output devices](#how-to-managed-audio-inputoutput-devices)
+    *   [How to use advanced audio processing capabilities](#how-to-use-advanced-audio-processing-capabilities)
     *   [How to use Bluetooth](#how-to-use-bluetooth)
         *   [How to make the Bluetooth icon appear in the system tray](#how-to-make-the-bluetooth-icon-appear-in-the-system-tray)
         *   [How to attach the Bluetooth controller to the AudioVM persistently](#how-to-attach-the-bluetooth-controller-to-the-audiovm-persistently)
@@ -29,6 +30,7 @@ the necessary packages for bluetooth with the provided state.
 sudo qubesctl top.enable sys-audio
 sudo qubesctl --targets=tpl-sys-audio,dvm-sys-audio state.apply
 sudo qubesctl top.disable sys-audio
+sudo qubesctl state.apply sys-audio.appmenus
 ```
 
 *   State:
@@ -39,6 +41,7 @@ sudo qubesctl top.disable sys-audio
 sudo qubesctl state.apply sys-audio.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install
 sudo qubesctl --skip-dom0 --targets=dvm-sys-audio state.apply sys-audio.configure-dvm
+sudo qubesctl state.apply sys-audio.appmenus
 ```
 
 <!-- pkg:end:post-install -->
@@ -47,6 +50,13 @@ If you want to autostart the AudioVM on boot, you may run:
 
 ```sh
 sudo qubesctl state.apply sys-audio.autostart
+```
+
+To use advanced sound features such as mixing, echo canceller, noise
+reduction:
+
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-sys-audio state.apply sys-audio.install-easyeffects
 ```
 
 If you need Bluetooth support, install the dependencies:
@@ -82,17 +92,24 @@ will fail. To be able to use the device again:
 *   Restart the audio client; and
 *   Attach the device to the audio client.
 
-### How to use USB devices
+### How to managed audio input/output devices
 
-It is possible to connect USB devices to `disp-sys-audio`, just attach the
-devices to the AudioVM. Note that attached devices don't take precedence over
-built-in audio. To choose which playback and recording device a qube should
-use, on `disp-sys-audio`, from the application menu, click on `Volume Control`
-or from the terminal, run `pavucontrol`. Select the `Playback` and `Recording`
-tab, find your client qube and select the wanted device.
+It is possible to connect many types of audio devices to `disp-sys-audio`,
+just attach the devices to the AudioVM. Note that attached devices don't take
+precedence over built-in audio, happens with USB devices. To choose which
+playback and recording device a qube should use, on `disp-sys-audio`, from the
+application menu, click on `Volume Control` or from the terminal, run
+`pavucontrol`. Select the `Playback` and `Recording` tab, find your client
+qube and select the wanted device.
 
 For more information, please refer to the
 [usage of sys-usb](../sys-usb/README.md#usage).
+
+### How to use advanced audio processing capabilities
+
+You must run the `install-easyeffects` state as described in the installation
+section. Instead of using `Pavucontrol`, use `Easy Effects` for advanced audio
+processing capabilities.
 
 ### How to use Bluetooth
 

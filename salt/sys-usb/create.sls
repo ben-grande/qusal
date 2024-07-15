@@ -28,6 +28,12 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+features:
+- set:
+  # editorconfig-checker-disable
+  - default-menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
 
@@ -60,6 +66,10 @@ features:
   - service.cups-browsed
   - service.meminfo-writer
   - service.qubes-updates-proxy
+- set:
+  # editorconfig-checker-disable
+  - menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
 
@@ -144,6 +154,10 @@ features:
   - service.cups-browsed
   - service.meminfo-writer
   - service.qubes-updates-proxy
+- set:
+  # editorconfig-checker-disable
+  - menu-items: "easyeffects.desktop pavucontrol.desktop qubes-run-terminal.desktop qubes-open-file-manager.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 tags:
 - add:
   - usbvm

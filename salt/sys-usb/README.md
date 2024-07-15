@@ -30,6 +30,7 @@ the USB controllers to different qubes is possible.
 sudo qubesctl top.enable sys-usb
 sudo qubesctl --targets=tpl-sys-usb state.apply
 sudo qubesctl top.disable sys-usb
+sudo qubesctl state.apply sys-usb.appmenus
 ```
 
 *   State:
@@ -39,6 +40,7 @@ sudo qubesctl top.disable sys-usb
 ```sh
 sudo qubesctl state.apply sys-usb.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-usb state.apply sys-usb.install
+sudo qubesctl state.apply sys-usb.appmenus
 ```
 
 <!-- pkg:end:post-install -->

@@ -73,6 +73,7 @@ if test "$1" = "1"; then
   ## Install
   qubesctl state.apply sys-usb.create
   qubesctl --skip-dom0 --targets=tpl-sys-usb state.apply sys-usb.install
+  qubesctl state.apply sys-usb.appmenus
 elif test "$1" = "2"; then
   ## Upgrade
   true
