@@ -23,5 +23,6 @@ include:
       - remmina-plugin-vnc
       - remmina-plugin-www
       - remmina-plugin-x2go
+      - gnome-icon-theme
 
 {% endif -%}
