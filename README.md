@@ -40,6 +40,7 @@ Here are some of the Global Preferences we can manage:
 *   **clockvm**: disp-sys-net, sys-net
 *   **default_audiovm**: disp-sys-audio
 *   **default_dispvm**: dvm-reader
+*   **default_guivm**: sys-gui, sys-gui-vnc, sys-gui-gpu
 *   **default_netvm**: sys-pihole, sys-firewall or disp-sys-firewall
 *   **management_dispvm**: dvm-mgmt
 *   **updatevm**: sys-pihole, sys-firewall or disp-sys-firewall
