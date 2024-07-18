@@ -39,6 +39,9 @@ host:
       - rpm_spec/qusal-sys-electrumx.spec
       - rpm_spec/qusal-sys-firewall.spec
       - rpm_spec/qusal-sys-git.spec
+      - rpm_spec/qusal-sys-gui.spec
+      - rpm_spec/qusal-sys-gui-gpu.spec
+      - rpm_spec/qusal-sys-gui-vnc.spec
       - rpm_spec/qusal-sys-mirage-firewall.spec
       - rpm_spec/qusal-sys-net.spec
       - rpm_spec/qusal-sys-pgp.spec

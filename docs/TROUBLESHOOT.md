@@ -8,6 +8,7 @@ Qusal troubleshooting guidelines.
 *   [Qrexec client shows Request refused](#qrexec-client-shows-request-refused)
 *   [Salt wrapper qubesctl command fails](#salt-wrapper-qubesctl-command-fails)
 *   [Get Salt management information](#get-salt-management-information)
+*   [No support for unfinished formulas](#no-support-for-unfinished-formulas)
 
 ## Detect if your issue was already opened
 
@@ -91,3 +92,13 @@ the qube being managed:
 sudo qubesctl state.apply dom0.helpers
 qvm-mgmt tpl-qubes-builder
 ```
+
+## No support for unfinished formulas
+
+If you have been redirect to this section, be aware that the formula you are
+using is unfinished and no support will be provided. It is development only
+and if you are not a developer, there is a chance you will find yourself lost
+on how to debug and revert back to a known good state.
+
+Again, don't try the formula if you don't know how to fix problems that may
+arise.

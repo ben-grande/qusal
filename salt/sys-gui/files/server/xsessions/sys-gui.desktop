@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2020 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+[Desktop Entry]
+Name=GUI Domain (sys-gui)
+Exec=qubes-guivm-session sys-gui
+Type=Application
