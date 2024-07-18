@@ -24,7 +24,7 @@ if test -n "${1-}"; then
     test -f "${f}" || continue
     extension="${f##*.}"
     case "${extension}" in
-      top|sls) files="${files} ${f}";;
+      top|sls|jinja|j2|tmpl|tst) files="${files} ${f}";;
       *) continue;;
     esac
   done
@@ -35,13 +35,15 @@ fi
 case "${find_tool}" in
   fd|fdfind)
     conf_files="$(${find_tool} . minion.d/ -e conf)"
-    sls_files="$(${find_tool} . salt/ -d 2 -t f -e sls -e top | sort -d)"
+    sls_files="$(${find_tool} . salt/ -d 2 -t f -e sls -e top -e jinja \
+      -e j2 -e tmpl -e tst | sort -d)"
     files="${conf_files}\n${sls_files}"
     ;;
   find)
     conf_files="$(find minion.d/ -type f -name "*.conf")"
     sls_files="$(find salt/* -maxdepth 2 -type f \
-      \( -name '*.sls' -o -name '*.top' \) | sort -d)"
+      \( -name '*.sls' -o -name '*.top' -o -name '*.jinja' \
+      -o -name '*.j2' -o -name '*.tmpl' -o -name '*.tst' \) | sort -d)"
     files="${conf_files}\n${sls_files}"
     ;;
   *) echo "Unsupported find tool" >&2; exit 1;;

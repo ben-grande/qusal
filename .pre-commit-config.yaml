@@ -65,7 +65,7 @@ repos:
         entry: scripts/salt-lint.sh
         language: script
         pass_filenames: true
-        files: (^minion.d/.*.conf|\.(sls|top))$
+        files: (^minion.d/.*.conf|\.(sls|top|jinja|j2|tmpl|tst))$
         description: Lint Salt files
 
       - id: yaml-lint
