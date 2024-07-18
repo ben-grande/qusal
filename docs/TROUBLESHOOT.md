@@ -37,14 +37,14 @@ qube and service you intend to use, such as qube `code` and service
 On `dom0`, watch the Qrexec policy logs:
 
 ```sh
-sudo journalctl -fu qubes-qrexec-policy-daemon | cut -d " " -f 7-
+sudo journalctl -o cat -fu qubes-qrexec-policy-daemon -S -30s
 ```
 
-If you ave many simultaneous calls being shown, get on the important ones:
+If you ave many simultaneous calls being shown, get only the important ones
+relevant to the service you are debugging:
 
 ```sh
-sudo journalctl -fu qubes-qrexec-policy-daemon | cut -d " " -f 7- \
-  | grep -e qubes.GetDate -e qubes.Filecopy
+sudo journalctl -o cat -fu qubes-qrexec-policy-daemon -S -30s -g qubes.GetDate
 ```
 
 You can emulate the call from `dom0`:
