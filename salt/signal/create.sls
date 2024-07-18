@@ -8,7 +8,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
-  - .firewall
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
@@ -52,6 +51,3 @@ features:
   - menu-items: "signal-desktop.desktop qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
-
-{% from 'utils/macros/sync-appmenus.sls' import sync_appmenus with context -%}
-{{ sync_appmenus('tpl-' ~ sls_path) }}
