@@ -67,6 +67,7 @@ fi
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
+cd "${repo_toplevel}"
 unset repo_toplevel
 ./scripts/requires-program.sh reuse
 

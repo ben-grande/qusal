@@ -149,6 +149,7 @@ esac
 command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
+cd "${repo_toplevel}"
 unset repo_toplevel
 
 spec_get="./scripts/spec-get.sh"
