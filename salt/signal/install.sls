@@ -25,10 +25,7 @@ include:
       - qubes-core-agent-thunar
       - thunar
       - signal-desktop
-      - zenity
       - dunst
-      - libatk1.0-0
-      - libatk-bridge2.0-0
-      - libgtk-4-1
+      - libayatana-appindicator3-1
 
 {% endif -%}

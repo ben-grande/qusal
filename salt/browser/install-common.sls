@@ -21,7 +21,6 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - qubes-core-agent-thunar
-      - zenity
 
 {% set pkg = {
   'Debian': {
