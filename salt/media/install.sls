@@ -29,6 +29,7 @@ include:
       - gpicview
       - mousepad
       - mpv
+      - yt-dlp
       - vlc
       - xpdf
       - man-db

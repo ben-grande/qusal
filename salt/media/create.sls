@@ -19,6 +19,12 @@ require:
 - sls: {{ slsdotpath }}.clone
 prefs:
 - audiovm: ""
+features:
+- set:
+  # editorconfig-checker-disable
+  - default-menu-items: "calibre-ebook-edit.desktop calibre-ebook-viewer.desktop calibre-gui.desktop calibre-lrfviewer.desktop chromium.desktop gpicview.desktop mpv.desktop org.xfce.mousepad.desktop vlc.desktop xpdf.desktop qubes-run-terminal.desktop qubes-start.desktop" # noqa: 204
+  - menu-items: "calibre-ebook-edit.desktop calibre-ebook-viewer.desktop calibre-gui.desktop calibre-lrfviewer.desktop chromium.desktop gpicview.desktop mpv.desktop org.xfce.mousepad.desktop vlc.desktop xpdf.desktop qubes-run-terminal.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
 
@@ -47,6 +53,8 @@ features:
   - service.tinyproxy
   - service.tracker
   - service.evolution-data-server
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -69,12 +77,18 @@ prefs:
 - template_for_dispvms: True
 - include_in_backups: False
 features:
+- enable:
+  - appmenus-dispvm
 - disable:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
   - service.tracker
   - service.evolution-data-server
+- set:
+  # editorconfig-checker-disable
+  - menu-items: "calibre-ebook-edit.desktop calibre-ebook-viewer.desktop calibre-gui.desktop calibre-lrfviewer.desktop chromium.desktop gpicview.desktop mpv.desktop org.xfce.mousepad.desktop vlc.desktop xpdf.desktop qubes-run-terminal.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
 
@@ -98,15 +112,18 @@ prefs:
 - autostart: False
 - include_in_backups: False
 features:
-- appmenus-dispvm: True
+- enable:
+  - service.shutdown-idle
 - disable:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
   - service.tracker
   - service.evolution-data-server
-- enable:
-  - service.shutdownle
+- set:
+  # editorconfig-checker-disable
+  - menu-items: "calibre-ebook-edit.desktop calibre-ebook-viewer.desktop calibre-gui.desktop calibre-lrfviewer.desktop chromium.desktop gpicview.desktop mpv.desktop org.xfce.mousepad.desktop vlc.desktop xpdf.desktop qubes-run-terminal.desktop qubes-start.desktop" # noqa: 204
+  # editorconfig-checker-enable
 {%- endload %}
 {{ load(defaults) }}
 

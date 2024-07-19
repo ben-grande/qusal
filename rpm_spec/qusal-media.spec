@@ -37,7 +37,9 @@ Requires:       qusal-utils
 
 %description
 Creates the offline "media" qube for storing multimedia files and open the
-files in a named disposable "disp-media" via MIME configuration.
+files in a named disposable "disp-media" via MIME configuration. You can also
+connect any disposable qube based on "dvm-media" to a netvm and gather media
+over the network.
 
 %prep
 %setup -q
@@ -76,6 +78,7 @@ if test "$1" = "1"; then
   qubesctl state.apply media.create
   qubesctl --skip-dom0 --targets=tpl-media state.apply media.install
   qubesctl --skip-dom0 --targets=media state.apply media.configure
+  qubesctl state.apply media.appmenus
 elif test "$1" = "2"; then
   ## Upgrade
   true
