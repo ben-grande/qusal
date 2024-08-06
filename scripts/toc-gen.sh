@@ -31,7 +31,7 @@ for f in "${@}"; do
     echo "Error: Not a regular file: ${f}" >&2
     exit 1
   fi
-  if ! grep -q "^## Table of Contents$" "${f}"; then
+  if ! grep -q -e "^## Table of Contents$" -- "${f}"; then
     echo "Could not find table of contents in file: ${f}, skipping" >&2
     continue
   fi

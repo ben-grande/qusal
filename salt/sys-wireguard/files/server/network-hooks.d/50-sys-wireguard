@@ -6,6 +6,6 @@
 
 set -eu
 
-ln -sf /run/resolvconf/resolv.conf /etc/resolv.conf
+ln -sf -- /run/resolvconf/resolv.conf /etc/resolv.conf
 /rw/config/qubes-firewall.d/50-sys-wireguard-var
 nft -f /rw/config/qubes-firewall.d/60-sys-wireguard-nat

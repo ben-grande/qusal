@@ -9,12 +9,12 @@ python_dir="/usr/lib/python3/dist-packages"
 bin_dir="/usr/bin"
 tmp_dir="/tmp/electrumx-upload"
 
-rm -rf "${tmp_dir}"
-mkdir -p "${tmp_dir}"
+rm -rf -- "${tmp_dir}"
+mkdir -p -- "${tmp_dir}"
 qfile-unpacker 0 "${tmp_dir}"
 cd "${tmp_dir}"
-cp -r electrumx "${python_dir}"/
-cp electrumx_server electrumx_rpc electrumx_compact_history "${bin_dir}"/
+cp -r -- electrumx "${python_dir}"/
+cp -- electrumx_server electrumx_rpc electrumx_compact_history "${bin_dir}"/
 
 ## Qube needs to shutdown for the app qube to have the uploaded files.
 shutdown now

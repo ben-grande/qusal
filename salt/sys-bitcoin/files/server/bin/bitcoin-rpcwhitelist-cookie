@@ -15,4 +15,4 @@ fi
 
 rpc_list="$(bitcoin-cli help | awk '/^[a-z]/{print $1}' | tr "\n" ",")"
 
-echo "rpcwhitelist=__cookie__:${rpc_list}" | tee "${conf}" >/dev/null
+echo "rpcwhitelist=__cookie__:${rpc_list}" | tee -- "${conf}" >/dev/null

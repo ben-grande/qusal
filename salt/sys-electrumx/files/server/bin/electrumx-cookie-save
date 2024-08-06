@@ -18,6 +18,7 @@ if ! test -r "${cookie}"; then
   exit 1
 fi
 
-auth="$(cat "${cookie}")"
+auth="$(cat -- "${cookie}")"
 
-echo "DAEMON_URL=${auth}@127.0.0.1:8332" | tee "${electrumx_conf}" >/dev/null
+echo "DAEMON_URL=${auth}@127.0.0.1:8332" | \
+  tee -- "${electrumx_conf}" >/dev/null

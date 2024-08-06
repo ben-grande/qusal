@@ -11,8 +11,8 @@ fi
 auth="$(qrexec-client-vm -tT -- @default qusal.BitcoinAuthGet)"
 
 if test -n "${auth}"; then
-  mkdir -p ~/.bitcoin/.cookie
-  echo "${auth}" | tee ~/.bitcoin/.cookie >/dev/null
+  mkdir -p -- ~/.bitcoin/.cookie
+  echo "${auth}" | tee -- ~/.bitcoin/.cookie >/dev/null
 else
   echo "failed to get Bitcoin Authentication" >&2
   exit 1

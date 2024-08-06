@@ -45,13 +45,13 @@ qvm-run "${qube}" -- "test -f ${user_conf}" || {
   exit 1
 }
 
-qvm-run -u root "${qube}" -- "cp ${user_conf} ${system_conf}"
+qvm-run -u root "${qube}" -- "cp -- \"${user_conf}\" \"${system_conf}\""
 
 ## TOFU
 # shellcheck disable=SC2016
 endpoint="$(qvm-run -p -u root "${qube}" -- awk '/Endpoint/{print $3}' \
   "${system_conf}")"
-if echo "${endpoint}" | grep -qF "["; then
+if echo "${endpoint}" | grep -qF -e "["; then
   ip="${ip##[\[]}"
   ip="${ip%%\]*}"
   port="${endpoint##*:}"

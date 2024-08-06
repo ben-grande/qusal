@@ -37,7 +37,7 @@ esac
 uid="$(id -u)"
 test "${uid}" = "0" || exec sudo "${0}"
 
-echo "${device}" | tee /sys/bus/pci/drivers/pciback/unbind
-modalias="$(cat "/sys/bus/pci/devices/${device}/modalias")"
+echo "${device}" | tee -- /sys/bus/pci/drivers/pciback/unbind
+modalias="$(cat -- "/sys/bus/pci/devices/${device}/modalias")"
 module="$(modprobe -R "${modalias}" | head -n 1)"
-echo "${device}" | tee "/sys/bus/pci/drivers/${module}/bind"
+echo "${device}" | tee -- "/sys/bus/pci/drivers/${module}/bind"

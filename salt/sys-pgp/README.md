@@ -81,7 +81,7 @@ qvm-features dev service.split-gpg2-client 1
 On the qube `sys-pgp`, generate or import keys for the client qube `dev`:
 
 ```sh
-mkdir -p ~/.gnupg/split-gpg/dev
+mkdir -p -- ~/.gnupg/split-gpg/dev
 gpg --homedir ~/.gnupg/split-gpg/dev --import /path/to/secret.key
 gpg --homedir ~/.gnupg/split-gpg/dev --list-secret-keys
 ```

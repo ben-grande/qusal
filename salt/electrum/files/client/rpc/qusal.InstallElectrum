@@ -10,13 +10,13 @@ bin_dir="/usr/bin"
 app_dir="/usr/share/applications"
 tmp_dir="/tmp/electrum-upload"
 
-rm -rf "${tmp_dir}"
-mkdir -p "${tmp_dir}"
+rm -rf -- "${tmp_dir}"
+mkdir -p -- "${tmp_dir}"
 qfile-unpacker 0 "${tmp_dir}"
 cd "${tmp_dir}"
-cp -r electrum "${python_dir}"/
-cp electrum.desktop "${app_dir}"/
-cp run_electrum "${bin_dir}"/electrum
+cp -r -- electrum "${python_dir}"/
+cp -- electrum.desktop "${app_dir}"/
+cp -- run_electrum "${bin_dir}"/electrum
 
 ## Qube needs to shutdown for the app qube to have the uploaded files.
 shutdown now

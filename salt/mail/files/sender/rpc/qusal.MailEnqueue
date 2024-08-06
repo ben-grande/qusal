@@ -9,7 +9,7 @@ queue_dir="${MSMTP_Q:-"${Q:-"${HOME}/.msmtp.queue"}"}"
 uid="$(id -u user)"
 
 # shellcheck disable=SC2174
-mkdir -p "${queue_dir}"
-chmod 0700 "${queue_dir}"
+mkdir -p -- "${queue_dir}"
+chmod -- 0700 "${queue_dir}"
 
 exec qfile-unpacker "${uid}" "${queue_dir}"

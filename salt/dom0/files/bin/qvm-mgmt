@@ -13,8 +13,8 @@ usage(){
 get_qube_feat(){
   qube="${1}"
   qvm-features "${qube}" | \
-    grep -E "^(os-(distribution|version)|template-(release|name))" | \
-    sed "s/  / /g;s/ /: /;s/^/  /"
+    grep -E -e "^(os-(distribution|version)|template-(release|name))" | \
+    sed -e "s/  / /g;s/ /: /;s/^/  /"
 }
 
 case "${1-}" in

@@ -18,7 +18,7 @@ else
   body="TXID ${txid} is in block ${block_height} ${block_hash}"
 fi
 
-echo "${date} ${title}: ${body}" | tee ~/.bitcoin/walletnotify.log
+echo "${date} ${title}: ${body}" | tee -- ~/.bitcoin/walletnotify.log
 if command -v notify-send >/dev/null; then
   notify-send -t 10000 "${title}" "${body}"
 fi

@@ -49,25 +49,25 @@ getblock(){
     | tail -c+92167 \
     | for ((o=0;o<946;++o)); do \
         read -rN420 x; \
-        echo -n "${x::130}${x:132:130}${x:264:130}"; \
+        printf '%s' "${x::130}${x:132:130}${x:264:130}"; \
       done \
     | xxd -r -p \
     | tail -c+9 \
     | head -c184292 \
-    | tee "${output_file}" >/dev/null
+    | tee -- "${output_file}" >/dev/null
 }
 
 getrawtransaction(){
   check_installed bitcoin-cli xxd
   # shellcheck disable=SC2312
   bitcoin-cli getrawtransaction "${txid}" 0 "${block_hash}" \
-    | sed 's/0100000000000000/\n/g' \
+    | sed -e 's/0100000000000000/\n/g' \
     | tail -n +2 \
     | cut -c7-136,139-268,271-400 \
     | tr -d '\n' \
     | cut -c17-368600 \
     | xxd -p -r \
-    | tee "${output_file}" >/dev/null
+    | tee -- "${output_file}" >/dev/null
 }
 
 gettxout(){

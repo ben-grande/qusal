@@ -21,7 +21,7 @@ run_qube(){
 
 create_net_dir(){
   qube="${1}"
-  run_qube "${qube}" mkdir -p "${hook_dir}"
+  run_qube "${qube}" mkdir -p -- "${hook_dir}"
 }
 
 validate_handle(){
@@ -78,7 +78,7 @@ get_rule_handle(){
   rule="${3}"
   run_qube "${qube}" \
     "nft --handle --stateless list chain ip qubes ${chain} |
-    tr -d '\"' | grep '^\s\+${rule} # handle ' | awk '{print \$NF}' |
+    tr -d '\"' | grep -e '^\s\+${rule} # handle ' | awk '{print \$NF}' |
     tr '\n' ' '" 2>/dev/null
 }
 
@@ -165,7 +165,7 @@ get_handle(){
   chain=\\\${1}
   rule=\\\${2}
   nft --handle --stateless list chain ip qubes \\\${chain} | \\\
-    tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | \\\
+    tr -d '\\\"' | grep -e '^\\\s\\\+\\\${rule} \\# handle ' | \\\
     awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
 }
 
@@ -187,8 +187,8 @@ ${full_rule}"
 
       create_net_dir "${from_qube}"
       run_qube "${from_qube}" \
-        "echo \"${full_rule}\" | tee \"${hook}\" >/dev/null"
-      run_qube "${from_qube}" "chmod +x ${hook}"
+        "echo \"${full_rule}\" | tee -- \"${hook}\" >/dev/null"
+      run_qube "${from_qube}" "chmod -- +x ${hook}"
     fi
   fi
 }
@@ -216,7 +216,7 @@ get_handle(){
   chain=\\\${1}
   rule=\\\${2}
   nft --handle --stateless list chain ip qubes \\\${chain} | \\\
-    tr -d '\\\"' | grep '^\\\s\\\+\\\${rule} \\# handle ' | \\\
+    tr -d '\\\"' | grep -e '^\\\s\\\+\\\${rule} \\# handle ' | \\\
     awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
 }
 
@@ -229,8 +229,9 @@ fi
 
 ${input_rule}"
 
-      run_qube "${qube}" "echo \"${input_rule}\" | tee \"${hook}\" >/dev/null"
-      run_qube "${qube}" "chmod +x ${hook}"
+      run_qube "${qube}" \
+        "echo \"${input_rule}\" | tee -- \"${hook}\" >/dev/null"
+      run_qube "${qube}" "chmod -- +x ${hook}"
     fi
   fi
 }

@@ -70,7 +70,7 @@ Development mode:
 ## Expand directory only in the qube.
 qube_pictures_dir="\$(xdg-user-dir PICTURES)"
 guivm_pictures_dir="$(xdg-user-dir PICTURES)"
-mkdir -p "${guivm_pictures_dir}" || exit 1
+mkdir -p -- "${guivm_pictures_dir}" || exit 1
 
 current_date="$(date +"%Y-%m-%d-%H%M%S")"
 screenshot_basename="${current_date}.png"
@@ -292,14 +292,14 @@ if test -z "${qube}"; then
   dialog_title="Select destination qube (Unix based):"
   case "${dialog_cmd}" in
     zenity)
-      qube_list="$(echo "${qube_list}" | sed "s/^/FALSE /")"
+      qube_list="$(echo "${qube_list}" | sed -e "s/^/FALSE /")"
       # shellcheck disable=SC2086
       qube="$(zenity --list  --width=200 --height=390 \
               --text "${dialog_title}" \
               --radiolist --column "Pick" --column "qube" ${qube_list})"
       ;;
     kdialog)
-      qube_list="$(echo "${qube_list}" | sed "s/\(.*\)/\1 \1 off/")"
+      qube_list="$(echo "${qube_list}" | sed -e "s/\(.*\)/\1 \1 off/")"
       # shellcheck disable=SC2086
       qube="$(kdialog --radiolist "${dialog_title}" ${qube_list})"
       ;;
@@ -328,12 +328,12 @@ if ! qvm-check -- "${qube}" >/dev/null 2>&1; then
   exit 1
 fi
 
-qvm-run "${qube}" -- "mkdir -p \"${qube_pictures_dir}\""
+qvm-run "${qube}" -- "mkdir -p -- \"${qube_pictures_dir}\""
 qvm-run --pass-io "${qube}" -- "cat > \"${qube_screenshot_file}\"" \
   < "${screenshot_file}"
 
 if test "${file_move}" = "1"; then
-  rm -f "${screenshot_file}"
+  rm -f -- "${screenshot_file}"
 fi
 
 if test "${file_manager}" = "1"; then

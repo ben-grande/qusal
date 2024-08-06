@@ -34,7 +34,7 @@ log(){
 validate_url(){
   url_valid=""
   url_check="${1?}"
-  scheme_user_url="$(echo "${url_check}" | sed "s|://.*||")"
+  scheme_user_url="$(echo "${url_check}" | sed -e "s|://.*||")"
 
   ## Scheme must be the same as the one in the name of this script.
   ## Checks if Authority and Path exist, but not if they are valid, this is
@@ -48,7 +48,7 @@ validate_url(){
   esac
 
   urn_pattern="[0-9A-Za-z@:_.-]+/[0-9A-Za-z_.-]+(\?[0-9A-Za-z=&_-]*)?"
-  if ! (echo "${url_valid}" | grep -qE "^${scheme}://${urn_pattern}$")
+  if ! (echo "${url_valid}" | grep -qE -e "^${scheme}://${urn_pattern}$")
   then
     die "URL contains forbidden characters"
   fi
@@ -86,11 +86,12 @@ find_capabilities(){
     if test -z "${cap_helpers}"; then
       cap_helpers="${f##*"${script}-"}"
     else
-      cap_helpers="${cap_helpers}\n${f##*"${script}-"}"
+      cap_helpers="${cap_helpers}
+${f##*"${script}-"}"
     fi
   done
 
-  echo "${cap_helpers}"
+  printf '%s\n' "${cap_helpers}"
 }
 
 ## Send capabilities to remote helper specific for that capability.
@@ -98,7 +99,7 @@ send_cap(){
   cap="${1}"
   shift
 
-  if ! (echo "${capabilities}" | grep -q "^${cap}$"); then
+  if ! (echo "${capabilities}" | grep -q -e "^${cap}$"); then
     die "Unsupported capability: '${cap}'"
   fi
 
@@ -169,7 +170,7 @@ while read -r cmd arg; do
   case "${cmd}" in
     capabilities)
       for c in ${capabilities}; do log "-> ${c}"; done; log "->"
-      printf %s"${capabilities}\n\n";;
+      printf '%s\n\n' "${capabilities}";;
     *) send_cap "${cmd}" "${arg}";;
   esac
 done

@@ -11,21 +11,21 @@ share_dir="${prefix_dir}/share/bitcoin"
 share_examples_dir="${share_dir}/examples"
 tmp_dir="/tmp/bitcoin-upload"
 
-rm -rf "${tmp_dir}"
-mkdir -p "${tmp_dir}"
-mkdir -p "${share_dir}"
-mkdir -p "${share_examples_dir}"
+rm -rf -- "${tmp_dir}"
+mkdir -p -- "${tmp_dir}"
+mkdir -p -- "${share_dir}"
+mkdir -p -- "${share_examples_dir}"
 qfile-unpacker 0 "${tmp_dir}"
 cd "${tmp_dir}"
 
-cp -r bin share "${prefix_dir}"/
+cp -r -- bin share "${prefix_dir}"/
 if test -f README.md; then
-  cp -r README.md "${share_dir}"/
+  cp -r -- README.md "${share_dir}"/
 fi
 if test -f bitcoin.conf; then
-  cp -r bitcoin.conf "${share_examples_dir}"/
+  cp -r -- bitcoin.conf "${share_examples_dir}"/
 fi
-cp share/rpcauth/rpcauth.py "${bin_dir}"/bitcoin-rpcauth
+cp -- share/rpcauth/rpcauth.py "${bin_dir}"/bitcoin-rpcauth
 
 ## Qube needs to shutdown for the app qube to have the uploaded files.
 shutdown now

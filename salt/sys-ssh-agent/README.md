@@ -131,14 +131,14 @@ Import preexisting keys to the agent directory or generate keys for a specific
 agent:
 
 ```sh
-mkdir -m 0700 -p ~/.ssh/identities.d/<AGENT>
+mkdir -m 0700 -p -- ~/.ssh/identities.d/<AGENT>
 ssh-keygen -t ed25519 -f ~/.ssh/identities.d/<AGENT>/id_example
 ```
 
 You would do the following for the `work` agent:
 
 ```sh
-mkdir -m 0700 -p ~/.ssh/identities.d/work
+mkdir -m 0700 -p -- ~/.ssh/identities.d/work
 ssh-keygen -t ed25519 -f ~/.ssh/identities.d/work/id_example
 ```
 
@@ -218,7 +218,7 @@ agent:
 ```sh
 echo 'export SSH_AUTH_SOCK=/tmp/qusal-ssh-agent-forwarder/work.sock;
 SSH_AGENT_PID="$(pgrep -f "/tmp/qusal-ssh-agent-forwarder/work.sock")";
-' | tee -a ~/.profile
+' | tee -a -- ~/.profile
 ```
 
 #### Multiple agents per client

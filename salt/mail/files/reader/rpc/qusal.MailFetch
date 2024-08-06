@@ -9,7 +9,7 @@ inbox_dir="${HOME}/mail/INBOX"
 uid="$(id -u user)"
 
 # shellcheck disable=SC2174
-mkdir -p "${inbox_dir}"
-chmod 0700 "${inbox_dir}"
+mkdir -p -- "${inbox_dir}"
+chmod -- 0700 "${inbox_dir}"
 
 qfile-unpacker "${uid}" "${inbox_dir}"

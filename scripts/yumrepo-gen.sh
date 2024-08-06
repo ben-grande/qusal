@@ -21,9 +21,9 @@ dist="fc37"
 yum_repo_root="${HOME}/rpmrepo"
 yum_repo="${yum_repo_root}/${qubes_release}/${repo}/host/${dist}"
 
-mkdir -p "${yum_repo}/rpm"
+mkdir -p -- "${yum_repo}/rpm"
 find "${build_dir}/RPMS/" -type f -name "*.rpm" \
-  -exec cp {} "${yum_repo}/rpm/" \;
+  -exec cp -- {} "${yum_repo}/rpm/" \;
 
 createrepo_args=""
 if test -d "${yum_repo}/repodata"; then

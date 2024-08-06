@@ -94,7 +94,7 @@ From the client, mount the server `/home/user` directory as a SSH File System
 in the client `/home/user/sshfs` directory:
 
 ```sh
-mkdir ~/sshfs
+mkdir -- ~/sshfs
 sshfs -p 1840 localhost:/home/user /home/user/sshfs
 ```
 

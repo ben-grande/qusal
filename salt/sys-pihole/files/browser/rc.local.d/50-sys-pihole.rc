@@ -4,6 +4,6 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-cp -r /rw/config/systemd/qubes-http-forwarder* /usr/lib/systemd/system/
+cp -r -- /rw/config/systemd/qubes-http-forwarder* /usr/lib/systemd/system/
 systemctl daemon-reload
 systemctl --no-block restart qubes-http-forwarder.socket

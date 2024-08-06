@@ -21,8 +21,8 @@ if ! systemctl is-active bitcoind >/dev/null 2>&1; then
 fi
 
 if test -r "${bitcoin_conf}"; then
-  if grep -qs "^\s*rpcauth=${user}:" "${bitcoin_conf}"; then
-    grep -m1 "^${user}:" "${bitcoin_pass}"
+  if grep -qs -e "^\s*rpcauth=${user}:" -- "${bitcoin_conf}"; then
+    grep -m1 -e "^${user}:" -- "${bitcoin_pass}"
     exit
   fi
 fi
@@ -32,13 +32,14 @@ if ! command -v bitcoin-rpcauth >/dev/null; then
   exit 127
 fi
 
-full_auth="$(bitcoin-rpcauth "${user}" | sed -n '2p;4p')"
+full_auth="$(bitcoin-rpcauth "${user}" | sed -n -e '2p;4p')"
 rpcauth="$(echo "${full_auth}" | head -1)"
 user="$(echo "${rpcauth}" | cut -d "=" -f2 | cut -d ":" -f1)"
 password="$(echo "${full_auth}" | tail -1)"
 
-echo "${rpcauth}" | sudo -u user tee -a "${bitcoin_conf}" >/dev/null
-echo "${user}:${password}" | sudo -u user tee -a "${bitcoin_pass}" >/dev/null
+echo "${rpcauth}" | sudo -u user -- tee -a -- "${bitcoin_conf}" >/dev/null
+echo "${user}:${password}" | \
+  sudo -u user -- tee -a -- "${bitcoin_pass}" >/dev/null
 echo "${user}:${password}"
 
 ## Restart bitcoind to apply the configuration changes. Currently, there is no

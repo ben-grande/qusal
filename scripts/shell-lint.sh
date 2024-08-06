@@ -24,7 +24,7 @@ show_long_lines(){
   if test -t 2; then
     tty_stderr=1
   fi
-  awk -v color="${tty_stderr}" '
+  awk -v color="${tty_stderr}" -- '
     BEGIN {
       exit_code=0
       MAGENTA=""

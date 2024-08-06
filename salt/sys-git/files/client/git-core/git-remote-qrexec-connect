@@ -26,7 +26,7 @@ log(){
 
 ## Establish capability working.
 log "->"
-printf "\n"
+printf '\n'
 
 helper="${0##*/git-}"
 parent_helper="${helper%-*}"
@@ -61,7 +61,8 @@ vendor="qusal"
 default_qube="sys-git"
 rpc_cmd="${vendor}.${rpc}+${path}"
 
-if echo "${query}" | grep -qE "(^|&)verify_signatures=(1|[tT]rue|yes|on)($|&)"
+if echo "${query}" | \
+  grep -qE -e "(^|&)verify_signatures=(1|[tT]rue|yes|on)($|&)"
 then
   die "Remote helper does not support signature verification yet"
 fi

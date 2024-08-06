@@ -25,10 +25,10 @@ writeconf(){
   key="$2"
   value="$3"
 
-  group_id="$(grep -B1 -- "^Description=${group}$" "${file}" | head -1 |
+  group_id="$(grep -B1 -e "^Description=${group}$" -- "${file}" | head -1 |
     tr -d "[" | tr -d "]")"
   if test -z "${group_id}"; then
-    highest_id="$(grep -- "\[[0-9]\+\]" "${file}" | tr -d "[" | tr -d "]" |
+    highest_id="$(grep -e "\[[0-9]\+\]" -- "${file}" | tr -d "[" | tr -d "]" |
       sort | tail -1)"
     if test -n "${highest_id}"; then
       group_id="$((highest_id+1))"

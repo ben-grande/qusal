@@ -23,7 +23,7 @@ if test -z "${untrusted_repo}"; then
   die "Repository name is empty"
 fi
 
-if ! (echo "${untrusted_repo}" | grep -q "^[A-Za-z0-9][A-Za-z0-9_.-]\+$")
+if ! (echo "${untrusted_repo}" | grep -q -e "^[A-Za-z0-9][A-Za-z0-9_.-]\+$")
 then
   msg="Forbidden characters in agent name."
   msg="${msg} Allowed chars: letters, numbers, hyphen, underscore and dot."
@@ -64,7 +64,7 @@ fi
 
 if ! test -d "${base_path}"; then
   # shellcheck disable=SC2174
-  mkdir -m 0700 -p "${base_path}" >/dev/null 2>&1 ||
+  mkdir -m 0700 -p -- "${base_path}" >/dev/null 2>&1 ||
     die "Cannot create directory: ${base_path}"
 fi
 

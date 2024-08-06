@@ -17,7 +17,7 @@ file_roots="/srv/salt/${group}"
 
 cd "${0%/*}"/..
 ## Avoid having extra unwanted files.
-rm -rf "${file_roots}"
-cp -f minion.d/*.conf /etc/salt/minion.d/
-mkdir -p "${file_roots}"
-cp -r salt/* "${file_roots}"
+rm -rf -- "${file_roots}"
+cp -f -- minion.d/*.conf /etc/salt/minion.d/
+mkdir -p -- "${file_roots}"
+cp -r -- salt/* "${file_roots}"

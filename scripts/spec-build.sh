@@ -25,17 +25,17 @@ build_rpm(){
     rpmlint "${spec}"
   fi
 
-  if grep -q "^BuildRequires: " "${spec}"; then
+  if grep -q -e "^BuildRequires: " -- "${spec}"; then
     sudo dnf build-dep "${spec}"
   fi
 
-  mkdir -p \
+  mkdir -p -- \
     "${build_dir}/BUILD/${group}-${project}/LICENSES/" \
     "${build_dir}/SOURCES/${group}-${project}/LICENSES"
 
   ## TODO: generate tarball to sources.
-  cp -r . "${build_dir}/BUILD/${group}-${project}/"
-  cp -r . "${build_dir}/SOURCES/${group}-${project}/"
+  cp -r -- . "${build_dir}/BUILD/${group}-${project}/"
+  cp -r -- . "${build_dir}/SOURCES/${group}-${project}/"
 
   ## TODO: use qubes-builderv2 with mock or qubes executor
   rpmbuild -ba --quiet --clean -- "${spec}"
@@ -49,7 +49,7 @@ build_rpm(){
     dbpath="$(mktemp -d)"
     trap 'rm -rf -- "${dbpath}"' EXIT INT HUP QUIT ABRT
     tmp_file="${dbpath}/${key_id}.asc"
-    "${gpg}" --export --armor "${key_id}" | tee "${tmp_file}" >/dev/null
+    "${gpg}" --export --armor "${key_id}" | tee -- "${tmp_file}" >/dev/null
     rpmkeys --dbpath="${dbpath}" --import "${tmp_file}"
     ## TODO: target only the latest release
     rpmkeys --dbpath="${dbpath}" --checksig --verbose \
@@ -73,7 +73,7 @@ build_dir="${HOME}/rpmbuild"
 if command -v rpmdev-setuptree >/dev/null; then
   rpmdev-setuptree
 else
-  mkdir -p \
+  mkdir -p -- \
     "${build_dir}/BUILD" "${build_dir}/BUILDROOT" "${build_dir}/RPMS" \
     "${build_dir}/SOURCES" "${build_dir}/SPECS" "${build_dir}/SRPMS"
 fi

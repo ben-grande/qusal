@@ -130,7 +130,7 @@ mails will be done in `disp-mail-fetcher`.
 Copy example configuration file to where the program can read automatically:
 
 ```sh
-cp ~/.fdm.conf.example ~/.fdm.conf
+cp -- ~/.fdm.conf.example ~/.fdm.conf
 ```
 
 Edit the configuration according to your needs:
@@ -166,7 +166,7 @@ according to your needs.
 Copy example configuration file to where the program can read automatically:
 
 ```sh
-cp ~/.mporc.example ~/.mpoprc
+cp -- ~/.mporc.example ~/.mpoprc
 ```
 
 Edit the configuration according to your needs:
@@ -249,7 +249,7 @@ mails are done in `disp-mail-sender`.
 Copy example configuration file to where the program can read automatically:
 
 ```sh
-cp ~/.msmtprc.example ~/.msmtprc
+cp -- ~/.msmtprc.example ~/.msmtprc
 ```
 
 Edit the configuration according to your needs:

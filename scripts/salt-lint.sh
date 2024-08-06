@@ -38,16 +38,16 @@ case "${find_tool}" in
     conf_files="$(${find_tool} . minion.d/ -e conf)"
     sls_files="$(${find_tool} . salt/ -d 2 -t f -e sls -e top -e jinja \
       -e j2 -e tmpl -e tst | sort -d)"
-    files="${conf_files}\n${sls_files}"
+    set -- ${conf_files} ${sls_files}
     ;;
   find)
     conf_files="$(find minion.d/ -type f -name "*.conf")"
     sls_files="$(find salt/* -maxdepth 2 -type f \
       \( -name '*.sls' -o -name '*.top' -o -name '*.jinja' \
       -o -name '*.j2' -o -name '*.tmpl' -o -name '*.tst' \) | sort -d)"
-    files="${conf_files}\n${sls_files}"
+    set -- ${conf_files} ${sls_files}
     ;;
   *) echo "Unsupported find tool" >&2; exit 1;;
 esac
 
-exec salt-lint ${conf} ${files}
+exec salt-lint ${conf} "${@}"

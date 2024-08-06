@@ -12,7 +12,7 @@ test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
 unset repo_toplevel
 
-now="$(date +%s)"
+now="$(date -- +%s)"
 fail="0"
 find_tool="$(./scripts/best-program.sh fd fdfind find)"
 
@@ -46,7 +46,7 @@ fi
 for key in ${files}; do
   data="$(gpg --no-keyring --no-auto-check-trustdb --no-autostart \
     --with-colons --show-keys "${key}")"
-  nr="$(echo "${data}" | grep -Ec '^(p|s)ub:')"
+  nr="$(echo "${data}" | grep -Ec -e '^(p|s)ub:')"
   ## Threshold in days.
   threshold="${PGP_LINT_THRESHOLD:-30}"
   tty_stderr=0

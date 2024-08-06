@@ -23,14 +23,14 @@ Example:
 ls_agent(){
   socket="/tmp/${service}/${agent}.sock"
   test -S "${socket}" || return 1
-  agent="$(echo "${socket}" | sed "s|.*${service}/||;s/\.sock//")"
+  agent="$(echo "${socket}" | sed -e "s|.*${service}/||;s/\.sock//")"
   echo "Agent: (${agent}) ${socket}"
   SSH_AUTH_SOCK="${socket}" ssh-add -l || true
 }
 
 add_agent(){
   # shellcheck disable=SC2174
-  mkdir -m 0700 -p "/tmp/${service}"
+  mkdir -m 0700 -p -- "/tmp/${service}"
   dir="${HOME}/.ssh/identities.d/${agent}"
   if ! test -d "${dir}"; then
     echo "Directory not found: ${dir}" >&2
@@ -45,8 +45,8 @@ add_agent(){
   if ! test "${reload_agent}" = "1"; then
     return
   fi
-  keys="$(grep -sl -- "-----BEGIN OPENSSH PRIVATE KEY-----" \
-          "${HOME}/.ssh/identities.d/${dir}"/* || true)"
+  keys="$(grep -sl -e "-----BEGIN OPENSSH PRIVATE KEY-----" \
+          -- "${HOME}/.ssh/identities.d/${dir}"/* || true)"
   if test -z "${keys}"; then
     echo "Directory has no key: ${dir}" >&2
     return 1
@@ -56,7 +56,7 @@ add_agent(){
     test -f "${k}" || continue
     ssh_add_option=""
     if test -f "${k}.ssh-add-option"; then
-      ssh_add_option="$(cat "${k}.ssh-add-option")"
+      ssh_add_option="$(cat -- "${k}.ssh-add-option")"
     fi
     # shellcheck disable=SC2086
     SSH_AUTH_SOCK="${socket}" ssh-add ${ssh_add_option} "${k}"

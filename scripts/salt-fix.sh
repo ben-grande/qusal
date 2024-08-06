@@ -24,24 +24,24 @@ case "${find_tool}" in
   fd|fdfind)
     conf_files="$(${find_tool} . minion.d/ -e conf)"
     sls_files="$(${find_tool} . salt/ -d 2 -t f -e sls)"
-    files="${conf_files}\n${sls_files}"
+    set -- ${conf_files} ${sls_files}
     ;;
   find)
     conf_files="$(find minion.d/ -type f -name "*.conf")"
     sls_files="$(find salt/ -maxdepth 2 -type f -name '*.sls')"
-    files="${conf_files}\n${sls_files}"
+    set -- ${conf_files} ${sls_files}
     ;;
   *) echo "Unsupported find tool" >&2; exit 1;;
 esac
 
 ## 201 - Fix trailing whitespace:
-sed -i'' -e's/[[:space:]]*$//' ${files}
+sed -i'' -e 's/[[:space:]]*$//' -- "${@}"
 
 ## 206 - Fix spacing around {{ var_name }}, eg. {{env}} --> {{ env }}:
-sed -i'' -E "s/\{\{\s?([^}]*[^} ])\s?\}\}/\{\{ \1 \}\}/g" ${files}
+sed -i'' -E -e "s/\{\{\s?([^}]*[^} ])\s?\}\}/\{\{ \1 \}\}/g" -- "${@}"
 
 ## 207 - Add quotes around numeric values that start with a 0:
-sed -i'' -E "s/\b(minute|hour): (0[0-7]?)\$/\1: '\2'/" ${files}
+sed -i'' -E -e "s/\b(minute|hour): (0[0-7]?)\$/\1: '\2'/" -- "${@}"
 
 ## 208 - Make dir_mode, file_mode and mode arguments in the desired syntax:
-sed -i'' -E "s/\b(dir_|file_|)mode: 0?([0-7]{3})/\1mode: '0\2'/" ${files}
+sed -i'' -E -e "s/\b(dir_|file_|)mode: 0?([0-7]{3})/\1mode: '0\2'/" -- "${@}"

@@ -28,18 +28,18 @@ set_proxy_marker(){
   proxy_file="${1}"
   proxy_options="${2}"
 
-  if ! grep -q "^${marker_begin}$" "${proxy_file}"; then
-    if grep -q "^${marker_end}$" "${proxy_file}"; then
+  if ! grep -q -e "^${marker_begin}$" -- "${proxy_file}"; then
+    if grep -q -e "^${marker_end}$" -- "${proxy_file}"; then
       msg="found marker ${marker_end_text} but not ${marker_begin_text}"
       msg="${msg} in ${proxy_file}."
       msg="${msg} fix it by removing markers or adding missing ones and retry"
       echo "Error: ${msg}" >&2
       exit 1
     fi
-    cp "${proxy_file}" "${proxy_file}.qubes-orig"
-    echo "${marker_begin}" | tee -a "${proxy_file}" >/dev/null
-    echo "${marker_end}" | tee -a "${proxy_file}" >/dev/null
-  elif ! grep -q "^${marker_end}$" "${proxy_file}"; then
+    cp -- "${proxy_file}" "${proxy_file}.qubes-orig"
+    echo "${marker_begin}" | tee -a -- "${proxy_file}" >/dev/null
+    echo "${marker_end}" | tee -a -- "${proxy_file}" >/dev/null
+  elif ! grep -q -e "^${marker_end}$" -- "${proxy_file}"; then
     msg="found marker ${marker_begin_text} but not ${marker_end_text}"
     msg="${msg} in ${proxy_file}."
     msg="${msg} fix it by removing markers or adding missing ones and retry"
@@ -56,16 +56,16 @@ ${proxy_options}
 EOF
 
   ## Couldn't figure out how to write only changes on the next sed.
-  if ! grep -q "${proxy_options}" "${proxy_file}"; then
-    tee -a "${changes_file}" <"${proxy_tmp_file}" >/dev/null
+  if ! grep -q -e "${proxy_options}" -- "${proxy_file}"; then
+    tee -a -- "${changes_file}" <"${proxy_tmp_file}" >/dev/null
   fi
   ## GNU Sed, only reliable while we don't support BSD.
   sed -i -e "/^${marker_begin}$/,/^${marker_end}$/{
     /^${marker_end}$/b
     /^${marker_begin}$/!d
     r ${proxy_tmp_file}
-    }" "${proxy_file}"
-  rm -f "${proxy_tmp_file}"
+    }" -- "${proxy_file}"
+  rm -f -- "${proxy_tmp_file}"
 }
 
 check_netvm_cacher(){
@@ -108,7 +108,7 @@ ${proxy_conf}"
 ${proxy_conf}
 EOF
     else
-      rm -f /etc/yum.conf.d/qubes-proxy.conf
+      rm -f -- /etc/yum.conf.d/qubes-proxy.conf
     fi
 
     set --
@@ -132,7 +132,7 @@ EOF
         meta_expr="s|${meta_search}|${meta_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${baseurl_expr}" -e "${meta_expr}" \
-        {} \+
+        -- {} \+
 
         set --
         for repo in \
@@ -153,7 +153,7 @@ EOF
         meta_expr="s|${meta_search}|${meta_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${baseurl_expr}" -e "${meta_expr}" \
-        {} \+
+        -- {} \+
         ;;
 
       uninstall)
@@ -165,7 +165,7 @@ EOF
         meta_expr="s|${meta_search}|${meta_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${baseurl_expr}" -e "${meta_expr}" \
-        {} \+
+        -- {} \+
 
         set --
         for repo in \
@@ -181,7 +181,7 @@ EOF
         find "${@}" -type f -exec sed -i \
           -e "s|^\s*baseurl|#baseurl|w ${changes_file}" \
           -e "s|^\s*#.*metalink\s*=|metalink=|w ${changes_file}" \
-        {} \+ 2>/dev/null || true
+        -- {} \+ 2>/dev/null || true
         ;;
       *) echo "Unsupported action" >&2; exit 1
     esac
@@ -196,7 +196,7 @@ Acquire::http::Proxy "${proxy_url}";
 Acquire::tor::proxy "${proxy_url}";
 EOF
     else
-      rm -f /etc/apt/apt.conf.d/50cacher-proxy
+      rm -f -- /etc/apt/apt.conf.d/50cacher-proxy
     fi
 
     set --
@@ -222,7 +222,7 @@ EOF
         list_expr="s|${list_search}|${list_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${list_expr}" -e "${sources_expr}" \
-        {} \+
+        -- {} \+
         ;;
 
       uninstall)
@@ -234,7 +234,7 @@ EOF
         list_expr="s|${list_search}|${list_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${list_expr}" -e "${sources_expr}" \
-        {} \+
+        -- {} \+
         ;;
       *) echo "Unsupported action" >&2; exit 1
     esac
@@ -244,18 +244,18 @@ EOF
 
     if test -n "${proxy_addr}"; then
       if ! test -d /run/qubes/bin; then
-        mkdir -p /run/qubes/bin
+        mkdir -p -- /run/qubes/bin
       fi
       cat >/run/qubes/bin/pacman <<EOF
 #!/bin/sh
 exec env ALL_PROXY="${proxy_url}" /usr/bin/pacman "\${@}"
 EOF
-      chmod +x /run/qubes/bin/pacman
+      chmod -- +x /run/qubes/bin/pacman
       cat >/etc/profile.d/qubes-proxy.sh << EOF
 export PATH=/run/qubes/bin:\${PATH}
 EOF
     else
-      rm -f /run/qubes/bin/pacman /etc/profile.d/qubes-proxy.sh
+      rm -f -- /run/qubes/bin/pacman /etc/profile.d/qubes-proxy.sh
     fi
 
     set --
@@ -278,7 +278,7 @@ EOF
         repo_regex="s|${repo_search}|${repo_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${repo_regex}" \
-        {} \+
+        -- {} \+
         ;;
 
       uninstall)
@@ -287,7 +287,7 @@ EOF
         repo_regex="s|${repo_search}|${repo_repl}|w ${changes_file}"
         find "${@}" -type f -exec sed -i \
           -e "${repo_regex}" \
-        {} \+
+        -- {} \+
         ;;
       *) echo "Unsupported action" >&2; exit 1
     esac
@@ -312,7 +312,7 @@ usage(){
 }
 
 changes_file="$(mktemp)"
-trap 'rm -f "${changes_file}"' HUP INT QUIT ABRT EXIT
+trap 'rm -f -- "${changes_file}"' HUP INT QUIT ABRT EXIT
 
 if test -f /var/run/qubes-service/updates-proxy-setup ||
   test -f /var/run/qubes-service/netvm-cacher

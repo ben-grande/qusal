@@ -142,10 +142,10 @@ if test "${key}" = "saltfiles" || test "${key}" = "requires"; then
   saltfiles="$(find "${project_dir}" -maxdepth 1 -name "*.sls")"
   # shellcheck disable=SC2086
   if test -n "${saltfiles}"; then
-    requires="$(sed -n '/^include:$/,/^\s*$/p' -- ${saltfiles} |
-      sed "/^\s*- \./d;/{/d" | grep "^\s*- " | cut -d "." -f1 | sort -u |
-      sed "s/- //")"
-    if grep -qrn "{%-\? from \('\|\"\)utils" ${saltfiles}; then
+    requires="$(sed -n -e '/^include:$/,/^\s*$/p' -- ${saltfiles} |
+      sed -e "/^\s*- \./d;/{/d" | grep -e "^\s*- " | cut -d "." -f1 |
+      sort -u | sed -e "s/- //")"
+    if grep -qrn -e "{%-\? from \('\|\"\)utils" ${saltfiles}; then
       if test -n "${requires}"; then
         requires="${requires} utils"
       else
@@ -156,7 +156,7 @@ if test "${key}" = "saltfiles" || test "${key}" = "requires"; then
     requires=""
   fi
   requires_valid=""
-  for r in $(printf %s"${requires}" | tr " " "\n"); do
+  for r in $(printf '%s' "${requires}" | tr " " "\n"); do
     if ! test -d "salt/${r}"; then
       continue
     fi

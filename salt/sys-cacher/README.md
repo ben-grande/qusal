@@ -102,7 +102,7 @@ administrative access to the cacher qube.  You should add the following to the
 end of `sys-cacher` rc.local:
 
 ```sh
-echo "AdminAuth: username:password" | tee /etc/qusal-apt-cacher-ng/zzz_security.conf
+echo "AdminAuth: username:password" | tee -- /etc/qusal-apt-cacher-ng/zzz_security.conf
 ```
 
 Where username and password are HTTP Auth strings.
@@ -158,7 +158,7 @@ qvm-tags QUBE add updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
 sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
 qvm-run --user=root QUBE -- "
-touch /var/run/qubes-service/updates-proxy-setup
+touch -- /var/run/qubes-service/updates-proxy-setup
 /usr/bin/apt-cacher-ng-repo
 systemctl restart qubes-updates-proxy-forwarder.socket"
 ```
