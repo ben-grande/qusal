@@ -11,7 +11,7 @@ set -eu
 file="${XDG_CONFIG_HOME:=${HOME}/.config}/kwinrulesrc"
 
 usage(){
-  echo "Usage: ${0##*/} <group> <activity>
+  printf '%s\n' "Usage: ${0##*/} <group> <activity>
 Example: ${0##*/} personal personal
 Example: ${0##*/} fun personal
 Example: ${0##*/} work work

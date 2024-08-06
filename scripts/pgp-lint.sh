@@ -6,7 +6,8 @@
 
 set -eu
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -35,7 +36,7 @@ else
     find)
       files="$(find . -type f \( -name '*.asc' -o -name '*.gpg' \) | sort -d)"
       ;;
-    *) echo "Unsupported find tool" >&2; exit 1;;
+    *) printf '%s\n' "Unsupported find tool" >&2; exit 1;;
   esac
 fi
 
@@ -46,14 +47,14 @@ fi
 for key in ${files}; do
   data="$(gpg --no-keyring --no-auto-check-trustdb --no-autostart \
     --with-colons --show-keys "${key}")"
-  nr="$(echo "${data}" | grep -Ec -e '^(p|s)ub:')"
+  nr="$(printf '%s\n' "${data}" | grep -Ec -e '^(p|s)ub:')"
   ## Threshold in days.
   threshold="${PGP_LINT_THRESHOLD:-30}"
   tty_stderr=0
   if test -t 2; then
     tty_stderr=1
   fi
-  echo "${data}" | awk -v fail="0" -v key="${key}" -v nr="${nr}" \
+  printf '%s\n' "${data}" | awk -v fail="0" -v key="${key}" -v nr="${nr}" \
     -v threshold="${threshold}" -v now="${now}" -v color="${tty_stderr}" \
     -F ':' '
     BEGIN {

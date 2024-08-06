@@ -8,7 +8,7 @@
 set -eu
 
 usage(){
-  echo "Usage: ${0##*/} <file> [file ...]"
+  printf '%s\n' "Usage: ${0##*/} <file> [file ...]"
   exit 1
 }
 
@@ -21,18 +21,19 @@ esac
 ## update on save.
 if ! vim -e -c 'setf markdown' -c 'if !exists(":GenTocGFM") | cq | endif' -c q
 then
-  echo "Error: Vim Plugin mzlogin/vim-markdown-toc is not installed." >&2
+  err_msg="Error: Vim Plugin mzlogin/vim-markdown-toc isn't installed."
+  printf '%s\n' "${err_msg}" >&2
   exit 1
 fi
 
 
 for f in "${@}"; do
   if ! test -f "${f}"; then
-    echo "Error: Not a regular file: ${f}" >&2
+    printf '%s\n' "Error: Not a regular file: ${f}" >&2
     exit 1
   fi
   if ! grep -q -e "^## Table of Contents$" -- "${f}"; then
-    echo "Could not find table of contents in file: ${f}, skipping" >&2
+    printf '%s\n' "Could not find TOC in file: ${f}, skipping" >&2
     continue
   fi
   ## This is fragile, the table of contents should have at least one block
@@ -40,5 +41,5 @@ for f in "${@}"; do
   ## the rest of the file.
   vim -c 'norm zRgg' -c '/^## Table of Contents$' -c 'norm jd}k' \
       -c ':GenTocGFM' -c 'norm ddgg' -c wq -- "${f}"
-  echo "Updated TOC in file: ${f}"
+  printf '%s\n' "Updated TOC in file: ${f}"
 done

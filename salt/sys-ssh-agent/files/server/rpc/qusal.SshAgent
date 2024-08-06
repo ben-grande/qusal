@@ -7,7 +7,7 @@
 set -eu
 
 die(){
-  echo "error: ${1}" >&2
+  printf '%s\n' "error: ${1}" >&2
   exit 1
 }
 
@@ -18,7 +18,8 @@ if test -z "${untrusted_agent}"; then
   die "Agent name is empty"
 fi
 
-if ! (echo "${untrusted_agent}" | grep -q -e "^[A-Za-z0-9][A-Za-z0-9_.-]\+$")
+if ! (printf '%s\n' "${untrusted_agent}" | \
+  grep -q -e "^[A-Za-z0-9][A-Za-z0-9_.-]\+$")
 then
   msg="Forbidden characters in agent name."
   msg="${msg} Allowed chars: letters, numbers, hyphen, underscore and dot."

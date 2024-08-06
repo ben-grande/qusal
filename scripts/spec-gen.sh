@@ -7,16 +7,17 @@
 set -eu
 
 usage(){
-  echo "Usage: ${0##*/} PROJECT [PROJECT ...]"
+  printf '%s\n' "Usage: ${0##*/} PROJECT [PROJECT ...]"
 }
 
 ## Escape multiline strings for sed.
 escape_key(){
   key_type="${1}"
   if test "${key_type}" = "scriptlet"; then
-    echo "${2}" | sed -e ':a;N;$!ba;s/\n/\\n  /g' | sed -e 's/\$/\\$/'
+    printf '%s\n' "${2}" | sed -e ':a;N;$!ba;s/\n/\\n  /g' | \
+      sed -e 's/\$/\\$/'
   elif test "${key_type}" = "text"; then
-    echo "${2}" | sed -e ':a;N;$!ba;s/\n/\\n/g' | sed -e 's/\$/\\$/'
+    printf '%s\n' "${2}" | sed -e ':a;N;$!ba;s/\n/\\n/g' | sed -e 's/\$/\\$/'
   else
     return 1
   fi
@@ -33,7 +34,7 @@ get_scriptlet(){
     "/^<\!${scriptlet_begin}>$/,/^<\!${scriptlet_end}>$/p" \
     -- "${readme}" | sed -e '/^```.*/d;/^\S*$/d;/^<\!-- pkg:/d;s/^sudo //')"
   if test -z "${scriptlet}"; then
-    echo true
+    printf '%s\n' "true"
     return 0
   fi
   escape_key scriptlet "${scriptlet}"
@@ -44,14 +45,14 @@ get_spec(){
 }
 
 gen_spec(){
-  project="$(echo "${1}" | sed -e "s|salt/||;s|/.*||")"
-  if echo "${projects_seen}" | grep -qF -e " ${project} "; then
+  project="$(printf '%s\n' "${1}" | sed -e "s|salt/||;s|/.*||")"
+  if printf '%s\n' "${projects_seen}" | grep -qF -e " ${project} "; then
     return
   fi
   projects_seen="${projects_seen} ${project} "
 
-  if echo "${unwanted}" | grep -q -e "^${project}$"; then
-    echo "warn: skipping spec generation of untracked formula: ${project}" >&2
+  if printf '%s\n' "${unwanted}" | grep -q -e "^${project}$"; then
+    printf '%s\n' "warn: skipping spec of untracked formula: ${project}" >&2
     return 0
   fi
 
@@ -74,7 +75,7 @@ gen_spec(){
   version="$(get_spec version)"
   license_csv="$(get_spec license_csv)"
   ## Ideally we would query the license, but it is a heavy call.
-  license="$(echo "${license_csv}" | sed -e "s/\,/ AND /g")"
+  license="$(printf '%s\n' "${license_csv}" | sed -e "s/\,/ AND /g")"
   vendor="$(get_spec vendor)"
   packager="$(get_spec packager)"
   url="$(get_spec url)"
@@ -125,18 +126,19 @@ gen_spec(){
     requires_key="${requires_key:-}Requires:       ${group}-${r}\n"
   done
   sed -i -e "s/@REQUIRES@/${requires_key}/" -- "${target}" >/dev/null
-  echo "${changelog}" | tee -a -- "${target}" >/dev/null
+  printf '%s\n' "${changelog}" | tee -a -- "${target}" >/dev/null
 
   if test "${2-}" = "test"; then
     if ! cmp -s -- "${target}" "${intended_target}"; then
-      echo "error: ${intended_target} is not up to date" >&2
+      printf '%s\n' "error: ${intended_target} is not up to date" >&2
       diff --color=auto -- "${intended_target}" "${target}" || true
       fail=1
     else
       unstaged_target="$(git diff --name-only -- "${intended_target}")" ||
         true
       if test -n "${unstaged_target}"; then
-        echo "warn: ${intended_target} is up to date but it is not staged" >&2
+        err_msg="warn: ${intended_target} is up to date but it is not staged"
+        printf '%s\n' "${err_msg}" >&2
       fi
     fi
   fi
@@ -147,7 +149,8 @@ case "${1-}" in
   *) ;;
 esac
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -167,7 +170,8 @@ if test "${1-}" = "test"; then
   shift
 fi
 
-if echo "${@}" | grep -qE -e "(^scripts/| scripts/|/template.spec)" ||
+if printf '%s\n' "${@}" | \
+  grep -qE -e "(^scripts/| scripts/|/template.spec)" ||
   test -z "${1-}"
 then
   # shellcheck disable=SC2046,SC2312

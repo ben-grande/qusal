@@ -9,7 +9,7 @@ set -eu
 service="qusal-ssh-agent"
 
 usage(){
-  echo "Usage: ${0##*/} [ls|add] <AGENT>
+  printf '%s\n' "Usage: ${0##*/} [ls|add] <AGENT>
   ls: list agent(s)
   add: add keys to agent(s)
   reload: reload/re-add keys from agent(s)
@@ -23,8 +23,8 @@ Example:
 ls_agent(){
   socket="/tmp/${service}/${agent}.sock"
   test -S "${socket}" || return 1
-  agent="$(echo "${socket}" | sed -e "s|.*${service}/||;s/\.sock//")"
-  echo "Agent: (${agent}) ${socket}"
+  agent="$(printf '%s\n' "${socket}" | sed -e "s|.*${service}/||;s/\.sock//")"
+  printf '%s\n' "Agent: (${agent}) ${socket}"
   SSH_AUTH_SOCK="${socket}" ssh-add -l || true
 }
 
@@ -33,7 +33,7 @@ add_agent(){
   mkdir -m 0700 -p -- "/tmp/${service}"
   dir="${HOME}/.ssh/identities.d/${agent}"
   if ! test -d "${dir}"; then
-    echo "Directory not found: ${dir}" >&2
+    printf '%s\n' "Directory not found: ${dir}" >&2
     return 1
   fi
   dir="${dir##*/}"
@@ -48,7 +48,7 @@ add_agent(){
   keys="$(grep -sl -e "-----BEGIN OPENSSH PRIVATE KEY-----" \
           -- "${HOME}/.ssh/identities.d/${dir}"/* || true)"
   if test -z "${keys}"; then
-    echo "Directory has no key: ${dir}" >&2
+    printf '%s\n' "Directory has no key: ${dir}" >&2
     return 1
   fi
   SSH_AUTH_SOCK="${socket}" ssh-add -D 2>/dev/null || true

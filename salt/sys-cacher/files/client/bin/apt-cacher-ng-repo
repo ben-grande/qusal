@@ -33,17 +33,17 @@ set_proxy_marker(){
       msg="found marker ${marker_end_text} but not ${marker_begin_text}"
       msg="${msg} in ${proxy_file}."
       msg="${msg} fix it by removing markers or adding missing ones and retry"
-      echo "Error: ${msg}" >&2
+      printf '%s\n' "Error: ${msg}" >&2
       exit 1
     fi
     cp -- "${proxy_file}" "${proxy_file}.qubes-orig"
-    echo "${marker_begin}" | tee -a -- "${proxy_file}" >/dev/null
-    echo "${marker_end}" | tee -a -- "${proxy_file}" >/dev/null
+    printf '%s\n' "${marker_begin}" | tee -a -- "${proxy_file}" >/dev/null
+    printf '%s\n' "${marker_end}" | tee -a -- "${proxy_file}" >/dev/null
   elif ! grep -q -e "^${marker_end}$" -- "${proxy_file}"; then
     msg="found marker ${marker_begin_text} but not ${marker_end_text}"
     msg="${msg} in ${proxy_file}."
     msg="${msg} fix it by removing markers or adding missing ones and retry"
-    echo "error: ${msg}" >&2
+    printf '%s\n' "error: ${msg}" >&2
     exit 1
   fi
 
@@ -80,7 +80,8 @@ check_netvm_cacher(){
   if test -f /var/run/qubes-service/netvm-cacher; then
     proxy_host="$(qubesdb-read /qubes-gateway)"
     if test -z "${proxy_host}"; then
-      echo "Error: service netvm-cacher enabled but netvm IP not found" >&2
+      printf '%s\n' \
+        "Error: service netvm-cacher enabled but netvm IP not found" >&2
       return 1
     fi
   fi
@@ -90,7 +91,8 @@ check_netvm_cacher(){
 }
 
 reject_os(){
-  echo "${0##*/} does not support your Operating System distribution." >&2
+  msg_unsupported="${0##*/} does not support your OS distribution."
+  printf '%s\n' "${msg_unsupported}" >&2
   exit 1
 }
 
@@ -183,7 +185,7 @@ EOF
           -e "s|^\s*#.*metalink\s*=|metalink=|w ${changes_file}" \
         -- {} \+ 2>/dev/null || true
         ;;
-      *) echo "Unsupported action" >&2; exit 1
+      *) printf '%s\n' "Unsupported action" >&2; exit 1
     esac
 
   elif test -e /etc/debian_version && test ! -e /usr/share/whonix/marker; then
@@ -236,7 +238,7 @@ EOF
           -e "${list_expr}" -e "${sources_expr}" \
         -- {} \+
         ;;
-      *) echo "Unsupported action" >&2; exit 1
+      *) printf '%s\n' "Unsupported action" >&2; exit 1
     esac
 
   elif test -e /etc/arch-release; then
@@ -289,7 +291,7 @@ EOF
           -e "${repo_regex}" \
         -- {} \+
         ;;
-      *) echo "Unsupported action" >&2; exit 1
+      *) printf '%s\n' "Unsupported action" >&2; exit 1
     esac
 
   else
@@ -306,8 +308,8 @@ set_proxy_unspecific_os(){
 }
 
 usage(){
-  echo "Usage: ${0##*/} [install|uninstall]"
-  echo "Note: autodetection occurs if not argument is specified"
+  printf '%s\n' "Usage: ${0##*/} [install|uninstall]"
+  printf '%s\n' "Note: autodetection occurs if not argument is specified"
   exit 1
 }
 
@@ -330,7 +332,7 @@ esac
 
 uid="$(id -u)"
 if test "${uid}" != "0"; then
-  echo "Error: Permission denied, action requires root privileges."
+  printf '%s\n' "Error: Permission denied, action requires root privileges."
   exit 1
 fi
 
@@ -339,10 +341,10 @@ set_proxy_os
 set_proxy_unspecific_os
 
 ## Stateful Salt cmd Module.
-echo
+printf '\n'
 if test -s "${changes_file}"; then
-  echo "changed=yes comment='configuration was modified'"
+  printf '%s\n' "changed=yes comment='configuration was modified'"
 else
-  echo "changed=no comment='configuration remained untouched'"
+  printf '%s\n' "changed=no comment='configuration remained untouched'"
 fi
 exit

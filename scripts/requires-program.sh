@@ -14,6 +14,6 @@ for pkg in "${@}"; do
 done
 
 if test -n "${requires_program}"; then
-  echo "Missing program(s): ${requires_program}" >&2
+  printf '%s\n' "Missing program(s): ${requires_program}" >&2
   exit 1
 fi

@@ -8,4 +8,4 @@ set -eu
 conf="${HOME}/.bitcoin/conf.d/dbcache.conf"
 cache_Mi="$(awk -- '/^MemTotal:/{printf "%.0f", $2/1024}' /proc/meminfo)"
 cache="$((cache_Mi*75/100))"
-echo "dbcache=${cache}" | tee -- "${conf}" >/dev/null
+printf '%s\n' "dbcache=${cache}" | tee -- "${conf}" >/dev/null

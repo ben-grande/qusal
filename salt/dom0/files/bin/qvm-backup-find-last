@@ -42,4 +42,4 @@ if test -z "${last_backup}"; then
   exit 1
 fi
 
-echo "${last_backup}"
+printf '%s\n' "${last_backup}"

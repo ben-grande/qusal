@@ -12,16 +12,16 @@ case "${GIT_TRACE_HELPER:-}" in
 esac
 
 usage(){
-  echo "Usage: ${helper} [<qube>] [<repository>]" >&2
-  echo "Note: qube defaults to @default" >&2
-  echo "Note: repository defaults to current working repository" >&2
+  printf '%s\n' "Usage: ${helper} [<qube>] [<repository>]" >&2
+  printf '%s\n' "Note: qube defaults to @default" >&2
+  printf '%s\n' "Note: repository defaults to current working repository" >&2
   exit 1
 }
 
 is_git_repo(){
   if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
-    echo "Error: Current working directory is not in a git repository" >&2
-    echo "Error: Run from a repository or pass the name as an argument" >&2
+    printf '%s\n' "Error: CWD is not a git repository" >&2
+    printf '%s\n' "Error: Run from a repository or provide its name" >&2
     usage
   fi
 }

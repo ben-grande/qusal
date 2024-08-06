@@ -8,7 +8,8 @@
 
 set -eu
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -22,7 +23,7 @@ if test -n "${1-}"; then
   fi
 fi
 
-files="$(echo "${files}" | sort -u)"
+files="$(printf '%s\n' "${files}" | sort -u)"
 # shellcheck disable=SC2086
 unicode_match="$(grep -oPrHn --exclude-dir=.git --exclude-dir=LICENSES \
                   -e "[^\x00-\x7F]" -- ${files} || true)"
@@ -30,14 +31,14 @@ unicode_match="$(grep -oPrHn --exclude-dir=.git --exclude-dir=LICENSES \
 match_found=""
 if test -n "${unicode_match}"; then
   for line in ${unicode_match}; do
-    line_file="$(echo "${line}" | cut -d ":" -f1)"
+    line_file="$(printf '%s\n' "${line}" | cut -d ":" -f1)"
     case "${line_file}" in
       git/*|LICENSES/*|.reuse/dep5|*.asc) continue;;
       *) ;;
     esac
-    line_number="$(echo "${line}" | cut -d ":" -f2)"
-    line_unicode="$(echo "${line}" | cut -d ":" -f3 | od -A n -vt c)"
-    echo "${line_file}:${line_number}:${line_unicode}"
+    line_number="$(printf '%s\n' "${line}" | cut -d ":" -f2)"
+    line_unicode="$(printf '%s\n' "${line}" | cut -d ":" -f3 | od -A n -vt c)"
+    printf '%s\n' "${line_file}:${line_number}:${line_unicode}"
     match_found="1"
   done
   if test "${match_found}" = 1; then

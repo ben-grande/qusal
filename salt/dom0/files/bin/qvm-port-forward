@@ -29,7 +29,7 @@ validate_handle(){
   untrusted_handle="${2}"
   case "${untrusted_handle}" in
     ""|*[!0-9]*)
-      echo "error: ${qube}: invalid handle" >&2
+      printf '%s\n' "error: ${qube}: invalid handle" >&2
       exit 1
       ;;
     *) ;;
@@ -41,7 +41,7 @@ validate_ipv4(){
   untrusted_ip="${2}"
   case "${untrusted_ip}" in
     ""|*[!0-9./]*)
-      echo "error: ${qube}: invalid IPv4 address" >&2
+      printf '%s\n' "error: ${qube}: invalid IPv4 address" >&2
       exit 1
       ;;
     *) ;;
@@ -53,7 +53,7 @@ validate_ipv6(){
   untrusted_ip="${2}"
   case "${untrusted_ip}" in
     ""|*[!0-9a-f:/]*)
-      echo "error: ${qube}: invalid IPv6 address" >&2
+      printf '%s\n' "error: ${qube}: invalid IPv6 address" >&2
       exit 1
       ;;
     *) ;;
@@ -65,7 +65,7 @@ validate_dev(){
   untrusted_dev="${2}"
   case "${untrusted_dev}" in
     ""|*[!0-9A-Za-z]*)
-      echo "error: ${qube}: invalid device name" >&2
+      printf '%s\n' "error: ${qube}: invalid device name" >&2
       exit 1
       ;;
     *) ;;
@@ -123,7 +123,7 @@ forward() {
   from_ip="${untrusted_from_ip}"
 
   to_ip="$(qvm-prefs --get -- "${to_qube}" ip)"
-  to_ip_escaped="$(echo "${to_ip}" | tr "." "-")"
+  to_ip_escaped="$(printf '%s\n' "${to_ip}" | tr "." "-")"
   hook="${hook_prefix}${to_ip}-${proto}-${port}.sh"
 
   if test "${from_ip}" = "None"; then
@@ -147,11 +147,11 @@ add rule ip qubes ${forward_chain} ${forward_rule}'"
   delete_rule "${from_qube}" "${forward_chain}" "${forward_rule}"
   delete_rule "${from_qube}" "${dnat_chain}" "${dnat_rule}"
   if test "${action}" = "del"; then
-    echo "info: ${from_qube}: deleting rules" >&2
+    printf '%s\n' "info: ${from_qube}: deleting rules" >&2
     run_qube "${from_qube}" "rm -f ${hook}"
   else
     msg="adding forward rule dev ${dev} saddr ${lan_ip} daddr ${to_ip}"
-    echo "info: ${from_qube}: ${msg}" >&2
+    printf '%s\n' "info: ${from_qube}: ${msg}" >&2
     run_qube "${from_qube}" "${full_rule}"
 
     if test "${persistent}" = "1"; then
@@ -187,7 +187,7 @@ ${full_rule}"
 
       create_net_dir "${from_qube}"
       run_qube "${from_qube}" \
-        "echo \"${full_rule}\" | tee -- \"${hook}\" >/dev/null"
+        "printf '%s\n' \"${full_rule}\" | tee -- \"${hook}\" >/dev/null"
       run_qube "${from_qube}" "chmod -- +x ${hook}"
     fi
   fi
@@ -205,10 +205,10 @@ input() {
 
   delete_rule "${qube}" "custom-input" "${custom_input_rule}"
   if test "${action}" = "del"; then
-    echo "info: ${qube}: deleting rules" >&2
+    printf '%s\n' "info: ${qube}: deleting rules" >&2
     run_qube "${qube}" "rm -f ${hook}"
   else
-    echo "info: ${qube}: adding input rule daddr ${to_ip}" >&2
+    printf '%s\n' "info: ${qube}: adding input rule daddr ${to_ip}" >&2
     run_qube "${qube}" "${input_rule}"
     if test "${persistent}" = "1"; then
       input_rule="#!/bin/sh
@@ -230,7 +230,7 @@ fi
 ${input_rule}"
 
       run_qube "${qube}" \
-        "echo \"${input_rule}\" | tee -- \"${hook}\" >/dev/null"
+        "printf '%s\n' \"${input_rule}\" | tee -- \"${hook}\" >/dev/null"
       run_qube "${qube}" "chmod -- +x ${hook}"
     fi
   fi
@@ -247,7 +247,7 @@ get_lan(){
   dev="${untrusted_dev}"
 
   if test -z "${dev}"; then
-    echo "error: ${qube}: could not find any device that is up" >&2
+    printf '%s\n' "error: ${qube}: could not find any device that is up" >&2
     exit 1
   fi
 
@@ -258,7 +258,7 @@ get_lan(){
   lan_ip="${untrusted_lan_ip}"
 
   if test -z "${lan_ip}"; then
-    echo "error: ${qube}: could not find LAN from device ${dev}" >&2
+    printf '%s\n' "error: ${qube}: could not find LAN from device ${dev}" >&2
     exit 1
   fi
 }
@@ -266,8 +266,9 @@ get_lan(){
 test_qvm_run(){
   qube="${1}"
   # shellcheck disable=SC2310
-  if ! run_qube "${qube}" echo "Test QUBESRPC" >/dev/null 2>&1; then
-    echo "error: ${qube}: RPC qubes.VMShell failed, use a different qube" >&2
+  if ! run_qube "${qube}" printf '%s\n' "Test QUBESRPC" >/dev/null 2>&1; then
+    err_msg="error: ${qube}: RPC qubes.VMShell failed, use a different qube"
+    printf '%s\n' "${err_msg}" >&2
     exit 1
   fi
 }
@@ -280,19 +281,23 @@ recurse_netvms() {
     case "${cmd}" in
       show-upstream) test_qvm_run "${rec_qube}";;
       apply-rules) forward "${rec_netvm}" "${rec_qube}";;
-      *) echo "Unsupported command passed to recurse_netvms()" >&2; exit 1;;
+      *) printf '%s\n' "Unsupported command passed to recurse_netvms()" >&2
+        exit 1
+        ;;
     esac
     recurse_netvms "${cmd}" "${rec_netvm}"
   fi
   case "${cmd}" in
     show-upstream) get_lan "${rec_qube}";;
     apply-rules) ;;
-    *) echo "Unsupported command passed to recurse_netvms()" >&2; exit 1;;
+    *) printf '%s\n' "Unsupported command passed to recurse_netvms()" >&2
+      exit 1
+      ;;
   esac
 }
 
 usage() {
-  echo "Usage: ${0##*/} OPTIONS
+  printf '%s\n' "Usage: ${0##*/} OPTIONS
 Option syntax:
   --action ACTION --qube QUBE --port PORT --proto PROTO [--persistent]
 Options:
@@ -314,33 +319,42 @@ Warn: Persistent rules of disposable netvm are saved to its template" >&2
 check_opt(){
   case "${action:-}" in
     add|del);;
-    *) echo "error: action must be either 'add' or 'del'" >&2; exit 1;;
+    *)
+      printf '%s\n' "error: action must be either 'add' or 'del'" >&2
+      exit 1
+      ;;
   esac
 
   case "${proto:-}" in
     tcp|udp);;
-    *) echo "error: protocol must be only 'tcp' or 'udp'" >&2; exit 1;;
+    *)
+      printf '%s\n' "error: protocol must be only 'tcp' or 'udp'" >&2
+      exit 1
+      ;;
   esac
 
   case "${port:-}" in
-    ""|*[!0-9]*) echo "error: port must be only numbers" >&2; exit 1;;
+    ""|*[!0-9]*)
+      printf '%s\n' "error: port must be only numbers" >&2
+      exit 1
+      ;;
     *)
   esac
 
   if test "${port}" -ge 1 && test "${port}" -le 65535; then
     true
   else
-    echo "error: port must be in range 1-65535" >&2
+    printf '%s\n' "error: port must be in range 1-65535" >&2
     exit 1
   fi
 
   if test -z "${target_qube:-}"; then
-    echo "error: qube name not provided" >&2
+    printf '%s\n' "error: qube name not provided" >&2
     exit 1
   fi
 
   if ! qvm-check -- "${target_qube}" >/dev/null 2>&1; then
-    echo "error: qube '${target_qube}' not found." >&2
+    printf '%s\n' "error: qube '${target_qube}' not found." >&2
     exit 1
   fi
 }
@@ -352,7 +366,7 @@ persistent=""
 if ! OPTS=$(getopt -o h,a:q:p:n:s \
   --long help,action:,qube:,port:,proto:,persistent -n "${0}" -- "${@}")
 then
-  echo "An error occurred while parsing options." >&2
+  printf '%s\n' "An error occurred while parsing options." >&2
   exit 1
 fi
 
@@ -369,7 +383,7 @@ while test "${#}" -gt "0"; do
     -s|--persistent) persistent=1; shift;;
     -h|--help) usage;;
     --) break;;
-    *) echo "Unsupported option" >&2; exit 1;;
+    *) printf '%s\n' "Unsupported option" >&2; exit 1;;
   esac
   shift
 done

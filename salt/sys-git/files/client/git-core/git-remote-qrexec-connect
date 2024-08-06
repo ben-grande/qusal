@@ -7,19 +7,19 @@
 set -eu
 
 usage(){
-  echo "Usage: ${helper} (git-upload-pack|git-receive-pack)"
-  echo "Note: ${helper} is supposed to be called by ${parent_helper}"
+  printf '%s\n' "Usage: ${helper} (git-upload-pack|git-receive-pack)"
+  printf '%s\n' "Note: ${helper} is supposed to be called by ${parent_helper}"
   exit 1
 }
 
 die(){
-  echo "Error: ${1}" >&2
+  printf '%s\n' "Error: ${1}" >&2
   exit 1
 }
 
 log(){
   case "${GIT_TRACE_REMOTE_HELPER:-}" in
-    true|1) echo "${@}" >&2;;
+    true|1) printf '%s\n' "${@}" >&2;;
     *) ;;
   esac
 }
@@ -61,7 +61,7 @@ vendor="qusal"
 default_qube="sys-git"
 rpc_cmd="${vendor}.${rpc}+${path}"
 
-if echo "${query}" | \
+if printf '%s\n' "${query}" | \
   grep -qE -e "(^|&)verify_signatures=(1|[tT]rue|yes|on)($|&)"
 then
   die "Remote helper does not support signature verification yet"

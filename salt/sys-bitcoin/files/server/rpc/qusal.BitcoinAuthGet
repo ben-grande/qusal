@@ -15,8 +15,8 @@ bitcoin_pass="/home/user/.bitcoin/rpcclient.pass"
 user="${QREXEC_REMOTE_DOMAIN}"
 
 if ! systemctl is-active bitcoind >/dev/null 2>&1; then
-  echo "systemd service 'bitcoind' is not active" >&2
-  echo "cannot add credentials with remote RPC" >&2
+  printf '%s\n' "systemd service 'bitcoind' is not active" >&2
+  printf '%s\n' "cannot add credentials with remote RPC" >&2
   exit 1
 fi
 
@@ -28,19 +28,20 @@ if test -r "${bitcoin_conf}"; then
 fi
 
 if ! command -v bitcoin-rpcauth >/dev/null; then
-  echo "command not found: bitcoin-rpcauth" >&2
+  printf '%s\n' "command not found: bitcoin-rpcauth" >&2
   exit 127
 fi
 
 full_auth="$(bitcoin-rpcauth "${user}" | sed -n -e '2p;4p')"
-rpcauth="$(echo "${full_auth}" | head -1)"
-user="$(echo "${rpcauth}" | cut -d "=" -f2 | cut -d ":" -f1)"
-password="$(echo "${full_auth}" | tail -1)"
+rpcauth="$(printf '%s\n' "${full_auth}" | head -1)"
+user="$(printf '%s\n' "${rpcauth}" | cut -d "=" -f2 | cut -d ":" -f1)"
+password="$(printf '%s\n' "${full_auth}" | tail -1)"
 
-echo "${rpcauth}" | sudo -u user -- tee -a -- "${bitcoin_conf}" >/dev/null
-echo "${user}:${password}" | \
+printf '%s\n' "${rpcauth}" | \
+  sudo -u user -- tee -a -- "${bitcoin_conf}" >/dev/null
+printf '%s\n' "${user}:${password}" | \
   sudo -u user -- tee -a -- "${bitcoin_pass}" >/dev/null
-echo "${user}:${password}"
+printf '%s\n' "${user}:${password}"
 
 ## Restart bitcoind to apply the configuration changes. Currently, there is no
 ## prevention of DDoS besides when the client already has an authentication

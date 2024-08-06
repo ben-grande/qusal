@@ -6,7 +6,7 @@
 set -eu
 
 usage(){
-  echo "Usage: ${0##*/} QUBE" >&2
+  printf '%s\n' "Usage: ${0##*/} QUBE" >&2
   exit "${1:-1}"
 }
 
@@ -24,49 +24,49 @@ case "${1-}" in
 esac
 
 mgmt="$(qubes-prefs management_dispvm)"
-echo "GLOBAL"
-echo "management_dispvm: ${mgmt}"
+printf '%s\n' "GLOBAL"
+printf '%s\n' "management_dispvm: ${mgmt}"
 tpl_mgmt="$(qvm-prefs "${mgmt}" template)"
-echo "management_dispvm template: ${tpl_mgmt}"
-echo "management_dispvm template features:"
+printf '%s\n' "management_dispvm template: ${tpl_mgmt}"
+printf '%s\n' "management_dispvm template features:"
 get_qube_feat "${tpl_mgmt}"
 
 if ! qvm-check -q -- "${wanted_qube}"; then
-  echo "error: qube '${wanted_qube}' does not exist" >&2
+  printf '%s\n' "error: qube '${wanted_qube}' does not exist" >&2
   exit 1
 fi
-echo ""
-echo "WANTED"
-echo "qube: ${wanted_qube}"
+printf '%s\n' ""
+printf '%s\n' "WANTED"
+printf '%s\n' "qube: ${wanted_qube}"
 class="$(qvm-prefs "${wanted_qube}" klass)"
-echo "class: ${class}"
+printf '%s\n' "class: ${class}"
 case "${class}" in
   AppVM)
     tpl_wanted_qube="$(qvm-prefs "${wanted_qube}" template)"
-    echo "template: ${tpl_wanted_qube}"
-    echo "template features:"
+    printf '%s\n' "template: ${tpl_wanted_qube}"
+    printf '%s\n' "template features:"
     get_qube_feat "${tpl_wanted_qube}"
     ;;
   DispVM)
     dvm_wanted_qube="$(qvm-prefs "${wanted_qube}" template)"
-    echo "disposable template: ${dvm_wanted_qube}"
+    printf '%s\n' "disposable template: ${dvm_wanted_qube}"
     tpl_wanted_qube="$(qvm-prefs "${dvm_wanted_qube}" template)"
-    echo "template: ${tpl_wanted_qube}"
-    echo "template features:"
+    printf '%s\n' "template: ${tpl_wanted_qube}"
+    printf '%s\n' "template features:"
     get_qube_feat "${tpl_wanted_qube}"
     ;;
   AdminVM) ;;
   StandaloneVM|TemplateVM)
     get_qube_feat "${wanted_qube}"
     ;;
-  *) echo "Unsupported qube class" >&2; exit 1;;
+  *) printf '%s\n' "Unsupported qube class" >&2; exit 1;;
 esac
 wanted_mgmt="$(qvm-prefs "${wanted_qube}" management_dispvm)"
-echo "${wanted_qube} management_dispvm: ${wanted_mgmt}"
+printf '%s\n' "${wanted_qube} management_dispvm: ${wanted_mgmt}"
 if test "${wanted_mgmt}" = "${mgmt}"; then
   exit
 fi
 wanted_tpl_mgmt="$(qvm-prefs "${wanted_mgmt}" template)"
-echo "${wanted_qube} management_dispvm template: ${wanted_tpl_mgmt}"
-echo "${wanted_qube} management_dispvm template features:"
+printf '%s\n' "${wanted_qube} management_dispvm template: ${wanted_tpl_mgmt}"
+printf '%s\n' "${wanted_qube} management_dispvm template features:"
 get_qube_feat "${wanted_tpl_mgmt}"

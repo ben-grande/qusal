@@ -12,7 +12,8 @@
 # shellcheck disable=SC2086
 set -eu
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -31,7 +32,7 @@ case "${find_tool}" in
     sls_files="$(find salt/ -maxdepth 2 -type f -name '*.sls')"
     set -- ${conf_files} ${sls_files}
     ;;
-  *) echo "Unsupported find tool" >&2; exit 1;;
+  *) printf '%s\n' "Unsupported find tool" >&2; exit 1;;
 esac
 
 ## 201 - Fix trailing whitespace:

@@ -7,7 +7,8 @@
 # shellcheck disable=SC2086
 set -eu
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -34,7 +35,7 @@ fi
 case "${find_tool}" in
   fd|fdfind) files="$(${find_tool} . -H -t f -e py)";;
   find) files="$(find . -type f -name "*.py")";;
-  *) echo "Unsupported find tool" >&2; exit 1;;
+  *) printf '%s\n' "Unsupported find tool" >&2; exit 1;;
 esac
 
 exec pylint ${files}

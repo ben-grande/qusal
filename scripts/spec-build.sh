@@ -7,7 +7,7 @@
 set -eu
 
 usage(){
-  echo "Usage: ${0##*/} PROJECT [PROJECT ...]" >&2
+  printf '%s\n' "Usage: ${0##*/} PROJECT [PROJECT ...]" >&2
   exit 1
 }
 
@@ -62,7 +62,8 @@ case "${1-}" in
   *) ;;
 esac
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"

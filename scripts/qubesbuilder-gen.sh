@@ -6,7 +6,8 @@
 
 set -eu
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -29,21 +30,23 @@ group="$(./scripts/spec-get.sh dom0 group)"
 projects="$(find salt/ -mindepth 1 -maxdepth 1 -type d | sort -d |
   sed -e "s|^salt/\(\S\+\)|      - rpm_spec/${group}-\1.spec|")"
 for unwanted_project in ${unwanted}; do
-  projects="$(echo "${projects}" |
+  projects="$(printf '%s\n' "${projects}" |
     sed -e "\@rpm_spec/${group}-${unwanted_project}.spec@d")"
 done
 
 if test "${1-}" = "print"; then
-  echo "${projects}"
+  printf '%s\n' "${projects}"
   exit 0
 fi
 
 sed -e "/@SPEC@/d" -- "${template}" | tee -- "${target}" >/dev/null
-echo "${projects}" | tee -a -- "${target}" >/dev/null
+printf '%s\n' "${projects}" | tee -a -- "${target}" >/dev/null
 if test "${1-}" = "test"; then
   if ! cmp -s -- "${target}" "${intended_target}"; then
-    echo "${0##*/}: error: File ${intended_target} is not up to date" >&2
-    echo "${0##*/}: error: Update the builder file with: ${0##/*}" >&2
+    err_msg="${0##*/}: error: File ${intended_target} is not up to date"
+    printf '%s\n' "${err_msg}" >&2
+    err_msg="${0##*/}: error: Update the builder file with: ${0##/*}"
+    printf '%s\n' "${err_msg}" >&2
     exit 1
   fi
 fi

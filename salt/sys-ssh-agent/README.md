@@ -216,7 +216,7 @@ variables to point to the `work` agent so every connection will use the same
 agent:
 
 ```sh
-echo 'export SSH_AUTH_SOCK=/tmp/qusal-ssh-agent-forwarder/work.sock;
+printf '%s\n' 'export SSH_AUTH_SOCK=/tmp/qusal-ssh-agent-forwarder/work.sock;
 SSH_AGENT_PID="$(pgrep -f "/tmp/qusal-ssh-agent-forwarder/work.sock")";
 ' | tee -a -- ~/.profile
 ```

@@ -8,7 +8,8 @@ set -eu
 
 # shellcheck disable=3028
 hostname="$(hostname)"
-test "${hostname}" = "dom0" || { echo "Must be run from dom0" >&2; exit 1; }
+test "${hostname}" = "dom0" ||
+  { printf '%s\n' "Must be run from dom0" >&2; exit 1; }
 uid="$(id -u)"
 test "${uid}" = "0" || exec sudo "${0}"
 

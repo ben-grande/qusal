@@ -9,7 +9,8 @@
 # shellcheck disable=SC2086
 set -eu
 
-command -v git >/dev/null || { echo "Missing program: git" >&2; exit 1; }
+command -v git >/dev/null ||
+  { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -81,10 +82,10 @@ case "${find_tool}" in
     files="$(find scripts/ salt/ -not \( -path "*/zsh" -prune \) -type f \
       -exec file {} \+ | awk -F ":" '/ shell script,/{ print $1 }')"
     ;;
-  *) echo "Unsupported find tool" >&2; exit 1;;
+  *) printf '%s\n' "Unsupported find tool" >&2; exit 1;;
 esac
 
-files="$(echo "${files}" | sort -u)"
+files="$(printf '%s\n' "${files}" | sort -u)"
 
 # shellcheck disable=SC2310
 show_long_lines ${files} || exit_code=1

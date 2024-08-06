@@ -8,11 +8,12 @@ set -eu
 conf="${HOME}/.bitcoin/conf.d/cookie.conf"
 
 if ! systemctl is-active bitcoind >/dev/null 2>&1; then
-  echo "systemd service 'bitcoind' is inactive" >&2
-  echo "remote RPC can't add crendetials" >&2
+  printf '%s\n' "systemd service 'bitcoind' is inactive" >&2
+  printf '%s\n' "remote RPC can't add crendetials" >&2
   exit 1
 fi
 
 rpc_list="$(bitcoin-cli help | awk '/^[a-z]/{print $1}' | tr "\n" ",")"
 
-echo "rpcwhitelist=__cookie__:${rpc_list}" | tee -- "${conf}" >/dev/null
+printf '%s\n' "rpcwhitelist=__cookie__:${rpc_list}" | \
+  tee -- "${conf}" >/dev/null

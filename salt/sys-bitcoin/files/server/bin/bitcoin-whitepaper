@@ -22,7 +22,7 @@ check_installed(){
   for prog in "${@}"; do
     # shellcheck disable=SC2310
     if ! has "${prog}"; then
-      echo "Missing program: ${prog}" >&2
+      printf '%s\n' "Missing program: ${prog}" >&2
       missing_programs=1
     fi
   done
@@ -33,11 +33,11 @@ check_installed(){
 
 validate_dir(){
   if ! test -d "${dir}"; then
-    echo "Directory '${dir}' does not exist" >&2
+    printf '%s\n' "Directory '${dir}' does not exist" >&2
     exit 1
   fi
   if ! test -w "${dir}"; then
-    echo "Directory '${dir}' is not writable" >&2
+    printf '%s\n' "Directory '${dir}' is not writable" >&2
     exit 1
   fi
 }
@@ -84,9 +84,9 @@ gettxout(){
 }
 
 usage(){
-  echo "Usage: ${0##*/} getblock|getrawtransaction|gettxout [DIR]"
-  echo "Note: gettxout works with pruned node"
-  echo "Note: DIR defaults to \${HOME}"
+  printf '%s\n' "Usage: ${0##*/} getblock|getrawtransaction|gettxout [DIR]"
+  printf '%s\n' "Note: gettxout works with pruned node"
+  printf '%s\n' "Note: DIR defaults to \${HOME}"
   exit 1
 }
 

@@ -8,7 +8,7 @@
 set -eu
 
 usage(){
-  echo "usage: ${0##*/} <QUBE> <FILE> <FILE2...>
+  printf '%s\n' "usage: ${0##*/} <QUBE> <FILE> <FILE2...>
 note: disk quota is capped and can be controlled via environment variables:
 note:   UPDATES_MAX_BYTES (default: 4GiB)
 note:   UPDATES_MAX_FILES (default: 2048)" >&2

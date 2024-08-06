@@ -18,10 +18,10 @@
 set -eu
 
 usage(){
-  echo "Usage: ${0##*/} --i-like-danger <DEVICE>"
-  echo "Example: ${0##*/} --i-like-danger 0000:00:1b.0"
-  echo "Warning: Strongly discouraged to reattach PCI devices to dom0"
-  echo "Warning:  especially if it doesn't support resetting!"
+  printf '%s\n' "Usage: ${0##*/} --i-like-danger <DEVICE>"
+  printf '%s\n' "Example: ${0##*/} --i-like-danger 0000:00:1b.0"
+  printf '%s\n' "Warning: Strongly discouraged to reattach PCI devices to"
+  printf '%s\n' "Warning:  dom0, especially if it doesn't support resetting!"
   exit 1
 }
 
@@ -37,7 +37,7 @@ esac
 uid="$(id -u)"
 test "${uid}" = "0" || exec sudo "${0}"
 
-echo "${device}" | tee -- /sys/bus/pci/drivers/pciback/unbind
+printf '%s\n' "${device}" | tee -- /sys/bus/pci/drivers/pciback/unbind
 modalias="$(cat -- "/sys/bus/pci/devices/${device}/modalias")"
 module="$(modprobe -R "${modalias}" | head -n 1)"
-echo "${device}" | tee -- "/sys/bus/pci/drivers/${module}/bind"
+printf '%s\n' "${device}" | tee -- "/sys/bus/pci/drivers/${module}/bind"

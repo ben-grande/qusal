@@ -8,5 +8,5 @@ wanted_dpi="144"
 
 if test -z "${current_dpi}" || test "${current_dpi}" -lt "${wanted_dpi}"
 then
-  echo "Xft.dpi: ${wanted_dpi}" | xrdb -override -
+  printf '%s\n' "Xft.dpi: ${wanted_dpi}" | xrdb -override -
 fi

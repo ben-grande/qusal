@@ -102,7 +102,7 @@ administrative access to the cacher qube.  You should add the following to the
 end of `sys-cacher` rc.local:
 
 ```sh
-echo "AdminAuth: username:password" | tee -- /etc/qusal-apt-cacher-ng/zzz_security.conf
+printf '%s\n' "AdminAuth: username:password" | tee -- /etc/qusal-apt-cacher-ng/zzz_security.conf
 ```
 
 Where username and password are HTTP Auth strings.

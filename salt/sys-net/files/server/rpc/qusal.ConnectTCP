@@ -23,15 +23,15 @@ host="${arg%%+*}"
 port="${arg##*+}"
 
 if test -z "${port}" || test -z "${host}" || test "${port}" = "${host}"; then
-  echo "Missing either host, port or both" >&2
+  printf '%s\n' "Missing either host, port or both" >&2
   exit 1
 fi
 if test "${#host}" -gt 256; then
-  echo "Host size exceeds limit" >&2
+  printf '%s\n' "Host size exceeds limit" >&2
   exit 1
 fi
 if test "${#port}" -gt 5 || test "${port}" -gt 65535; then
-  echo "Invalid port number, it must be between 1 and 65535" >&2
+  printf '%s\n' "Invalid port number, it must be between 1 and 65535" >&2
   exit 1
 fi
 

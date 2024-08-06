@@ -11,7 +11,7 @@ uid="$(id -u)"
 test "${uid}" = "0" || exec sudo "$0" "${@}"
 
 usage(){
-  echo "Usage: ${0##*/} [QUBE]"
+  printf '%s\n' "Usage: ${0##*/} [QUBE]"
   exit "${1:-1}"
 }
 
@@ -23,7 +23,7 @@ case "${1-}" in
 esac
 
 if ! qvm-check -q -- "${qube}" >/dev/null 2>&1; then
-  echo "Qube '${qube}' doesn't exist" >&2
+  printf '%s\n' "Qube '${qube}' doesn't exist" >&2
   usage 1
 fi
 
@@ -31,11 +31,11 @@ user_conf="/home/user/wireguard.conf"
 system_conf="/etc/wireguard/wireguard.conf"
 
 qvm-run "${qube}" -- "test -f ${user_conf}" || {
-  echo "File '${user_conf}' was not found" >&2
+  printf '%s\n' "File '${user_conf}' was not found" >&2
   if qvm-check -q --running -- "${qube}" >/dev/null 2>&1; then
     qvm-pause --verbose -- "${qube}"
   fi
-  echo "Firewalling ${qube} to drop all connections"
+  printf '%s\n' "Firewalling ${qube} to drop all connections"
   qvm-firewall --verbose -- "${qube}" reset
   qvm-firewall --verbose -- "${qube}" del --rule-no 0
   qvm-firewall --verbose -- "${qube}" add drop
@@ -51,7 +51,7 @@ qvm-run -u root "${qube}" -- "cp -- \"${user_conf}\" \"${system_conf}\""
 # shellcheck disable=SC2016
 endpoint="$(qvm-run -p -u root "${qube}" -- awk '/Endpoint/{print $3}' \
   "${system_conf}")"
-if echo "${endpoint}" | grep -qF -e "["; then
+if printf '%s\n' "${endpoint}" | grep -qF -e "["; then
   ip="${ip##[\[]}"
   ip="${ip%%\]*}"
   port="${endpoint##*:}"
@@ -61,7 +61,7 @@ else
 fi
 
 if test -z "${ip}" || test -z "${port}";then
-  echo "Endpoint (IP:Port) not found: ${system_conf}" >&2
+  printf '%s\n' "Endpoint (IP:Port) not found: ${system_conf}" >&2
   exit 1
 fi
 
@@ -69,7 +69,7 @@ if qvm-check -q --running -- "${qube}" >/dev/null 2>&1; then
   qvm-pause --verbose -- "${qube}"
 fi
 
-echo "Firewalling ${qube} to reach only '${ip}:${port}'"
+printf '%s\n' "Firewalling ${qube} to reach only '${ip}:${port}'"
 qvm-firewall --verbose -- "${qube}" reset
 qvm-firewall --verbose -- "${qube}" del --rule-no 0
 qvm-firewall --verbose -- "${qube}" add accept dsthost="${ip}" \

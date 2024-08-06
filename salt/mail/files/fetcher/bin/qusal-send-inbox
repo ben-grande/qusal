@@ -8,14 +8,14 @@ set -eu
 
 inbox_dir="${HOME}/mail/INBOX"
 if test ! -d "${inbox_dir}"; then
-  echo "Inbox '${inbox_dir}' does not exist" >&2
+  printf '%s\n' "Inbox '${inbox_dir}' does not exist" >&2
   exit 1
 fi
 cd "${inbox_dir}" || exit 1
 
 files_to_send="$(find "${inbox_dir}" -type f)"
 if test -z "${files_to_send}"; then
-  echo "Inbox '${inbox_dir}' is empty" >&2
+  printf '%s\n' "Inbox '${inbox_dir}' is empty" >&2
   exit 1
 fi
 

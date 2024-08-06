@@ -14,18 +14,18 @@ set -eu
 usage(){
   url_format="${scheme}://<authority>/<path>"
   url_format="${url_format}[?query=value][&other_query=value]"
-  echo "Usage: ${helper} <remote> [${url_format}]" >&2
+  printf '%s\n' "Usage: ${helper} <remote> [${url_format}]" >&2
 }
 
 die(){
   usage
-  echo "Error: ${1}" >&2
+  printf '%s\n' "Error: ${1}" >&2
   exit 1
 }
 
 log(){
   case "${GIT_TRACE_REMOTE_HELPER:-}" in
-    true|1) echo "${@}" >&2;;
+    true|1) printf '%s\n' "${@}" >&2;;
     *) ;;
   esac
 }
@@ -34,7 +34,7 @@ log(){
 validate_url(){
   url_valid=""
   url_check="${1?}"
-  scheme_user_url="$(echo "${url_check}" | sed -e "s|://.*||")"
+  scheme_user_url="$(printf '%s\n' "${url_check}" | sed -e "s|://.*||")"
 
   ## Scheme must be the same as the one in the name of this script.
   ## Checks if Authority and Path exist, but not if they are valid, this is
@@ -48,24 +48,25 @@ validate_url(){
   esac
 
   urn_pattern="[0-9A-Za-z@:_.-]+/[0-9A-Za-z_.-]+(\?[0-9A-Za-z=&_-]*)?"
-  if ! (echo "${url_valid}" | grep -qE -e "^${scheme}://${urn_pattern}$")
+  if ! (printf '%s\n' "${url_valid}" | \
+    grep -qE -e "^${scheme}://${urn_pattern}$")
   then
     die "URL contains forbidden characters"
   fi
 
-  echo "${url_valid}"
+  printf '%s\n' "${url_valid}"
 }
 
 get_urn(){
-  echo "${1#*://}"
+  printf '%s\n' "${1#*://}"
 }
 
 get_authority(){
-  echo "${1%%/*}"
+  printf '%s\n' "${1%%/*}"
 }
 
 get_path(){
-  echo "${1##*/}" | cut -d "?" -f1
+  printf '%s\n' "${1##*/}" | cut -d "?" -f1
 }
 
 get_query(){
@@ -74,7 +75,7 @@ get_query(){
   if test "${1}" != "${1##*\?}"; then
     query="${1##*\?}"
   fi
-  echo "${query}"
+  printf '%s\n' "${query}"
 }
 
 ## Find remote-<scheme>-<command>.
@@ -99,7 +100,7 @@ send_cap(){
   cap="${1}"
   shift
 
-  if ! (echo "${capabilities}" | grep -q -e "^${cap}$"); then
+  if ! (printf '%s\n' "${capabilities}" | grep -q -e "^${cap}$"); then
     die "Unsupported capability: '${cap}'"
   fi
 

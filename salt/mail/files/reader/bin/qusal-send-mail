@@ -10,7 +10,7 @@ set -eu
 
 MSMTP_Q="${MSMTP_Q:-"${Q:-"${HOME}/.msmtp.queue"}"}"
 if test -z "${MSMTP_Q}" || test ! -d "${MSMTP_Q}"; then
-  echo "Queue dir '${MSMTP_Q}' not found" >&2
+  printf '%s\n' "Queue dir '${MSMTP_Q}' not found" >&2
   exit 1
 fi
 
@@ -18,11 +18,11 @@ cd "${MSMTP_Q}" || exit 1
 
 for mail in *; do
   if ! test -e "${mail}"; then
-    echo "Mail queue '${MSMTP_Q}' is empty" >&2
+    printf '%s\n' "Mail queue '${MSMTP_Q}' is empty" >&2
     exit 1
   fi
   if ! test -f "${mail}"; then
-    echo "Mail '${mail}' is not a regular file" >&2
+    printf '%s\n' "Mail '${mail}' is not a regular file" >&2
     exit 1
   fi
 done

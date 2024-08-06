@@ -39,7 +39,7 @@ case "${1-}" in
     if test -n "${qube}"; then
       exec qvm-run --service -- "${qube}" "qubes.StartApp+${service}"
     fi
-    echo "Select a qube window ..."
+    printf '%s\n' "Select a qube window ..."
     id="$(xdotool selectwindow)"
     qube="$(xprop -id "${id}" -notype _QUBES_VMNAME | awk -F'"' '{print $2}')"
     if test -n "${qube}"; then
