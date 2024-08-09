@@ -119,8 +119,12 @@ gpg-qubes-builder --import /path/to/key
 
 ### Builder configuration
 
-When using the Qubes Executor, configure the `builder.yml` `dispvm` option to
-either `dom0` or `dvm-qubes-builder`:
+When using the Qubes Executor, configure the `builder.yml` options:
+
+*   For configuration deduplication, include other files;
+*   When `executor:type:qubes` use the desired DispVM Template:
+    `executor:options:dispvm:`: `"@dispvm"`;
+*   Enforce the use of `split-gpg2`: `gpg-client`: `gpg`.
 
 ```yaml
 include:
@@ -129,16 +133,10 @@ include:
 executor:
   type: qubes
   options:
-    dispvm: "dom0"
-    #dispvm: "dvm-qubes-builder"
+    dispvm: "@dispvm"
 
 gpg-client: gpg
 ```
-
-Setting the Disposable VM  to Dom0 works because it will use the
-`default_dispvm` preference of `qubes-builder`, which is `dvm-qubes-builder`.
-
-Setting the `gpg-client` explicitly to enforce the use of `split-gpg2`.
 
 ### Build Qusal
 
