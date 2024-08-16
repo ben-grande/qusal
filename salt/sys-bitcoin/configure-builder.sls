@@ -66,7 +66,7 @@ include:
     ## Multiple detached signatures has bad UX with GPG.
     - name: |
         trusted_sigs_number="4"
-        read_sigs_number="$(GNUPGHOME=/home/user/.gnupg/bitcoin/ gpg --status-fd=2 --verify SHA256SUMS.asc 2>&1 | grep -c "^\[GNUPG:\] GOODSIG \S\+ ")"
+        read_sigs_number="$(GNUPGHOME=/home/user/.gnupg/bitcoin/ gpg --status-fd=2 --verify SHA256SUMS.asc 2>&1 | grep -c -e "^\[GNUPG:\] GOODSIG \S\+ ")"
         if test "${trusted_sigs_number}" != "${read_sigs_number}"; then
           exit 1
         fi

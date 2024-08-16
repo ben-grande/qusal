@@ -125,8 +125,8 @@ include:
     - require:
       - cmd: "{{ slsdotpath }}-source-build-make-install"
     - name: |
-        \mkdir -p share/bitcoin
-        \cp -v ~/src/bitcoin/README.md share/bitcoin/
+        \mkdir -p -- share/bitcoin
+        \cp -v -- ~/src/bitcoin/README.md share/bitcoin/
     - cwd: /home/user/bitcoin-build
     - runas: user
 
@@ -135,7 +135,7 @@ include:
     - require:
       - cmd: "{{ slsdotpath }}-source-build-make-install"
     - name: |
-        \cp -v ~/src/bitcoin/share/examples/bitcoin.conf bitcoin.conf
+        \cp -v -- ~/src/bitcoin/share/examples/bitcoin.conf bitcoin.conf
     - cwd: /home/user/bitcoin-build
     - runas: user
 
@@ -144,8 +144,8 @@ include:
     - require:
       - cmd: "{{ slsdotpath }}-source-build-make-install"
     - name: |
-        \mkdir -p share/bash-completion/completions/
-        \cp -v ~/src/bitcoin/contrib/completions/bash/* share/bash-completion/completions/
+        \mkdir -p -- share/bash-completion/completions/
+        \cp -v -- ~/src/bitcoin/contrib/completions/bash/* share/bash-completion/completions/
     - cwd: /home/user/bitcoin-build
     - runas: user
 
@@ -154,8 +154,8 @@ include:
     - require:
       - cmd: "{{ slsdotpath }}-source-build-make-install"
     - name: |
-        \mkdir -p share/rpcauth
-        \cp -v ~/src/bitcoin/share/rpcauth/rpcauth.py share/rpcauth/
+        \mkdir -p -- share/rpcauth
+        \cp -v -- ~/src/bitcoin/share/rpcauth/rpcauth.py share/rpcauth/
     - cwd: /home/user/bitcoin-build
     - runas: user
 
@@ -164,8 +164,8 @@ include:
     - require:
       - cmd: "{{ slsdotpath }}-source-build-make-install"
     - name: |
-        \mkdir -p share/icons/hicolor/scalable/apps/
-        \cp -v ~/src/bitcoin/src/qt/res/src/bitcoin.svg share/icons/hicolor/scalable/apps/
+        \mkdir -p -- share/icons/hicolor/scalable/apps/
+        \cp -v -- ~/src/bitcoin/src/qt/res/src/bitcoin.svg share/icons/hicolor/scalable/apps/
     - cwd: /home/user/bitcoin-build
     - runas: user
 

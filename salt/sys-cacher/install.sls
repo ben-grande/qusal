@@ -44,7 +44,7 @@ include:
 
 "{{ slsdotpath }}-copy-package-config-to-qubes-cacher-config":
   cmd.run:
-    - name: cp -rp /etc/apt-cacher-ng/* /etc/qusal-apt-cacher-ng
+    - name: cp -rp -- /etc/apt-cacher-ng/* /etc/qusal-apt-cacher-ng
 
 "{{ slsdotpath }}-systemd-service":
   file.managed:
@@ -57,7 +57,7 @@ include:
 
 "{{ slsdotpath }}-update-deb_mirrors.gz":
   cmd.run:
-    - name: cp /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/qusal-apt-cacher-ng/deb_mirrors.gz
+    - name: cp -- /usr/lib/apt-cacher-ng/deb_mirrors.gz /etc/qusal-apt-cacher-ng/deb_mirrors.gz
     - runas: root
 
 "{{ slsdotpath }}-update-conf":

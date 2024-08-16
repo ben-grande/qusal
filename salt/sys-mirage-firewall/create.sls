@@ -37,7 +37,7 @@ the chain (sys-net).
       - qvm: "sys-mirage-firewall-start-updatevm-{{ updatevm }}"
     - name: |
         qvm-run {{ updatevm }} -- "
-          mkdir -p /tmp/mirage-firewall-download
+          mkdir -p -- /tmp/mirage-firewall-download
           cd /tmp/mirage-firewall-download
           curl --location \
             --connect-timeout 10 \
@@ -58,7 +58,7 @@ the chain (sys-net).
     - require:
       - cmd: "sys-mirage-firewall-fetch-tarball"
     - name:
-        qvm-run --pass-io {{ updatevm }} -- "cat /tmp/mirage-firewall-download/mirage-firewall.tar.bz2" | tee /tmp/mirage-firewall.tar.bz2 >/dev/null
+        qvm-run --pass-io {{ updatevm }} -- "cat /tmp/mirage-firewall-download/mirage-firewall.tar.bz2" | tee -- /tmp/mirage-firewall.tar.bz2 >/dev/null
     - runas: user
     - timeout: 10
 
