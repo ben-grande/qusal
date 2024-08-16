@@ -12,7 +12,7 @@ include:
   - dotfiles.copy-sh
 
 ## https://download.electrum.org/VERSION/Electrum-VERSION.tar.gz(.asc)
-{% set electrum_version = '4.5.2' -%}
+{% set electrum_version = '4.5.5' -%}
 {% set electrum_url_dir = 'https://download.electrum.org/' ~ electrum_version ~ '/' -%}
 {% set electrum_archive_dir = 'Electrum-' ~ electrum_version -%}
 {% set electrum_file_archive = electrum_archive_dir ~ '.tar.gz' -%}
