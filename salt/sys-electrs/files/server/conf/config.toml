@@ -16,4 +16,3 @@ index_lookup_limit = 1000
 ## Logging
 server_banner = "Welcome to electrs (Electrum Rust Server)!"
 log_filters = "INFO"
-timestamp = true
