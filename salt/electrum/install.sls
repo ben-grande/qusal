@@ -14,6 +14,7 @@ include:
 
 "{{ slsdotpath }}-remove-distro-package":
   pkg.removed:
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - electrum
       - python3-electrum
@@ -25,6 +26,7 @@ include:
       - pkg: "{{ slsdotpath }}-remove-distro-package"
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - socat
       - man-db

@@ -16,6 +16,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-pdf-converter
       - qubes-img-converter

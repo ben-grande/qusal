@@ -17,6 +17,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - blueman
       - libspa-0.2-bluetooth

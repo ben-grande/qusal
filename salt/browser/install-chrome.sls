@@ -21,6 +21,7 @@ include:
       - sls: {{ slsdotpath }}.install-chrome-repo
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - google-chrome-stable
 

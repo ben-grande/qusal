@@ -15,6 +15,7 @@ include:
       - sls: {{ slsdotpath }}.install-common
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - firefox-esr
 

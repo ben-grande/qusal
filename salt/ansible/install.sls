@@ -22,6 +22,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-core-agent-networking
       - ca-certificates
@@ -48,6 +49,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}

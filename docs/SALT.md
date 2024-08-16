@@ -185,6 +185,7 @@ keys-installed:
     {# Enforce that we don't want to install suggested packages #}
     - skip_suggestions: True
     {# List of packages to be installed #}
+    - setopt: "install_weak_deps=False"
     - pkgs:
       {# Wait, some package names do not match on different distributions #}
       - keepassxc
@@ -208,6 +209,7 @@ keys-installed-os-specific:
     - install_recommends: False
     - skip_suggestions: True
     {# Get the Jinja variable 'pkg.pkg' and convert it to an YAML list #}
+    - setopt: "install_weak_deps=False"
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {# End our 'if' statement created above #}

@@ -18,6 +18,7 @@ include:
       - sls: utils.tools.common.update
     - skip_suggestions: True
     - install_recommends: False
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-core-agent-networking
       - ca-certificates

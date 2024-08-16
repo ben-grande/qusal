@@ -19,6 +19,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - clang
       - ccache
@@ -42,6 +43,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% set pkg = {
@@ -60,6 +62,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 {% endif -%}

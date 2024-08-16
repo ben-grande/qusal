@@ -26,6 +26,7 @@ include:
       - sls: kicksecure-minimal.install
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-kernel-vm-support
       - linux-image-amd64

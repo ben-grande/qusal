@@ -16,6 +16,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - fwupd-qubes-vm
       - qubes-core-agent-dom0-updates

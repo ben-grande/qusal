@@ -27,6 +27,7 @@ include:
 {#
 "{{ slsdotpath }}-removed-os-specific":
   pkg.removed:
+    - setopt: "install_weak_deps=False"
     - pkgs: {{ pkg.pkg_removed|sequence|yaml }}
 #}
 
@@ -37,6 +38,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-core-agent-networking
       - man-db

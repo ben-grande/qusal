@@ -23,6 +23,7 @@ include:
       - sls: utils.tools.common.update
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       ## https://github.com/mirage/qubes-mirage-firewall/blob/main/Dockerfile
       - qubes-core-agent-networking

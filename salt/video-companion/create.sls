@@ -11,5 +11,6 @@ include:
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-video-companion-dom0

@@ -21,6 +21,7 @@ include:
     {% endif %}
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - syncthing
       - jq

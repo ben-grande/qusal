@@ -28,6 +28,7 @@ include:
       - file: "{{ slsdotpath }}-systemd"
     - install_recommends: False
     - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
     - pkgs:
       - qubes-core-agent-networking
       - qubes-core-agent-passwordless-root
