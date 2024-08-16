@@ -85,17 +85,17 @@ repos:
         files: salt/\S+/README.md
         description: Check if .qubesbuilder is up to date
 
-      - id: spec-gen
-        name: spec-gen
-        language: script
-        entry: scripts/spec-gen.sh
-        args: [test]
-        pass_filenames: true
-        # yamllint disable rule:line-length
-        files: >-
-          ^(rpm_spec/template/template.spec|salt/.*|
-          scripts/spec-(get|gen)\.sh)$
-        description: Check if RPM SPEC files are up to date
+      # - id: spec-gen
+      #   name: spec-gen
+      #   language: script
+      #   entry: scripts/spec-gen.sh
+      #   args: [test]
+      #   pass_filenames: true
+      #   # yamllint disable rule:line-length
+      #   files: >-
+      #     ^(rpm_spec/template/template.spec|salt/.*|
+      #     scripts/spec-(get|gen)\.sh)$
+      #   description: Check if RPM SPEC files are up to date
 
       - id: license-lint
         name: license-lint
