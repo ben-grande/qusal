@@ -18,7 +18,7 @@
 Name:           qusal-sys-gui-gpu
 Version:        0.0.1
 Release:        1%{?dist}
-Summary:        
+Summary:        GPU GUI domain in Qubes OS
 Group:          qusal
 Packager:       %{?_packager}%{!?_packager:Ben Grande <ben.grande.b@gmail.com>}
 Vendor:         Ben Grande
@@ -109,4 +109,8 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Fri Aug 16 2024 Ben Grande <ben.grande.b@gmail.com> - 56a4296
+- fix: skip YUM weak dependencies installation
 
+* Thu Jul 18 2024 Ben Grande <ben.grande.b@gmail.com> - 735b324
+- feat: add GUI domain formula

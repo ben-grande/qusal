@@ -1,4 +1,4 @@
-# sys-gui
+# sys-gui-gpu
 
 GPU GUI domain in Qubes OS.
 

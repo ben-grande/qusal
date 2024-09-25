@@ -136,7 +136,7 @@ fi
 if test "${key}" = "summary"; then
   summary="$(sed -n -e \
               "/^# ${name}$/,/^## Table of Contents$/{
-              /./!d; /^#/d; /^SPDX/d; /^<!--/d; /^-->/d; s/\.$//; p}" \
+              /^$/d; /^#/d; /^SPDX/d; /^<!--/d; /^-->/d; s/\.$//; p}" \
               -- "${readme}")"
   block_max_chars summary "${summary}" 70
 fi

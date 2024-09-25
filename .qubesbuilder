@@ -21,6 +21,7 @@ host:
       - rpm_spec/qusal-fedora-minimal.spec
       - rpm_spec/qusal-fedora-xfce.spec
       - rpm_spec/qusal-fetcher.spec
+      - rpm_spec/qusal-grafana.spec
       - rpm_spec/qusal-kicksecure-minimal.spec
       - rpm_spec/qusal-mail.spec
       - rpm_spec/qusal-media.spec

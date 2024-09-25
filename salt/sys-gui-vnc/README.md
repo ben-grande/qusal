@@ -1,4 +1,4 @@
-# sys-gui
+# sys-gui-vnc
 
 VNC GUI domain in Qubes OS.
 
