@@ -38,7 +38,7 @@ You current setup needs to fulfill the following requisites:
     git clone --recurse-submodules https://github.com/ben-grande/qusal.git
     ```
 
-3.  Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D93E91A475969DE4E371E3.asc)
+3.  Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D92E91A475969DE4E371E3.asc)
     to your text editor and save the file to `/home/user/ben-code.asc`.
 
 ### Dom0 Installation
