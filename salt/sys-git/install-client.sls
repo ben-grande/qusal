@@ -50,7 +50,15 @@ include:
       - user
       - group
 
+{% if not salt['file.file_exists']('/usr/share/whonix/marker') -%}
+{#
+  Whonix's security-misc package owns /etc/gitconfig, fallback to Git dotfiles
+  to set this option.
+#}
+
 "{{ slsdotpath }}-install-client-allow-protocol":
   cmd.run:
     - name: git config --system protocol.qrexec.allow always
     - runas: root
+
+{% endif -%}
