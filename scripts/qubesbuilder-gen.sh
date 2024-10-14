@@ -25,7 +25,8 @@ fi
 ignored="$(git ls-files --exclude-standard --others --ignored salt/)"
 untracked="$(git ls-files --exclude-standard --others salt/)"
 unwanted="$(printf '%s\n%s\n' "${ignored}" "${untracked}" |
-  grep -e "^salt/\S\+/README.md" | cut -d "/" -f2 | sort -u)"
+  grep -E "^salt/\S+/(README.md|.*\.sls|files/.*)$" | cut -d "/" -f2 |
+  sort -u)"
 group="$(./scripts/spec-get.sh dom0 group)"
 projects="$(find salt/ -mindepth 1 -maxdepth 1 -type d | sort -d |
   sed -e "s|^salt/\(\S\+\)|      - rpm_spec/${group}-\1.spec|")"
@@ -42,10 +43,13 @@ fi
 sed -e "/@SPEC@/d" -- "${template}" | tee -- "${target}" >/dev/null
 printf '%s\n' "${projects}" | tee -a -- "${target}" >/dev/null
 if test "${1-}" = "test"; then
-  if ! cmp -s -- "${target}" "${intended_target}"; then
+  if diff --help | grep " --color\[" >/dev/null 2>&1; then
+    diff_args="--color=auto"
+  fi
+  # shellcheck disable=SC2086
+  if ! diff ${diff_args} -- "${intended_target}" "${target}"; then
+    echo "${0##*/}: $ diff ${diff_args} -- '${intended_target}' '${target}'"
     err_msg="${0##*/}: error: File ${intended_target} is not up to date"
-    printf '%s\n' "${err_msg}" >&2
-    err_msg="${0##*/}: error: Update the builder file with: ${0##/*}"
     printf '%s\n' "${err_msg}" >&2
     exit 1
   fi
