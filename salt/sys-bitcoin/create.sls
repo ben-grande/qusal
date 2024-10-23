@@ -270,7 +270,7 @@ tags:
   cmd.run:
     - require:
       - qvm: {{ slsdotpath }}
-    - name: qvm-volume extend {{ slsdotpath }}:private 1Ti
+    - name: qvm-volume extend {{ slsdotpath }}:private 1024Gi
 
 "{{ slsdotpath }}-extend-builder-private-volume":
   cmd.run:
