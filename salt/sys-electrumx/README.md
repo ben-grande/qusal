@@ -30,7 +30,7 @@ This formula depends on [sys-bitcoin](../sys-bitcoin/README.md).
 
 ```sh
 sudo qubesctl top.enable sys-electrumx
-sudo qubesctl --targets=tpl-electrumx-builder,tpl-sys-electrumx,disp-electrumx-builder,sys-electrumx state.apply
+sudo qubesctl --targets=sys-bitcoin-gateway,tpl-electrumx-builder,tpl-sys-electrumx,disp-electrumx-builder,sys-electrumx state.apply
 sudo qubesctl top.disable sys-electrumx
 sudo qubesctl state.apply sys-electrumx.appmenus
 ```
@@ -41,6 +41,7 @@ sudo qubesctl state.apply sys-electrumx.appmenus
 
 ```sh
 sudo qubesctl state.apply sys-electrumx.create
+sudo qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway
 sudo qubesctl --skip-dom0 --targets=tpl-electrumx-builder state.apply sys-electrumx.install-builder
 sudo qubesctl --skip-dom0 --targets=tpl-sys-electrumx state.apply sys-electrumx.install
 sudo qubesctl --skip-dom0 --targets=disp-electrumx-builder state.apply sys-electrumx.configure-builder

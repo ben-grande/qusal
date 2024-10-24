@@ -8,6 +8,8 @@ base:
   'dom0':
     - match: nodegroup
     - sys-electrumx.create
+  'sys-bitcoin-gateway':
+    - sys-bitcoin.configure-gateway
   'tpl-electrumx-builder':
     - sys-electrumx.install-builder
   'tpl-sys-electrumx':

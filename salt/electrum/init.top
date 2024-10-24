@@ -8,6 +8,8 @@ base:
   'dom0':
     - match: nodegroup
     - electrum.create
+  'sys-bitcoin-gateway':
+    - sys-bitcoin.configure-gateway
   'tpl-electrum-builder':
     - electrum.install-builder
   'tpl-electrum':

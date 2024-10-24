@@ -8,6 +8,8 @@ base:
   'dom0':
     - match: nodegroup
     - sys-electrs.create
+  'sys-bitcoin-gateway':
+    - sys-bitcoin.configure-gateway
   'tpl-electrs-builder':
     - sys-electrs.install-builder
   'tpl-sys-electrs':

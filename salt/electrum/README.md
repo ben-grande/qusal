@@ -35,7 +35,7 @@ usage from ever connecting to the internet.
 
 ```sh
 sudo qubesctl top.enable electrum
-sudo qubesctl --targets=tpl-electrum-builder,tpl-electrum,disp-electrum-builder,electrum,electrum-hot state.apply
+sudo qubesctl --targets=sys-bitcoin-gateway,tpl-electrum-builder,tpl-electrum,disp-electrum-builder,electrum,electrum-hot state.apply
 sudo qubesctl top.disable electrum
 sudo qubesctl state.apply electrum.appmenus
 ```
@@ -46,6 +46,7 @@ sudo qubesctl state.apply electrum.appmenus
 
 ```sh
 sudo qubesctl state.apply electrum.create
+sudo qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway
 sudo qubesctl --skip-dom0 --targets=tpl-electrum-builder state.apply electrum.install-builder
 sudo qubesctl --skip-dom0 --targets=tpl-electrum state.apply electrum.install
 sudo qubesctl --skip-dom0 --targets=disp-electrum-builder state.apply electrum.configure-builder
