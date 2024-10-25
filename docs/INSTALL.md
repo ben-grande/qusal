@@ -86,7 +86,23 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 
     ```sh
     git verify-commit HEAD
-    git submodule foreach git verify-commit HEAD
+    ```
+
+    In case the commit verification failed, you can try to verify if any tag
+    pointing at that commit succeeds:
+
+    ```sh
+    tag_list="$(git tag --points-at=HEAD)"
+    verification=0
+    for tag in ${tag_list}; do
+      if git verify-tag "${tag}"
+        verification=1
+        break
+      fi
+    done
+    if test "${verification}" = "0"; then
+      false
+    fi
     ```
 
 6.  Copy the project to the Salt directories:
@@ -134,18 +150,12 @@ with the sys-git formula.
     git -C ~/src/qusal submodule update --merge
     ```
 
-4.  Verify the commit or tag signature and expect a good signature, be
-    surprised otherwise (signature verification on submodules is skipped if
-    checking out but not merging):
-
-    ```sh
-    git verify-commit HEAD
-    git submodule foreach git verify-commit HEAD
-    ```
+4.  Verify the commit or tag signature as shown in
+    [Dom0 Installation](#dom0-installation).
 
 5.  Copy the project to the Salt directories:
 
-    ```
+    ```sh
     ~/src/qusal/scripts/setup.sh
     ```
 
@@ -176,13 +186,8 @@ files from being tracked and signature verification won't catch it.
     UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
     ```
 
-3.  Verify the commit or tag signature and expect a good signature, be
-    surprised otherwise:
-
-    ```sh
-    git verify-commit HEAD
-    git submodule foreach git verify-commit HEAD
-    ```
+3.  Verify the commit or tag signature as shown in
+    [Dom0 Installation](#dom0-installation).
 
 4.  Copy the project to the Salt directories:
 
