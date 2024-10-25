@@ -22,7 +22,7 @@ block_max_chars(){
   char_value="${2}"
   less_than="${3}"
   if test "${#char_value}" -ge "${less_than}"; then
-    err_msg="Error: ${char_key} is too long. Must be <${less_than} chars."
+    err_msg="error: ${char_key} is too long. Must be <${less_than} chars."
     printf '%s\n' "${err_msg}" >&2
     printf '%s\n' "Key contents: ${char_value}" >&2
     exit 1

@@ -21,7 +21,7 @@ esac
 ## update on save.
 if ! vim -e -c 'setf markdown' -c 'if !exists(":GenTocGFM") | cq | endif' -c q
 then
-  err_msg="Error: Vim Plugin mzlogin/vim-markdown-toc isn't installed."
+  err_msg="error: Vim Plugin mzlogin/vim-markdown-toc isn't installed."
   printf '%s\n' "${err_msg}" >&2
   exit 1
 fi
@@ -29,7 +29,7 @@ fi
 
 for f in "${@}"; do
   if ! test -f "${f}"; then
-    printf '%s\n' "Error: Not a regular file: ${f}" >&2
+    printf '%s\n' "error: Not a regular file: ${f}" >&2
     exit 1
   fi
   if ! grep -q -e "^## Table of Contents$" -- "${f}"; then

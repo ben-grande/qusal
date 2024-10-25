@@ -70,3 +70,17 @@ jobs:
           else
             gitlint --debug --commits "${base}..${head}"
           fi
+      - name: Verify that commits have associated signatures
+        run: |
+          if test "${{ github.event_name}}" = "pull_request"
+          then
+            exit 0
+          fi
+          base="${{ github.event.before }}"
+          head="${{ github.event.after }}"
+          if test "${base}" = "${head}" || test -z "${base}"
+          then
+            scripts/commit-verify.sh "${head}"
+          else
+            scripts/commit-verify.sh $(git rev-list --reverse ${base}..${head})
+          fi

@@ -19,6 +19,7 @@ repos:
         language: script
         pass_filenames: true
         description: Prohibit Unicode
+        stages: [commit]
 
       - id: spell-lint
         name: spell-lint
@@ -26,6 +27,7 @@ repos:
         language: script
         pass_filenames: true
         description: Spellcheck files
+        stages: [commit]
 
       - id: shell-lint
         name: shell-lint
@@ -43,6 +45,7 @@ repos:
           \.(policy|asc|txt|top|sls|jinja|toml|vim|py|muttrc|nft|md|spec|
           list|sources|repo|socket|timer|service|y(a)?ml)$
         description: Lint Shellscripts
+        stages: [commit]
 
       - id: markdown-lint
         name: markdown-lint
@@ -51,6 +54,7 @@ repos:
         pass_filenames: true
         files: \.md$
         description: Lint Markdown files
+        stages: [commit]
 
       - id: python-lint
         name: python-lint
@@ -59,6 +63,7 @@ repos:
         pass_filenames: true
         files: \.py$
         description: Lint Python files
+        stages: [commit]
 
       - id: salt-lint
         name: salt-lint
@@ -67,6 +72,7 @@ repos:
         pass_filenames: true
         files: (^minion.d/.*.conf|\.(sls|top|jinja|j2|tmpl|tst))$
         description: Lint Salt files
+        stages: [commit]
 
       - id: yaml-lint
         name: yaml-lint
@@ -75,6 +81,7 @@ repos:
         pass_filenames: true
         files: \.(yaml|yml)$
         description: Lint YAML files
+        stages: [commit]
 
       - id: qubesbuilder-gen
         name: qubesbuilder-gen
@@ -84,6 +91,7 @@ repos:
         pass_filenames: false
         files: salt/\S+/README.md
         description: Check if .qubesbuilder is up to date
+        stages: [commit]
 
       # - id: spec-gen
       #   name: spec-gen
@@ -96,6 +104,7 @@ repos:
       #     ^(rpm_spec/template/template.spec|salt/.*|
       #     scripts/spec-(get|gen)\.sh)$
       #   description: Check if RPM SPEC files are up to date
+      #   stages: [commit]
 
       - id: license-lint
         name: license-lint
@@ -104,3 +113,12 @@ repos:
         language: python
         pass_filenames: false
         description: Lint files to comply with the REUSE Specification
+        stages: [commit]
+
+      - id: commit-verify
+        name: commit-verify
+        entry: scripts/commit-verify.sh
+        language: script
+        pass_filenames: false
+        description: Verify if there is a valid signature associated with the revisions
+        stages: [push]

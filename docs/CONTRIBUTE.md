@@ -89,3 +89,13 @@ To run pre-commit linters:
 ```sh
 pre-commit run
 ```
+
+### Maintainer's lint
+
+Note this is only required for maintainers.
+
+Install the `pre-push` hooks:
+
+```sh
+pre-commit install -t pre-push
+```

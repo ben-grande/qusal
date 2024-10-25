@@ -5,5 +5,5 @@
 
 [codespell]
 skip = LICENSES,.git,*.asc,./rpm_spec/*-*.spec,*.muttrc,./salt/sys-cacher/files/server/conf/*_mirrors_*,./salt/dotfiles/files/vim/.config/vim/after/plugin/update-time.vim
-ignore-words-list = uptodate,iterm,doas
+ignore-words-list = uptodate,iterm,doas,fpr
 ignore-regex = (nnoremap|bind)\b.*
