@@ -80,7 +80,7 @@ for key in ${files}; do
       }
 
       if ($7 < now) {
-        message = MAGENTA key RESET ":" RED " expired " RESET ": " $5
+        message = MAGENTA key RESET ":" RED " expired" RESET ": " $5
         print message >"/dev/stderr"
         fail = 1
         if (nlines == nr ) { if (fail == 1) { exit 1 } }
