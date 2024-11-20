@@ -112,6 +112,9 @@ prefs:
 - kernel: mirage-firewall
 - kernelopts: ""
 - include_in_backups: False
+features:
+- enable:
+  - skip-update
 {%- endload %}
 {{ load(defaults) }}
 
