@@ -23,7 +23,7 @@ The application to open can be specified with environment variables:
 case "${me}" in
   *-terminal) service="${QVM_TERMINAL:-"qubes-run-terminal"}";;
   *-file-manager) service="${QVM_FILE_MANAGER:-"qubes-open-file-manager"}";;
-  *) printf '%s\n' "Invalid script name: ${me}" exit 1 ;;
+  *) printf '%s\n' "Invalid script name: ${me}" >&2; exit 1 ;;
 esac
 
 

@@ -40,6 +40,7 @@ prefs:
 - vcpus: 1
 - memory: 400
 - maxmem: 500
+- provides-network: True
 - autostart: False
 - include_in_backups: True
 features:
