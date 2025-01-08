@@ -2,7 +2,7 @@
 SPDX-FileCopyrightText: 2020 Artur Puzio <contact@puzio.waw.pl>
 SPDX-FileCopyrightText: 2020 Frederic Pierret <frederic.pierret@qubes-os.org>
 SPDX-FileCopyrightText: 2020 - 2024 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-2.0-only
 #}
@@ -25,25 +25,15 @@ include:
       {% endif %}
 
 {% load_yaml as defaults -%}
-name: tpl-{{ slsdotpath }}
+name: {{ slsdotpath }}
 force: True
 require:
-- sls: {{ slsdotpath }}.clone
-prefs:
-- audiovm: ""
-{%- endload %}
-{{ load(defaults) }}
-
-{% load_yaml as defaults -%}
-name: {{ slsdotpath }}-gpu
-force: True
-require:
-- sls: {{ slsdotpath }}.clone
+- qvm: tpl-sys-gui
 present:
-- template: tpl-{{ slsdotpath }}
+- template: tpl-sys-gui
 - label: black
 prefs:
-- template: tpl-{{ slsdotpath }}
+- template: tpl-sys-gui
 - label: black
 - memory: 600
 - maxmem: 4000
