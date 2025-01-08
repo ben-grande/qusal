@@ -5,6 +5,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 base:
-  '*':
-    - match: list
-    - sys-pgp.install-client
+  'tpl-sys-pgp':
+    - sys-pgp.install-pinentry

@@ -43,6 +43,7 @@ host:
       - rpm_spec/qusal-sys-gui-vnc.spec
       - rpm_spec/qusal-sys-mirage-firewall.spec
       - rpm_spec/qusal-sys-net.spec
+      - rpm_spec/qusal-sys-pgp.spec
       - rpm_spec/qusal-sys-pihole.spec
       - rpm_spec/qusal-sys-print.spec
       - rpm_spec/qusal-sys-rsync.spec
