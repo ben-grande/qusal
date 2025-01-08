@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: 2017 Jean-Philippe Ouellet <jpo@vt.edu>
 # SPDX-FileCopyrightText: 2022 daktak <daktak@gmail.com>
 # SPDX-FileCopyrightText: 2023 Frederic Pierret <frederic.pierret@qubes-os.org>
-# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: MIT
 #
@@ -16,7 +16,8 @@ set -eu
 run_qube(){
   qube="${1}"
   shift
-  qvm-run --pass-io --user=root "${qube}" -- "${@}"
+  qvm-run --no-gui --no-color-output --no-color-stderr --pass-io --user=root \
+    -- "${qube}" "${@}"
 }
 
 create_net_dir(){
@@ -77,16 +78,15 @@ get_rule_handle(){
   chain="${2}"
   rule="${3}"
   run_qube "${qube}" \
-    "nft --handle --stateless list chain ip qubes ${chain} |
-    tr -d '\"' | grep -e '^\s\+${rule} # handle ' | awk '{print \$NF}' |
-    tr '\n' ' '" 2>/dev/null
+    nft --handle --stateless list chain ip qubes "${chain}" | \
+    tr -d '\"' | grep -e "^\s\+${rule} # handle " | awk '{printf "%s ", $NF}'
 }
 
 delete_rule_handle(){
   qube="${1}"
   chain="${2}"
   handle="${3}"
-  run_qube "${qube}" "nft delete rule ip qubes ${chain} handle ${handle}"
+  run_qube "${qube}" nft delete rule ip qubes "${chain}" handle "${handle}"
 }
 
 delete_rule(){
@@ -129,17 +129,21 @@ forward() {
   if test "${from_ip}" = "None"; then
     from_ip=""
   fi
+  state="ct state established,related,new counter"
+  iface="iifname ${dev}"
+  daddr="ip daddr ${to_ip}"
+  saddr="ip saddr ${lan_cidr}"
+  dport="dport ${port}"
+  dnataddr="dnat to ${to_ip}"
 
-  dnat_chain="custom-pf-${to_ip_escaped}"
-  dnat_rule="iifname ${dev} ip saddr ${lan_ip} ${proto} dport ${port} ct"
-  dnat_rule="${dnat_rule} state established,related,new counter dnat to"
-  dnat_rule="${dnat_rule} ${to_ip}"
-  forward_chain="custom-forward"
-  forward_rule="iifname ${dev} ip saddr ${lan_ip} ip daddr ${to_ip} ${proto}"
-  forward_rule="${forward_rule} dport ${port} ct state"
-  forward_rule="${forward_rule} established,related,new counter accept"
   dnat_policy="type nat hook prerouting priority filter +1; policy accept;"
   dnat_policy="{ ${dnat_policy} }"
+  dnat_chain="custom-pf-${to_ip_escaped}"
+  dnat_rule="${iface} ${saddr} ${proto} ${dport} ${state} ${dnataddr}"
+
+  forward_chain="custom-forward"
+  forward_rule="${iface} ${saddr} ${daddr} ${proto} ${dport} ${state} accept"
+
   full_rule="nft 'add chain ip qubes ${dnat_chain} ${dnat_policy}
 add rule ip qubes ${dnat_chain} ${dnat_rule}
 add rule ip qubes ${forward_chain} ${forward_rule}'"
@@ -148,10 +152,11 @@ add rule ip qubes ${forward_chain} ${forward_rule}'"
   delete_rule "${from_qube}" "${dnat_chain}" "${dnat_rule}"
   if test "${action}" = "del"; then
     printf '%s\n' "info: ${from_qube}: deleting rules" >&2
-    run_qube "${from_qube}" "rm -f ${hook}"
+    run_qube "${from_qube}" rm -f -- "${hook}"
   else
-    msg="adding forward rule dev ${dev} saddr ${lan_ip} daddr ${to_ip}"
+    msg="adding forward rule dev ${dev} saddr ${lan_cidr} daddr ${to_ip}"
     printf '%s\n' "info: ${from_qube}: ${msg}" >&2
+    printf '%s\n\n' "debug: ${from_qube}: raw rule: ${full_rule}" >&2
     run_qube "${from_qube}" "${full_rule}"
 
     if test "${persistent}" = "1"; then
@@ -159,14 +164,13 @@ add rule ip qubes ${forward_chain} ${forward_rule}'"
       if test "${class}" = "DispVM"; then
         from_qube="$(qvm-prefs --get -- "${from_qube}" template)"
       fi
-
       full_rule="#!/bin/sh
 get_handle(){
   chain=\\\${1}
   rule=\\\${2}
-  nft --handle --stateless list chain ip qubes \\\${chain} | \\\
-    tr -d '\\\"' | grep -e '^\\\s\\\+\\\${rule} \\# handle ' | \\\
-    awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
+  nft --handle --stateless list chain ip qubes \\\"\\\${chain}\\\" |
+    tr -d '\\\"' | grep -e \\\"^\\\s\\\+\\\${rule} \\# handle \\\" |
+    awk '{printf \\\"%s \\\", \\\$NF}'
 }
 
 forward_handle=\\\$(get_handle ${forward_chain} \\\"${forward_rule}\\\")
@@ -176,6 +180,7 @@ if test -n \\\"\\\${forward_handle:-}\\\"; then
   done
 fi
 
+nft 'add chain ip qubes ${dnat_chain} ${dnat_policy}'
 dnat_handle=\\\$(get_handle ${dnat_chain} \\\"${dnat_rule}\\\")
 if test -n \\\"\\\${dnat_handle:-}\\\"; then
   for h in \\\${dnat_handle}; do
@@ -188,7 +193,7 @@ ${full_rule}"
       create_net_dir "${from_qube}"
       run_qube "${from_qube}" \
         "printf '%s\n' \"${full_rule}\" | tee -- \"${hook}\" >/dev/null"
-      run_qube "${from_qube}" "chmod -- +x ${hook}"
+      run_qube "${from_qube}" chmod -- +x "${hook}"
     fi
   fi
 }
@@ -199,25 +204,32 @@ input() {
   hook="${hook_prefix}${to_ip}-${proto}-${port}.sh"
   create_net_dir "${qube}"
 
-  custom_input_rule="${proto} dport ${port} ip daddr ${to_ip} ct state new"
-  custom_input_rule="${custom_input_rule} counter accept"
+  state="ct state established,related,new counter"
+  if test "${upstream_is_target}" = "1"; then
+    daddr="ip daddr ${lan_ip}"
+  else
+    daddr="ip daddr ${to_ip}"
+  fi
+  dport="dport ${port}"
+  custom_input_rule="${proto} ${dport} ${daddr} ${state} accept"
   input_rule="nft add rule ip qubes custom-input ${custom_input_rule}"
 
   delete_rule "${qube}" "custom-input" "${custom_input_rule}"
   if test "${action}" = "del"; then
     printf '%s\n' "info: ${qube}: deleting rules" >&2
-    run_qube "${qube}" "rm -f ${hook}"
+    run_qube "${qube}" rm -f -- "${hook}"
   else
     printf '%s\n' "info: ${qube}: adding input rule daddr ${to_ip}" >&2
+    printf '%s\n\n' "debug: ${qube}: raw rule: ${input_rule}" >&2
     run_qube "${qube}" "${input_rule}"
     if test "${persistent}" = "1"; then
       input_rule="#!/bin/sh
 get_handle(){
   chain=\\\${1}
   rule=\\\${2}
-  nft --handle --stateless list chain ip qubes \\\${chain} | \\\
-    tr -d '\\\"' | grep -e '^\\\s\\\+\\\${rule} \\# handle ' | \\\
-    awk '{print \\\$NF}' | tr \\\"\\\n\\\" \\\" \\\"
+  nft --handle --stateless list chain ip qubes \\\"\\\${chain}\\\" |
+    tr -d '\\\"' | grep -e \\\"^\\\s\\\+\\\${rule} \\# handle \\\" |
+    awk '{printf \\\"%s \\\", \\\$NF}'
 }
 
 input_handle=\\\$(get_handle custom-input \\\"${custom_input_rule}\\\")
@@ -231,7 +243,7 @@ ${input_rule}"
 
       run_qube "${qube}" \
         "printf '%s\n' \"${input_rule}\" | tee -- \"${hook}\" >/dev/null"
-      run_qube "${qube}" "chmod -- +x ${hook}"
+      run_qube "${qube}" chmod -- +x "${hook}"
     fi
   fi
 }
@@ -241,8 +253,10 @@ get_lan(){
 
   unset dev
   ## TODO: Handle multiple interfaces in upstream.
-  untrusted_dev="$(run_qube "${qube}" ip -4 route | \
-                    awk '/^default via /{print $5}' | head -1)"
+  untrusted_default_route="$(run_qube "${qube}" ip -4 route show prot dhcp | \
+                             awk '/^default via /{print; exit}')"
+  untrusted_dev="${untrusted_default_route##* dev }"
+  untrusted_dev="${untrusted_dev%% *}"
   validate_dev "${qube}" "${untrusted_dev}"
   dev="${untrusted_dev}"
 
@@ -251,9 +265,16 @@ get_lan(){
     exit 1
   fi
 
-  unset lan_ip
-  untrusted_lan_ip="$(run_qube "${qube}" ip -4 route show dev "${dev}" \
-                      prot kernel | cut -d " " -f 1)"
+  unset lan_cidr lan_ip
+  untrusted_lan_route="$(run_qube "${qube}" ip -4 route show dev "${dev}" \
+                         prot kernel)"
+
+  untrusted_lan_cidr="${untrusted_lan_route%% *}"
+  validate_ipv4 "${qube}" "${untrusted_lan_cidr}"
+  lan_cidr="${untrusted_lan_cidr}"
+
+  untrusted_lan_ip="${untrusted_lan_route##* src }"
+  untrusted_lan_ip="${untrusted_lan_ip%% *}"
   validate_ipv4 "${qube}" "${untrusted_lan_ip}"
   lan_ip="${untrusted_lan_ip}"
 
@@ -267,7 +288,7 @@ test_qvm_run(){
   qube="${1}"
   # shellcheck disable=SC2310
   if ! run_qube "${qube}" printf '%s\n' "Test QUBESRPC" >/dev/null 2>&1; then
-    err_msg="error: ${qube}: RPC qubes.VMShell failed, use a different qube"
+    err_msg="error: ${qube}: no Qrexec support"
     printf '%s\n' "${err_msg}" >&2
     exit 1
   fi
@@ -294,6 +315,10 @@ recurse_netvms() {
       exit 1
       ;;
   esac
+  upstream_is_target="0"
+  if test "${rec_qube}" = "${target_qube}"; then
+    upstream_is_target="1"
+  fi
 }
 
 usage() {
