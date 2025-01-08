@@ -27,6 +27,12 @@ You current setup needs to fulfill the following requisites:
 
 ### DomU Installation
 
+It is recommended to use separate qube from your normal operations as this
+installation will eventually be copied to dom0. Apart from that, it is also
+recommended to use a separate qube for fetching the signing keys, different
+from the one acquiring Qusal. The separate qubes should be DispVM, but AppVM
+or StandaloneVM will also work.
+
 1.  Install `git` in the qube, if it is an AppVM, install it it's the
     TemplateVM and restart the AppVM.
 
@@ -35,16 +41,23 @@ You current setup needs to fulfill the following requisites:
     from your fork).
 
     ```sh
-    git clone --recurse-submodules https://github.com/ben-grande/qusal.git
+    git clone --recurse-submodules https://github.com/ben-grande/qusal.git ~/qusal
     ```
 
 3.  Copy the [maintainer's signing key](https://github.com/ben-grande/ben-grande/raw/main/DF3834875B65758713D92E91A475969DE4E371E3.asc)
-    to your text editor and save the file to `/home/user/ben-code.asc`.
+    to your text editor and save to the file `/home/user/ben-code.asc`.
 
 ### Dom0 Installation
 
 Before copying anything to Dom0, read [Qubes OS warning about consequences of
 this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-dom0).
+
+<!--
+qvm-run --no-gui --pass-io --localcmd="UPDATES_MAX_FILES=50000
+  /usr/libexec/qubes/qfile-dom0-unpacker \"${USER}\"
+  ~/QubesIncoming/\"${qube}\"" \
+  "${qube}" /usr/lib/qubes/qfile-agent "${file}"
+-->
 
 1.  Copy the repository `$file` from the DomU `$qube` to Dom0 (substitute
     `CHANGEME` for the desired valued):
@@ -53,16 +66,16 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
     qube="CHANGEME" # qube name where you downloaded the repository
     file="CHANGEME" # path to the repository in the qube
 
-    qvm-run --pass-io --localcmd="UPDATES_MAX_FILES=10000
-      /usr/libexec/qubes/qfile-dom0-unpacker user
-      ~/QubesIncoming/${qube}/qusal" \
-      "${qube}" /usr/lib/qubes/qfile-agent "${file}"
+    mkdir -p -- ~/QubesIncoming/"${qube}"
+    qvm-run --no-gui --pass-io -- "${qube}" "tar -cf - -C ~ qusal" |
+      tar -xf - -C ~/QubesIncoming/"${qube}"
     ```
 
 2.  Pass the maintainer's key from the qube to Dom0:
 
     ```sh
-    qvm-run --pass-io "${qube}" -- "cat /home/user/ben-code.asc" | tee /tmp/ben-code.asc
+    qvm-run --no-gui --pass-io -- "${qube}" "cat -- /home/user/ben-code.asc" |
+      tee -- /tmp/ben-code.asc >/dev/null
     ```
 
 3.  Verify that the key fingerprint matches
@@ -81,7 +94,13 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
     gpg --import /tmp/ben-code.asc
     ```
 
-5.  Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
+5.  Enter the repository:
+
+    ```sh
+    cd ~/QubesIncoming/"${qube}"/qusal
+    ```
+
+6.  Verify the [commit or tag signature](https://www.qubes-os.org/security/verifying-signatures/#how-to-verify-signatures-on-git-repository-tags-and-commits)
     and expect a good signature, be surprised otherwise:
 
     ```sh
@@ -93,19 +112,20 @@ this procedure](https://www.qubes-os.org/doc/how-to-copy-from-dom0/#copying-to-d
 
     ```sh
     tag_list="$(git tag --points-at=HEAD)"
-    verification=0
+    verified=0
     for tag in ${tag_list}; do
       if git verify-tag "${tag}"
-        verification=1
+        verified=1
         break
       fi
     done
-    if test "${verification}" = "0"; then
+    if test "${verified}" = "0"; then
+      printf '%s\n' "Failed to verify qusal" >&2
       false
     fi
     ```
 
-6.  Copy the project to the Salt directories:
+7.  Copy the project to the Salt directories:
 
     ```sh
     ~/QubesIncoming/"${qube}"/qusal/scripts/setup.sh
@@ -183,7 +203,7 @@ files from being tracked and signature verification won't catch it.
     file="CHANGEME" # path to the repository in the qube
 
     rm -rf ~/QubesIncoming/"${qube}"/qusal
-    UPDATES_MAX_FILES=10000 qvm-copy-to-dom0 "${qube}" "${file}"
+    UPDATES_MAX_FILES=50000 qvm-copy-to-dom0 "${qube}" "${file}"
     ```
 
 3.  Verify the commit or tag signature as shown in

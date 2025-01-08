@@ -54,6 +54,10 @@ test "${xtrace}" = 0 || set -x
 
 for file in ${files}; do
   test "${xtrace}" = 0 || set -x
+  case "${file}" in
+    .reuse/dep5) continue;;
+    *) ;;
+  esac
   file="${file#./}"
   set +x
   awk -v year="${year}" -v email="${email}" -v file="${file}" -- '
