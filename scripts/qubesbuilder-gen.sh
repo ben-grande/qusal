@@ -28,7 +28,7 @@ fi
 ignored="$(git ls-files --exclude-standard --others --ignored salt/)"
 untracked="$(git ls-files --exclude-standard --others salt/)"
 unwanted="$(printf '%s\n%s\n' "${ignored}" "${untracked}" |
-  grep -E "^salt/\S+/(README.md|.*\.sls|files/.*)$" | cut -d "/" -f2 |
+  grep -E "^salt/\S+/(README.md|version)$" | cut -d "/" -f2 |
   sort -u)"
 group="$(./scripts/spec-get.sh dom0 group)"
 projects="$(find salt/ -mindepth 1 -maxdepth 1 -type d | sort -d |

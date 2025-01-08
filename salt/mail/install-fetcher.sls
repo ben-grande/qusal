@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -33,23 +33,31 @@ include:
       - libsasl2-modules
       - libsasl2-modules-db
 
-"{{ slsdotpath }}-fetcher-systemd-fdm.timer":
-  file.managed:
-    - name: /usr/lib/systemd/user/fdm.timer
-    - source: salt://{{ slsdotpath }}/files/fetcher/systemd/fdm.timer
-    - mode: "0644"
+"{{ slsdotpath }}-fetcher-symlink-offlineimap-oneshort.service":
+  file.symlink:
+    - require:
+      - pkg: "{{ slsdotpath }}-fetcher-installed"
+    - name: /usr/lib/systemd/user/offlineimap-oneshot.service
+    - target: /usr/share/doc/offlineimap3/examples/systemd/offlineimap-oneshot.service
+    - force: True
+
+"{{ slsdotpath }}-fetcher-symlink-offlineimap-oneshort.timer":
+  file.symlink:
+    - require:
+      - pkg: "{{ slsdotpath }}-fetcher-installed"
+    - name: /usr/lib/systemd/user/offlineimap-oneshot.timer
+    - target: /usr/share/doc/offlineimap3/examples/systemd/offlineimap-oneshot.timer
+    - force: True
+
+"{{ slsdotpath }}-fetcher-systemd-user":
+  file.recurse:
+    - name: /usr/lib/systemd/user/
+    - source: salt://{{ slsdotpath }}/files/fetcher/systemd/
+    - dir_mode: "0755"
+    - file_mode: "0644"
     - user: root
     - group: root
     - makedirs: True
-
-"{{ slsdotpath }}-fetcher-systemd-fdm.service":
-  file.managed:
-    - name: /usr/lib/systemd/user/fdm.service
-    - source: salt://{{ slsdotpath }}/files/fetcher/systemd/fdm.service
-    - mode: "0644"
-    - user: root
-    - group: root
-    - makedirs: true
 
 "{{ slsdotpath }}-fetcher-bin":
   file.managed:

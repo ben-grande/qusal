@@ -1,6 +1,6 @@
 ## ~/.mpoprc
 
-## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -12,9 +12,12 @@ defaults
   delivery maildir ~/mail/INBOX
   uidls_file ~/.local/share/%U_at_%H
 
-##### EDIT THIS BLOCK #####
 account main
-  host pop.mail.example
-  user john-doe
-  password secret123
+##### EDIT THIS BLOCK #####
+  host "pop.mail.example"
+  user "john-doe@mail.example"
+  password "secret123"
+  keep on
+
+##### DO NOT EDIT THIS BLOCK #####
 account default : main

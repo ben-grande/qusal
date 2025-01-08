@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -44,6 +44,100 @@ prefs:
 {{ load(defaults) }}
 
 {% load_yaml as defaults -%}
+name: {{ slsdotpath }}-fetcher
+force: True
+require:
+- qvm: tpl-{{ slsdotpath }}-fetcher
+present:
+- template: tpl-{{ slsdotpath }}-fetcher
+- label: red
+prefs:
+- template: tpl-{{ slsdotpath }}-fetcher
+- label: red
+- audiovm: ""
+- vcpus: 1
+- memory: 200
+- maxmem: 350
+- include_in_backups: False
+features:
+- enable:
+  - servicevm
+- disable:
+  - service.cups
+  - service.cups-browsed
+  - service.tinyproxy
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- add:
+  - "mail-fetcher"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}-reader
+force: True
+require:
+- qvm: tpl-{{ slsdotpath }}-reader
+present:
+- template: tpl-{{ slsdotpath }}-reader
+- label: red
+prefs:
+- template: tpl-{{ slsdotpath }}-reader
+- label: red
+- audiovm: ""
+- vcpus: 1
+- memory: 200
+- maxmem: 350
+- include_in_backups: False
+features:
+- enable:
+  - service.split-gpg2-client
+- disable:
+  - service.cups
+  - service.cups-browsed
+  - service.tinyproxy
+- set:
+  - menu-items: "mutt.desktop qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- add:
+  - "mail-reader"
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}-sender
+force: True
+require:
+- qvm: tpl-{{ slsdotpath }}-sender
+present:
+- template: tpl-{{ slsdotpath }}-sender
+- label: red
+prefs:
+- template: tpl-{{ slsdotpath }}-sender
+- label: red
+- audiovm: ""
+- vcpus: 1
+- memory: 200
+- maxmem: 350
+- include_in_backups: False
+features:
+- enable:
+  - servicevm
+- disable:
+  - service.cups
+  - service.cups-browsed
+  - service.tinyproxy
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- add:
+  - "mail-sender"
+{%- endload %}
+{{ load(defaults) }}
+
+
+{% load_yaml as defaults -%}
 name: dvm-{{ slsdotpath }}-fetcher
 force: True
 require:
@@ -67,30 +161,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
-{%- endload %}
-{{ load(defaults) }}
-
-{% load_yaml as defaults -%}
-name: {{ slsdotpath }}-reader
-force: True
-require:
-- qvm: tpl-{{ slsdotpath }}-reader
-present:
-- template: tpl-{{ slsdotpath }}-reader
-- label: red
-prefs:
-- template: tpl-{{ slsdotpath }}-fetcher
-- label: red
-- audiovm: ""
-- vcpus: 1
-- memory: 200
-- maxmem: 350
-- include_in_backups: False
-features:
-- disable:
-  - service.cups
-  - service.cups-browsed
-  - service.tinyproxy
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -118,6 +190,8 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -145,6 +219,11 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- add:
+  - "mail-fetcher"
 {%- endload %}
 {{ load(defaults) }}
 
@@ -172,6 +251,11 @@ features:
   - service.cups
   - service.cups-browsed
   - service.tinyproxy
+- set:
+  - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
+tags:
+- add:
+  - "mail-sender"
 {%- endload %}
 {{ load(defaults) }}
 

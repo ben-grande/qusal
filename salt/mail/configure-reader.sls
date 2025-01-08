@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -20,5 +20,13 @@ include:
     - user: user
     - group: user
     - makedirs: True
+
+"{{ slsdotpath }}-reader-mutt-offline":
+  file.symlink:
+    - require:
+      - pkg: dotfiles.copy-mutt
+    - name: /home/user/.config/mutt/90_offline.muttrc
+    - source: /home/user/.config/mutt/sample/offline.muttrc.example
+    - force: True
 
 {% endif -%}

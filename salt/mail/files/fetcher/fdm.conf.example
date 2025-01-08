@@ -1,6 +1,6 @@
 # ~/.fdm.conf
 
-## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -8,10 +8,11 @@
 action "inbox" maildir "%h/mail/INBOX"
 
 ##### EDIT THIS BLOCK #####
-account "john-doe" pop3s
-        server "pop.mail.example"
-        user "john-doe"
-        pass "secret123"
+account "john-doe@mail.example" pop3s
+  server "pop.mail.example"
+  user "john-doe@mail.example"
+  pass "secret123"
+  keep
 
 ##### DO NOT EDIT THIS BLOCK #####
 match all action "inbox"

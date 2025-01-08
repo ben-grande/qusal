@@ -1,11 +1,14 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ## Do not modify this file, create a new policy with with a lower number in the
 ## file name instead. For example `30-user.policy`.
-qusal.MailFetch   * disp-mail-fetcher @default ask target=mail-reader default_target=mail-reader
+qusal.MailFetch   * @tag:mail-fetcher @tag:mail-reader ask
+qusal.MailFetch   * @tag:mail-fetcher @default ask default_target=mail-reader
 qusal.MailFetch   * @anyvm @anyvm deny
-qusal.MailEnqueue * mail-reader  @default ask target=disp-mail-sender default_target=disp-mail-sender
+
+qusal.MailEnqueue * @tag:mail-reader @tag:mail-sender ask
+qusal.MailEnqueue * @tag:mail-reader @default ask
 qusal.MailEnqueue * @anyvm @anyvm deny
 ## vim:ft=qrexecpolicy

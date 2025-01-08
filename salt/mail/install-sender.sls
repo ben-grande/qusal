@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -31,6 +31,22 @@ include:
       - libsasl2-2
       - libsasl2-modules
       - libsasl2-modules-db
+
+"{{ slsdotpath }}-sender-symlink-msmtpq":
+  file.symlink:
+    - require:
+      - pkg: "{{ slsdotpath }}-sender-installed"
+    - name: /usr/bin/msmtpq
+    - target: /usr/libexec/msmtp/msmtpq/msmtpq
+    - force: True
+
+"{{ slsdotpath }}-sender-symlink-msmtp-queue":
+  file.symlink:
+    - require:
+      - pkg: "{{ slsdotpath }}-sender-installed"
+    - name: /usr/bin/msmtp-queue
+    - target: /usr/libexec/msmtp/msmtpq/msmtp-queue
+    - force: True
 
 "{{ slsdotpath }}-sender-rpc":
   file.managed:

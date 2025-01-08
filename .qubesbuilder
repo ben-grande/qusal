@@ -22,6 +22,7 @@ host:
       - rpm_spec/qusal-fedora-xfce.spec
       - rpm_spec/qusal-fetcher.spec
       - rpm_spec/qusal-kicksecure-minimal.spec
+      - rpm_spec/qusal-mail.spec
       - rpm_spec/qusal-media.spec
       - rpm_spec/qusal-mgmt.spec
       - rpm_spec/qusal-mirage-builder.spec
@@ -50,6 +51,7 @@ host:
       - rpm_spec/qusal-sys-ssh.spec
       - rpm_spec/qusal-sys-ssh-agent.spec
       - rpm_spec/qusal-sys-syncthing.spec
+      - rpm_spec/qusal-sys-tailscale.spec
       - rpm_spec/qusal-sys-usb.spec
       - rpm_spec/qusal-sys-wireguard.spec
       - rpm_spec/qusal-terraform.spec

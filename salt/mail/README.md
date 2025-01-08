@@ -23,15 +23,15 @@ Mail operations in Qubes OS.
 
 ## Description
 
-Create a mail fetcher qube named "mail-fetcher", a mail reader qube names
-"mail-reader" and a mail sender qube named "mail-sender".
+Create a mail fetcher qube named "(disp-)mail-fetcher", a mail reader qube
+names "mail-reader" and a mail sender qube named "(disp-)mail-sender".
 
-The online "mail-fetcher" qube will fetch messages with POP3. After being
-fetched, you can copy them to the offline "mail-reader" qube, where you will
-be reading emails. After composing a message, the "mail-reader" qube will
+The online "(disp-)mail-fetcher" qube will fetch messages with POP3. After
+being fetched, you can copy them to the offline "mail-reader" qube, where you
+will be reading emails. After composing a message, the "mail-reader" qube will
 save the messages to a queue, which can be forwarded to the online
-"mail-sender" qube. You can review messages to be sent from the "mail-sender"
-qube and them send them via SMTP.
+"(disp-)mail-sender" qube. You can review messages to be sent from the
+"(disp-)mail-sender" qube and them send them via SMTP.
 
 By default, the protocols used required SSL, POP3 on port 995, IMAP on port
 995 and SMTP on port 587. You can always override any configuration via
@@ -48,12 +48,13 @@ causes problems.
 Mail is insecure per nature and users depend on archaic Unix tools that
 [receive little to no maintenance](https://xkcd.com/2347/).
 
-The qubes connected to the internet `mail-fetcher` and `mail-sender` hold the
-account password to connect to the remote servers. If any of those are
-compromised, your mail account can also be. Network firewall can help, to
-some extent, if you consider the attacker doesn't have an account on the same
-mail server you have, or sends a message from you mail account to an attacker
-controlled mail and then delete from your sent messages.
+The qubes connected to the internet `(disp-)mail-fetcher` and
+`(disp-)mail-sender` hold the account password to connect to the remote
+servers. If any of those are compromised, your mail account can also be.
+Network firewall can help, to some extent, if you consider the attacker
+doesn't have an account on the same mail server you have, or sends a message
+from you mail account to an attacker controlled mail and then delete from your
+sent messages.
 
 The reader qube `mail-reader` also has a high attack surface. Although
 offline, it can access PGP keys via split-gpg2 and also read all your mails,
@@ -66,11 +67,11 @@ secure mail client, but there are none. `Mutt` will open `text/html` and
 qube. See [reader](../reader/README.md) for offline disposables that can open
 some kinds of files.
 
-If you want to read the mail in the sender qube `mail-sender`, you may want to
-do this before sending to the mail server, you should open the file in a
-disposable to avoid a parsing bug in the editor to extract information such as
-the password from the sender qube. This method doesn't prevent all kinds of
-exploitation, as `msmtp` still needs to parse the mail to be sent.
+You may want to read the mail in the sender qube `(disp-)mail-sender` before
+sending to the mail server, you should open the file in a disposable to avoid
+a parsing bug in the editor to extract information such as the password from
+the sender qube. This method doesn't prevent all kinds of exploitation, as
+`msmtp` still needs to parse the mail to be sent.
 
 ## Installation
 
@@ -80,7 +81,7 @@ exploitation, as `msmtp` still needs to parse the mail to be sent.
 sudo qubesctl top.enable mail reader
 sudo qubesctl --targets=tpl-mail-fetcher,tpl-mail-reader,tpl-mail-sender,dvm-mail-fetcher,mail-reader,dvm-mail-sender,tpl-reader state.apply
 sudo qubesctl top.disable mail reader
-sudo qubesctl state.apply mail.appmenus,reader.appmenus
+sudo qubesctl state.apply mail.appmenus
 ```
 
 *   State:
@@ -96,7 +97,7 @@ sudo qubesctl --skip-dom0 --targets=tpl-mail-sender state.apply mail.install-sen
 sudo qubesctl --skip-dom0 --targets=dvm-mail-fetcher state.apply mail.configure-fetcher
 sudo qubesctl --skip-dom0 --targets=mail-reader state.apply mail.configure-reader
 sudo qubesctl --skip-dom0 --targets=dvm-mail-sender state.apply mail.configure-sender
-sudo qubesctl state.apply mail.appmenus,reader.appmenus
+sudo qubesctl state.apply mail.appmenus
 ```
 
 <!-- pkg:end:post-install -->
@@ -107,23 +108,27 @@ You will use local files to override the ones provided by this package. Few
 options must be set. Do not change the directories in the configuration
 files, they need to stay the same.
 
-You should firewall the `mail-fetcher` and `mail-sender` to the `POP3` server
-or/and `IMAP` server and `SMTP` server, respectively.
+You should firewall the `(disp-)mail-fetcher` and `(disp-)mail-sender` to the
+`POP3` server or/and `IMAP` server and `SMTP` server, respectively.
 
 Steps overview:
 
-1.  Receive mail via the `mail-fetcher` and transfer mail to `mail-reader`.
-2.  Read and compose mail from `mail-reader` and transfer to `mail-sender`.
-3.  Send queued mails from `mail-sender` to remote mail server.
+1.  Receive mail via the `(disp-)mail-fetcher` and transfer mail to
+    `mail-reader`.
+2.  Read and compose mail from `mail-reader` and transfer to
+    `(disp-)mail-sender`.
+3.  Send queued mails from `(disp-)mail-sender` to remote mail server.
 
 ### Fetcher
 
-The fetcher fetches e-mails with `fdm` or `mpop` via the POP3 protocol or even
+The fetcher fetches e-mails with `fdm` or `mpop` via the POP3 protocol or with
 `offlineimap` via the IMAP protocol, you only need to choose one program for
-this task, depending on your needs.
+this task, depending on your needs. Please note that when using the POP3
+protocol, only the INBOX will be fetched while when using IMAP, you can choose
+which folders to fetch, defaults to fetch all folders.
 
 The configuration must be done in `dvm-mail-fetcher`, while the fetching of
-mails will be done in `disp-mail-fetcher`.
+mails will be done in `(disp-)mail-fetcher`.
 
 #### fdm Configuration
 
@@ -139,7 +144,7 @@ Edit the configuration according to your needs:
 editor ~/.fdm.conf
 ```
 
-Check the connection is working:
+Check if the connection is working:
 
 ```sh
 fdm -kv poll
@@ -160,9 +165,6 @@ systemctl --user start  fdm.timer
 
 #### mpop Configuration
 
-Copy `~/.mpoprc.example` to `~/.mpoprc` and edit the configuration
-according to your needs.
-
 Copy example configuration file to where the program can read automatically:
 
 ```sh
@@ -175,7 +177,7 @@ Edit the configuration according to your needs:
 editor ~/.mpoprc
 ```
 
-Check the connection is working:
+Check if the connection is working:
 
 ```sh
 mpop --debug --auth-only
@@ -196,7 +198,43 @@ systemctl --user start  mpop.timer
 
 #### OfflineIMAP Configuration
 
-TODO: difficult to exemplify as the folders are user and provider specific.
+Copy example configuration file to where the program can read automatically:
+
+```sh
+cp -- ~/.netrc.example ~/.netrc
+cp -- ~/.offlineimaprc.example ~/.offlineimaprc
+```
+
+Edit the configuration according to your needs:
+
+```sh
+editor ~/.netrc ~/.offlinemaprc
+```
+
+Check if the connection is working:
+
+```sh
+offlineimap --info
+```
+
+<!--
+Ideally '--dry-run' would be used instead of `--info`, but it fails if
+offlineimap has not been run yet to create the same directories available on
+the remote.
+-->
+
+Fetch mail:
+
+```sh
+offlineimap
+```
+
+If the fetch was successful, enable the fetch scheduler:
+
+```sh
+systemctl --user enable offlineimap-oneshot.timer
+systemctl --user start  offlineimap-oneshot.timer
+```
 
 #### Send Inbox to Reader Qube
 
@@ -242,7 +280,7 @@ qusal-send-mail
 The sender sends e-mails with `msmtp` via the SMTP protocol.
 
 The configuration must be done in `dvm-mail-sender`, while the sending of
-mails are done in `disp-mail-sender`.
+mails are done in `(disp-)mail-sender`.
 
 #### msmtp Configuration
 
