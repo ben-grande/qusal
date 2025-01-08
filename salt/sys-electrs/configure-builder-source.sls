@@ -1,16 +1,21 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% if grains['nodename'] != 'dom0' -%}
 
+{#
+ElectRS dependencies might break builds in case they don't set correct Cargo
+properties to rebuild if a previously statically linked build was done.
+See: https://github.com/romanz/electrs/issues/1001
+#}
 {% set electrs_obj_type = 'tag' -%}
 {% if electrs_obj_type == 'commit' -%}
-  {% set electrs_obj = 'ea9a924fd321086029f3e719ee8e3fff385ba8cd' -%}
+{% set electrs_obj = '6bfaba99d5c7c598b5e067e3bc70041bc645b84a' -%}
 {% else -%}
-  {% set electrs_obj = 'v0.10.6' -%}
+  {% set electrs_obj = 'v0.10.8' -%}
 {% endif -%}
 
 {% set cfg_me_version = '0.1.1' -%}

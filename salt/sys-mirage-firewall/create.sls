@@ -1,21 +1,21 @@
 {#
 SPDX-FileCopyrightText: 2022 Thien Tran <contact@tommytran.io>
 SPDX-FileCopyrightText: 2023 unman <unman@thirdeyesecurity.org>
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: MIT
 #}
 
 {%- from "qvm/template.jinja" import load -%}
 
-{% set mirage_version = 'v0.9.2' -%}
-{% set mirage_sha256sum = '78a1ee52574b9a4fc5eda265922bcbcface90f7c43ed7a68dc8e201a2ac0a7dc' %}
+{% set mirage_version = 'v0.9.3' -%}
+{% set mirage_sha256sum = 'b78d6711b502f8babcc5c4083b0352b78be8e8a6bef044189ce7a00e6e564612' %}
 {% set mirage_file_kernel = 'qubes-firewall.xen' -%}
 {% set mirage_url_kernel = 'https://github.com/mirage/qubes-mirage-firewall/releases/download/' ~ mirage_version ~ '/' ~ mirage_file_kernel -%}
 
 {# Use the netvm of the default_netvm. #}
-{% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
-{% set netvm = salt['cmd.shell']('qvm-prefs ' + default_netvm + ' netvm') -%}
+{% set default_netvm = salt['cmd.shell']('qubes-prefs -- default_netvm') -%}
+{% set netvm = salt['cmd.shell']('qvm-prefs -- ' + default_netvm + ' netvm') -%}
 {#
 If netvm of default_netvm is empty, user's default_netvm is the first in
 the chain (sys-net).
@@ -25,7 +25,7 @@ the chain (sys-net).
 {% endif %}
 
 {# The 'updatevm' has networking and 'curl' present. #}
-{% set updatevm = salt['cmd.shell']('qubes-prefs updatevm') %}
+{% set updatevm = salt['cmd.shell']('qubes-prefs -- updatevm') %}
 
 "sys-mirage-firewall-start-updatevm-{{ updatevm }}":
   qvm.start:
@@ -36,7 +36,7 @@ the chain (sys-net).
     - require:
       - qvm: "sys-mirage-firewall-start-updatevm-{{ updatevm }}"
     - name: |
-        qvm-run {{ updatevm }} -- "
+        qvm-run --no-gui -- {{ updatevm }} "
           mkdir -p -- /tmp/mirage-firewall-download
           cd /tmp/mirage-firewall-download
           curl --location \
@@ -61,12 +61,15 @@ the chain (sys-net).
   cmd.run:
     - require:
       - file: "sys-mirage-firewall-create-temporary-kernel-directory"
-    - name: qvm-run --pass-io {{ updatevm }} -- "cat /tmp/mirage-firewall-download/qubes-firewall.xen" | tee -- /tmp/mirage-firewall-download/vmlinuz >/dev/null
+    - name: |
+        qvm-run --no-gui --pass-io -- {{ updatevm }} \
+          "cat -- /tmp/mirage-firewall-download/qubes-firewall.xen" | \
+          tee -- /tmp/mirage-firewall-download/vmlinuz >/dev/null
     - timeout: 10
 
 "sys-mirage-firewall-remove-kernel-from-updatevm":
   cmd.run:
-    - name: qvm-run {{ updatevm }} -- "rm -rf /tmp/mirage-firewall-download"
+    - name: qvm-run --no-gui -- {{ updatevm }} "rm -rf -- /tmp/mirage-firewall-download"
 
 "sys-mirage-firewall-move-kernel-to-usable-directory":
   file.managed:
