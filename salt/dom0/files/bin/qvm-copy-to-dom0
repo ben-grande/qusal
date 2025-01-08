@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -23,7 +23,7 @@ dir="${HOME}/QubesIncoming/${qube}"
 user="$(qvm-prefs --get -- "${qube}" default_user)"
 max_bytes="${UPDATES_MAX_BYTES:-4GiB}"
 max_files="${UPDATES_MAX_FILES:-2048}"
-qvm-run --pass-io --localcmd="
+qvm-run --no-gui --pass-io --localcmd="
   UPDATES_MAX_BYTES=\"${max_bytes}\" UPDATES_MAX_FILES=\"${max_files}\"
   /usr/libexec/qubes/qfile-dom0-unpacker \"${user}\" \"${dir}\"" \
-  "${qube}" /usr/lib/qubes/qfile-agent "${@}"
+  -- "${qube}" /usr/lib/qubes/qfile-agent "${@}"

@@ -128,7 +128,7 @@ you just need to reduce the memory available to the `sys-bitcoin` qube. From
 `dom0`, run:
 
 ```sh
-qvm-prefs sys-bitcoin memory 1000
+qvm-prefs -- sys-bitcoin memory 1000
 ```
 
 ### Bitcoin Core GUI

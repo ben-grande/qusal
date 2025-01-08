@@ -1,6 +1,6 @@
 {#
 SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.org>
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -10,8 +10,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- import "debian-minimal/template.jinja" as template -%}
 
 {# Use the netvm of the default_netvm. #}
-{% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
-{% set netvm = salt['cmd.shell']('qvm-prefs ' + default_netvm + ' netvm') -%}
+{% set default_netvm = salt['cmd.shell']('qubes-prefs -- default_netvm') -%}
+{% set netvm = salt['cmd.shell']('qvm-prefs -- ' + default_netvm + ' netvm') -%}
 {#
 If netvm of default_netvm is empty, user's default_netvm is the first in
 the chain (sys-net).

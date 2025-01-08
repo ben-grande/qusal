@@ -44,12 +44,19 @@ sudo qubesctl state.apply sys-mirage-firewall.create
 
 <!-- pkg:end:post-install -->
 
+It will emit the following warning:
+
+> [WARNING ] source_hash is only used with 'http', 'https' or 'ftp'
+
+The warning is [outdated](https://github.com/saltstack/salt/issues/66976) and
+checksums are checked.
+
 ## Usage
 
 Set qubes `netvm` to `disp-sys-mirage-firewall`:
 
 ```sh
-qvm-prefs --set QUBE netvm disp-sys-mirage-firewall
+qvm-prefs --set -- QUBE netvm disp-sys-mirage-firewall
 ```
 
 To test the firewall, apply rules with `qvm-firewall`.

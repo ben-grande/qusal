@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% set qube = 'disp-' ~ slsdotpath -%}
 
 {% set running = 0 -%}
-{% if salt['cmd.shell']('qvm-ls --no-spinner --raw-list --running ' ~ qube) == qube -%}
+{% if salt['cmd.shell']('qvm-ls --no-spinner --raw-list --running -- ' ~ qube) == qube -%}
   {% set running = 1 -%}
 {% endif -%}
 
@@ -19,19 +19,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   cmd.run:
     - require:
       - qvm: {{ qube }}-start
-    - name: qubes-prefs updatevm {{ qube }}
+    - name: qubes-prefs -- updatevm {{ qube }}
 
 "{{ qube }}-qubes-prefs-default_netvm":
   cmd.run:
     - require:
       - qvm: {{ qube }}-start
-    - name: qubes-prefs default_netvm {{ qube }}
+    - name: qubes-prefs -- default_netvm {{ qube }}
 
 "{{ qube }}-qubes-prefs-clockvm":
   cmd.run:
     - require:
       - qvm: {{ qube }}-start
-    - name: qubes-prefs clockvm {{ qube }}
+    - name: qubes-prefs -- clockvm {{ qube }}
 
 {% if running == 0 -%}
 "{{ qube }}-shutdown":

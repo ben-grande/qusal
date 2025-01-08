@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -61,31 +61,33 @@ At least `200GB` of disk space is required.
 %pre
 
 %install
-rm -rf %{buildroot}
-install -m 755 -d \
+rm -rf -- %{buildroot}
+install -m 755 -d -- \
   %{buildroot}/srv/salt/qusal \
   %{buildroot}%{_docdir}/%{name} \
   %{buildroot}%{_defaultlicensedir}/%{name}
 
-for license in $(echo "%{license_csv}" | tr "," " "); do
+for license in $(printf '%s\n' "%{license_csv}" | tr "," " "); do
   license_dir="LICENSES"
   if test -d "salt/%{project}/LICENSES"; then
     license_dir="salt/%{project}/LICENSES"
   fi
-  install -m 644 "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
+  install -m 644 -- \
+    "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
 done
 
-install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rf \
+install -m 644 -- salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
+rm -rf -- \
   salt/%{project}/LICENSES \
   salt/%{project}/README.md \
   salt/%{project}/.*
-cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
+cp -rv -- salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
 if test "$1" = "1"; then
   ## Install
   qubesctl state.apply sys-electrs.create
+  qubesctl --skip-dom0 --targets=sys-bitcoin-gateway state.apply sys-bitcoin.configure-gateway
   qubesctl --skip-dom0 --targets=tpl-electrs-builder state.apply sys-electrs.install-builder
   qubesctl --skip-dom0 --targets=tpl-sys-electrs state.apply sys-electrs.install
   qubesctl --skip-dom0 --targets=disp-electrs-builder state.apply sys-electrs.configure-builder
@@ -123,6 +125,21 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Thu Oct 24 2024 Ben Grande <ben.grande.b@gmail.com> - efe0fa6
+- fix: depend on Bitcoin Gateway configuration
+
+* Mon Sep 30 2024 Ben Grande <ben.grande.b@gmail.com> - 008d961
+- feat: bump ElectRS version
+
+* Fri Aug 16 2024 Ben Grande <ben.grande.b@gmail.com> - 56a4296
+- fix: skip YUM weak dependencies installation
+
+* Fri Aug 16 2024 Ben Grande <ben.grande.b@gmail.com> - 59a7fd2
+- fix: remove deprecated Electrs option
+
+* Tue Aug 06 2024 Ben Grande <ben.grande.b@gmail.com> - 1b2f1ba
+- fix: avoid operand evaluation as argument
+
 * Tue Jul 09 2024 Ben Grande <ben.grande.b@gmail.com> - 011a71a
 - style: limit line length per file extension
 

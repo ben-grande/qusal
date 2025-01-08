@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -159,8 +159,9 @@ unset repo_toplevel
 spec_get="./scripts/spec-get.sh"
 ignored="$(git ls-files --exclude-standard --others --ignored salt/)"
 untracked="$(git ls-files --exclude-standard --others salt/)"
-unwanted="$(printf '%s\n%s\n' "${ignored}" "${untracked}" \
-            | grep -e "^salt/\S\+/README.md" | cut -d "/" -f2 | sort -u)"
+unwanted="$(printf '%s\n%s\n' "${ignored}" "${untracked}" |
+  grep -E "^salt/\S+/(README.md|version)$" | cut -d "/" -f2 |
+  sort -u)"
 
 fail=""
 gen_mode=""

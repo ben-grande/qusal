@@ -117,7 +117,7 @@ setting `sys-cacher` as the netvm of the client qube.
 Set `sys-cacher` as the netvm of your qube:
 
 ```sh
-qvm-prefs QUBE netvm sys-cacher
+qvm-prefs -- QUBE netvm sys-cacher
 ```
 
 Enable the service `netvm-cacher`:
@@ -157,7 +157,7 @@ lose the current session:
 qvm-tags QUBE add updatevm-sys-cacher
 qvm-features QUBE service.updates-proxy-setup 1
 sudo qubesctl --skip-dom0 --targets=QUBE state.apply sys-cacher.install-client
-qvm-run --user=root QUBE -- "
+qvm-run --no-gui --user=root -- QUBE "
 touch -- /var/run/qubes-service/updates-proxy-setup
 /usr/bin/apt-cacher-ng-repo
 systemctl restart qubes-updates-proxy-forwarder.socket"

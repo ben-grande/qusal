@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -7,8 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- from "qvm/template.jinja" import load -%}
 
 # Use the netvm of the default_netvm.
-{% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
-{% set netvm = salt['cmd.shell']('qvm-prefs ' + default_netvm + ' netvm') -%}
+{% set default_netvm = salt['cmd.shell']('qubes-prefs -- default_netvm') -%}
+{% set netvm = salt['cmd.shell']('qvm-prefs -- ' + default_netvm + ' netvm') -%}
 # If netvm is empty, user's default_netvm is the uplink (sys-net).
 {% if netvm == '' %}
   {% set netvm = default_netvm %}
@@ -119,7 +119,7 @@ features:
 ## Anticipate network usage as sys-firewall is turned off at this step.
 ## Starting the machine before let's the network be established with enough
 ## time for the package installation in the template to work.
-{% set default_netvm = salt['cmd.shell']('qubes-prefs default_netvm') -%}
+{% set default_netvm = salt['cmd.shell']('qubes-prefs -- default_netvm') -%}
 {% if default_netvm -%}
 "{{ slsdotpath }}-start-{{ default_netvm }}-anticipate-network-use":
   qvm.start:

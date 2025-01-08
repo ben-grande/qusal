@@ -11,7 +11,8 @@ Tailscale environment in Qubes OS.
 ## Description
 
 Install Tailscale and use it on the "sys-tailscale" or with any other qube you
-want to install.
+want to install. The "sys-tailscale" qube can provide network for other qubes,
+but its clients can only access devices in the tailnet via IP and not via DNS.
 
 ## Installation
 

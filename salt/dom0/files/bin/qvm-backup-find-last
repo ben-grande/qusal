@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -9,8 +9,8 @@ set -eu
 list_backups(){
   ## Hide stderr to hide remote login connection messages (banners etc).
   # shellcheck disable=SC2086
-  qvm-run --filter-escape-chars --no-color-output --no-color-stderr \
-    --pass-io "${qube}" -- "${cmd} ${find_cmd} 2>/dev/null"
+  qvm-run --no-gui --filter-escape-chars --no-color-output --no-color-stderr \
+    --pass-io -- "${qube}" "${cmd} ${find_cmd} 2>/dev/null"
 }
 
 list_last_backup(){

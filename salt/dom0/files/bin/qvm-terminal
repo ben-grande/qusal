@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -8,30 +8,58 @@ set -eu
 
 me="${0##*/}"
 
+msg(){
+  printf '%s\n' "${0##*/}: ${*}" >&2
+}
+
 usage(){
-  printf '%s\n' "Usage: ${me} [QVM-RUN_OPTIONS] <QUBE>
+  msg "Usage: ${me} [QVM-RUN_OPTIONS] <QUBE>
 Examples:
   ${me} --dispvm=<DVM_TEMPLATE>
   ${me} -u root <QUBE>
   ${me} <QUBE>
-The application to open can be specified with environment variables:
-  QVM_TERMINAL=xterm ${me} -u root <QUBE>
-  QVM_FILE_MANAGER=thunar ${me} -u root <QUBE>" >&2
+The desktop application can be specified with environment variable:"
+  case "${me}" in
+    *-terminal)
+      msg "  QVM_TERMINAL=xterm ${me} -u root <QUBE>"
+      ;;
+    *-file-manager)
+      msg "  QVM_FILE_MANAGER=thunar ${me} -u root <QUBE>"
+      ;;
+    *) ;;
+  esac
   exit "${1-"1"}"
+}
+
+check_xtools(){
+  fail=0
+  if ! command -v xdotool >/dev/null; then
+    msg "missing program: xdotool"
+    fail=1
+  fi
+  if ! command -v xprop >/dev/null; then
+    msg "missing program: xprop"
+    fail=1
+  fi
+  if test "${fail}" = "1"; then
+    msg "cannot determine qube by window, install missing programs or"
+    msg "provide the qube name by argument"
+    exit 1
+  fi
 }
 
 case "${me}" in
   *-terminal) service="${QVM_TERMINAL:-"qubes-run-terminal"}";;
   *-file-manager) service="${QVM_FILE_MANAGER:-"qubes-open-file-manager"}";;
-  *) printf '%s\n' "Invalid script name: ${me}" >&2; exit 1 ;;
+  *) msg "Invalid script name: ${me}"; exit 1 ;;
 esac
-
 
 case "${1-}" in
   -h|--help)
     usage 1
     ;;
   "")
+    check_xtools
     ## Try to run on focused window, if Dom0 is focused, it will prompt you to
     ## select a qube window.
     id="$(xdotool getwindowfocus)"

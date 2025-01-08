@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -19,7 +19,7 @@ Usage:
 {% macro sync_appmenus(qube) -%}
 
 {% set running = 0 -%}
-{% if salt['cmd.shell']('qvm-ls --no-spinner --raw-list --running ' ~ qube) == qube -%}
+{% if salt['cmd.shell']('qvm-ls --no-spinner --raw-list --running -- ' ~ qube) == qube -%}
   {% set running = 1 -%}
 {% endif -%}
 

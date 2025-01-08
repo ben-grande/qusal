@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # SPDX-FileCopyrightText: 2017 - 2020 EvaDogStar <evastar@protonmail.com>
-# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: MIT
 #
@@ -32,15 +32,15 @@ take_screenshot() {
       ;;
     scrot)
       case "${screenshot_type}" in
-        window) scrot -s -b "${screenshot_file}";;
-        fullscreen) scrot -b "${screenshot_file}";;
+        window) scrot -s -b -- "${screenshot_file}";;
+        fullscreen) scrot -b -- "${screenshot_file}";;
         *) printf '%s\n' "Unsupported screenshot type" >&2; exit 1;;
       esac
       ;;
     maim)
       case "${screenshot_type}" in
-        window) maim -s -o -u "${screenshot_file}";;
-        fullscreen) maim -o -u "${screenshot_file}";;
+        window) maim -s -o -u -- "${screenshot_file}";;
+        fullscreen) maim -o -u -- "${screenshot_file}";;
         *) printf '%s\n' "Unsupported screenshot type" >&2; exit 1;;
       esac
       ;;
@@ -160,8 +160,8 @@ if test -n "${screenshot_cmd_wanted}"; then
     msg="wanted screenshot program not found: ${screenshot_cmd_wanted}"
     printf '%s\n' "[ERROR] ${msg}"
     case "${dialog_cmd}" in
-      zenity) zenity --info --text "${msg}";;
-      kdialog) kdialog --msgbox "${msg}";;
+      zenity) zenity --info --text -- "${msg}";;
+      kdialog) kdialog --msgbox -- "${msg}";;
       *) printf '%s\n' "Unsupported dialog command" >&2; exit 1;;
     esac
     exit 1
@@ -190,8 +190,8 @@ else
     msg="${msg}: spectacle xfce4-screenshooter scrot maim"
     printf '%s\n' "[ERROR] ${msg}"
     case "${dialog_cmd}" in
-      zenity) zenity --info --text "${msg}";;
-      kdialog) kdialog --msgbox "${msg}";;
+      zenity) zenity --info --text -- "${msg}";;
+      kdialog) kdialog --msgbox -- "${msg}";;
       *) printf '%s\n' "Unsupported dialog command" >&2; exit 1;;
     esac
     exit 1
@@ -206,13 +206,13 @@ if test -z "${screenshot_type_text}"; then
       screenshot_type_text="$(zenity --list \
         --text "${dialog_title}" \
         --radiolist \
-        --column "Pick" --column "Mode" \
+        --column "Pick" --column "Mode" -- \
         TRUE "Region or Window" \
         FALSE "Fullscreen" \
       )"
       ;;
     kdialog)
-      screenshot_type_text="$(kdialog --radiolist "${dialog_title}" \
+      screenshot_type_text="$(kdialog --radiolist "${dialog_title}" -- \
         "Region or Window" "Region or Window" off \
         "Fullscreen" "Fullscreen" off \
       )"
@@ -231,8 +231,8 @@ if ! test -f "${screenshot_file}"; then
   msg="Screenshot was not saved in GuiVM"
   printf '%s\n' "[ERROR] ${msg}"
   case "${dialog_cmd}" in
-    zenity) zenity --warning --text "${msg}";;
-    kdialog) kdialog --sorry "${msg}";;
+    zenity) zenity --warning --text -- "${msg}";;
+    kdialog) kdialog --sorry -- "${msg}";;
     *) printf '%s\n' "Unsupported dialog command" >&2; exit 1;;
   esac
   exit 1
@@ -245,7 +245,7 @@ if test "${screenshot_action_supplied}" != "1"; then
       screenshot_action_text="$(zenity --list --width=280 --height=210 \
         --text "${dialog_title}" \
         --separator="\n" \
-        --checklist --column "Pick" --column "Resolution" \
+        --checklist --column "Pick" --column "Resolution" -- \
         FALSE "Exit" \
         FALSE "Open file manager in qube" \
         FALSE "Move file"
@@ -253,7 +253,7 @@ if test "${screenshot_action_supplied}" != "1"; then
       ;;
     kdialog)
       screenshot_action_text="$(kdialog --checklist "${dialog_title}" \
-        --separate-output \
+        --separate-output -- \
         "Exit" "Exit" off \
         "Open file manager in qube" "Open file manager in qube" off \
         "Move file" "Move file" off
@@ -297,13 +297,13 @@ if test -z "${qube}"; then
       # shellcheck disable=SC2086
       qube="$(zenity --list  --width=200 --height=390 \
               --text "${dialog_title}" \
-              --radiolist --column "Pick" --column "qube" ${qube_list})"
+              --radiolist --column "Pick" --column "qube" -- ${qube_list})"
       ;;
     kdialog)
       qube_list="$(printf '%s\n' "${qube_list}" | \
         sed -e "s/\(.*\)/\1 \1 off/")"
       # shellcheck disable=SC2086
-      qube="$(kdialog --radiolist "${dialog_title}" ${qube_list})"
+      qube="$(kdialog --radiolist "${dialog_title}" -- ${qube_list})"
       ;;
     *) printf '%s\n' "Unsupported dialog command" >&2; exit 1;;
   esac
@@ -311,8 +311,8 @@ if test -z "${qube}"; then
     msg="qube was not selected"
     printf '%s\n' "[ERROR] ${msg}"
     case "${dialog_cmd}" in
-      zenity) zenity --error --text "${msg}";;
-      kdialog) kdialog --error "${msg}";;
+      zenity) zenity --error --text -- "${msg}";;
+      kdialog) kdialog --error -- "${msg}";;
       *) printf '%s\n' "Unsupported dialog command" >&2; exit 1;;
     esac
     exit 1
@@ -323,21 +323,21 @@ if ! qvm-check -- "${qube}" >/dev/null 2>&1; then
   msg="qube doesn't exist: ${qube}"
   printf '%s\n' "[ERROR] ${msg}"
   case "${dialog_cmd}" in
-    zenity) zenity --error --text "${msg}";;
-    kdialog) kdialog --error "${msg}";;
+    zenity) zenity --error --text -- "${msg}";;
+    kdialog) kdialog --error -- "${msg}";;
     *) printf '%s\n' "Unsupported dialog command" >&2; exit 1;;
   esac
   exit 1
 fi
 
-qvm-run "${qube}" -- "mkdir -p -- \"${qube_pictures_dir}\""
-qvm-run --pass-io "${qube}" -- "cat > \"${qube_screenshot_file}\"" \
-  < "${screenshot_file}"
+qvm-run --no-gui -- "${qube}" "mkdir -p -- \"${qube_pictures_dir}\""
+qvm-run --no-gui --pass-io -- "${qube}" \
+  "cat -- > \"${qube_screenshot_file}\"" < "${screenshot_file}"
 
 if test "${file_move}" = "1"; then
   rm -f -- "${screenshot_file}"
 fi
 
 if test "${file_manager}" = "1"; then
-  qvm-run "${qube}" -- "xdg-open \"${qube_pictures_dir}\""
+  qvm-run --no-gui -- "${qube}" "xdg-open \"${qube_pictures_dir}\""
 fi

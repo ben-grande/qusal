@@ -1,13 +1,16 @@
 #!/bin/sh
 
-## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
 set -eu
 
+msg(){
+  printf '%s\n' "${0##*/}: ${*}" >&2
+}
 command -v git >/dev/null ||
-  { printf '%s\n' "Missing program: git" >&2; exit 1; }
+  { msg "Missing program: git"; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
 test -d "${repo_toplevel}" || exit 1
 cd "${repo_toplevel}"
@@ -48,9 +51,8 @@ if test "${1-}" = "test"; then
   fi
   # shellcheck disable=SC2086
   if ! diff ${diff_args} -- "${intended_target}" "${target}"; then
-    echo "${0##*/}: $ diff ${diff_args} -- '${intended_target}' '${target}'"
-    err_msg="${0##*/}: error: File ${intended_target} is not up to date"
-    printf '%s\n' "${err_msg}" >&2
+    msg "$ diff ${diff_args} -- '${intended_target}' '${target}'"
+    msg "error: File ${intended_target} is not up to date"
     exit 1
   fi
 fi

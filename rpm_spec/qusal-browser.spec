@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -55,26 +55,27 @@ Firefox, Firefox-ESR, Mullvad-Browser, W3M or Lynx.
 %pre
 
 %install
-rm -rf %{buildroot}
-install -m 755 -d \
+rm -rf -- %{buildroot}
+install -m 755 -d -- \
   %{buildroot}/srv/salt/qusal \
   %{buildroot}%{_docdir}/%{name} \
   %{buildroot}%{_defaultlicensedir}/%{name}
 
-for license in $(echo "%{license_csv}" | tr "," " "); do
+for license in $(printf '%s\n' "%{license_csv}" | tr "," " "); do
   license_dir="LICENSES"
   if test -d "salt/%{project}/LICENSES"; then
     license_dir="salt/%{project}/LICENSES"
   fi
-  install -m 644 "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
+  install -m 644 -- \
+    "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
 done
 
-install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rf \
+install -m 644 -- salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
+rm -rf -- \
   salt/%{project}/LICENSES \
   salt/%{project}/README.md \
   salt/%{project}/.*
-cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
+cp -rv -- salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
 if test "$1" = "1"; then
@@ -115,6 +116,15 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Mon Nov 04 2024 Ben Grande <ben.grande.b@gmail.com> - 076a242
+- feat: bump Chrome signing keys
+
+* Fri Aug 16 2024 Ben Grande <ben.grande.b@gmail.com> - 56a4296
+- fix: skip YUM weak dependencies installation
+
+* Fri Jul 19 2024 Ben Grande <ben.grande.b@gmail.com> - f8aa555
+- fix: clean Signal and Browser dependencies
+
 * Tue Jul 09 2024 Ben Grande <ben.grande.b@gmail.com> - 011a71a
 - style: limit line length per file extension
 

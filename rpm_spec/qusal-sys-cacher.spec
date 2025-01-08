@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -66,26 +66,27 @@ The caching proxy supports:
 %pre
 
 %install
-rm -rf %{buildroot}
-install -m 755 -d \
+rm -rf -- %{buildroot}
+install -m 755 -d -- \
   %{buildroot}/srv/salt/qusal \
   %{buildroot}%{_docdir}/%{name} \
   %{buildroot}%{_defaultlicensedir}/%{name}
 
-for license in $(echo "%{license_csv}" | tr "," " "); do
+for license in $(printf '%s\n' "%{license_csv}" | tr "," " "); do
   license_dir="LICENSES"
   if test -d "salt/%{project}/LICENSES"; then
     license_dir="salt/%{project}/LICENSES"
   fi
-  install -m 644 "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
+  install -m 644 -- \
+    "${license_dir}/${license}.txt" %{buildroot}%{_defaultlicensedir}/%{name}/
 done
 
-install -m 644 salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
-rm -rf \
+install -m 644 -- salt/%{project}/README.md %{buildroot}%{_docdir}/%{name}/
+rm -rf -- \
   salt/%{project}/LICENSES \
   salt/%{project}/README.md \
   salt/%{project}/.*
-cp -rv salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
+cp -rv -- salt/%{project} %{buildroot}/srv/salt/qusal/%{name}
 
 %post
 if test "$1" = "1"; then
@@ -97,7 +98,7 @@ if test "$1" = "1"; then
   qubesctl --skip-dom0 --targets=sys-cacher-browser state.apply sys-cacher.configure-browser
   qubesctl state.apply sys-cacher.appmenus,sys-cacher.tag
   qubesctl --skip-dom0 --targets="$(qvm-ls --no-spinner --raw-list --tags updatevm-sys-cacher | tr "
-  " ",")" state.apply sys-cacher.install-client
+" ",")" state.apply sys-cacher.install-client
 elif test "$1" = "2"; then
   ## Upgrade
   true
@@ -130,6 +131,24 @@ fi
 %dnl TODO: missing '%ghost', files generated during %post, such as Qrexec policies.
 
 %changelog
+* Wed Jan 08 2025 Ben Grande <ben.grande.b@gmail.com> - c19997a
+- fix: stricter command-line parsing
+
+* Fri Aug 16 2024 Ben Grande <ben.grande.b@gmail.com> - 56a4296
+- fix: skip YUM weak dependencies installation
+
+* Fri Aug 16 2024 Ben Grande <ben.grande.b@gmail.com> - 2c74ef8
+- fix: avoid operand evaluation as argument
+
+* Tue Aug 06 2024 Ben Grande <ben.grande.b@gmail.com> - bdd4c78
+- fix: avoid echo usage
+
+* Tue Aug 06 2024 Ben Grande <ben.grande.b@gmail.com> - 1b2f1ba
+- fix: avoid operand evaluation as argument
+
+* Thu Jul 25 2024 Ben Grande <ben.grande.b@gmail.com> - 2b7f555
+- fix: exclude Whonix qubes by distribution feature
+
 * Wed Jul 10 2024 Ben Grande <ben.grande.b@gmail.com> - 224312e
 - feat: enable all optional shellcheck validations
 
@@ -261,21 +280,3 @@ fi
 
 * Wed Jan 31 2024 Ben Grande <ben.grande.b@gmail.com> - b5d7371
 - fix: thunar requires xfce helpers to find terminal
-
-* Mon Jan 29 2024 Ben Grande <ben.grande.b@gmail.com> - 6efcc1d
-- chore: copyright update
-
-* Sat Jan 20 2024 Ben Grande <ben.grande.b@gmail.com> - 422b01e
-- feat: remove audiovm setting when unnecessary
-
-* Thu Jan 18 2024 Ben Grande <ben.grande.b@gmail.com> - 0887c24
-- fix: remove unicode from used files
-
-* Fri Jan 12 2024 Ben Grande <ben.grande.b@gmail.com> - 8d7c0a2
-- fix: sys-cacher policy with the new tag name
-
-* Fri Jan 12 2024 Ben Grande <ben.grande.b@gmail.com> - 233ac76
-- fix: sys-cacher tag compliance with default tags
-
-* Fri Jan 12 2024 Ben Grande <ben.grande.b@gmail.com> - a97e3c0
-- feat: kicksecure minimal template

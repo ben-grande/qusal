@@ -1,6 +1,6 @@
 {#
 SPDX-FileCopyrightText: 2022 - 2023 unman <unman@thirdeyesecurity.org>
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -57,6 +57,6 @@ features:
 
 "{{ slsdotpath }}-set-default_dispvm":
   cmd.run:
-    - name: qubes-prefs default_dispvm dvm-{{ slsdotpath }}
+    - name: qubes-prefs -- default_dispvm dvm-{{ slsdotpath }}
     - require:
       - qvm: dvm-{{ slsdotpath }}

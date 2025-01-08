@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -102,7 +102,7 @@ tags:
   cmd.run:
     - require:
       - qvm: disp-{{ slsdotpath }}
-    - name: qubes-prefs default_audiovm disp-{{ slsdotpath }}
+    - name: qubes-prefs -- default_audiovm disp-{{ slsdotpath }}
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
 {{ policy_set(sls_path, '80') }}

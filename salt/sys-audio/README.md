@@ -151,7 +151,7 @@ qvm-usb list disp-sys-usb
 If you haven't identified the device, run `lsusb` in the USB stack server:
 
 ```sh
-qvm-run -p disp-sys-usb -- lsusb
+qvm-run --no-gui -p disp-sys-usb -- lsusb
 ```
 
 Permanently attach the Bluetooth controller to the AudioVM (change `DEVID` for

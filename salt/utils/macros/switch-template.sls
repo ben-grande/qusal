@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -15,7 +15,7 @@ Usage:
 {{ switch_template([sls_path, 'example']) }}
 #}
 
-{% set default_template = salt['cmd.shell']('qubes-prefs default_template') -%}
+{% set default_template = salt['cmd.shell']('qubes-prefs -- default_template') -%}
 
 {% macro switch_template(qubes) -%}
 {% for qube in qubes -%}

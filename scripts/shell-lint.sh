@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -60,7 +60,7 @@ if test -n "${1-}"; then
       *) files="${files} ${f}"
     esac
   done
-  files="$(file ${files} | awk -F ":" '/ shell script,/{ print $1 }')"
+  files="$(file -- ${files} | awk -F ":" '/ shell script,/{ print $1 }')"
   if test -z "${files}"; then
     exit 0
   fi
@@ -80,7 +80,7 @@ case "${find_tool}" in
     ;;
   find)
     files="$(find scripts/ salt/ -not \( -path "*/zsh" -prune \) -type f \
-      -exec file {} \+ | awk -F ":" '/ shell script,/{ print $1 }')"
+      -exec file -- {} \+ | awk -F ":" '/ shell script,/{ print $1 }')"
     ;;
   *) printf '%s\n' "Unsupported find tool" >&2; exit 1;;
 esac

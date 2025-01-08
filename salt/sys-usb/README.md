@@ -67,7 +67,7 @@ qvm-features disp-sys-usb service.audiovm 1
 And set the qube preference `audiovm` to `disp-sys-usb`:
 
 ```sh
-qvm-prefs QUBE audiovm disp-sys-usb
+qvm-prefs -- QUBE audiovm disp-sys-usb
 ```
 
 ### Client installation

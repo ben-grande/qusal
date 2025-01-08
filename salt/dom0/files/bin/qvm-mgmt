@@ -1,5 +1,5 @@
 #!/bin/sh
-## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -13,8 +13,8 @@ usage(){
 get_qube_feat(){
   qube="${1}"
   qvm-features "${qube}" | \
-    grep -E -e "^(os-(distribution|version)|template-(release|name))" | \
-    sed -e "s/  / /g;s/ /: /;s/^/  /"
+    grep -E -e "^(os-(distribution|version)|template-(release|name))" |
+      awk '{print $1 ": " $2}'
 }
 
 case "${1-}" in
@@ -23,10 +23,10 @@ case "${1-}" in
   *) wanted_qube="${1}";;
 esac
 
-mgmt="$(qubes-prefs management_dispvm)"
+mgmt="$(qubes-prefs -- management_dispvm)"
 printf '%s\n' "GLOBAL"
 printf '%s\n' "management_dispvm: ${mgmt}"
-tpl_mgmt="$(qvm-prefs "${mgmt}" template)"
+tpl_mgmt="$(qvm-prefs -- "${mgmt}" template)"
 printf '%s\n' "management_dispvm template: ${tpl_mgmt}"
 printf '%s\n' "management_dispvm template features:"
 get_qube_feat "${tpl_mgmt}"
@@ -38,19 +38,19 @@ fi
 printf '%s\n' ""
 printf '%s\n' "WANTED"
 printf '%s\n' "qube: ${wanted_qube}"
-class="$(qvm-prefs "${wanted_qube}" klass)"
+class="$(qvm-prefs -- "${wanted_qube}" klass)"
 printf '%s\n' "class: ${class}"
 case "${class}" in
   AppVM)
-    tpl_wanted_qube="$(qvm-prefs "${wanted_qube}" template)"
+    tpl_wanted_qube="$(qvm-prefs -- "${wanted_qube}" template)"
     printf '%s\n' "template: ${tpl_wanted_qube}"
     printf '%s\n' "template features:"
     get_qube_feat "${tpl_wanted_qube}"
     ;;
   DispVM)
-    dvm_wanted_qube="$(qvm-prefs "${wanted_qube}" template)"
+    dvm_wanted_qube="$(qvm-prefs -- "${wanted_qube}" template)"
     printf '%s\n' "disposable template: ${dvm_wanted_qube}"
-    tpl_wanted_qube="$(qvm-prefs "${dvm_wanted_qube}" template)"
+    tpl_wanted_qube="$(qvm-prefs -- "${dvm_wanted_qube}" template)"
     printf '%s\n' "template: ${tpl_wanted_qube}"
     printf '%s\n' "template features:"
     get_qube_feat "${tpl_wanted_qube}"
@@ -61,12 +61,12 @@ case "${class}" in
     ;;
   *) printf '%s\n' "Unsupported qube class" >&2; exit 1;;
 esac
-wanted_mgmt="$(qvm-prefs "${wanted_qube}" management_dispvm)"
-printf '%s\n' "${wanted_qube} management_dispvm: ${wanted_mgmt}"
+wanted_mgmt="$(qvm-prefs -- "${wanted_qube}" management_dispvm)"
+printf '%s\n' "management_dispvm: ${wanted_mgmt}"
 if test "${wanted_mgmt}" = "${mgmt}"; then
   exit
 fi
-wanted_tpl_mgmt="$(qvm-prefs "${wanted_mgmt}" template)"
-printf '%s\n' "${wanted_qube} management_dispvm template: ${wanted_tpl_mgmt}"
-printf '%s\n' "${wanted_qube} management_dispvm template features:"
+wanted_tpl_mgmt="$(qvm-prefs -- "${wanted_mgmt}" template)"
+printf '%s\n' "management_dispvm template: ${wanted_tpl_mgmt}"
+printf '%s\n' "management_dispvm template features:"
 get_qube_feat "${wanted_tpl_mgmt}"

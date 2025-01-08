@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -16,4 +16,4 @@ include:
   cmd.run:
     - require:
       - qvm: "{{ slsdotpath }}-gpu-autostart"
-    - name: qubes-prefs default_guivm {{ slsdotpath }}-gpu
+    - name: qubes-prefs -- default_guivm {{ slsdotpath }}-gpu

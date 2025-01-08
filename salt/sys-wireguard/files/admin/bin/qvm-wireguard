@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -30,7 +30,7 @@ fi
 user_conf="/home/user/wireguard.conf"
 system_conf="/etc/wireguard/wireguard.conf"
 
-qvm-run "${qube}" -- "test -f ${user_conf}" || {
+qvm-run --no-gui -- "${qube}" test -f "${user_conf}" || {
   printf '%s\n' "File '${user_conf}' was not found" >&2
   if qvm-check -q --running -- "${qube}" >/dev/null 2>&1; then
     qvm-pause --verbose -- "${qube}"
@@ -45,12 +45,12 @@ qvm-run "${qube}" -- "test -f ${user_conf}" || {
   exit 1
 }
 
-qvm-run -u root "${qube}" -- "cp -- \"${user_conf}\" \"${system_conf}\""
+qvm-run --no-gui -u root -- "${qube}" cp -- "${user_conf}" "${system_conf}"
 
 ## TOFU
 # shellcheck disable=SC2016
-endpoint="$(qvm-run -p -u root "${qube}" -- awk '/Endpoint/{print $3}' \
-  "${system_conf}")"
+endpoint="$(qvm-run --no-gui -p -u root -- "${qube}" \
+  awk -- '/Endpoint/{print $3}' "${system_conf}")"
 if printf '%s\n' "${endpoint}" | grep -qF -e "["; then
   ip="${ip##[\[]}"
   ip="${ip%%\]*}"
@@ -82,5 +82,6 @@ if qvm-check -q --paused -- "${qube}" >/dev/null 2>&1; then
   qvm-unpause --verbose -- "${qube}"
 fi
 
-qvm-run -u root "${qube}" -- "systemctl restart wg-quick@wireguard"
-qvm-run -u root "${qube}" -- "/rw/config/network-hooks.d/50-sys-wireguard"
+qvm-run --no-gui -u root -- "${qube}" \
+  "systemctl restart wg-quick@wireguard
+  /rw/config/network-hooks.d/50-sys-wireguard"
