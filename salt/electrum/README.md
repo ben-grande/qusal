@@ -92,6 +92,13 @@ In the qube `sys-net`, add the `socat` command to the file
 socat TCP4-LISTEN:50002,reuseaddr,fork,bind=127.0.0.1 TCP:192.168.2.10:50002 &
 ```
 
+In case you are not using `sys-net` but a Whonix qube, the `socat` syntax
+changes (use `socksport=9400` if using `sys-bitcoin-gateway`):
+
+```sh
+socat TCP4-LISTEN:50002,reuseaddr,fork,bind=127.0.0.1 SOCKS4A:127.0.0.1:myhs.onion:50002,socksport=9050 &
+```
+
 In the qube `electrum`, add the `qvm-connect-tcp` command to the file
 `/rw/config/rc.local`:
 
@@ -108,7 +115,7 @@ electrum --offline setconfig oneserver true
 electrum --offline setconfig server 127.0.0.1:50002
 ```
 
-If you used a plain-text port, no SSL:
+If you used a plain-text port (no SSL):
 
 ```sh
 electrum --offline setconfig server 127.0.0.1:50001:t
