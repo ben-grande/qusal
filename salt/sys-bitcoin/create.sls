@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -87,10 +87,10 @@ features:
 - enable:
   - servicevm
   - service.bitcoin-server
+  - service.meminfo-writer
 - disable:
   - service.cups
   - service.cups-browsed
-  - service.meminfo-writer
 - set:
   - menu-items: "qubes-run-terminal.desktop qubes-start.desktop"
 tags:

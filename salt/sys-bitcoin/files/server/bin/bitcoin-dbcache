@@ -1,11 +1,18 @@
 #!/bin/sh
-## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
 set -eu
 
 conf="${HOME}/.bitcoin/conf.d/dbcache.conf"
-cache_Mi="$(awk -- '/^MemTotal:/{printf "%.0f", $2/1024}' /proc/meminfo)"
-cache="$((cache_Mi*75/100))"
+domid="$(xenstore-read -- domid)"
+xenstore_mem_dir="/local/domain/${domid}/memory"
+if test -f /var/run/qubes-service/meminfo-writer; then
+  mem_KiB="$(xenstore-read -- "${xenstore_mem_dir}/hotplug-max")"
+else
+  mem_KiB="$(xenstore-read -- "${xenstore_mem_dir}/static-max")"
+fi
+cache_MiB=$((mem_KiB/1024))
+cache="$((cache_MiB*80/100))"
 printf '%s\n' "dbcache=${cache}" | tee -- "${conf}" >/dev/null

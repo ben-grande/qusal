@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -59,8 +59,8 @@ include:
     - source: salt://{{ slsdotpath }}/files/server/bin/
     - file_mode: '0755'
     - dir_mode: '0755'
-    - user: user
-    - group: user
+    - user: root
+    - group: root
     - makedirs: True
 
 "{{ slsdotpath }}-rpc":
