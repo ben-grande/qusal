@@ -23,7 +23,7 @@ case "${-}" in
   *) xtrace=0;;
 esac
 
-email="<$(git config --get user.email)>"
+email="<${GIT_EMAIL:-"$(git config --get user.email)"}>"
 year="$(date -- '+%Y')"
 fail="0"
 

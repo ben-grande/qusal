@@ -1,5 +1,5 @@
 # yamllint disable-line rule:line-length
-# SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -49,6 +49,7 @@ jobs:
         env:
           SPEC_VENDOR: Ben Grande
           SPEC_PACKAGER: Ben Grande <ben.grande.b@gmail.com>
+          GIT_EMAIL: ben.grande.b@gmail.com
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - name: Run Editorconfig Checker
         run: |
