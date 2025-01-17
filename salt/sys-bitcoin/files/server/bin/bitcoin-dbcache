@@ -6,12 +6,10 @@
 set -eu
 
 conf="${HOME}/.bitcoin/conf.d/dbcache.conf"
-domid="$(xenstore-read -- domid)"
-xenstore_mem_dir="/local/domain/${domid}/memory"
 if test -f /var/run/qubes-service/meminfo-writer; then
-  mem_KiB="$(xenstore-read -- "${xenstore_mem_dir}/hotplug-max")"
+  mem_KiB="$(xenstore-read -- memory/hotplug-max)"
 else
-  mem_KiB="$(xenstore-read -- "${xenstore_mem_dir}/static-max")"
+  mem_KiB="$(xenstore-read -- memory/static-max)"
 fi
 cache_MiB=$((mem_KiB/1024))
 cache="$((cache_MiB*80/100))"
