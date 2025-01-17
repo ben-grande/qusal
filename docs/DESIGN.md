@@ -187,11 +187,15 @@ unexpected.
 
 ### Qube features
 
-Control daemons using Qubes Services. It is much better to control services
-this way as we can declare during the creation of qubes instead of having to
-add a state to run a script during boot to unmask and start a specific
-service. The method below is most of the times combined with `systemd.unit`
-`ConditionPathExists=` to enable the service conditionally.
+If a project specific feature must be set to a qube, it must start with the
+prefix `x-qusal-`.
+
+With the `service.` prefix, it is possible to control daemons using Qubes
+Services. It is much better to control services this way as we can declare
+during the creation of qubes instead of having to add a state to run a script
+during boot to unmask and start a specific service. The method below is most
+of the times combined with `systemd.unit` `ConditionPathExists=` to enable the
+service conditionally.
 
 *   Server's service name must match the syntax: `service-server` (example:
     `rsync-server`, `syncthing-server`);
