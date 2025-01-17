@@ -99,7 +99,9 @@ include:
     - require:
       - git: "{{ slsdotpath }}-git-clone-builderv2"
       - cmd: "{{ slsdotpath }}-import-ownertrust"
-    - name: GNUPGHOME="$HOME/.gnupg/qubes-builder" git -c gpg.program=gpg2 verify-tag "$(git describe --tags --abbrev=0)"
+    - env:
+      - GNUPGHOME: "/home/user/.gnupg/qubes-builder"
+    - name: git -c gpg.program=gpg2 verify-commit HEAD
     - cwd: /home/user/src/qubes-builderv2
     - runas: user
 

@@ -79,7 +79,9 @@ include:
   cmd.run:
     - require:
       - git: "{{ slsdotpath }}-git-clone"
-    - name: GNUPGHOME="$HOME/.gnupg/mirage-firewall" git -c gpg.program=gpg2 verify-commit {{ mirage_firewall_tag }}
+    - env:
+      - GNUPGHOME: "/home/user/.gnupg/mirage-firewall"
+    - name: git -c gpg.program=gpg2 verify-commit {{ mirage_firewall_tag }}
     - cwd: /home/user/src/qubes-mirage-firewall
     - runas: user
 

@@ -124,7 +124,9 @@ include:
   cmd.run:
     - require:
       - git: "{{ slsdotpath }}-git-clone"
-    - name: GNUPGHOME="$HOME/.gnupg/pihole" git verify-commit {{ pihole_tag }}
+    - env:
+      - GNUPGHOME: "/home/user/.gnupg/pihole"
+    - name: git -c gpg.program=gpg2 verify-commit {{ pihole_tag }}
     - cwd: /root/pi-hole
     - runas: root
 
