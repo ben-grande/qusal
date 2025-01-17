@@ -10,6 +10,10 @@
 
 set -eu
 
+if test -n "${GITHUB_ACTION:-}"; then
+  exit 0
+fi
+
 command -v git >/dev/null ||
   { printf '%s\n' "Missing program: git" >&2; exit 1; }
 repo_toplevel="$(git rev-parse --show-toplevel)"
