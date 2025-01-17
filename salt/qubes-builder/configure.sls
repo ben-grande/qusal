@@ -66,7 +66,7 @@ include:
     - target: /home/user/src/qubes-builderv2
     - user: user
 
-"{{ slsdotpath }}-git-clone-infrastructure-mirrors":
+"{{ slsdotpath }}-git-submodule-update":
   cmd.run:
     - require:
       - cmd: "{{ slsdotpath }}-import-keys"
@@ -88,7 +88,7 @@ include:
   git.config_set:
     - require:
       - cmd: "{{ slsdotpath }}-import-keys"
-      - cmd: "{{ slsdotpath }}-git-clone-infrastructure-mirrors"
+      - cmd: "{{ slsdotpath }}-git-submodule-update"
     - name: gpg.program
     - value: gpg-qubes-builder
     - repo: /home/user/src/qubes-builderv2/qubesbuilder/plugins/publish/mirrors
@@ -101,15 +101,6 @@ include:
       - cmd: "{{ slsdotpath }}-import-ownertrust"
     - name: GNUPGHOME="$HOME/.gnupg/qubes-builder" git -c gpg.program=gpg2 verify-tag "$(git describe --tags --abbrev=0)"
     - cwd: /home/user/src/qubes-builderv2
-    - runas: user
-
-"{{ slsdotpath }}-git-verify-HEAD-infrastructure-mirrors":
-  cmd.run:
-    - require:
-      - cmd: "{{ slsdotpath }}-git-clone-infrastructure-mirrors"
-      - cmd: "{{ slsdotpath }}-import-ownertrust"
-    - name: GNUPGHOME="$HOME/.gnupg/qubes-builder" git -c gpg.program=gpg2 verify-commit "HEAD^{commit}"
-    - cwd: /home/user/src/qubes-builderv2/qubesbuilder/plugins/publish/mirrors
     - runas: user
 
 {% endif -%}

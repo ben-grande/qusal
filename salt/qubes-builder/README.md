@@ -32,18 +32,6 @@ Qubes Executor lacking some dependencies on Debian such as
 builder qube was Debian based, the executor qube still needs to be a Fedora
 template.
 
-<!-- TODO: remove after 1 month: 2024-08-4 -->
-If installation fails on non existent qubes-infrastructure-mirrors directory
-during the `qubes-builder.configure` state, please
-[manually pull new commits](#Pulling new commits) and then run the state
-again. This issue will occur to everyone that ran the same state before
-`2024-07-01`, due to [submodule addition](https://github.com/QubesOS/qubes-builderv2/commit/bc6d9a9954d985d2be3ec76ce86d44fea13d345b).
-Qusal maintainer decision is not to handle such issue automatically as it
-can lead to data loss in case user does manual changes, the installation would
-need to `reset` the user changes and to do a clean `pull` that wouldn't fail.
-After you've pulled the commit including the `.gitmodules` once, future
-installations won't have this issue.
-
 *   Top:
 
 ```sh
@@ -93,11 +81,12 @@ unattended build.
 
 The installation will clone the repository but not pull new commits. You will
 need to pull new commits from time to time, their signature will be
-automatically verified before merging them to your git index.
+automatically verified them being merged to your git index.
 
 Pull `qubes-builderv2` commits:
 
 ```sh
+cd ~/src/qubes-builderv2
 git pull
 ```
 
