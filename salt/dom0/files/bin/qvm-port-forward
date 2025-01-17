@@ -254,7 +254,7 @@ get_lan(){
   unset dev
   ## TODO: Handle multiple interfaces in upstream.
   untrusted_default_route="$(run_qube "${qube}" ip -4 route show prot dhcp | \
-                             awk '/^default via /{print; exit}')"
+                              awk '/^default via /{print; exit}')"
   untrusted_dev="${untrusted_default_route##* dev }"
   untrusted_dev="${untrusted_dev%% *}"
   validate_dev "${qube}" "${untrusted_dev}"
@@ -267,7 +267,7 @@ get_lan(){
 
   unset lan_cidr lan_ip
   untrusted_lan_route="$(run_qube "${qube}" ip -4 route show dev "${dev}" \
-                         prot kernel)"
+                          prot kernel)"
 
   untrusted_lan_cidr="${untrusted_lan_route%% *}"
   validate_ipv4 "${qube}" "${untrusted_lan_cidr}"
