@@ -107,10 +107,9 @@ include:
   cmd.run:
     - require:
       - file: "{{ slsdotpath }}-save-keys"
-    - name: gpg --status-fd=2 --homedir . --import download/*.asc
+    - name: gpg --homedir . --import download/*.asc
     - cwd: /root/.gnupg/pihole
     - runas: root
-    - success_stderr: IMPORT_OK
 
 "{{ slsdotpath }}-import-ownertrust":
   cmd.run:

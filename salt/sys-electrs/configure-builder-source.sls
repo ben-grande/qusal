@@ -54,10 +54,9 @@ include:
   cmd.run:
     - require:
       - file: "{{ slsdotpath }}-source-save-keys"
-    - name: gpg --status-fd=2 --homedir . --import download/*.asc
+    - name: gpg --homedir . --import download/*.asc
     - cwd: /home/user/.gnupg/electrs
     - runas: user
-    - success_stderr: IMPORT_OK
 
 "{{ slsdotpath }}-source-import-ownertrust":
   cmd.run:

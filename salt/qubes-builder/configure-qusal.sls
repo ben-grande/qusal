@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -53,10 +53,9 @@ include:
   cmd.run:
     - require:
       - file: "{{ slsdotpath }}-qusal-save-keys"
-    - name: gpg --status-fd=2 --homedir . --import download/*.asc
+    - name: gpg --homedir . --import download/*.asc
     - cwd: /home/user/.gnupg/qusal-builder
     - runas: user
-    - success_stderr: IMPORT_OK
 
 "{{ slsdotpath }}-qusal-import-ownertrust":
   cmd.run:

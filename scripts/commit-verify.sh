@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+## SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 ##
 ## SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -46,20 +46,17 @@ gpg_homedir="$(mktemp -d)"
 trap 'rm -rf -- "${gpg_homedir}"' EXIT INT HUP QUIT ABRT
 export GNUPGHOME="${gpg_homedir}"
 otrust="${gpg_homedir}/otrust.txt"
-gpg_agent="$(gpgconf --list-components | awk -F: '/^gpg-agent:/{print $3}')"
-gpg_cmd="gpg --status-fd=2"
 
-${gpg_cmd} --agent-program "${gpg_agent}" \
-  --import "${key_dir}"/*"${key_suffix}" >/dev/null 2>&1
+gpg --import "${key_dir}"/*"${key_suffix}" >/dev/null 2>&1
 
-${gpg_cmd} --with-colons --list-public-keys | awk -F ':' '{
+gpg --with-colons --list-public-keys | awk -F ':' '{
   if (prev_line ~ /^pub$/ && $1 ~ /^fpr$/) {
       print $10 ":6:"
   }
   prev_line = $1
 }' | tee -- "${otrust}" >/dev/null
 
-${gpg_cmd} --import-ownertrust "${otrust}" >/dev/null 2>&1
+gpg --import-ownertrust "${otrust}" >/dev/null 2>&1
 
 fail="0"
 
