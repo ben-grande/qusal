@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -67,7 +67,7 @@ include:
     - name: |
         trusted_sigs_number="4"
         read_sigs_number="$(GNUPGHOME=/home/user/.gnupg/bitcoin/ gpg --status-fd=2 --verify SHA256SUMS.asc 2>&1 | grep -c -e "^\[GNUPG:\] GOODSIG \S\+ ")"
-        if test "${trusted_sigs_number}" != "${read_sigs_number}"; then
+        if test -z "${trusted_sigs_number}" || test "${read_sigs_number}" -lt "${trusted_sigs_number}"; then
           exit 1
         fi
     - cwd: /tmp/bitcoin-download
