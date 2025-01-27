@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -39,6 +39,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   file.managed:
     - name: /usr/local/bin/qvm-mgmt
     - source: salt://{{ slsdotpath }}/files/bin/qvm-mgmt
+    - mode: "0755"
+    - user: root
+    - group: root
+    - makedirs: True
+
+"{{ slsdotpath }}-qubes-gui-resolution-helper":
+  file.managed:
+    - name: /usr/local/bin/qubes-gui-resolution
+    - source: salt://{{ slsdotpath }}/files/bin/qubes-gui-resolution
     - mode: "0755"
     - user: root
     - group: root

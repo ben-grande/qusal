@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# https://www.qubes-os.org/doc/gui-configuration/#video-ram-adjustment-for-high-resolution-displays
+
+set -eu
+
+if ! command -v xrandr >/dev/null; then
+  print '%s\n' "missing program: xrandr" >&2
+  exit 1
+fi
+
+gui_mem="$(xrandr --listactivemonitors |
+  awk -F'[ /x]' '/^\s+[0-9]+/{if($4>max) max=$4; sum+=$6}
+  END {print max*sum*4/1024}')"
+
+if test "${gui_mem}" = "0"; then
+  exit
+fi
+
+qvm-features dom0 gui-videoram-min "${gui_mem}"
+qvm-features dom0 gui-videoram-overhead 0
