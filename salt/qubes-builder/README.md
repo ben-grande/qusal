@@ -87,7 +87,7 @@ Pull `qubes-builderv2` commits:
 
 ```sh
 cd ~/src/qubes-builderv2
-git pull
+git pull --verify-signatures
 ```
 
 Initialize and merge submodules:

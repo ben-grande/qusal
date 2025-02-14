@@ -14,15 +14,6 @@ include:
   - dotfiles.copy-ssh
   - dotfiles.copy-git
 
-"{{ slsdotpath }}-opam-completion-and-hooks":
-  file.managed:
-    - name: /home/user/.config/sh/profile.d/opam.sh
-    - source: salt://{{ slsdotpath }}/files/client/profile/opam.sh
-    - mode: '0755'
-    - user: user
-    - group: user
-    - makedirs: True
-
 "{{ slsdotpath }}-makedir-src":
   file.directory:
     - name: /home/user/src

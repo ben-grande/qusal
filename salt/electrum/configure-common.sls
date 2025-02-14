@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -35,14 +35,5 @@ include:
   cmd.run:
     - name: electrum --offline setconfig show_notes_tab true
     - runas: user
-
-"{{ slsdotpath }}-xprofile-to-increase-dpi":
-  file.managed:
-    - name: /home/user/.config/x11/xprofile.d/electrum.sh
-    - source: salt://{{ slsdotpath }}/files/client/xprofile.d/electrum.sh
-    - mode: '0755'
-    - user: user
-    - group: user
-    - makedirs: True
 
 {% endif -%}

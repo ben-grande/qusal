@@ -122,7 +122,7 @@ include:
   cmd.run:
     - require:
       - cmd: "{{ slsdotpath }}-source-install-cfg_me"
-    - name: cfg_me -o /tmp/electrs.1 man
+    - name: /home/user/.local/bin/cfg_me -o /tmp/electrs.1 man
     - cwd: /home/user/src/electrs
     - runas: user
 
