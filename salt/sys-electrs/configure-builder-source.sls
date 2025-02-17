@@ -13,9 +13,9 @@ See: https://github.com/romanz/electrs/issues/1001
 #}
 {% set electrs_obj_type = 'tag' -%}
 {% if electrs_obj_type == 'commit' -%}
-{% set electrs_obj = '6bfaba99d5c7c598b5e067e3bc70041bc645b84a' -%}
+{% set electrs_obj = 'ef83fef2b6323c2ba9763a0f6707fbd0f3dfed87' -%}
 {% else -%}
-  {% set electrs_obj = 'v0.10.8' -%}
+  {% set electrs_obj = 'v0.10.9' -%}
 {% endif -%}
 
 {% set cfg_me_version = '0.1.1' -%}
