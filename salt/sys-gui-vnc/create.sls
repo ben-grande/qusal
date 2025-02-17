@@ -13,7 +13,7 @@ include:
   - .clone
 
 {% if 'psu' in salt['pillar.get']('qvm:sys-gui-vnc:dummy-modules', []) or 'backlight' in salt['pillar.get']('qvm:sys-gui-vnc:dummy-modules', []) %}
-"{{ slsdotpath }}-vnc-installed":
+"{{ slsdotpath }}-installed":
   pkg.installed:
     - install_recommends: False
     - skip_suggestions: True

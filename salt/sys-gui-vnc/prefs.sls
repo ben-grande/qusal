@@ -4,13 +4,13 @@ SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-"{{ slsdotpath }}-vnc-autostart":
+"{{ slsdotpath }}-autostart":
   qvm.prefs:
-    - name: {{ slsdotpath }}-vnc
+    - name: {{ slsdotpath }}
     - autostart: True
 
-"{{ slsdotpath }}-vnc-activate":
+"{{ slsdotpath }}-activate":
   cmd.run:
     - require:
-      - qvm: "{{ slsdotpath }}-vnc-autostart"
-    - name: qubes-prefs -- default_guivm {{ slsdotpath }}-vnc
+      - qvm: "{{ slsdotpath }}-autostart"
+    - name: qubes-prefs -- default_guivm {{ slsdotpath }}
