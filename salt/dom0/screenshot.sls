@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -39,8 +39,10 @@ include:
     - name: |
         DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/{{ gui_user.gui_user_id }}/bus"
         export DBUS_SESSION_BUS_ADDRESS
-        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/Print" -n -s "qvm-screenshot --fullscreen"
-        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Alt>Print" -n -s "qvm-screenshot --region"
+        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/Print" -n -s "qvm-screenshot"
+        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Primary>Print" -n -s "qvm-screenshot --fullscreen"
+        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Alt>Print" -n -s "qvm-screenshot --window"
+        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Shift>Print" -n -s "qvm-screenshot --region"
     - runas: {{ gui_user.gui_user }}
     - require:
       - file: "{{ slsdotpath }}-screenshot-script"
