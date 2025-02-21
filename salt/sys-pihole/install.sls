@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] != 'dom0' %}
 
-{% set pihole_tag = 'v5.18.4' -%}
+{% set pihole_tag = 'v6.0.6' -%}
 
 include:
   - utils.tools.common.update
@@ -28,52 +28,18 @@ include:
       - qubes-core-agent-dom0-updates
       - qubes-core-agent-networking
       - systemd-timesyncd
-      - ca-certificates
-      - curl
-      - dnsutils
       - git
       - idn2
-      - lighttpd
-      - netcat-openbsd
-      - php-cgi
-      - php-common
-      - php-intl
-      - php-json
-      - php-sqlite3
-      - php-xml
-      - unzip
-      - bash-completion
       - man-db
+      ## Other dependencies brought by local package pihole-meta.
 
-"{{ slsdotpath }}-disable-external-admin-interface":
-  file.managed:
-    - name: /etc/lighttpd/conf-available/50-pihole.conf
-    - source: salt://{{ slsdotpath }}/files/server/lighttpd/50-pihole.conf
-    - mode: '0644'
-    - user: root
-    - group: root
-    - makedirs: True
-
-"{{ slsdotpath }}-disable-external-admin-interface-symlink":
-  file.symlink:
-    - require:
-      - file: "{{ slsdotpath }}-disable-external-admin-interface"
-    - name: /etc/lighttpd/conf-enabled/50-pihole.conf
-    - target: /etc/lighttpd/conf-available/50-pihole.conf
-    - force: True
+"{{ slsdotpath }}-disable-lighttpd":
+  service.disabled:
+    - name: lighttpd
 
 "{{ slsdotpath }}-disable-systemd-resolved":
   service.disabled:
     - name: systemd-resolved
-
-"{{ slsdotpath }}-setupVars.conf":
-  file.managed:
-    - name: /etc/pihole/setupVars.conf
-    - source: salt://{{ slsdotpath }}/files/server/pihole/setupVars.conf
-    - mode: '0644'
-    - user: root
-    - group: root
-    - makedirs: True
 
 "{{ slsdotpath }}-git-clone":
   git.latest:
@@ -132,18 +98,111 @@ include:
 
 "{{ slsdotpath }}-git-checkout-tag-{{ pihole_tag }}":
   cmd.run:
-    - name: git checkout {{ pihole_tag }}
     - require:
       - cmd: "{{ slsdotpath }}-git-verify-tag-pihole"
+    - name: git checkout {{ pihole_tag }}
     - cwd: /root/pi-hole
     - runas: root
 
 "{{ slsdotpath }}-setup":
   cmd.run:
-    - name: ./basic-install.sh --unattended
     - require:
       - cmd: "{{ slsdotpath }}-git-checkout-tag-{{ pihole_tag }}"
+    - name: ./basic-install.sh --unattended
     - cwd: '/root/pi-hole/automated install'
+    - runas: root
+
+"{{ slsdotpath }}-add-user-to-pihole-group":
+  group.present:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole
+    - addusers:
+      - user
+
+"{{ slsdotpath }}-set-empty-api-password":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: printf '' | pihole setpassword
+    - runas: root
+
+"{{ slsdotpath }}-set-upstream-dns-servers":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config dns.upstreams '[ "9.9.9.9", "149.112.112.112" ]'
+    - runas: root
+
+"{{ slsdotpath }}-enable-blocking":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config dns.blocking.active true
+    - runas: root
+
+"{{ slsdotpath }}-set-domain-interface":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config dns.interface eth0
+    - runas: root
+
+"{{ slsdotpath }}-enable-domain-needed-fqdn":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config dns.domainNeeded true
+    - runas: root
+
+"{{ slsdotpath }}-enable-expand-hosts-fqdn":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config dns.expandHosts true
+    - runas: root
+
+
+"{{ slsdotpath }}-set-dark-theme":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config webserver.interface.theme default-dark
+    - runas: root
+
+"{{ slsdotpath }}-restrict-webserver-acl-to-localhost":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config webserver.acl "+127.0.0.1,+[::1]"
+    - runas: root
+
+"{{ slsdotpath }}-disable-ntp-sync":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config ntp.sync.active false
+    - runas: root
+
+"{{ slsdotpath }}-disable-ntp-ipv4":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config ntp.ipv4.active false
+    - runas: root
+
+"{{ slsdotpath }}-disable-ntp-ipv6":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config ntp.ipv6.active false
+    - runas: root
+
+"{{ slsdotpath }}-enable-loading-dnsmasq.d":
+  cmd.run:
+    - require:
+      - cmd: "{{ slsdotpath }}-setup"
+    - name: pihole-FTL --config misc.etc_dnsmasq_d true
     - runas: root
 
 "{{ slsdotpath }}-firewall":
