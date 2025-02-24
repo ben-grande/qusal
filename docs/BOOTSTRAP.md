@@ -23,9 +23,6 @@ matter in some circumstances, in those cases, it is noted in this page.
 ## Essential
 
 *   Base (order matters):
-    *   [dom0](../salt/dom0/README.md)
-    *   [debian-minimal](../salt/debian-minimal/README.md)
-    *   [fedora-minimal](../salt/fedora-minimal/README.md)
     *   [mgmt](../salt/mgmt/README.md)
     *   [sys-cacher](../salt/sys-cacher/README.md)
 

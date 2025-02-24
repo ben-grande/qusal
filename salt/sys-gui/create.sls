@@ -1,7 +1,7 @@
 {#
 SPDX-FileCopyrightText: 2019 - 2020 Frederic Pierret <frederic.pierret@qubes-os.org>
 SPDX-FileCopyrightText: 2020 - 2024 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-2.0-only
 #}
@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-2.0-only
 
 include:
   - .clone
+  - mgmt.create
 
 {% if 'psu' in salt['pillar.get']('qvm:sys-gui:dummy-modules', []) or 'backlight' in salt['pillar.get']('qvm:sys-gui:dummy-modules', []) %}
 "{{ slsdotpath }}-installed":
@@ -32,6 +33,7 @@ name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
+- sls: mgmt.create
 prefs:
 - audiovm: ""
 {%- endload %}

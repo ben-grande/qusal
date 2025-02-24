@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -34,6 +34,9 @@ include:
 {% endif %}
 
 {% endif %}
+
+{% from 'utils/macros/update-admin.sls' import update_admin -%}
+{{ update_admin(source, prefix + name) }}
 
 "{{ prefix }}{{ name }}-clone":
   qvm.clone:

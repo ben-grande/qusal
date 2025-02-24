@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -62,3 +62,11 @@ features:
   - menu-items: "qubes-open-file-manager.desktop qubes-run-terminal.desktop qubes-start.desktop"
 {%- endload %}
 {{ load(defaults) }}
+
+"{{ slsdotpath }}-set-{{ template.template }}-management_dispvm-to-dvm-{{ template.template_clean }}":
+  qvm.vm:
+    - require:
+      - qvm: dvm-{{ template.template_clean }}
+    - name: {{ template.template }}
+    - prefs:
+      - management_dispvm: "dvm-{{ template.template_clean }}"

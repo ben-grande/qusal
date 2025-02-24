@@ -23,9 +23,11 @@ WARNING: [unfinished formula](../../docs/TROUBLESHOOT.md#no-support-for-unfinish
 
 ```sh
 sudo qubesctl top.enable qvm.sys-gui-gpu pillar=True
-sudo qubesctl top.enable sys-gui-gpu
+sudo qubesctl top.enable mgmt sys-gui-gpu
+sudo qubesctl --targets=tpl-mgmt state.apply
+sudo qubesctl state.apply sys-gui.prefs-mgmt
 sudo qubesctl --targets=tpl-sys-gui,sys-gui-gpu state.apply
-sudo qubesctl top.disable sys-gui-gpu
+sudo qubesctl top.disable mgmt sys-gui-gpu
 sudo qubesctl state.apply sys-gui-gpu.prefs
 ```
 
@@ -36,6 +38,8 @@ sudo qubesctl state.apply sys-gui-gpu.prefs
 ```sh
 sudo qubesctl top.enable qvm.sys-gui-gpu pillar=True
 sudo qubesctl state.apply sys-gui-gpu.create
+sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
+sudo qubesctl state.apply sys-gui.prefs-mgmt
 sudo qubesctl --skip-dom0 --targets=tpl-sys-gui state.apply sys-gui-gpu.install
 sudo qubesctl --skip-dom0 --targets=sys-gui-gpu state.apply sys-gui-gpu.configure
 sudo qubesctl state.apply sys-gui-gpu.prefs
