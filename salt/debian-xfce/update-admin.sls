@@ -4,15 +4,17 @@ SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
+{% if grains['nodename'] == 'dom0' -%}
+
 {%- import slsdotpath ~ "/template.jinja" as template -%}
 
 include:
   - .create
 
-"{{ slsdotpath }}-set-{{ template.template }}-management_dispvm-to-default":
-  qvm.vm:
+"{{ slsdotpath }}-update-admin":
+  cmd.run:
     - require:
       - sls: {{ slsdotpath }}.create
-    - name: {{ template.template }}
-    - prefs:
-      - management_dispvm: "*default*"
+    - name: qubes-vm-update --no-progress --show-output --targets={{ template.template }}
+
+{% endif %}
