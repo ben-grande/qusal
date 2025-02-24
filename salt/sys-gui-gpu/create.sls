@@ -41,12 +41,10 @@ prefs:
 - netvm: ""
 - guivm: ""
 - audiovm: ""
-- kernelopts: "nopat iommu=soft swiotlb=8192 root=/dev/mapper/dmroot ro console=hvc0 xen_scrub_pages=0"
 - autostart: False # TODO: set to True
 - include_in_backups: True
 features:
 - enable:
-  - no-default-kernelopts
   - service.lightdm
   - service.guivm
   {% if 'psu' in salt['pillar.get']('qvm:sys-gui-gpu:dummy-modules', []) %}
