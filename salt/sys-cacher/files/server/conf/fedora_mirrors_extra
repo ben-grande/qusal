@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2022 - 2024 unman <unman@thirdeyesecurity.org>
+# SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
@@ -37,12 +38,12 @@ http://fedora.mirror.wearetriple.com/linux
 http://fedora.mirrors.pair.com/linux
 http://fedora.mirrors.telekom.ro/pub/fedora/linux
 http://fedora.mirrorservice.org/fedora/linux
+http://fedora.osuosl.org
 http://fedora.tu-chemnitz.de/pub/linux/fedora/linux
 http://forksystems.mm.fcix.net/fedora/linux
 http://fr2.rpmfind.net/linux/fedora/linux
 http://free.nchc.org.tw/fedora/linux
 http://ftp-chi.osuosl.org/pub/fedora/linux
-http://ftp-nyc.osuosl.org
 http://ftp-stud.hs-esslingen.de/pub/Mirrors/archive.fedoraproject.org/fedora/linux
 http://ftp-stud.hs-esslingen.de/pub/fedora/linux
 http://ftp.acc.umu.se/mirror/fedora/linux
@@ -112,7 +113,6 @@ http://mirror.ihost.md/fedora
 http://mirror.in2p3.fr/pub/fedora/linux
 http://mirror.infonline.de/fedora/linux
 http://mirror.init7.net/fedora/fedora/linux
-http://mirror.it4i.cz
 http://mirror.it4i.cz/fedora/linux
 http://mirror.its.dal.ca/pub/fedora/linux
 http://mirror.karneval.cz/pub/linux/fedora/linux
@@ -189,7 +189,7 @@ http://nnenix.mm.fcix.net/fedora/linux
 http://nocix.mm.fcix.net/fedora/linux
 http://opencolo.mm.fcix.net/fedora/linux
 http://opensource.nchc.org.tw/fedora/linux
-http://packages.oit.ncsu.edu
+http://packages.oit.ncsu.edu/fedora/linux
 http://pubmirror1.math.uh.edu/fedora-buffet/fedora/linux
 http://pubmirror2.math.uh.edu/fedora-buffet/fedora/linux
 http://repo.fedora.md/fedora/linux
