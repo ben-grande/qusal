@@ -1,15 +1,16 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-{% set base = 'debian' -%}
-{% set version = salt['pillar.get']('qvm:debian:version', '12') -%}
+{%- import "debian/template.jinja" as template_base -%}
+{% set base = template_base.base -%}
+{% set version = template_base.version -%}
 {% set flavor = 'xfce' -%}
-{% set repo = salt['pillar.get']('qvm:debian:repo', 'qubes-templates-itl') -%}
+{% set repo = template_base.repo -%}
 {% if flavor -%}
   {% set flavor = '-' ~ flavor -%}
 {% endif -%}
-{% set template = base  ~ '-' ~ version ~ flavor -%}
+{% set template = base ~ '-' ~ version ~ flavor -%}
 {% set template_clean = base ~ flavor -%}

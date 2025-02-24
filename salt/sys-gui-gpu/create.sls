@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-2.0-only
 
 include:
   - .clone
+  - sys-gui.create
 
 "{{ slsdotpath }}-gpu-installed":
   pkg.installed:

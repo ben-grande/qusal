@@ -18,8 +18,9 @@ Creates the Fedora template as well as a Disposable Template based on it.
 
 ```sh
 sudo qubesctl top.enable fedora
-sudo qubesctl --targets=fedora-40 state.apply
+sudo qubesctl --targets=fedora-41 state.apply
 sudo qubesctl top.disable fedora
+sudo qubesctl state.apply fedora.prefs
 ```
 
 *   State:
@@ -28,7 +29,8 @@ sudo qubesctl top.disable fedora
 
 ```sh
 sudo qubesctl state.apply fedora.create
-sudo qubesctl --skip-dom0 --targets=fedora-40 state.apply fedora.install
+sudo qubesctl --skip-dom0 --targets=fedora-41 state.apply fedora.install
+sudo qubesctl state.apply fedora.prefs
 ```
 
 <!-- pkg:end:post-install -->

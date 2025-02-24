@@ -1,15 +1,15 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% set base = 'fedora' -%}
-{% set version = salt['pillar.get']('qvm:fedora:version', '40') -%}
+{% set version = salt['pillar.get']('qvm:fedora:version', '41') -%}
 {% set flavor = '' -%}
 {% set repo = salt['pillar.get']('qvm:fedora:repo', 'qubes-templates-itl') -%}
 {% if flavor -%}
   {% set flavor = '-' ~ flavor -%}
 {% endif -%}
-{% set template = base  ~ '-' ~ version ~ flavor -%}
+{% set template = base ~ '-' ~ version ~ flavor -%}
 {% set template_clean = base ~ flavor -%}
