@@ -9,7 +9,7 @@ set -eu
 me="${0##*/}"
 
 msg(){
-  printf '%s\n' "${0##*/}: ${*}" >&2
+  printf '%s\n' "${*}" >&2
 }
 
 usage(){
@@ -21,10 +21,10 @@ Examples:
 The desktop application can be specified with environment variable:"
   case "${me}" in
     *-terminal)
-      msg "  QVM_TERMINAL=xterm ${me} -u root <QUBE>"
+      msg "  QVM_TERMINAL=xterm ${me} -u root <QUBE>" >&2
       ;;
     *-file-manager)
-      msg "  QVM_FILE_MANAGER=thunar ${me} -u root <QUBE>"
+      msg "  QVM_FILE_MANAGER=thunar ${me} -u root <QUBE>" >&2
       ;;
     *) ;;
   esac
