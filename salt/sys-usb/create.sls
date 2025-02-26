@@ -1,6 +1,6 @@
 {#
 SPDX-FileCopyrightText: 2022 unman <unman@thirdeyesecurity.org>
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -51,7 +51,7 @@ prefs:
 - label: red
 - netvm: ""
 - audiovm: ""
-- memory: 400
+- memory: 300
 - maxmem: 0
 - vcpus: 1
 - virt_mode: hvm
@@ -60,6 +60,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.minimal-usbvm
   - appmenus-dispvm
 - disable:
   - service.network-manager
@@ -129,7 +130,7 @@ prefs:
 - label: red
 - netvm: ""
 - audiovm: ""
-- memory: 400
+- memory: 300
 - maxmem: 0
 - include_in_backups: False
 - pci_strictreset: False
@@ -149,6 +150,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.minimal-usbvm
 - disable:
   - service.network-manager
   - service.cups
