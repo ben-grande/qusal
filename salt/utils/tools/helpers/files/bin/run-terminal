@@ -1,0 +1,121 @@
+#!/bin/sh
+
+## SPDX-FileCopyrightText: 2018 - 2025 The Qubes OS Project <https://www.qubes-os.org>
+## SPDX-FileCopyrightText: 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+##
+## SPDX-License-Identifier: AGPL-3.0-or-later
+
+## Debian has x-terminal-emulator to set default one.
+## Qubes has qubes-run-terminal to get beginner friendly one.
+## Most OSes do not have a wrapper, create one.
+
+set -eu
+
+has(){
+  if ! command -v "${1}" >/dev/null; then
+    if test "${DEBUG-}" = "1"; then
+      printf '%s\n' "debug: command not found: ${prog}" >&2
+    fi
+    return 1
+  fi
+}
+
+exec_has(){
+  prog="${1}"
+  shift
+  # shellcheck disable=SC2310
+  if has "${prog}"; then
+    if test "${DEBUG-}" = "1"; then
+      printf '%s\n' "debug: executing: ${prog} ${*}" >&2
+    fi
+    exec "${prog}" "${@}"
+  fi
+}
+
+run_term_gnome(){
+  case "${1}" in
+    gnome-terminal) ghelp="$("${1}" --help-terminal-options)";;
+    kgx) ghelp="$("${1}" --help)";;
+    *) printf '%s\n' "error: unsupported GNOME terminal" >&2; exit 1;;
+  esac
+  case "${ghelp}" in
+    *--wait\ *) exec "${1}" --wait "${@}";;
+    *) exec "${1}" "${@}";;
+  esac
+}
+
+run(){
+  case "${wanted_program}" in
+    terminal) env_prog="${TERMINAL:-}";;
+    file-manager) env_prog="${FILE_MANAGER:-}";;
+    browser) env_prog="${BROWSER:-}";;
+    mail) env_prog="${MAIL_USER_AGENT:-}";;
+    *) printf '%s\n' "error: invalid program type ${wanted_program}"; exit 1;;
+  esac
+  for prog in "${env_prog}" ${programs}; do
+    # shellcheck disable=SC2310
+    has "${prog}" || continue
+    case "${wanted_program}" in
+      terminal)
+        case "${prog}" in
+          gnome-terminal|kgx) run_term_gnome "${prog}" "${@}";;
+          *);;
+        esac
+        ;;
+      file-manager)
+        ## Required by 'xdg-open'.
+        if test "${#}" = "0"; then
+          set -- .
+        fi
+        ;;
+      browser)
+        if test "${prog}" = "xdg-open" && test "${#}" = "0"; then
+          continue
+        fi
+        ;;
+      *);;
+    esac
+    exec_has "${prog}" "${@}"
+  done
+  printf '%s\n' "error: no ${wanted_program} program found" >&2
+  exit 1
+}
+
+usage(){
+  case "${wanted_program}" in
+    terminal) set -- "\$TERMINAL";;
+    file-manager) set -- "\$FILE_MANAGER";;
+    browser) set -- "\$BROWSER";;
+    mail) set -- "\$MAIL_USER_AGENT";;
+    *) printf '%s\n' "error: invalid program type ${wanted_program}"; exit 1;;
+  esac
+  set -- "${@}" "${programs}"
+  printf '%s\n' "Usage: ${0##*/} [ARGS...]
+Action: Run the first ${wanted_program} found with the arguments provided.
+Order: ${*}" >&2
+  exit 1
+}
+
+terminals="x-terminal-emulator ptyxis gnome-terminal kgx
+xfce4-terminal konsole termit terminator Eterm aterm roxterm termite
+lxterminal mate-terminal terminology st urxvt rxvt lxterm xterm"
+file_managers="xdg-open thunar nautilus caja"
+browsers="xdg-open chrome chromium mullvad-browser firefox
+firefox-esr w3m elinks links lynx"
+mail_user_agents="thunderbird mutt"
+
+wanted_program="${0##*/run-}"
+case "${wanted_program}" in
+  terminal) programs="${terminals}";;
+  file-manager) programs="${file_managers}";;
+  browser) programs="${browsers}";;
+  mail) programs="${mail_user_agents}";;
+  *) printf '%s\n' "error: invalid script name: ${0##*/}"; exit 1;;
+esac
+case "${1:-}" in
+  -\?|--?help|help) usage;;
+  "");;
+  *);;
+esac
+
+run "${@}"
