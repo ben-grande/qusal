@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -35,7 +35,7 @@ prefs:
 - label: red
 - netvm: ""
 - audiovm: ""
-- memory: 400
+- memory: 300
 - maxmem: 0
 - vcpus: 1
 - virt_mode: hvm
@@ -47,6 +47,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.minimal-netvm
   - service.qubes-updates-proxy
 - disable:
   - service.cups
@@ -68,7 +69,7 @@ prefs:
 - label: red
 - netvm: ""
 - audiovm: ""
-- memory: 400
+- memory: 300
 - maxmem: 0
 - vcpus: 1
 - virt_mode: hvm
@@ -77,6 +78,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.minimal-netvm
   - service.qubes-updates-proxy
 - disable:
   - appmenus-dispvm
