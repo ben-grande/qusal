@@ -31,7 +31,6 @@ and access to them is made from the client through Qrexec.
 sudo qubesctl top.enable sys-pgp
 sudo qubesctl --targets=tpl-sys-pgp,sys-pgp state.apply
 sudo qubesctl top.disable sys-pgp
-sudo qubesctl state.apply sys-pgp.prefs
 ```
 
 *   State:
@@ -42,7 +41,6 @@ sudo qubesctl state.apply sys-pgp.prefs
 sudo qubesctl state.apply sys-pgp.create
 sudo qubesctl --skip-dom0 --targets=tpl-sys-pgp state.apply sys-pgp.install
 sudo qubesctl --skip-dom0 --targets=sys-pgp state.apply sys-pgp.configure
-sudo qubesctl state.apply sys-pgp.prefs
 ```
 
 <!-- pkg:end:post-install -->
