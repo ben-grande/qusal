@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% set bitcoin_tag = 'v' ~ version.version -%}
 
 include:
-  - .configure-builder-common
+  - {{ slsdotpath }}.configure-builder-common
 
 "{{ slsdotpath }}-source-makedir-src":
   file.directory:

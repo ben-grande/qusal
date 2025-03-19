@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-2.0-only
 {%- from "qvm/template-gui.jinja" import gui_common -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
 
 {% if 'psu' in salt['pillar.get']('qvm:sys-gui:dummy-modules', []) or 'backlight' in salt['pillar.get']('qvm:sys-gui:dummy-modules', []) %}
 "{{ slsdotpath }}-installed":

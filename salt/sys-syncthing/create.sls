@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- from "qvm/template.jinja" import load -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
   - browser.create
   - dom0.port-forward
 

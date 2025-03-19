@@ -7,8 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .install-mullvad-repo
-  - .install-common
+  - {{ slsdotpath }}.install-mullvad-repo
+  - {{ slsdotpath }}.install-common
 
 "{{ slsdotpath }}-installed-mullvad":
   pkg.installed:

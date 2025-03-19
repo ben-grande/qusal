@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% set bitcoin_url_shasum_sig = bitcoin_url_dir ~ bitcoin_file_shasum_sig -%}
 
 include:
-  - .configure-builder-common
+  - {{ slsdotpath }}.configure-builder-common
 
 "{{ slsdotpath }}-remove-failed-download-or-verification":
   file.absent:

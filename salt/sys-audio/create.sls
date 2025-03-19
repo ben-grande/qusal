@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- from "qvm/template.jinja" import load -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}

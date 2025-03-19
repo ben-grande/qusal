@@ -9,6 +9,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 ## ElectRS does not provide official binaries. This state exists to be the
 ## default installation.
 include:
-  - .install-source
+  - {{ slsdotpath }}.install-source
 
 {% endif -%}

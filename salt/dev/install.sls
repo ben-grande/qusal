@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - utils.tools.common.update
-  - .home-cleanup
+  - {{ slsdotpath }}.home-cleanup
   - dotfiles.copy-all
   - utils.tools.zsh
   - sys-pgp.install-client

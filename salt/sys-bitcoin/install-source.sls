@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - utils.tools.common.update
-  - .install-common
+  - {{ slsdotpath }}.install-common
   - dotfiles.copy-ssh
   - dotfiles.copy-git
   - sys-git.install-client
