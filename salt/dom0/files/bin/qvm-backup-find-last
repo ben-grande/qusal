@@ -36,10 +36,18 @@ cmd="${3-}"
 
 find_pattern="qubes-backup-*"
 find_cmd="find \"${path}\" -maxdepth 1 -type f -name \"${find_pattern}\""
+export LC_ALL=C
 
 last_backup="$(list_last_backup)"
 if test -z "${last_backup}"; then
+  printf '%s\n' "error: no backup found" >&2
   exit 1
 fi
 
-printf '%s\n' "${last_backup}"
+max_path_size=4096
+path_size=$(printf '%s' "${last_backup}" | wc -c)
+if test "${path_size}" -gt "${max_path_size}"; then
+  printf '%s\n' "error: absolute path larger than ${max_path_size}" >&2
+fi
+
+printf '%.*s' "${max_path_size}" "${last_backup}"
