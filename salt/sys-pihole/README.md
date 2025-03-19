@@ -29,7 +29,9 @@ to it.
 Pi-Hole commits and tags are not signed by individuals, but as they are done
 through the web interface, they have GitHub Web-Flow signature. This is the
 best verification we can get for Pi-Hole. If you don't trust the hosting
-provider however, don't install this package.
+provider however, don't install this package. Besides that, future updates to
+Pi-hole modules are not verified as it is done via by the native update
+mechanism provided by upstream.
 
 *   Top:
 
