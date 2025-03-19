@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -8,14 +8,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - .clone
-  - fedora-minimal.prefs
+  - mgmt.create
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}
 force: True
 require:
 - sls: {{ slsdotpath }}.clone
-- sls: fedora-minimal.prefs
+- sls: mgmt.create
 prefs:
 - audiovm: ""
 {%- endload %}
@@ -47,22 +47,3 @@ features:
 
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
 {{ policy_set(sls_path, '80') }}
-
-"{{ slsdotpath }}-set-management_dispvm-to-dvm-fedora":
-  qvm.vm:
-    - require:
-      - qvm: dvm-fedora
-    - name: tpl-{{ slsdotpath }}
-    - prefs:
-      - management_dispvm: dvm-fedora
-
-## TODO: Remove when template with patch reaches upstream or updates enforce
-## salt-deps to be installed.
-## https://github.com/QubesOS/qubes-issues/issues/8806
-"{{ slsdotpath }}-install-salt-deps":
-  cmd.script:
-    - require:
-      - qvm: "{{ slsdotpath }}-set-management_dispvm-to-dvm-fedora"
-    - name: salt-patch.sh
-    - source: salt://fedora-minimal/files/admin/bin/salt-patch.sh
-    - args: tpl-{{ slsdotpath }}

@@ -23,7 +23,9 @@ WARNING: [unfinished formula](../../docs/TROUBLESHOOT.md#no-support-for-unfinish
 
 ```sh
 sudo qubesctl top.enable qvm.sys-gui-vnc pillar=True
-sudo qubesctl top.enable sys-gui-vnc
+sudo qubesctl top.enable mgmt sys-gui-vnc
+sudo qubesctl --targets=tpl-mgmt state.apply
+sudo qubesctl state.apply sys-gui.prefs-mgmt
 sudo qubesctl --targets=tpl-sys-gui,sys-gui-vnc state.apply
 sudo qubesctl top.disable sys-gui-vnc
 sudo qubesctl state.apply sys-gui-vnc.prefs
@@ -36,6 +38,8 @@ sudo qubesctl state.apply sys-gui-vnc.prefs
 ```sh
 sudo qubesctl top.enable qvm.sys-gui-vnc pillar=True
 sudo qubesctl state.apply sys-gui-vnc.create
+sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
+sudo qubesctl state.apply sys-gui.prefs-mgmt
 sudo qubesctl --skip-dom0 --targets=tpl-sys-gui state.apply sys-gui-vnc.install
 sudo qubesctl --skip-dom0 --targets=sys-gui-vnc state.apply sys-gui-vnc.configure
 sudo qubesctl state.apply sys-gui-vnc.prefs

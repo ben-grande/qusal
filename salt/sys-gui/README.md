@@ -23,9 +23,11 @@ WARNING: [unfinished formula](../../docs/TROUBLESHOOT.md#no-support-for-unfinish
 
 ```sh
 sudo qubesctl top.enable qvm.sys-gui pillar=True
-sudo qubesctl top.enable sys-gui
+sudo qubesctl top.enable mgmt sys-gui
+sudo qubesctl --targets=tpl-mgmt state.apply
+sudo qubesctl state.apply sys-gui.prefs-mgmt
 sudo qubesctl --targets=tpl-sys-gui,sys-gui state.apply
-sudo qubesctl top.disable sys-gui
+sudo qubesctl top.disable mgmt sys-gui
 sudo qubesctl state.apply sys-gui.prefs
 ```
 
@@ -36,6 +38,8 @@ sudo qubesctl state.apply sys-gui.prefs
 ```sh
 sudo qubesctl top.enable qvm.sys-gui pillar=True
 sudo qubesctl state.apply sys-gui.create
+sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
+sudo qubesctl state.apply sys-gui.prefs-mgmt
 sudo qubesctl --skip-dom0 --targets=tpl-sys-gui state.apply sys-gui.install
 sudo qubesctl --skip-dom0 --targets=sys-gui state.apply sys-gui.configure
 sudo qubesctl state.apply sys-gui.prefs
