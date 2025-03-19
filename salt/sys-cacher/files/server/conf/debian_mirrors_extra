@@ -1,12 +1,16 @@
 # SPDX-FileCopyrightText: 2024 unman <unman@thirdeyesecurity.org>
-# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 http://deb.debian.org/debian
+http://fasttrack.debian.net/debian
 http://fasttrack.debian.net/debian-fasttrack
 http://debian-fasttrack.sur5r.net/debian
+http://debian-fasttrack.sur5r.net/debian-fasttrack
 
 https://deb.debian.org/debian
+https://fasttrack.debian.net/debian
 https://fasttrack.debian.net/debian-fasttrack
 https://debian-fasttrack.sur5r.net/debian
+https://debian-fasttrack.sur5r.net/debian-fasttrack
