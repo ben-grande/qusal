@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - utils.tools.common.update
-  - .install-receiver
+  - {{ slsdotpath }}.install-receiver
 
 "{{ slsdotpath }}-receiver-debug-installed":
   pkg.installed:

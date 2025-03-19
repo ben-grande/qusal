@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 ## https://github.com/QubesOS/qubes-issues/issues/8806
 
 include:
-  - .create
+  - {{ slsdotpath }}.create
 
 "{{ slsdotpath }}-set-management_dispvm-to-default":
   qvm.vm:

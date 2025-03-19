@@ -7,8 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .install-chrome-repo
-  - .install-common
+  - {{ slsdotpath }}.install-chrome-repo
+  - {{ slsdotpath }}.install-common
 
 "{{ slsdotpath }}-avoid-chrome-installing-own-repo":
   file.touch:

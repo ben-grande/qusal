@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- import "whonix-workstation/template.jinja" as whonix_workstation -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
   - sys-bitcoin.create
 
 {% load_yaml as defaults -%}
