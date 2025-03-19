@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- import "debian-minimal/template.jinja" as template -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}

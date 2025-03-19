@@ -18,7 +18,7 @@ include:
   - sys-pgp.install-client
   - sys-ssh-agent.install-client
   - docker.install
-  - .install-qubes-executor
+  - {{ slsdotpath }}.install-qubes-executor
 
 "{{ slsdotpath }}-installed":
   pkg.installed:

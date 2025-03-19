@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- import slsdotpath ~ "/template.jinja" as template -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
   - whonix-gateway.create
 
 {% load_yaml as defaults -%}

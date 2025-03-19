@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 include:
-  - .create
+  - {{ slsdotpath }}.create
 
 "{{ slsdotpath }}-set-management_dispvm-to-default":
   qvm.vm:

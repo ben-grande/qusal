@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 include:
-  - .cancel-common
+  - {{ slsdotpath }}.cancel-common
 
 "{{ slsdotpath }}-disable-autostart":
   qvm.prefs:

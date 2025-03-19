@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - utils.tools.common.update
-  - .install-client-proxy
+  - {{ slsdotpath }}.install-client-proxy
 
 "{{ slsdotpath }}-installed-fido":
   pkg.installed:

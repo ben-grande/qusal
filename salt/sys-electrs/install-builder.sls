@@ -9,6 +9,6 @@ Source: https://github.com/romanz/electrs/blob/master/doc/install.md
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - .install-builder-source
+  - {{ slsdotpath }}.install-builder-source
 
 {% endif -%}

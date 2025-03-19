@@ -6,11 +6,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
 {% if grains['id'] == 'dom0' -%}
-  - .create
+  - {{ slsdotpath }}.create
 {% elif grains['id'] == 'tpl-' ~ slsdotpath -%}
-  - .install
+  - {{ slsdotpath }}.install
 {% elif grains['id'] == 'dvm-' ~ slsdotpath -%}
-  - .configure-qubes-executor
+  - {{ slsdotpath }}.configure-qubes-executor
 {% elif grains['id'] == slsdotpath -%}
-  - .configure
+  - {{ slsdotpath }}.configure
 {% endif -%}

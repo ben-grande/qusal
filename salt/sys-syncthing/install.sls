@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
 {% if grains['os_family']|lower == 'debian' -%}
-  - .install-repo
+  - {{ slsdotpath }}.install-repo
   - utils.tools.common.update
 {% endif -%}
   - utils.tools.xfce

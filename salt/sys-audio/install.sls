@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 include:
   - utils.tools.common.update
   - sys-usb.install-client-proxy
-  - .install-client
+  - {{ slsdotpath }}.install-client
 
 "{{ slsdotpath }}-installed":
   pkg.installed:

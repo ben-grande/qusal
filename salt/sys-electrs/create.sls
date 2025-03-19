@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- from "qvm/template.jinja" import load -%}
 
 include:
-  - .clone
+  - {{ slsdotpath }}.clone
   - sys-bitcoin.create
 
 {% load_yaml as defaults -%}

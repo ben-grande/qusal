@@ -9,8 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% set net_pcidevs = salt['grains.get']('pci_net_devs', []) -%}
 
 include:
-  - .clone
-  - .show-updatevm-origin
+  - {{ slsdotpath }}.clone
+  - {{ slsdotpath }}.show-updatevm-origin
 
 {% load_yaml as defaults -%}
 name: tpl-{{ slsdotpath }}

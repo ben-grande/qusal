@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 include:
   - fedora.create
-  - .clone
+  - {{ slsdotpath }}.clone
   - fedora-minimal.prefs
 
 {% load_yaml as defaults -%}
