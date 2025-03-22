@@ -124,6 +124,14 @@ system-config-printer
 On the client, select the file to print, open it with an editor, viewer or
 browser and target the desired printer.
 
+### Network printers
+
+By default, `sys-print` and `disp-sys-print` have no NetVM. If you are accessing a networked printer, you must attach one (ideally isolated from your primary NetVM).
+
+### USB multi-function printers
+
+USB printers with both printing and scanning function can run into situations where either scanning or printing does not work. [Explanation of the issue](https://fitzcarraldoblog.wordpress.com/2015/07/20/the-problem-of-scanning-using-usb-multi-function-printers-in-linux/)
+
 ## Credits
 
 *   [Unman](https://github.com/unman/shaker/tree/main/sys-print)
