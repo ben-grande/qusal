@@ -46,6 +46,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.avahi
   - service.cups
   - appmenus-dispvm
 - disable:
@@ -115,6 +116,7 @@ prefs:
 features:
 - enable:
   - servicevm
+  - service.avahi
   - service.cups
 - disable:
   - service.cups-browsed
