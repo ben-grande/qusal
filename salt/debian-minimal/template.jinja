@@ -5,10 +5,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {%- import "debian/template.jinja" as template_base -%}
-{% set base = template_base.base -%}
-{% set version = template_base.version -%}
+{% set base = 'debian' -%}
+{% set version = salt['pilar.get']('qvm:debian:version', '12') -%}
 {% set flavor = 'minimal' -%}
-{% set repo = template_base.repo -%}
+{% set repo = salt['pillar.get']('qvm:debian:repo', 'qubes-templates-itl') -%}
 {% if flavor -%}
   {% set flavor = '-' ~ flavor -%}
 {% endif -%}

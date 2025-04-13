@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% set base = 'fedora' -%}
-{% set version = salt['pillar.get']('qvm:fedora:version', '41') -%}
+{% set version = salt['pillar.get']('qvm:fedora:version', '40') -%}
 {% set flavor = '' -%}
 {% set repo = salt['pillar.get']('qvm:fedora:repo', 'qubes-templates-itl') -%}
 {% if flavor -%}
