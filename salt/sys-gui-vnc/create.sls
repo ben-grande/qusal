@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-2.0-only
 
 include:
   - {{ slsdotpath }}.clone
+  - sys-gui.create
 
 {% if 'psu' in salt['pillar.get']('qvm:sys-gui-vnc:dummy-modules', []) or 'backlight' in salt['pillar.get']('qvm:sys-gui-vnc:dummy-modules', []) %}
 "{{ slsdotpath }}-installed":

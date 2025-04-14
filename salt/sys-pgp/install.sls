@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -22,13 +22,14 @@ include:
       - gnupg2
       - man-db
 
+{# TODO: sequoia-wot can't be installed on fedora-41 #}
 {% set pkg = {
   'Debian': {
     'pkg': ['sq', 'sq-keyring-linter', 'sq-wot', 'sqop', 'sqv'],
   },
   'RedHat': {
-    'pkg': ['sequoia-sq', 'sequoia-keyring-linter', 'sequoia-wot',
-            'sequoia-sop', 'sequoia-sqv', 'sequoia-policy-config',
+    'pkg': ['sequoia-sq', 'sequoia-keyring-linter', 'sequoia-sop',
+            'sequoia-sqv', 'sequoia-policy-config',
             'sequoia-chameleon-gnupg'],
   },
 }.get(grains.os_family) -%}

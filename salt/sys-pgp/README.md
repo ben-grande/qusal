@@ -28,9 +28,11 @@ and access to them is made from the client through Qrexec.
 *   Top:
 
 ```sh
-sudo qubesctl top.enable sys-pgp
+sudo qubesctl top.enable mgmt sys-pgp
+sudo qubesctl --targets=tpl-mgmt state.apply
+sudo qubesctl state.apply sys-pgp.prefs-mgmt
 sudo qubesctl --targets=tpl-sys-pgp,sys-pgp state.apply
-sudo qubesctl top.disable sys-pgp
+sudo qubesctl top.disable mgmt sys-pgp
 sudo qubesctl state.apply sys-pgp.prefs
 ```
 
@@ -40,9 +42,10 @@ sudo qubesctl state.apply sys-pgp.prefs
 
 ```sh
 sudo qubesctl state.apply sys-pgp.create
+sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
+sudo qubesctl state.apply sys-pgp.prefs-mgmt
 sudo qubesctl --skip-dom0 --targets=tpl-sys-pgp state.apply sys-pgp.install
 sudo qubesctl --skip-dom0 --targets=sys-pgp state.apply sys-pgp.configure
-sudo qubesctl state.apply sys-pgp.prefs
 ```
 
 <!-- pkg:end:post-install -->

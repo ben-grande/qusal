@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-2.0-only
 
 include:
   - {{ slsdotpath }}.clone
+  - sys-gui.create
 
 "{{ slsdotpath }}-installed":
   pkg.installed:

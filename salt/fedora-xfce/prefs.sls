@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {%- import slsdotpath ~ "/template.jinja" as template -%}
 
 include:
-  - {{ slsdotpath }}.create
+  - .create
 
 "{{ slsdotpath }}-set-{{ template.template }}-management_dispvm-to-default":
   qvm.vm:

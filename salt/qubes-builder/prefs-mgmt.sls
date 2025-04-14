@@ -4,15 +4,14 @@ SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-{%- import slsdotpath ~ "/template.jinja" as template -%}
-
 include:
-  - {{ slsdotpath }}.create
+  - .create
+  - mgmt.prefs
 
-"{{ slsdotpath }}-set-{{ template.template }}-management_dispvm-to-default":
+"{{ slsdotpath }}-set-tpl-{{ slsdotpath }}-management_dispvm-to-default":
   qvm.vm:
     - require:
       - sls: {{ slsdotpath }}.create
-    - name: {{ template.template }}
+    - name: tpl-{{ slsdotpath }}
     - prefs:
       - management_dispvm: "*default*"

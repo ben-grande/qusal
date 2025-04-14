@@ -35,9 +35,11 @@ template.
 *   Top:
 
 ```sh
-sudo qubesctl top.enable qubes-builder
+sudo qubesctl top.enable mgmt qubes-builder
+sudo qubesctl --targets=tpl-mgmt state.apply
+sudo qubesctl state.apply qubes-builder.prefs-mgmt
 sudo qubesctl --targets=tpl-qubes-builder,dvm-qubes-builder,qubes-builder state.apply
-sudo qubesctl top.disable qubes-builder
+sudo qubesctl top.disable mgmt qubes-builder
 sudo qubesctl state.apply qubes-builder.prefs
 ```
 
@@ -47,8 +49,9 @@ sudo qubesctl state.apply qubes-builder.prefs
 
 ```sh
 sudo qubesctl state.apply qubes-builder.create
+sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
+sudo qubesctl state.apply qubes-builder.prefs-mgmt
 sudo qubesctl --skip-dom0 --targets=tpl-qubes-builder state.apply qubes-builder.install
-sudo qubesctl state.apply qubes-builder.prefs
 sudo qubesctl --skip-dom0 --targets=dvm-qubes-builder state.apply qubes-builder.configure-qubes-executor
 sudo qubesctl --skip-dom0 --targets=qubes-builder state.apply qubes-builder.configure
 ```
