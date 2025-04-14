@@ -10,7 +10,7 @@ Before contributing, I, the opener of this request:
 -   [ ] Have reviewed and updated any documentation if relevant.
 
 Lacking to check any of the above can result in the rejection of the
-contribution without no further comment.
+contribution without further comment.
 
 ## What does this PR aims to accomplish
 
