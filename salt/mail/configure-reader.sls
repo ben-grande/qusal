@@ -21,6 +21,9 @@ include:
     - group: user
     - makedirs: True
 
+{%- set qusal_dot = salt["pillar.get"]("qusal:dotfiles:all", default=True) -%}
+{%- if salt["pillar.get"]("qusal:dotfiles:mutt", default=qusal_dot) -%}
+
 "{{ slsdotpath }}-reader-mutt-offline":
   file.symlink:
     - require:
@@ -30,5 +33,7 @@ include:
     - user: user
     - group: user
     - force: True
+
+{% endif -%}
 
 {% endif -%}
