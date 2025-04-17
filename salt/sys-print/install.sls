@@ -28,14 +28,40 @@ include:
       - ipp-usb
       - man-db
       ## Print
-      - printer-driver-cups-pdf
       - system-config-printer
       ## Scan
-      ## TODO: simple-scan did not detect my scanner, but detected printer.
       - simple-scan
-      - sane
-      - sane-utils
       - sane-airscan
+
+{% set pkg = {
+    'Arch': {
+      'pkg': [
+      ],
+    },
+    'Debian': {
+      'pkg': [
+        'printer-driver-cups-pdf',
+        'sane',
+        'sane-utils',
+      ],
+    },
+    'RedHat': {
+      'pkg': [
+        'cups-filters-driverless',
+        'cups-ipptool',
+        'cups-pdf',
+        'gutenprint-cups',
+        'sane-backends',
+      ],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - setopt: "install_weak_deps=False"
+    - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-add-user-to-lpadmin-group":
   group.present:
