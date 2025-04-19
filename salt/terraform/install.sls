@@ -23,6 +23,8 @@ include:
       - qubes-core-agent-networking
       - ca-certificates
       - terraform
+      - zip
+      - unzip
       - terraform-ls
       - vim
       - man-db
