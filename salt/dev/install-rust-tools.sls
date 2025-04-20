@@ -17,12 +17,7 @@ include:
     - skip_suggestions: True
     - setopt: "install_weak_deps=False"
     - pkgs:
-      - clangd
-      - clang-tidy
-      - cmake
-      - cscope
-      - cppcheck
-      - manpages-dev
-      - universal-ctags
+      - rust-docs
+      - rust-analyzer
 
 {% endif %}
