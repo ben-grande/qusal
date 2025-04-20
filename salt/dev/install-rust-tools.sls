@@ -18,6 +18,11 @@ include:
     - setopt: "install_weak_deps=False"
     - pkgs:
       - rust-docs
-      - rust-analyzer
+      - cargo
+      - rustup
+      - clippy
+      - rustfmt
+      - cargo-audit
+      - cargo-udeps
 
 {% endif %}
