@@ -32,7 +32,6 @@ include:
       - bash-completion
       ## Reading documentation
       - man-db
-      - manpages-dev
       - info
       - texinfo
       ## Searching files
