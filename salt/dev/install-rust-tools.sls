@@ -17,12 +17,7 @@ include:
     - skip_suggestions: True
     - setopt: "install_weak_deps=False"
     - pkgs:
-      - rust-docs
+      - rust-doc
       - cargo
-      - rustup
-      - clippy
-      - rustfmt
-      - cargo-audit
-      - cargo-udeps
 
 {% endif %}
