@@ -10,6 +10,7 @@ include:
   - {{ slsdotpath }}.install-repo
   - utils.tools.common.update
   - sys-ssh-agent.install-client
+  - sys-git.install-client
 
 "{{ slsdotpath }}-installed":
   pkg.installed:
