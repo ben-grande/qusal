@@ -40,7 +40,6 @@ sudo qubesctl --targets=tpl-mgmt state.apply
 sudo qubesctl state.apply qubes-builder.prefs-mgmt
 sudo qubesctl --targets=tpl-qubes-builder,dvm-qubes-builder,qubes-builder state.apply
 sudo qubesctl top.disable mgmt qubes-builder
-sudo qubesctl state.apply qubes-builder.prefs
 ```
 
 *   State:
