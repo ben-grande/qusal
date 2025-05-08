@@ -102,6 +102,13 @@ Installation on the client template:
 sudo qubesctl --skip-dom0 --targets=tpl-dev state.apply sys-git.install-client
 ```
 
+To also create one or more appVMs for syncing with remote repositories, uncomment and edit the `syncs` section in `create-sync.sls` and apply:
+
+```sh
+sudo qubesctl state.apply sys-git.create-sync
+sudo qubesctl --skip-dom0 state.apply sys-git.install-sync
+```
+
 ## Access control
 
 _Default policy_: `any qube` can `ask` via the `@default` target if you allow
@@ -216,6 +223,33 @@ Following pushes will be simpler:
 git push
 ```
 
+### Pushing to external remotes
+
+Neither `sys-git` nor your development environment should require connectivity with remote forges in order to collaborate with remote forges. For e-mail-based patch workflows, you can utilize the `mail` template as an intermediary sender. For other scenarios, we can utilize a `git-sync` VM. This allows us to separate trust zones between development and synchronizing code changes.
+
+In your development environment, synchronize changes to `sys-git`:
+
+```sh
+git remote add sg qrexec://@default/qubes-doc
+git checkout -b patch1
+git push -u sg patch1
+```
+
+In the `git-sync` vm:
+
+```sh
+git clone -o sg -b patch1 qrexec://@default/qubes-doc
+cd qubes-doc
+
+git remote add ghost https://github.com/ghost/qubes-doc
+git fetch ghost master
+# inspect changes
+
+# optionally, resign commit with pgp if you have split-gpg2 set up
+git commit -S --amend
+
+git push -u ghost patch1
+```
 ## Credits
 
 *   [Unman](https://github.com/unman/shaker/tree/main/git)
