@@ -33,6 +33,7 @@ include:
       - w3m
       - less
       - urlview
+      - urlscan
 
 "{{ slsdotpath }}-reader-symlink-msmtpq":
   file.symlink:
