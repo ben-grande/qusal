@@ -24,4 +24,5 @@ if test -t 0; then
   stty -echo -icanon intr ""
 fi
 
-qvm-run --pass-io "${@}" -- 'LC_CTYPE=C script --quiet --return /dev/null'
+qvm-run --no-gui --pass-io "${@}" -- \
+  'LC_CTYPE=C script --quiet --return /dev/null'
