@@ -63,7 +63,7 @@ The sender has the screen you want to share of the webcam you want to access.
 The receiver the is client that requests access to the screen of webcam,
 therefore the client is responsible to initiate the call.
 
-On the client, to get the screen of another qube:
+On the sender, to get the screen of another qube:
 
 ```sh
 qubes-video-companion screenshare
