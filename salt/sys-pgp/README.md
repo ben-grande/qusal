@@ -174,7 +174,7 @@ mkdir -p -- ~/.gnupg/split-gpg/dev
 Generate keys for the client qube `dev`:
 
 ```sh
-sq key generate --own-key --name ben --email ben@example.com --output ben.pgp --rev-cert ben.rev
+sq key generate --own-key --name ben --email ben@example.com --output ben.pgp --rev-cert ben.rev --without-password
 sq key delete --cert-fle=ben.pgp --output=ben.cert
 gpg --homedir ~/.gnupg/split-gpg/dev --import ben.pgp
 ```

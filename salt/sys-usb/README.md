@@ -70,6 +70,15 @@ And set the qube preference `audiovm` to `disp-sys-usb`:
 qvm-prefs -- QUBE audiovm disp-sys-usb
 ```
 
+### Installation testing
+
+Once you are satisfied with the installation, disable the default `USBVM` from
+autostarting:
+
+```sh
+qvm-prefs -- sys-usb autostart False
+```
+
 ### Client installation
 
 #### Client USB proxy installation
