@@ -124,7 +124,7 @@ On the following examples, we will consider `dev` as the client qube and
 
 ### Service activation
 
-On `dom0`, enabled the service `split-gpg2-client` for the client qube `dev`:
+On `dom0`, enable the service `split-gpg2-client` for the client qube `dev`:
 
 ```sh
 qvm-features dev service.split-gpg2-client 1
@@ -162,12 +162,27 @@ gpg --homedir ~/.gnupg/split-gpg/dev --edit-key ben passwd
 You should use subkeys, but configuring this key type is for advanced users
 and out of scope for this document. Please refer to an external source.
 
-On the qube `sys-pgp`, generate keys for the client qube `dev`:
+Please note that the use of Sequoia-PGP over GnuPG is preferred.
+
+On the qube `sys-pgp`. Create the isolated directory for the client qube
+`dev`:
 
 ```sh
 mkdir -p -- ~/.gnupg/split-gpg/dev
-gpg --homedir ~/.gnupg/split-gpg/dev --pinentry-mode loopback --passphrase "" --gen-key
-gpg --homedir ~/.gnupg/split-gpg/dev --list-secret-keys
+```
+
+Generate keys for the client qube `dev`:
+
+```sh
+sq key generate --own-key --name ben --email ben@example.com --output ben.pgp --rev-cert ben.rev --without-password
+sq key delete --cert-fle=ben.pgp --output=ben.cert
+gpg --homedir ~/.gnupg/split-gpg/dev --import ben.pgp
+```
+
+Copy the public key (certificate) to the client qube `dev`:
+
+```sh
+qvm-copy ben.cert
 ```
 
 #### Import existing keys
@@ -185,11 +200,17 @@ gpg --homedir ~/.gnupg/split-gpg/dev --list-secret-keys
 On the client qube `dev`, import the public part of your key:
 
 ```sh
-gpg --import /path/to/public.key
+gpg --import ~/QubesIncoming/sys-pgp/ben.cert
 ```
 
-You should now have access to see the secret keys fingerprints:
+Test listing the secret key:
 
 ```sh
 gpg --list-secret-keys
+```
+
+Test signing a message:
+
+```sh
+printf '%s' "test" | gpg --clearsign -u test@example.com
 ```

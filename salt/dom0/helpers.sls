@@ -6,6 +6,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {% if grains['nodename'] == 'dom0' -%}
 
+"{{ slsdotpath }}-shell-helper":
+  file.managed:
+    - name: /usr/local/bin/qvm-shell
+    - source: salt://{{ slsdotpath }}/files/bin/qvm-shell
+    - mode: "0755"
+    - user: root
+    - group: root
+    - makedirs: True
+
 "{{ slsdotpath }}-terminal-helper":
   file.managed:
     - name: /usr/local/bin/qvm-terminal

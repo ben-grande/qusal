@@ -21,12 +21,19 @@ include:
     - group: user
     - makedirs: True
 
+{%- set qusal_dot = salt["pillar.get"]("qusal:dotfiles:all", default=True) -%}
+{%- if salt["pillar.get"]("qusal:dotfiles:mutt", default=qusal_dot) -%}
+
 "{{ slsdotpath }}-reader-mutt-offline":
   file.symlink:
     - require:
-      - pkg: dotfiles.copy-mutt
+      - sls: dotfiles.copy-mutt
     - name: /home/user/.config/mutt/90_offline.muttrc
-    - source: /home/user/.config/mutt/sample/offline.muttrc.example
+    - target: /home/user/.config/mutt/sample/offline.muttrc.example
+    - user: user
+    - group: user
     - force: True
+
+{% endif -%}
 
 {% endif -%}

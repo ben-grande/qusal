@@ -58,7 +58,7 @@ sudo qubesctl --skip-dom0 --targets=QUBE state.apply video-companion.install-rec
 
 ### Basic usage
 
-The sender has the screen you want to share of the webcam you want to access.
+The sender has the screen you want to share or the webcam you want to access.
 
 The receiver the is client that requests access to the screen of webcam,
 therefore the client is responsible to initiate the call.
