@@ -2,6 +2,3 @@
 #
 # SPDX-License-Identifier: MIT
 
-[submodule "salt/dotfiles"]
-	path = salt/dotfiles
-	url = ../dotfiles/
