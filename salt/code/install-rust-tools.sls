@@ -5,7 +5,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 {% if grains['nodename'] != 'dom0' -%}
-
 include:
   - utils.tools.common.update
 
@@ -20,15 +19,15 @@ include:
       - curl
       - build-essential
 
-"{{ slsdotpath }}-installed-rust-tools":
+"{{ slsdotpath }}-download-rustup":
   cmd.run:
-    - name: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.sh | sh
+    - name: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     - user: user
     - creates: /home/user/.cargo/bin/rustup
     - require:
-      - pkg: {{ slsdotpath }}-installed-rust-deps
+      - pkg: "{{ slsdotpath }}-installed-rust-deps"
 
-"{{ slsdotpath }}-installed-rust-tools":
+"{{ slsdotpath }}-rust-profile":
   file.append:
     - name: /home/user/.zshrc
     - text: |
@@ -36,6 +35,5 @@ include:
         export PATH="$HOME/.cargo/bin:$PATH"
     - user: user
     - require:
-      - cmd: {{ slsdotpath }}-installed-rust-tools
-
+      - cmd: "{{ slsdotpath }}-download-rustup"
 {% endif %}
