@@ -1,0 +1,41 @@
+{#
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+{% if grains['nodename'] != 'dom0' -%}
+
+include:
+  - utils.tools.common.update
+
+"{{ slsdotpath }}-installed-rust-deps":
+  pkg.installed:
+    - require:
+      - sls: utils.tools.common.update
+    - install_recommends: False
+    - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
+    - pkgs:
+      - curl
+      - build-essential
+
+"{{ slsdotpath }}-installed-rust-tools":
+  cmd.run:
+    - name: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.sh | sh
+    - user: user
+    - creates: /home/user/.cargo/bin/rustup
+    - require:
+      - pkg: {{ slsdotpath }}-installed-rust-deps
+
+"{{ slsdotpath }}-installed-rust-tools":
+  file.append:
+    - name: /home/user/.zshrc
+    - text: |
+        # Rust environment
+        export PATH="$HOME/.cargo/bin:$PATH"
+    - user: user
+    - require:
+      - cmd: {{ slsdotpath }}-installed-rust-tools
+
+{% endif %}
