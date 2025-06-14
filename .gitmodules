@@ -4,4 +4,4 @@
 
 [submodule "salt/dotfiles"]
 	path = salt/dotfiles
-	url = qrexec://@default/dotfiles.git
+	url = git@github.com:wassp-ds/dotfiles.git
