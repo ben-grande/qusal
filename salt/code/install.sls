@@ -25,10 +25,14 @@ include:
       - qubes-core-agent-passwordless-root
       - qubes-core-agent-networking
       - ca-certificates
+      - build-essential
       ## Usability
       - tmux
       - xclip
       - bash-completion
+      - jq
+      - xxd
+      - zstd
       ## File management
       - file
       - tree

@@ -19,10 +19,10 @@ include:
       - curl
       - build-essential
 
-"{{ slsdotpath }}-download-rustup":
+"{{ slsdotpath }}-installed-rustup":
   cmd.run:
-    - name: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    - user: user
+    - name: curl --proxy 127.0.0.1:8082 --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    - runas: user
     - creates: /home/user/.cargo/bin/rustup
     - require:
       - pkg: "{{ slsdotpath }}-installed-rust-deps"
@@ -35,5 +35,5 @@ include:
         export PATH="$HOME/.cargo/bin:$PATH"
     - user: user
     - require:
-      - cmd: "{{ slsdotpath }}-download-rustup"
+      - cmd: "{{ slsdotpath }}-installed-rustup"
 {% endif %}
