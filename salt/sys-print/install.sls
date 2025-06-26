@@ -36,14 +36,20 @@ include:
     'Arch': {
       'pkg': [
         'cups-filters',
+        'gnu-free-fonts',
         'gutenprint',
+        'noto-fonts',
         'qubes-vm-networking',
+        'ttf-dejavu',
+        'ttf-liberation',
       ],
     },
     'Debian': {
       'pkg': [
         'cups-filters-core-drivers',
         'cups-ipp-utils',
+        'fontconfig-config',
+        'fonts-recommended',
         'printer-driver-cups-pdf',
         'printer-driver-gutenprint',
         'qubes-core-agent-networking',
@@ -56,7 +62,10 @@ include:
         'cups-filters-driverless',
         'cups-ipptool',
         'cups-pdf',
+        'default-fonts',
         'gutenprint-cups',
+        'liberation-fonts-all',
+        'open-sans-fonts',
         'qubes-core-agent-networking',
         'sane-backends',
       ],
