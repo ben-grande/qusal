@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2025 The Qusal Community <>
+SPDX-FileCopyrightText: 2025 The Qusal Community <https://github.com/ben-grande/qusal>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
