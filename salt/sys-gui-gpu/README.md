@@ -26,7 +26,7 @@ sudo qubesctl top.enable qvm.sys-gui-gpu pillar=True
 sudo qubesctl top.enable mgmt sys-gui-gpu
 sudo qubesctl --targets=tpl-mgmt state.apply
 sudo qubesctl state.apply sys-gui.prefs-mgmt
-sudo qubesctl --targets=tpl-sys-gui,sys-gui-gpu state.apply
+sudo qubesctl --targets=tpl-sys-gui-gpu,sys-gui-gpu state.apply
 sudo qubesctl top.disable mgmt sys-gui-gpu
 sudo qubesctl state.apply sys-gui-gpu.prefs
 ```
@@ -40,7 +40,7 @@ sudo qubesctl top.enable qvm.sys-gui-gpu pillar=True
 sudo qubesctl state.apply sys-gui-gpu.create
 sudo qubesctl --skip-dom0 --targets=tpl-mgmt state.apply mgmt.install
 sudo qubesctl state.apply sys-gui.prefs-mgmt
-sudo qubesctl --skip-dom0 --targets=tpl-sys-gui state.apply sys-gui-gpu.install
+sudo qubesctl --skip-dom0 --targets=tpl-sys-gui-gpu state.apply sys-gui-gpu.install
 sudo qubesctl --skip-dom0 --targets=sys-gui-gpu state.apply sys-gui-gpu.configure
 sudo qubesctl state.apply sys-gui-gpu.prefs
 ```
@@ -51,6 +51,19 @@ The formula assumes Intel graphics card, if you have a card from another
 vendor, please use
 [qvm-pci](https://www.qubes-os.org/doc/how-to-use-pci-devices/#qvm-pci-usage)
 to persistently attach the GPU with the permissive option to `sys-gui-gpu`.
+
+Identify PCI device identifier:
+
+```sh
+qvm-pci ls -v
+```
+
+Assign device for persistent attachment (assuming the `backend:devid`
+combination is `dom0:00_02.1-00_00.0`):
+
+```sh
+qvm-assign -v -o permissive=True -o no-strict-reset=True -r sys-gui-gpu dom0:00_02.1-00_00.0
+```
 
 Shutdown all your running qubes as the global property `default_guivm` has
 changed to `sys-gui-gpu`.

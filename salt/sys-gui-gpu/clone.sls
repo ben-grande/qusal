@@ -4,5 +4,5 @@ SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.co
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
-include:
-  - sys-gui.clone
+{% from 'utils/macros/clone-template.sls' import clone_template -%}
+{{ clone_template('fedora-minimal', sls_path) }}

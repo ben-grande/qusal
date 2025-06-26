@@ -5,5 +5,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 #}
 
 base:
-  'tpl-sys-gui':
+  'tpl-sys-gui-gpu':
     - sys-gui-gpu.install

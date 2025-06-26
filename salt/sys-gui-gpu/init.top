@@ -8,7 +8,7 @@ base:
   'dom0':
     - match: nodegroup
     - sys-gui-gpu.create
-  'tpl-sys-gui':
+  'tpl-sys-gui-gpu':
     - sys-gui-gpu.install
   'sys-gui-gpu':
     - sys-gui-gpu.configure
