@@ -13,4 +13,27 @@ Upstream pkg.installed install weak_deps/recommends.
 include:
   - sys-gui.install
 
+"{{ slsdotpath }}-installed":
+  pkg.installed:
+    - require:
+      - sls: sys-gui.install
+    - install_recommends: False
+    - skip_suggestions: True
+    - setopt: "install_weak_deps=False"
+    - pkgs:
+      - pciutils
+      - lshw
+      - linux-firmware
+      - amd-gpu-firmware
+      - amd-ucode-firmware
+      - xorg-x11-drv-amdgpu
+      - radeontop
+      - nvidia-gpu-firmware
+      - libva-nvidia-driver
+      - xorg-x11-drv-nouveau
+      - intel-gpu-firmware
+      - libva-intel-hybrid-driver
+      - libva-intel-media-driver
+      - xorg-x11-drv-intel
+
 {% endif -%}
