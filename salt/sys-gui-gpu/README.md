@@ -52,6 +52,18 @@ vendor, please use
 [qvm-pci](https://www.qubes-os.org/doc/how-to-use-pci-devices/#qvm-pci-usage)
 to persistently attach the GPU with the permissive option to `sys-gui-gpu`.
 
+For example, after identifying PCI device identifier:
+
+```sh
+qvm-pci ls -vs --resolve-paths
+```
+
+To assign device for persistent attachment:
+
+```sh
+qvm-assign -v -o permissive=True -o no-strict-reset=True -r sys-gui-gpu dom0:00_02.1-00_00.0
+```
+
 Shutdown all your running qubes as the global property `default_guivm` has
 changed to `sys-gui-gpu`.
 
