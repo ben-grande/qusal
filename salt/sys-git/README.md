@@ -102,11 +102,11 @@ Installation on the client template:
 sudo qubesctl --skip-dom0 --targets=tpl-dev state.apply sys-git.install-client
 ```
 
-To also create one or more appVMs for syncing with remote repositories, uncomment and edit the `syncs` section in `create-sync.sls` and apply:
+To set up an AppVM for syncing with remote repositories, base it on the `tpl-sys-git-sync` template and add the `git-sync` tag:
 
 ```sh
-sudo qubesctl state.apply sys-git.create-sync
-sudo qubesctl --skip-dom0 state.apply sys-git.install-sync
+qvm-prefs QUBE template tpl-sys-git-sync
+qvm-tags QUBE add git-sync
 ```
 
 ## Access control
@@ -235,7 +235,7 @@ git checkout -b patch1
 git push -u sg patch1
 ```
 
-In the `git-sync` vm:
+In the `git-sync` qube:
 
 ```sh
 git clone -o sg -b patch1 qrexec://@default/qubes-doc
@@ -243,13 +243,14 @@ cd qubes-doc
 
 git remote add ghost https://github.com/ghost/qubes-doc
 git fetch ghost master
-# inspect changes
+```
 
-# optionally, resign commit with pgp if you have split-gpg2 set up
-git commit -S --amend
+Now you can inspect your changes and do final preparations before pushing.
 
+```sh
 git push -u ghost patch1
 ```
+
 ## Credits
 
 *   [Unman](https://github.com/unman/shaker/tree/main/git)
