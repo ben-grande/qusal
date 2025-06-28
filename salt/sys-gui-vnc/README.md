@@ -6,6 +6,7 @@ VNC GUI domain in Qubes OS.
 
 *   [Description](#description)
 *   [Installation](#installation)
+    *   [Desktop Environment and Window Manager](#desktop-environment-and-window-manager)
 *   [Uninstallation](#uninstallation)
 *   [Usage](#usage)
 
@@ -46,6 +47,14 @@ sudo qubesctl state.apply sys-gui-vnc.prefs
 ```
 
 <!-- pkg:end:post-install -->
+
+### Desktop Environment and Window Manager
+
+To install and set up an XFCE desktop environment:
+
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-sys-gui state.apply sys-gui.install-xfce
+```
 
 Shutdown all your running qubes as the global property `default_guivm` has
 changed to `sys-gui-vnc`.
