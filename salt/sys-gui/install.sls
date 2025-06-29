@@ -32,12 +32,19 @@ include:
 
 {% set pkg = {
   'Debian': {
-    'pkg': ['gnome-themes-standard', 'lightdm', 'xscreensaver']
+    'pkg': [
+      'gnome-themes-standard',
+      'breeze-cursor-theme', 'breeze-icon-theme', 'breeze-gtk-theme', 'gtk3-engines-breeze',
+      'lightdm',
+      'xscreensaver',
+    ]
   },
   'RedHat': {
     'pkg': ['dummy-psu-receiver', 'dummy-psu-module', 'dummy-backlight-vm',
             'adwaita-gtk2-theme', 'adwaita-icon-theme',
-            'lightdm-gtk','xscreensaver-base',
+            'breeze-cursor-theme', 'breeze-icon-theme', 'breeze-gtk',
+            'lightdm-gtk',
+            'xscreensaver-base',
             ]
   },
 }.get(grains.os_family) -%}
