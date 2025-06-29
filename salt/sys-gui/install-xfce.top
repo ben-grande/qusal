@@ -1,0 +1,10 @@
+{#
+SPDX-FileCopyrightText: 2025 The Qusal Community <https://github.com/ben-grande/qusal>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+#}
+
+base:
+  'tpl-sys-gui':
+    - sys-gui.install-xfce
+
