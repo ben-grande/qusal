@@ -23,19 +23,60 @@ include:
     - setopt: "install_weak_deps=False"
     - pkgs:
       ## Discovery
-      - qubes-core-agent-networking
       - cups
       - ipp-usb
       - man-db
       ## Print
-      - printer-driver-cups-pdf
       - system-config-printer
       ## Scan
-      ## TODO: simple-scan did not detect my scanner, but detected printer.
       - simple-scan
-      - sane
-      - sane-utils
       - sane-airscan
+
+{% set pkg = {
+    'Arch': {
+      'pkg': [
+        'cups-filters',
+        'gnu-free-fonts',
+        'gutenprint',
+        'noto-fonts',
+        'qubes-vm-networking',
+        'ttf-dejavu',
+        'ttf-liberation',
+      ],
+    },
+    'Debian': {
+      'pkg': [
+        'cups-filters-core-drivers',
+        'cups-ipp-utils',
+        'fontconfig-config',
+        'fonts-recommended',
+        'printer-driver-cups-pdf',
+        'printer-driver-gutenprint',
+        'qubes-core-agent-networking',
+        'sane',
+        'sane-utils',
+      ],
+    },
+    'RedHat': {
+      'pkg': [
+        'cups-filters-driverless',
+        'cups-ipptool',
+        'cups-pdf',
+        'default-fonts',
+        'gutenprint-cups',
+        'liberation-fonts-all',
+        'open-sans-fonts',
+        'qubes-core-agent-networking',
+        'sane-backends',
+      ],
+    },
+}.get(grains.os_family) -%}
+
+"{{ slsdotpath }}-installed-os-specific":
+  pkg.installed:
+    - setopt: "install_weak_deps=False"
+    - skip_suggestions: True
+    - pkgs: {{ pkg.pkg|sequence|yaml }}
 
 "{{ slsdotpath }}-add-user-to-lpadmin-group":
   group.present:
