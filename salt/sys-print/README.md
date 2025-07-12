@@ -10,7 +10,10 @@ Printer environment in Qubes OS.
 *   [Access Control](#access-control)
 *   [Usage](#usage)
     *   [Add a printer](#add-a-printer)
+        *   [Network printers](#attaching-network-printers)
+        *   [USB printers](#attaching-usb-printers)
     *   [Print](#print)
+        *   [USB multi-function printers](#usb-multi-function-printers)
 *   [Credits](#credits)
 
 ## Description
@@ -109,20 +112,35 @@ qusal.Print * @tag:print-client @anyvm   deny
 
 ### Add a printer
 
-You will configure your printer from `sys-print` or `disp-sys-print`, it can
+You will configure your printer from `sys-print` or `disp-sys-print`. It can
 connect over the network or USB. If you do not want to save printing
 configuration, use `disp-sys-print`.
 
-On `sys-print` or `disp-sys-print`, add your printer:
+On `sys-print` or `disp-sys-print`, to add a printer after attaching it:
 
 ```sh
 system-config-printer
 ```
 
+#### Attaching network printers
+
+By default, `sys-print` and `disp-sys-print` have no NetVM.
+To access a network printer, attach a NetVM on its network to `sys-print`.
+
+#### Attaching USB printers
+
+Use `sys-usb` or `disp-sys-usb`. Identify the device by running `qvm-usb ls`
+in dom0 and attach it with `qvm-usb attach`.
+
 ### Print
 
 On the client, select the file to print, open it with an editor, viewer or
 browser and target the desired printer.
+
+### USB multi-function printers
+
+USB printers with both printing and scanning function can run into situations
+where [either scanning or printing does not work](https://fitzcarraldoblog.wordpress.com/2015/07/20/the-problem-of-scanning-using-usb-multi-function-printers-in-linux/).
 
 ## Credits
 

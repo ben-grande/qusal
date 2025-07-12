@@ -35,7 +35,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: red
-- netvm: "*default*"
+- netvm: ""
 - audiovm: ""
 - vcpus: 1
 - memory: 300
@@ -71,7 +71,7 @@ present:
 prefs:
 - template: dvm-{{ slsdotpath }}
 - label: red
-- netvm: "*default*"
+- netvm: ""
 - audiovm: ""
 - vcpus: 1
 - memory: 300
@@ -106,7 +106,7 @@ present:
 prefs:
 - template: tpl-{{ slsdotpath }}
 - label: red
-- netvm: "*default*"
+- netvm: ""
 - audiovm: ""
 - vcpus: 1
 - memory: 300
