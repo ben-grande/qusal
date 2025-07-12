@@ -56,14 +56,20 @@ jobs:
           editorconfig-checker
           editorconfig-checker salt/dotfiles
       - name: Lint commit messages
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.before }}
+          HEAD: ${{ github.event.after }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
-          if test "${{ github.event_name}}" = "pull_request"
+          if test "${EVENT}" = "pull_request"
           then
-            base="${{ github.event.pull_request.base.sha }}"
-            head="${{ github.event.pull_request.head.sha }}"
+            base="${PR_BASE}"
+            head="${PR_HEAD}"
           else
-            base="${{ github.event.before }}"
-            head="${{ github.event.after }}"
+            base="${BASE}"
+            head="${HEAD}"
           fi
           if test "${base}" = "${head}" || test -z "${base}"
           then
@@ -72,13 +78,17 @@ jobs:
             gitlint --debug --commits "${base}..${head}"
           fi
       - name: Verify that commits have associated signatures
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.before }}
+          HEAD: ${{ github.event.after }}
         run: |
-          if test "${{ github.event_name}}" = "pull_request"
+          if test "${EVENT}" = "pull_request"
           then
             exit 0
           fi
-          base="${{ github.event.before }}"
-          head="${{ github.event.after }}"
+          base="${BASE}"
+          head="${HEAD}"
           if test "${base}" = "${head}" || test -z "${base}"
           then
             scripts/commit-verify.sh "${head}"

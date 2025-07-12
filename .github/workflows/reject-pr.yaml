@@ -1,5 +1,5 @@
 # yamllint disable-line rule:line-length
-# SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+# SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -28,14 +28,20 @@ jobs:
           fetch-depth: 0
       - name: Block commits made using the GitHub WebUI
         id: check_committer
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.before }}
+          HEAD: ${{ github.event.after }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
-          if test "${{ github.event_name}}" = "pull_request"
+          if test "${EVENT}" = "pull_request"
           then
-            base="${{ github.event.pull_request.base.sha }}"
-            head="${{ github.event.pull_request.head.sha }}"
+            base="${PR_BASE}"
+            head="${PR_HEAD}"
           else
-            base="${{ github.event.before }}"
-            head="${{ github.event.after }}"
+            base="${BASE}"
+            head="${HEAD}"
           fi
           if test "${base}" = "${head}" || test -z "${base}"
           then
@@ -43,9 +49,9 @@ jobs:
           else
             committer="$(git show -s --format=%cn ${base}..${head})"
           fi
-          if echo "${committer}" | grep -q "^GitHub$"; then
-            echo "committer_gitweb=true" >> $GITHUB_OUTPUT
-            echo "Commit was made using the GitHub WebUI" >&2
+          if printf '%s' "${committer}" | grep -q "^GitHub$"; then
+            printf '%s\n' "committer_gitweb=true" >> $GITHUB_OUTPUT
+            printf '%s\n' "Commit was made using the GitHub WebUI" >&2
           fi
       - name: Block commits made using the GitHub WebUI
         if: steps.check_committer.outputs.committer_gitweb == 'true'
