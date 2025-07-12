@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-2.0-only
 
 include:
   - {{ slsdotpath }}.clone
-  - sys-gui.create
 
 "{{ slsdotpath }}-installed":
   pkg.installed:
@@ -26,15 +25,25 @@ include:
       {% endif %}
 
 {% load_yaml as defaults -%}
+name: tpl-{{ slsdotpath }}
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+prefs:
+- audiovm: ""
+{%- endload %}
+{{ load(defaults) }}
+
+{% load_yaml as defaults -%}
 name: {{ slsdotpath }}
 force: True
 require:
-- qvm: tpl-sys-gui
+- qvm: tpl-{{ slsdotpath }}
 present:
-- template: tpl-sys-gui
+- template: tpl-{{ slsdotpath }}
 - label: black
 prefs:
-- template: tpl-sys-gui
+- template: tpl-{{ slsdotpath }}
 - label: black
 - memory: 600
 - maxmem: 4000
