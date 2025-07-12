@@ -24,8 +24,9 @@ include:
     - pkgs:
       # Qubes related packages
       - qubes-core-agent-passwordless-root
-      - qubes-manager
+      - qubes-gui-daemon-selinux
       - qubes-desktop-linux-manager
+      - qubes-manager
       - qubes-vm-guivm
       # Xfce related packages
       - arc-theme
