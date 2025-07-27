@@ -22,15 +22,14 @@ include:
       - gnupg2
       - man-db
 
-{# TODO: sequoia-wot can't be installed on fedora-41 #}
+{# TODO: sequoia-wot and sequoia-keyring-linter can't be installed on fedora-42 #}
 {% set pkg = {
   'Debian': {
     'pkg': ['sq', 'sq-keyring-linter', 'sq-wot', 'sqop', 'sqv'],
   },
   'RedHat': {
-    'pkg': ['sequoia-sq', 'sequoia-keyring-linter', 'sequoia-sop',
-            'sequoia-sqv', 'sequoia-policy-config',
-            'sequoia-chameleon-gnupg'],
+    'pkg': ['sequoia-sq', 'sequoia-sop', 'sequoia-sqv',
+            'sequoia-policy-config', 'sequoia-chameleon-gnupg'],
   },
 }.get(grains.os_family) -%}
 

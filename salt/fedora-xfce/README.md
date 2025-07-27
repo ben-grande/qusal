@@ -18,7 +18,7 @@ Creates the Fedora Xfce template as well as a Disposable Template based on it.
 
 ```sh
 sudo qubesctl top.enable fedora-xfce
-sudo qubesctl --targets=fedora-41-xfce state.apply
+sudo qubesctl --targets=fedora-42-xfce state.apply
 sudo qubesctl top.disable fedora-xfce
 sudo qubesctl state.apply fedora-xfce.prefs
 ```
@@ -29,7 +29,7 @@ sudo qubesctl state.apply fedora-xfce.prefs
 
 ```sh
 sudo qubesctl state.apply fedora-xfce.create
-sudo qubesctl --skip-dom0 --targets=fedora-41-xfce state.apply fedora-xfce.install
+sudo qubesctl --skip-dom0 --targets=fedora-42-xfce state.apply fedora-xfce.install
 sudo qubesctl state.apply fedora-xfce.prefs
 ```
 
