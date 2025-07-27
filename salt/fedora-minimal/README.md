@@ -19,7 +19,7 @@ it.
 
 ```sh
 sudo qubesctl top.enable fedora-minimal
-sudo qubesctl --targets=fedora-41-minimal state.apply
+sudo qubesctl --targets=fedora-42-minimal state.apply
 sudo qubesctl top.disable fedora-minimal
 sudo qubesctl state.apply fedora-minimal.prefs
 ```
@@ -30,7 +30,7 @@ sudo qubesctl state.apply fedora-minimal.prefs
 
 ```sh
 sudo qubesctl state.apply fedora-minimal.create
-sudo qubesctl --skip-dom0 --targets=fedora-41-minimal state.apply fedora-minimal.install
+sudo qubesctl --skip-dom0 --targets=fedora-42-minimal state.apply fedora-minimal.install
 sudo qubesctl state.apply fedora-minimal.prefs
 ```
 
