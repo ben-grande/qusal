@@ -7,9 +7,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - utils.tools.common.update
+  - dev.install-common
+  - dev.install-python-tools
 
-"{{ slsdotpath }}-installed-python-tools":
+"{{ slsdotpath }}-installed-qusal":
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
@@ -17,24 +18,22 @@ include:
     - skip_suggestions: True
     - setopt: "install_weak_deps=False"
     - pkgs:
-      - python3-setuptools
-      - python3-pytest
-      - python3-pip
-      - python3-mypy
-      - black
-      - pylint
+      - yamllint
+      - codespell
+      - pre-commit
+      - reuse
 
-# Fedora has python venv included with python3-libs.
+## Debian doesn't have: salt-lint
 {% set pkg = {
     'Debian': {
-      'pkg': ['python3-dev', 'python3-venv'],
+      'pkg': [],
     },
     'RedHat': {
-      'pkg': ['python3-devel'],
+      'pkg': ['salt-lint'],
     },
 }.get(grains.os_family) -%}
 
-"{{ slsdotpath }}-installed-python-tools-os-specific":
+"{{ slsdotpath }}-installed-os-specific-qusal":
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
@@ -43,4 +42,4 @@ include:
     - setopt: "install_weak_deps=False"
     - pkgs: {{ pkg.pkg|sequence|yaml }}
 
-{% endif %}
+{% endif -%}
