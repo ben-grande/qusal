@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2023 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -81,7 +81,7 @@ If sls_path is 'browser', then this would install the repo from:
 
 {% endif -%}
 
-{% if salt['cmd.retcode']('command -v apt-cacher-ng-repo >/dev/null') == 0 -%}
+{% if salt['cmd.has_exec']('apt-cacher-ng-repo') -%}
 "{{ name }}-run-apt-cacher-ng-repo":
   cmd.run:
     - name: apt-cacher-ng-repo
