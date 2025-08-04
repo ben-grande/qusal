@@ -28,6 +28,7 @@ host:
       - rpm_spec/qusal-mirage-builder.spec
       - rpm_spec/qusal-opentofu.spec
       - rpm_spec/qusal-qubes-builder.spec
+      - rpm_spec/qusal-qubes-dev.spec
       - rpm_spec/qusal-reader.spec
       - rpm_spec/qusal-remmina.spec
       - rpm_spec/qusal-signal.spec
