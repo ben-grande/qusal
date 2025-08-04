@@ -7,6 +7,15 @@ Salt Formulas for Qubes OS.
 **Warning**: Not ready for production, development only. Breaking changes can
 and will be introduced in the meantime. You've been warned.
 
+**Most urgent matter**: We need your help, the project doesn't have a dedicated
+hardware. The machine available for this project is not fully dedicated to
+Qusal and is not very strong (i5 CPU, 16GB RAM, 256GB SATA SSD). With less
+tests, everything is slower, upgrading formulas on template updates, testing
+pull requests, creating new formulas. By contributing to this matter, every
+user can get better and well-tested software much faster. If there is enough
+tests for the project to be considered stable, the project can be leveled to
+production level and not development only.
+
 ## Table of Contents
 
 *   [Description](#description)
