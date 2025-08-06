@@ -7,10 +7,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 {% if grains['nodename'] != 'dom0' -%}
 
 include:
-  - utils.tools.common.update
-  - dotfiles.copy-pgp
+  - dev.install-common
+  - dev.install-python
 
-"{{ slsdotpath }}-installed":
+"{{ slsdotpath }}-installed-qusal":
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
@@ -18,22 +18,22 @@ include:
     - skip_suggestions: True
     - setopt: "install_weak_deps=False"
     - pkgs:
-      - split-gpg2
-      - gnupg2
-      - man-db
+      - yamllint
+      - codespell
+      - pre-commit
+      - reuse
 
-{# TODO: sequoia-wot and sequoia-keyring-linter can't be installed on fedora-42 #}
+## Debian doesn't have: salt-lint
 {% set pkg = {
-  'Debian': {
-    'pkg': ['sq', 'sq-keyring-linter', 'sq-wot', 'sqop', 'sqv'],
-  },
-  'RedHat': {
-    'pkg': ['sequoia-sq', 'sequoia-sop', 'sequoia-sqv',
-            'sequoia-policy-config', 'sequoia-chameleon-gnupg'],
-  },
+    'Debian': {
+      'pkg': [],
+    },
+    'RedHat': {
+      'pkg': ['salt-lint'],
+    },
 }.get(grains.os_family) -%}
 
-"{{ slsdotpath }}-installed-os-specific":
+"{{ slsdotpath }}-installed-os-specific-qusal":
   pkg.installed:
     - require:
       - sls: utils.tools.common.update
