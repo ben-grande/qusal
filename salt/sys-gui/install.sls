@@ -28,37 +28,24 @@ include:
       - qubes-desktop-linux-manager
       - qubes-manager
       - qubes-vm-guivm
-      # Xfce related packages
-      - arc-theme
-      - gvfs
-      - xdg-user-dirs-gtk
-      - xfce4-appfinder
-      - xfce4-datetime-plugin
-      - xfce4-panel
-      - xfce4-places-plugin
-      - xfce4-power-manager
-      - xfce4-pulseaudio-plugin
-      - xfce4-session
-      - xfce4-settings
-      - xfce4-settings-qubes
-      - xfce4-taskmanager
-      - xfce4-terminal
-      - xfconf
-      - xfwm4
+
 
 {% set pkg = {
   'Debian': {
-    'pkg': ['blackbird-gtk-theme', 'gnome-themes-standard',
-            'greybird-gtk-theme', 'gtk3-engines-xfce', 'libxfce4ui-utils',
-            'lightdm', 'xfce4-screenshooter', 'xfdesktop4', 'xscreensaver']
+    'pkg': [
+      'gnome-themes-standard',
+      'breeze-cursor-theme', 'breeze-icon-theme', 'breeze-gtk-theme', 'gtk3-engines-breeze',
+      'lightdm',
+      'xscreensaver',
+    ]
   },
   'RedHat': {
     'pkg': ['dummy-psu-receiver', 'dummy-psu-module', 'dummy-backlight-vm',
-            'adwaita-gtk2-theme', 'adwaita-icon-theme', 'greybird-dark-theme',
-            'greybird-light-theme', 'greybird-xfce4-notifyd-theme',
-            'greybird-xfwm4-theme', 'gtk-xfce-engine', 'lightdm-gtk',
-            'xfce4-about', 'xfce4-screenshooter-plugin', 'xfdesktop',
-            'xfwm4-themes', 'xscreensaver-base']
+            'adwaita-gtk2-theme', 'adwaita-icon-theme',
+            'breeze-cursor-theme', 'breeze-icon-theme', 'breeze-gtk',
+            'lightdm-gtk',
+            'xscreensaver-base',
+            ]
   },
 }.get(grains.os_family) -%}
 

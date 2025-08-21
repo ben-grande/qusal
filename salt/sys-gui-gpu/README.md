@@ -6,6 +6,7 @@ GPU GUI domain in Qubes OS.
 
 *   [Description](#description)
 *   [Installation](#installation)
+    *   [Desktop Environment and Window Manager](#desktop-environment-and-window-manager)
 *   [Uninstallation](#uninstallation)
 *   [Usage](#usage)
 
@@ -46,6 +47,14 @@ sudo qubesctl state.apply sys-gui-gpu.prefs
 ```
 
 <!-- pkg:end:post-install -->
+
+### Desktop Environment and Window Manager
+
+To install and set up an XFCE desktop environment:
+
+```sh
+sudo qubesctl --skip-dom0 --targets=tpl-sys-gui-gpu state.apply sys-gui.install-xfce
+```
 
 The formula assumes Intel graphics card, if you have a card from another
 vendor, please use
