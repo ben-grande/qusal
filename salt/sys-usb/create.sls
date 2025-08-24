@@ -11,6 +11,9 @@ include:
   - {{ slsdotpath }}.clone
   - utils.tools.common.update
   - qvm.hide-usb-from-dom0
+  {% if salt['pillar.get']('qvm:sys-usb:keyboard-action', 'deny') == 'allow' %}
+  - qvm.sys-usb-prioritize-autostart
+  {% endif %}
 
 "{{ slsdotpath }}-installed-dom0":
   pkg.installed:
