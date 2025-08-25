@@ -1,7 +1,7 @@
 {#
 SPDX-FileCopyrightText: 2019 Frederic Pierret <frederic.pierret@qubes-os.org>
-SPDX-FileCopyrightText: 2020 - 2024 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2020 - 2025 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
+SPDX-FileCopyrightText: 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-2.0-only
 
@@ -48,8 +48,7 @@ include:
 
 {% set pkg = {
   'Debian': {
-    'pkg': ['blackbird-gtk-theme', 'gnome-themes-standard',
-            'greybird-gtk-theme', 'gtk3-engines-xfce', 'libxfce4ui-utils',
+    'pkg': ['blackbird-gtk-theme', 'greybird-gtk-theme', 'libxfce4ui-utils',
             'lightdm', 'xfce4-screenshooter', 'xfdesktop4', 'xscreensaver']
   },
   'RedHat': {
