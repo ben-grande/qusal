@@ -1,7 +1,7 @@
 {#
 SPDX-FileCopyrightText: 2019 Frederic Pierret <frederic.pierret@qubes-os.org>
-SPDX-FileCopyrightText: 2020 - 2024 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2020 - 2025 Marmarek Marczykowski-Gorecki <marmarek@invisiblethingslab.com>
+SPDX-FileCopyrightText: 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: GPL-2.0-only
 
@@ -38,6 +38,7 @@ include:
       - xfce4-places-plugin
       - xfce4-power-manager
       - xfce4-pulseaudio-plugin
+      - xfce4-screensaver
       - xfce4-session
       - xfce4-settings
       - xfce4-settings-qubes
@@ -50,7 +51,7 @@ include:
   'Debian': {
     'pkg': ['blackbird-gtk-theme', 'gnome-themes-standard',
             'greybird-gtk-theme', 'gtk3-engines-xfce', 'libxfce4ui-utils',
-            'lightdm', 'xfce4-screenshooter', 'xfdesktop4', 'xscreensaver']
+            'lightdm', 'xfce4-screenshooter', 'xfdesktop4']
   },
   'RedHat': {
     'pkg': ['dummy-psu-receiver', 'dummy-psu-module', 'dummy-backlight-vm',
@@ -58,7 +59,7 @@ include:
             'greybird-light-theme', 'greybird-xfce4-notifyd-theme',
             'greybird-xfwm4-theme', 'gtk-xfce-engine', 'lightdm-gtk',
             'xfce4-about', 'xfce4-screenshooter-plugin', 'xfdesktop',
-            'xfwm4-themes', 'xscreensaver-base']
+            'xfwm4-themes']
   },
 }.get(grains.os_family) -%}
 
