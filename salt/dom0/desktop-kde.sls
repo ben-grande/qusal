@@ -18,6 +18,7 @@ include:
     - setopt: "install_weak_deps=False"
     - pkgs:
       - kde-settings-qubes
+      - plasma-workspace-x11
       - sddm
 
 "{{ slsdotpath }}-desktop-kde-configure-xinit":
