@@ -1,5 +1,5 @@
 {#
-SPDX-FileCopyrightText: 2024 Benjamin Grande M. S. <ben.grande.b@gmail.com>
+SPDX-FileCopyrightText: 2024 - 2025 Benjamin Grande M. S. <ben.grande.b@gmail.com>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -21,19 +21,19 @@ include:
     - skip_suggestions: True
     - setopt: "install_weak_deps=False"
     - pkgs:
-      - clang
+      - cmake
+      - clang-{{ version.clang_version }}
       - ccache
       - help2man
 
 {% set pkg = {
   'Debian': {
-    'pkg': ['build-essential', 'libtool', 'autotools-dev', 'automake',
-            'pkg-config', 'bsdmainutils', 'python3', 'libevent-dev',
+    'pkg': ['build-essential', 'pkg-config', 'python3', 'libevent-dev',
             'libboost-dev', 'libsqlite3-dev', 'libzmq3-dev'],
   },
   'RedHat': {
-    'pkg': ['gcc-c++', 'libtool', 'make', 'autoconf', 'automake', 'python3',
-            'libevent-devel', 'boost-devel', 'sqlite-devel', 'zeromq-devel'],
+    'pkg': ['gcc-c++', 'make', 'python3', 'libevent-devel', 'boost-devel',
+            'sqlite-devel', 'zeromq-devel'],
   },
 }.get(grains.os_family) -%}
 
@@ -48,11 +48,11 @@ include:
 
 {% set pkg = {
     'Debian': {
-      'pkg': ['qtbase5-dev', 'qttools5-dev',
-              'qttools5-dev-tools', 'libqrencode-dev'],
+      'pkg': ['qt6-base-dev', 'qt6-tools-dev', 'qt6-tools-dev-tools',
+              'qt6-l10n-tools' , 'libgl-dev', 'libqrencode-dev', 'libxcb-cursor0'],
     },
     'RedHat': {
-      'pkg': ['qt5-qttools-devel', 'qt5-qtbase-devel', 'qrencode-devel'],
+      'pkg': ['qt6-qtbase-devel', 'qt6-qttools-devel', 'xcb-util-cursor', 'qrencode-devel'],
     },
 }.get(grains.os_family) -%}
 
