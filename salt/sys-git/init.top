@@ -12,3 +12,5 @@ base:
     - sys-git.install
   'sys-git':
     - sys-git.configure
+  'tpl-sys-git-sync':
+    - sys-git.install-sync

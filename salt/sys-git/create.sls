@@ -50,5 +50,30 @@ features:
     - require:
       - qvm: {{ slsdotpath }}
 
+{% load_yaml as defaults -%}
+name: {{ slsdotpath }}-sync
+force: True
+require:
+- sls: {{ slsdotpath }}.clone
+present:
+- template: tpl-{{ slsdotpath }}-sync
+- label: gray
+prefs:
+- template: tpl-{{ slsdotpath }}-sync
+- label: gray
+- netvm: ""
+- audiovm: ""
+- vcpus: 1
+- memory: 200
+- maxmem: 300
+features:
+- enable:
+  - servicevm
+- disable:
+  - service.cups
+  - service.cups-browsed
+{%- endload %}
+{{ load(defaults) }}
+
 {% from 'utils/macros/policy.sls' import policy_set with context -%}
 {{ policy_set(sls_path, '80') }}
