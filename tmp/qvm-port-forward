@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2024 Solène Rapenne <solene@perso.pw>
+# SPDX-FileCopyrightText: 2025 Robin Schneider <ypid@riseup.net>
+#
+# SPDX-License-Identifier: MIT
+# https://github.com/QubesOS/qubes-core-admin-client/blob/main/LICENSE
+
+END_QUBE="$1"
+PORT="$2"
+TYPE="${3:-tcp}"
+L4_PROTO="${TYPE%-*}"
+
+usage() {
+    echo "usage: $0 qube_name port_number [tcp|udp[-multicast]]"
+    exit 0
+}
+
+find_netvm() {
+    QUBE="$1"
+    NET_VM="$(qvm-prefs "$QUBE" netvm)"
+
+    if [ "$NET_VM" != "" ]
+    then
+    DESTINATION="$(qvm-prefs "$QUBE" visible_ip)"
+    NET_VM_OF_NET_VM="$(qvm-prefs "$NET_VM" netvm)"
+    # Only custom-forward is needed because the prerouting hook changes the
+    # traffic from input to forward.
+        cat <<EOF | qvm-run --user=root --pass-io --no-shell "$NET_VM" "/bin/sh"
+# set -o xtrace
+if [ "${TYPE}" = "udp-multicast" ] && [ -z "${NET_VM_OF_NET_VM}" ]; then
+    # Convert multicast or broadcast to unicast in Net VM so it is handled the same in proxy/firewall VMs.
+    nft table netdev qubes
+    if [ -z "${NET_VM_OF_NET_VM}" ]; then
+        ifnames="\$(ip --json link show | jq --raw-output '[ .[] | select(.link_type == "ether" and .address != "fe:ff:ff:ff:ff:ff") | .ifname ] | join(" ")')"
+    else
+        ifnames="eth0"
+    fi
+    for ifname in \${ifnames}; do
+        nft add chain netdev qubes "forward-multicast-\${ifname}" "{ type filter hook ingress device "\${ifname}" priority 0; }"
+        if ! nft list chain netdev qubes "forward-multicast-\${ifname}" | grep --quiet "udp dport ${PORT}"; then
+            if_to_qube="\$(ip --json route get "${DESTINATION}" | jq --raw-output '.[0].dev')"
+            nft add rule netdev qubes "forward-multicast-\${ifname}" meta pkttype { multicast, broadcast } udp dport "${PORT}" counter ether daddr set 00:16:3e:5e:6c:00 ip daddr set "${DESTINATION}" fwd to "\${if_to_qube}"
+        fi
+    done
+else  # unicast
+    nft add chain ip qubes custom-dnat-port-forward "{ type nat hook prerouting priority dstnat; policy accept; }"
+    if ! nft list chain ip qubes custom-dnat-port-forward | grep --quiet "${L4_PROTO} dport ${PORT}"; then
+        nft add rule qubes custom-dnat-port-forward iifname != \"vif*\" "${L4_PROTO}" dport "${PORT}" counter dnat "${DESTINATION}"
+    fi
+    if ! nft list chain ip6 qubes custom-forward | grep --quiet "${L4_PROTO} dport ${PORT}"; then
+        nft add rule ip6 qubes custom-forward "${L4_PROTO}" dport "${PORT}" counter accept
+        nft add rule ip qubes custom-forward "${L4_PROTO}" dport "${PORT}" counter accept
+    fi
+fi
+EOF
+    if [ $? -eq 0 ] ; then echo "$NET_VM -> $QUBE: [OK]" ; else echo "$NET_VM -> $QUBE: [KO]" ; exit 1 ; fi
+        find_netvm "$NET_VM"
+    fi
+}
+
+if [ -z "$1" ] || [ -z "$2" ]
+then
+    usage
+fi
+
+if qvm-ls --running "${END_QUBE}" 1>/dev/null
+then
+    echo "qube is running"
+    cat <<EOF | qvm-run --user=root --pass-io --no-shell "$END_QUBE" "/bin/sh"
+# set -o xtrace
+if ! nft list chain ip6 qubes custom-input | grep --quiet "${L4_PROTO} dport ${PORT}"; then
+     nft add rule ip6 qubes custom-input "${L4_PROTO}" dport "${PORT}" counter accept
+     nft add rule ip qubes custom-input "${L4_PROTO}" dport "${PORT}" counter accept
+fi
+EOF
+    if [ $? -eq 0 ] ; then echo "-> $END_QUBE: [OK]" ; else echo "-> $END_QUBE: [KO]" ; exit 1 ; fi
+    find_netvm "$END_QUBE"
+else
+    echo "qube ${END_QUBE} is not running"
+fi
