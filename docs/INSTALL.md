@@ -151,7 +151,7 @@ This method is more secure than literally copying the whole directory of the
 repository to dom0 but the setup is more involved. Requires some familiarity
 with the sys-git formula.
 
-1.  Install the [sys-git formula](salt/sys-git/README.md) and push the
+1.  Install the [sys-git formula](../salt/sys-git/README.md) and push the
     repository to the git server.
 
 2.  Install `git` on Dom0, allow the Qrexec protocol to work in submodules and
